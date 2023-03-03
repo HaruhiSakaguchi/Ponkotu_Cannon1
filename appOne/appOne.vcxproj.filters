@@ -1,0 +1,590 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{d3b77833-ff03-4d83-91a5-b017e32fdc9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\State">
+      <UniqueIdentifier>{a2855070-41ed-4451-b65c-d9e197f44f09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\State\base">
+      <UniqueIdentifier>{d2c79a2c-6020-48a4-b7c3-8aa15989cd53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\base">
+      <UniqueIdentifier>{a0617aac-6ee8-4b33-89c1-29d21c21d0a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Button">
+      <UniqueIdentifier>{b34f7c93-9e98-4abd-ac25-c37d7b9fc961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Transition">
+      <UniqueIdentifier>{5522e071-5fc1-47f5-a091-149b36a63ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Transition\base">
+      <UniqueIdentifier>{083c7787-d662-4cf0-8783-56732fd87a2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Help">
+      <UniqueIdentifier>{5ae236a0-81c9-4d02-a3a5-e0b9fe39a4c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Help\base">
+      <UniqueIdentifier>{dc8a6474-5929-4047-a456-fed8c5c369c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{228f0991-573d-4524-93bb-145177aff892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\base">
+      <UniqueIdentifier>{229e8b43-f3da-44a2-acd1-2fc8e00bc48e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\graphic">
+      <UniqueIdentifier>{8674ba88-81a9-4719-9519-9154b44b215f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{12b6908c-f1b3-4668-bf4e-62ed0fde3e47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionCapsul">
+      <UniqueIdentifier>{17506c0f-3a8d-49f2-86b6-3a4933219702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CollisionMap">
+      <UniqueIdentifier>{e2a4daaf-9eb4-4d26-a300-7918003983ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{8f9cae1e-57a3-4d38-a0f0-b7d7d9bda511}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{ebb5645f-cd2e-4f7e-b987-014e0296a916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\MapActor">
+      <UniqueIdentifier>{c9a242ba-9b18-4118-b170-656440fa16e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\AllBase">
+      <UniqueIdentifier>{dec6e352-8e87-49c1-8eb4-457da025fca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Camera">
+      <UniqueIdentifier>{73ddead9-bd3c-401e-9a89-1470a3b4af85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameManager">
+      <UniqueIdentifier>{d37c5307-b775-4908-b16a-6a6f86909167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\MapActor\base">
+      <UniqueIdentifier>{4395e37b-bff6-49ac-b3ee-f037359ea060}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container">
+      <UniqueIdentifier>{19a219eb-4285-44a0-b311-aaf2cd2c56a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\State\Title">
+      <UniqueIdentifier>{1b2afca6-092c-4a1d-9147-8fbd287dec89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\State\GamePlay">
+      <UniqueIdentifier>{711ed7f5-56e0-4261-a9fc-3a802e3e9b71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\State\GameOver">
+      <UniqueIdentifier>{ee72b1d9-9c97-43f1-8c3e-f9b7c8b4d011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\State\StageClear">
+      <UniqueIdentifier>{df031319-73a2-44ad-a83c-d41899ae436c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\State\AllClear">
+      <UniqueIdentifier>{9270989a-d790-46a8-866d-74cd884c468c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character">
+      <UniqueIdentifier>{1bc8a609-ad67-4353-acf1-7f9dc936a6ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Cannon">
+      <UniqueIdentifier>{32bd7819-c7ec-433a-9bf4-b6adc5441a38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Enemy">
+      <UniqueIdentifier>{207b937a-d346-4e96-a8bb-f76f19c48d4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Enemy\Satellite">
+      <UniqueIdentifier>{0e147d9c-96ee-4c7f-b749-6c2973801436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Enemy\base">
+      <UniqueIdentifier>{ff5ce94e-0a78-4ec9-9cc4-d3269e504530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Item">
+      <UniqueIdentifier>{bd69582a-f24d-465f-8df2-36d4005e733b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Weapons">
+      <UniqueIdentifier>{21dc7ea0-c046-4b15-bd6d-8f0073d9f82c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Weapons\AllBase">
+      <UniqueIdentifier>{fe4f3c67-ec51-4840-9f51-0be930f7c041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Weapons\Tama">
+      <UniqueIdentifier>{28717d69-8abc-4c3c-aa6f-4594f0a1cd43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Weapons\SphereBase">
+      <UniqueIdentifier>{b6597e92-79a1-477f-b3b7-b564ef37a902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Weapons\Satellite">
+      <UniqueIdentifier>{a874d78b-3e76-44c2-a27a-93fa9469fb71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Weapons\Player">
+      <UniqueIdentifier>{9b9b3466-6590-44c0-89e1-e0893c60e8ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Enemy\Tama">
+      <UniqueIdentifier>{3f93a897-b537-41e1-90c5-59060a2b71b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Enemy\Tama\base">
+      <UniqueIdentifier>{be06a6af-ade9-4de1-802a-9473f6738ae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Item\base">
+      <UniqueIdentifier>{171bdc74-1eee-4dbd-a8af-1e3f2a17c835}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Item\component">
+      <UniqueIdentifier>{c60c8745-d706-4811-a74d-5c9c5175d71c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\state">
+      <UniqueIdentifier>{78023890-9c8a-412a-9537-be60da5447cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\state\base">
+      <UniqueIdentifier>{11de4fc5-7fa4-47ea-a8dc-5063f702b177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\move">
+      <UniqueIdentifier>{591f8076-cbc9-4a79-ac9c-bbc2e104f57e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\graphic\Mesh">
+      <UniqueIdentifier>{9480353b-7c6c-4cf9-9ca9-1d839c795184}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\graphic\base">
+      <UniqueIdentifier>{130d70df-197c-4efb-a82e-63840432313b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\graphic\Mesh\base">
+      <UniqueIdentifier>{68822e1b-200e-44b0-8fa0-5cec3e4d99ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Cannon">
+      <UniqueIdentifier>{63e9b26b-2047-4484-bd42-84a0fd570508}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint">
+      <Filter>リソース ファイル</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Quit.cpp">
+      <Filter>UI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="UIState.cpp">
+      <Filter>UI\State\base</Filter>
+    </ClCompile>
+    <ClCompile Include="UIScreen.cpp">
+      <Filter>UI\base</Filter>
+    </ClCompile>
+    <ClCompile Include="UIButton.cpp">
+      <Filter>UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="TransitionFade.cpp">
+      <Filter>Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="Transition.cpp">
+      <Filter>Transition\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Option.cpp">
+      <Filter>UI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHelp3.cpp">
+      <Filter>UI\Help</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHelp2.cpp">
+      <Filter>UI\Help</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHelp1.cpp">
+      <Filter>UI\Help</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHelpBase.cpp">
+      <Filter>UI\Help\base</Filter>
+    </ClCompile>
+    <ClCompile Include="StageSelect.cpp">
+      <Filter>UI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Reconfirm.cpp">
+      <Filter>UI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Component\base</Filter>
+    </ClCompile>
+    <ClCompile Include="TRIANGLE.cpp">
+      <Filter>CollisionMap</Filter>
+    </ClCompile>
+    <ClCompile Include="CELL.cpp">
+      <Filter>CollisionMap</Filter>
+    </ClCompile>
+    <ClCompile Include="COLLISION_MAP.cpp">
+      <Filter>CollisionMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision_Capsul.cpp">
+      <Filter>CollisionCapsul</Filter>
+    </ClCompile>
+    <ClCompile Include="Pause.cpp">
+      <Filter>UI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="UIProgressGauge.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMiniMap.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="HpGaugeSpriteComponent.cpp">
+      <Filter>Component\graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Actor\AllBase</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonStates.cpp">
+      <Filter>Actor\Character\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon.cpp">
+      <Filter>Actor\Character\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Actor\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="TamaStates.cpp">
+      <Filter>Actor\Character\Enemy\Tama</Filter>
+    </ClCompile>
+    <ClCompile Include="Tama.cpp">
+      <Filter>Actor\Character\Enemy\Tama</Filter>
+    </ClCompile>
+    <ClCompile Include="Items.cpp">
+      <Filter>Actor\Character\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="gmain.cpp">
+      <Filter>GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage3.cpp">
+      <Filter>Actor\MapActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2.cpp">
+      <Filter>Actor\MapActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1.cpp">
+      <Filter>Actor\MapActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Actor\MapActor\base</Filter>
+    </ClCompile>
+    <ClCompile Include="SatelliteStates.cpp">
+      <Filter>Actor\Character\Enemy\Satellite</Filter>
+    </ClCompile>
+    <ClCompile Include="Satellite.cpp">
+      <Filter>Actor\Character\Enemy\Satellite</Filter>
+    </ClCompile>
+    <ClCompile Include="Container.cpp">
+      <Filter>Container</Filter>
+    </ClCompile>
+    <ClCompile Include="AllClear.cpp">
+      <Filter>UI\State\AllClear</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>UI\State\GameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlay.cpp">
+      <Filter>UI\State\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="StageClear.cpp">
+      <Filter>UI\State\StageClear</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>UI\State\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>Actor\Character\Weapons\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SatelliteWing.cpp">
+      <Filter>Actor\Character\Weapons\Satellite</Filter>
+    </ClCompile>
+    <ClCompile Include="SatelliteBullet.cpp">
+      <Filter>Actor\Character\Weapons\Satellite</Filter>
+    </ClCompile>
+    <ClCompile Include="TamaWeapon.cpp">
+      <Filter>Actor\Character\Weapons\Tama</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereWeapon.cpp">
+      <Filter>Actor\Character\Weapons\SphereBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Actor\Character\Enemy\base</Filter>
+    </ClCompile>
+    <ClCompile Include="TamaBlackEye.cpp">
+      <Filter>Actor\Character\Enemy\Tama</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonWheelR.cpp">
+      <Filter>Actor\Character\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonWheelL.cpp">
+      <Filter>Actor\Character\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="UILog.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorsWeapon.cpp">
+      <Filter>Actor\Character\Weapons\AllBase</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterActor.cpp">
+      <Filter>Actor\Character\Enemy\Tama\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Actor\Character\Item\base</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemComponent.cpp">
+      <Filter>Actor\Character\Item\component</Filter>
+    </ClCompile>
+    <ClCompile Include="StateComponent.cpp">
+      <Filter>Component\state</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveComponent.cpp">
+      <Filter>Component\move</Filter>
+    </ClCompile>
+    <ClCompile Include="InputComponent.cpp">
+      <Filter>Component\move</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeMeshComponent.cpp">
+      <Filter>Component\graphic\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="BatchMeshComponent.cpp">
+      <Filter>Component\graphic\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>Component\graphic\base</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshComponent.cpp">
+      <Filter>Component\graphic\Mesh\base</Filter>
+    </ClCompile>
+    <ClCompile Include="MODEL_COLLISION.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="UIScope.cpp">
+      <Filter>UI\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHpGauge.cpp">
+      <Filter>UI\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="UIItemStatus.cpp">
+      <Filter>UI\Cannon</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Quit.h">
+      <Filter>UI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="UIState.h">
+      <Filter>UI\State\base</Filter>
+    </ClInclude>
+    <ClInclude Include="UIScreen.h">
+      <Filter>UI\base</Filter>
+    </ClInclude>
+    <ClInclude Include="UIButton.h">
+      <Filter>UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionFade.h">
+      <Filter>Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>Transition\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Option.h">
+      <Filter>UI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHelp3.h">
+      <Filter>UI\Help</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHelp2.h">
+      <Filter>UI\Help</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHelp1.h">
+      <Filter>UI\Help</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHelpBase.h">
+      <Filter>UI\Help\base</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSelect.h">
+      <Filter>UI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Reconfirm.h">
+      <Filter>UI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Component\base</Filter>
+    </ClInclude>
+    <ClInclude Include="TRIANGLE.h">
+      <Filter>CollisionMap</Filter>
+    </ClInclude>
+    <ClInclude Include="CELL.h">
+      <Filter>CollisionMap</Filter>
+    </ClInclude>
+    <ClInclude Include="COLLISION_MAP.h">
+      <Filter>CollisionMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision_Capsul.h">
+      <Filter>CollisionCapsul</Filter>
+    </ClInclude>
+    <ClInclude Include="Pause.h">
+      <Filter>UI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="UIProgressGauge.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMiniMap.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="HpGaugeSpriteComponent.h">
+      <Filter>Component\graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Actor\AllBase</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonStates.h">
+      <Filter>Actor\Character\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannon.h">
+      <Filter>Actor\Character\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Actor\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="TamaStates.h">
+      <Filter>Actor\Character\Enemy\Tama</Filter>
+    </ClInclude>
+    <ClInclude Include="Tama.h">
+      <Filter>Actor\Character\Enemy\Tama</Filter>
+    </ClInclude>
+    <ClInclude Include="Items.h">
+      <Filter>Actor\Character\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage3.h">
+      <Filter>Actor\MapActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2.h">
+      <Filter>Actor\MapActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1.h">
+      <Filter>Actor\MapActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Actor\MapActor\base</Filter>
+    </ClInclude>
+    <ClInclude Include="SatelliteStates.h">
+      <Filter>Actor\Character\Enemy\Satellite</Filter>
+    </ClInclude>
+    <ClInclude Include="Satellite.h">
+      <Filter>Actor\Character\Enemy\Satellite</Filter>
+    </ClInclude>
+    <ClInclude Include="Container.h">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="AllClear.h">
+      <Filter>UI\State\AllClear</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+      <Filter>UI\State\GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlay.h">
+      <Filter>UI\State\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="StageClear.h">
+      <Filter>UI\State\StageClear</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>UI\State\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="SatelliteWing.h">
+      <Filter>Actor\Character\Weapons\Satellite</Filter>
+    </ClInclude>
+    <ClInclude Include="SatelliteBullet.h">
+      <Filter>Actor\Character\Weapons\Satellite</Filter>
+    </ClInclude>
+    <ClInclude Include="TamaWeapon.h">
+      <Filter>Actor\Character\Weapons\Tama</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereWeapon.h">
+      <Filter>Actor\Character\Weapons\SphereBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Actor\Character\Enemy\base</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>Actor\Character\Weapons\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="TamaBlackEye.h">
+      <Filter>Actor\Character\Enemy\Tama</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonWheelR.h">
+      <Filter>Actor\Character\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonWheelL.h">
+      <Filter>Actor\Character\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="UILog.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorsWeapon.h">
+      <Filter>Actor\Character\Weapons\AllBase</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterActor.h">
+      <Filter>Actor\Character\Enemy\Tama\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Actor\Character\Item\base</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemComponent.h">
+      <Filter>Actor\Character\Item\component</Filter>
+    </ClInclude>
+    <ClInclude Include="StateComponent.h">
+      <Filter>Component\state</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Component\state\base</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveComponent.h">
+      <Filter>Component\move</Filter>
+    </ClInclude>
+    <ClInclude Include="InputComponent.h">
+      <Filter>Component\move</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeMeshComponent.h">
+      <Filter>Component\graphic\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="BatchMeshComponent.h">
+      <Filter>Component\graphic\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>Component\graphic\base</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshComponent.h">
+      <Filter>Component\graphic\Mesh\base</Filter>
+    </ClInclude>
+    <ClInclude Include="MODEL_COLLISION.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="UIScope.h">
+      <Filter>UI\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHpGauge.h">
+      <Filter>UI\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="UIItemStatus.h">
+      <Filter>UI\Cannon</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

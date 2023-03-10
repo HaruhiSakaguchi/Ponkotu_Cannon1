@@ -16,6 +16,8 @@
 #include "Enemy.h"
 #include "Item.h"
 #include "ActorsWeapon.h"
+#include "PlayerHome.h"
+#include "EnemyHome.h"
 
 Game::Game()
 	: mGameState(EGameplay)
@@ -39,6 +41,8 @@ Game::Game()
 	, mCannon(nullptr)
 	, mMap(nullptr)
 	, mStage(nullptr)
+	, mPHome(nullptr)
+	, mEHome(nullptr)
 {
 
 }

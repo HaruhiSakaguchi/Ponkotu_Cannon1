@@ -5,6 +5,7 @@
 #include "BatchMeshComponent.h"
 #include "UILog.h"
 #include <sstream>
+#include "EnemyHome.h"
 
 PlayerBullet::PlayerBullet(Cannon* cannon, const VECTOR& pos, const VECTOR& dir)
 	:SphereWeapon(cannon, pos, dir)
@@ -79,6 +80,15 @@ void PlayerBullet::UpdateActor()
 		{
 			this->damage();
 			weapon->damage();
+		}
+	}
+
+	if (GetGame()->GetEHome())
+	{
+		if (Intersect(this, GetGame()->GetEHome(), false))
+		{
+			this->damage();
+			GetGame()->GetEHome()->Damage(Data.mDamage);
 		}
 	}
 

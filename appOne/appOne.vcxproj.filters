@@ -128,9 +128,6 @@
     <Filter Include="Actor\Character\Enemy\Tama">
       <UniqueIdentifier>{3f93a897-b537-41e1-90c5-59060a2b71b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Character\Enemy\Tama\base">
-      <UniqueIdentifier>{be06a6af-ade9-4de1-802a-9473f6738ae7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Character\Item\base">
       <UniqueIdentifier>{171bdc74-1eee-4dbd-a8af-1e3f2a17c835}</UniqueIdentifier>
     </Filter>
@@ -157,6 +154,9 @@
     </Filter>
     <Filter Include="UI\Cannon">
       <UniqueIdentifier>{63e9b26b-2047-4484-bd42-84a0fd570508}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\base">
+      <UniqueIdentifier>{be06a6af-ade9-4de1-802a-9473f6738ae7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -336,7 +336,7 @@
       <Filter>Actor\Character\Weapons\AllBase</Filter>
     </ClCompile>
     <ClCompile Include="CharacterActor.cpp">
-      <Filter>Actor\Character\Enemy\Tama\base</Filter>
+      <Filter>Actor\Character\base</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>Actor\Character\Item\base</Filter>
@@ -377,6 +377,11 @@
     <ClCompile Include="UIItemStatus.cpp">
       <Filter>UI\Cannon</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerFlag.cpp" />
+    <ClCompile Include="EnemyFlag.cpp" />
+    <ClCompile Include="Dore.cpp" />
+    <ClCompile Include="PlayerHome.cpp" />
+    <ClCompile Include="EnemyHome.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -542,7 +547,7 @@
       <Filter>Actor\Character\Weapons\AllBase</Filter>
     </ClInclude>
     <ClInclude Include="CharacterActor.h">
-      <Filter>Actor\Character\Enemy\Tama\base</Filter>
+      <Filter>Actor\Character\base</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Actor\Character\Item\base</Filter>
@@ -586,5 +591,10 @@
     <ClInclude Include="UIItemStatus.h">
       <Filter>UI\Cannon</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerFlag.h" />
+    <ClInclude Include="EnemyFlag.h" />
+    <ClInclude Include="Dore.h" />
+    <ClInclude Include="PlayerHome.h" />
+    <ClInclude Include="EnemyHome.h" />
   </ItemGroup>
 </Project>

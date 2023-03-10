@@ -8,11 +8,16 @@
 #include "TreeMeshComponent.h"
 #include "rand.h"
 #include "UILog.h"
+#include "PlayerHome.h"
+#include "EnemyHome.h"
 
 Stage1::Stage1(Game* game)
 	: Map(game)
 {
 	SetUp();
+	new PlayerHome(GetGame());
+	EnemyHome*eh = new EnemyHome(GetGame());
+	eh->SetPosition(-17.5f, 0.0f, 0.0f);
 }
 
 int Stage1::SetUp()

@@ -167,7 +167,10 @@
     <ClCompile Include="COLLISION_MAP.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="Dore.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyFlag.cpp" />
+    <ClCompile Include="EnemyHome.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="gmain.cpp" />
@@ -184,6 +187,8 @@
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="PlayerFlag.cpp" />
+    <ClCompile Include="PlayerHome.cpp" />
     <ClCompile Include="Quit.cpp" />
     <ClCompile Include="Reconfirm.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -244,7 +249,10 @@
     <ClInclude Include="COLLISION_MAP.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Container.h" />
+    <ClInclude Include="Dore.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyFlag.h" />
+    <ClInclude Include="EnemyHome.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="HpGaugeSpriteComponent.h" />
@@ -260,6 +268,8 @@
     <ClInclude Include="Pause.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="PlayerFlag.h" />
+    <ClInclude Include="PlayerHome.h" />
     <ClInclude Include="Quit.h" />
     <ClInclude Include="Reconfirm.h" />
     <ClInclude Include="Renderer.h" />

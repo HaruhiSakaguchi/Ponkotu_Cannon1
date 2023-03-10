@@ -107,6 +107,11 @@ public:
 	class Map* GetStage() { return mStage; }
 	void SetStage(Map* map) { mStage = map; }
 	class Title* GetTitle() { return mTitle; }
+	class PlayerHome* GetPHome() { return mPHome; }
+	class EnemyHome* GetEHome() { return mEHome; }
+	void SetPHome(class PlayerHome*home) { mPHome = home; }
+	void SetEHome(class EnemyHome*home) { mEHome = home; }
+
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -133,6 +138,8 @@ private:
 	//ë±ÇØÇƒç≈å„Ç‹Ç≈ÉvÉåÉCÇ∑ÇÈÇ©î€Ç©
 	bool mContinueFlag;
 	COLOR mDisplayColor;
+	class PlayerHome*mPHome;
+	class EnemyHome* mEHome;
 	class Title* mTitle;
 //âπä÷åW
 private:

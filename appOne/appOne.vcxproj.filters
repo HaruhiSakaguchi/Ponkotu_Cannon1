@@ -158,6 +158,12 @@
     <Filter Include="Actor\Character\base">
       <UniqueIdentifier>{be06a6af-ade9-4de1-802a-9473f6738ae7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Character\PHome">
+      <UniqueIdentifier>{9d360727-849e-4272-9627-00dc575af570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\EHome">
+      <UniqueIdentifier>{36437e9c-ce68-45d2-83b5-153765b20d9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
@@ -377,11 +383,21 @@
     <ClCompile Include="UIItemStatus.cpp">
       <Filter>UI\Cannon</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerFlag.cpp" />
-    <ClCompile Include="EnemyFlag.cpp" />
-    <ClCompile Include="Dore.cpp" />
-    <ClCompile Include="PlayerHome.cpp" />
-    <ClCompile Include="EnemyHome.cpp" />
+    <ClCompile Include="Dore.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHome.cpp">
+      <Filter>Actor\Character\PHome</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFlag.cpp">
+      <Filter>Actor\Character\EHome</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyHome.cpp">
+      <Filter>Actor\Character\EHome</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyFlag.cpp">
+      <Filter>Actor\Character\EHome</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -591,10 +607,20 @@
     <ClInclude Include="UIItemStatus.h">
       <Filter>UI\Cannon</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerFlag.h" />
-    <ClInclude Include="EnemyFlag.h" />
-    <ClInclude Include="Dore.h" />
-    <ClInclude Include="PlayerHome.h" />
-    <ClInclude Include="EnemyHome.h" />
+    <ClInclude Include="Dore.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHome.h">
+      <Filter>Actor\Character\PHome</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFlag.h">
+      <Filter>Actor\Character\PHome</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyHome.h">
+      <Filter>Actor\Character\EHome</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFlag.h">
+      <Filter>Actor\Character\EHome</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

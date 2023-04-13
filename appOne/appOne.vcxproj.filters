@@ -398,6 +398,7 @@
     <ClCompile Include="EnemyFlag.cpp">
       <Filter>Actor\Character\EHome</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionMapComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -622,5 +623,6 @@
     <ClInclude Include="EnemyFlag.h">
       <Filter>Actor\Character\EHome</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionMapComponent.h" />
   </ItemGroup>
 </Project>

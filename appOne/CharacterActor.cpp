@@ -26,7 +26,6 @@ CharacterActor::CharacterActor(Game* game)
 	, mOnMapFlag(true)
 	, mImageColor(255, 255, 255)
 	, mDamageColor(255, 0, 0, 128)
-	, mCollisionMapFlag(true)
 	, mOffsetY(0.5f)
 
 {
@@ -53,31 +52,6 @@ void CharacterActor::Update()
 		if (GetSeg())
 		{
 			GetSeg()->update();
-		}
-
-		float floorY = 0;
-		if (GetCategory() == Character || GetCategory() == Item)
-		{
-			VECTOR pos = GetPosition();
-			if (GetGame()->GetCollisionMap() && mCollisionMapFlag)
-			{
-				GetGame()->GetCollisionMap()->capsule_triangles
-				(&pos, &mJumpVel, &mJumpFlag, mAdvSpeed, mRadius, mOffsetY, mSlant, &floorY
-				);
-			}
-
-			if (mJumpFlag == 0 && pos.y != floorY)
-			{
-				pos.y = floorY;
-			}
-
-			if (mJumpFlag == 1)
-			{
-				pos.y += mJumpVel * delta;
-				mJumpVel += mGravity * delta;
-			}
-
-			SetPosition(pos);
 		}
 
 		if (GetPosition().y <= mMinPosY)

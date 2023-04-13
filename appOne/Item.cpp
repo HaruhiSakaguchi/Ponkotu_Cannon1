@@ -7,6 +7,7 @@
 #include "TreeMeshComponent.h"
 #include <sstream>
 #include "UILog.h"
+#include "CollisionMapComponent.h"
 
 Item::Item(Game* game)
 	: CharacterActor(game)
@@ -36,6 +37,7 @@ int Item::SetUp()
 	playSound(cData.mDropSound);
 	SetScale(VECTOR(cData.mRadius, cData.mRadius,cData.mRadius) * 4.0f);
 
+	new CollisionMapComponent(this);
 	return 0;
 }
 

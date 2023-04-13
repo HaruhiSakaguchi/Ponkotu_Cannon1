@@ -8,6 +8,7 @@
 #include "StateComponent.h"
 #include "TreeMeshComponent.h"
 #include "TamaBlackEye.h"
+#include "CollisionMapComponent.h"
 
 Tama::Tama(Game* game)
 	: Enemy(game)
@@ -51,6 +52,7 @@ int Tama::SetUp()
 	mTc->SetDamageTree("TamaDamage");
 
 	mEye = new TamaBlackEye(this);
+	new CollisionMapComponent(this);
 
 	mTc->SetOffsetPos(GetCapsulOffset());
 	return 0;

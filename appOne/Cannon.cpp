@@ -12,6 +12,7 @@
 #include "CannonWheelR.h"
 #include "UILog.h"
 #include "Map.h"
+#include "CollisionMapComponent.h"
 
 Cannon::Cannon(Game* game) :
 	CharacterActor(game)
@@ -102,6 +103,7 @@ int Cannon::SetUp()
 	mWheelR = new CannonWheelR(this);
 
 	mUIItem = new UIItemStatus(this);
+	new CollisionMapComponent(this);
 
 	//砲弾のナンバー0をあらかじめセットしておく
 	mItemNums.emplace_back(0);

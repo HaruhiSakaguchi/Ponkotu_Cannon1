@@ -163,6 +163,7 @@
     <ClCompile Include="CannonWheelR.cpp" />
     <ClCompile Include="CELL.cpp" />
     <ClCompile Include="CharacterActor.cpp" />
+    <ClCompile Include="CollisionMapComponent.cpp" />
     <ClCompile Include="Collision_Capsul.cpp" />
     <ClCompile Include="COLLISION_MAP.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="CannonWheelR.h" />
     <ClInclude Include="CELL.h" />
     <ClInclude Include="CharacterActor.h" />
+    <ClInclude Include="CollisionMapComponent.h" />
     <ClInclude Include="Collision_Capsul.h" />
     <ClInclude Include="COLLISION_MAP.h" />
     <ClInclude Include="Component.h" />

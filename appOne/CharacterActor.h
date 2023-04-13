@@ -27,6 +27,7 @@ public:
 	virtual float GetGravity() { return mGravity; }
 	virtual void SetGravity(float grav) { mGravity = grav; }
 
+	float GetOffsetY() { return mOffsetY; }
 	void SetHp(int hp) { mHp = hp; }
 	int GetHp() { return mHp; }
 	float GetSlant() const { return mSlant; }
@@ -52,8 +53,6 @@ private:
 	//rotate()用データ
 	//回転用フラッグ
 	static int mEndOfStateFlags;
-public:
-	void NoCollsionMap() { mCollisionMapFlag = false; }
 private:
 	VECTOR mCapsulOffset;
 	float mHeight;
@@ -70,7 +69,6 @@ private:
 	COLOR mImageColor;
 	//マップエリア内にいるか
 	bool mOnMapFlag;
-	bool mCollisionMapFlag;
 	int mHp;
 protected:
 	int mDeadSound;

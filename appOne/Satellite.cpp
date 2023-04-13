@@ -25,7 +25,6 @@ Satellite::Satellite(class Game* game, const VECTOR& pos)
 	, mHpGauge(nullptr)
 	, mState(nullptr)
 {
-	NoCollsionMap();
 	SetUp();
 	SetPosition(pos);
 	SetInitPosition(pos);

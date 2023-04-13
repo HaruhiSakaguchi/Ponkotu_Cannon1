@@ -210,71 +210,10 @@ void Map::UpdateActor()
 		}
 	}
 
-	if (GetClearCnt() <= 0 && !mClearFlag)
+	if (!GetGame()->GetEHome() && GetGame()->GetEnemies().empty() && !mClearFlag)
 	{
 		mClearFlag = true;
 		GetLog()->AddText("すべての敵を倒した！！");
-	}
-
-	if (GetClearCnt() - GetGame()->GetEnemies().size() > 0 && GetGame()->GetEnemies().size() != Data.mStageCharacterCapa)
-	{
-		VECTOR pos = VECTOR(random(GetStageMinX(), GetStageMaxX()), random(4.0f, 7.5f), random(GetStageMinZ(), GetStageMaxZ()));
-		if (GetGame()->GetPhase() == Game::FIRST)
-		{
-			if (PositionOnMap(pos, GetGame()->GetAllData()->tamaData.mRadius) && !PositionOnMapArea0(pos, GetGame()->GetAllData()->tamaData.mRadius))
-			{
-				Tama* tama = new Tama(GetGame());
-				tama->SetPosition(pos);
-				GetLog()->AddText("Tamaが出現。");
-			}
-		}
-		else if (GetGame()->GetPhase() == Game::SECOND)
-		{
-			if (PositionOnMap(pos, GetGame()->GetAllData()->satelliteData.mHeight) && !PositionOnMapArea0(pos, GetGame()->GetAllData()->satelliteData.mHeight))
-			{
-				Satellite* satellite = new Satellite(GetGame(), pos);
-				CharacterActor::SEGMENT* seg = new CharacterActor::SEGMENT(satellite);
-				satellite->SetSeg(seg);
-				if (satellite->GetId() == 0)
-				{
-					GetGame()->GetStage()->GetLog()->AddText("SatelliteAが出現。");
-				}
-				else
-				{
-					GetGame()->GetStage()->GetLog()->AddText("SatelliteBが出現。");
-				}
-			}
-		}
-		else if (GetGame()->GetPhase() == Game::THIRD)
-		{
-			int num = random();
-			if (num % 4 == 0 || num % 4 == 2 || num % 4 == 3)
-			{
-				if (PositionOnMap(pos, GetGame()->GetAllData()->tamaData.mRadius) && !PositionOnMapArea0(pos, GetGame()->GetAllData()->tamaData.mRadius))
-				{
-					Tama* tama = new Tama(GetGame());
-					tama->SetPosition(pos);
-					GetLog()->AddText("Tamaが出現。");
-				}
-			}
-			else
-			{
-				if (PositionOnMap(pos, GetGame()->GetAllData()->satelliteData.mHeight) && !PositionOnMapArea0(pos, GetGame()->GetAllData()->satelliteData.mHeight))
-				{
-					Satellite* satellite = new Satellite(GetGame(), pos);
-					CharacterActor::SEGMENT* seg = new CharacterActor::SEGMENT(satellite);
-					satellite->SetSeg(seg);
-					if (satellite->GetId() == 0)
-					{
-						GetGame()->GetStage()->GetLog()->AddText("SatelliteAが出現。");
-					}
-					else
-					{
-						GetGame()->GetStage()->GetLog()->AddText("SatelliteBが出現。");
-					}
-				}
-			}
-		}
 	}
 
 }

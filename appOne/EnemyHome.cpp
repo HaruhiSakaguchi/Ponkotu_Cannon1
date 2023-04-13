@@ -5,6 +5,7 @@
 #include "HpGaugeSpriteComponent.h"
 #include "Game.h"
 #include "Collision_Capsul.h"
+#include "rand.h"
 
 EnemyHome::EnemyHome(class Game* game)
 	:CharacterActor(game)
@@ -18,9 +19,12 @@ EnemyHome::EnemyHome(class Game* game)
 
 EnemyHome::~EnemyHome()
 {
-	mDore->SetState(EDead);
-	mFlag1->SetState(EDead);
-	mFlag2->SetState(EDead);
+	//mDore->SetState(EDead);
+	//mFlag1->SetState(EDead);
+	//mFlag2->SetState(EDead);
+	delete mDore;
+	delete mFlag1;
+	delete mFlag2;
 	GetGame()->SetEHome(nullptr);
 }
 
@@ -47,6 +51,67 @@ void EnemyHome::UpdateActor()
 	if (GetGame()->GetCannon())
 	{
 		Intersect(this, GetGame()->GetCannon());
+	}
+
+	if (GetGame()->GetEnemies().size() != GetGame()->GetStage()->GetStageCharacterCapa())
+	{
+		VECTOR pos = VECTOR(random(GetGame()->GetStage()->GetStageMinX(), GetGame()->GetStage()->GetStageMaxX()), random(4.0f, 7.5f), random(GetGame()->GetStage()->GetStageMinZ(), GetGame()->GetStage()->GetStageMaxZ()));
+		if (GetGame()->GetPhase() == Game::FIRST)
+		{
+			if (PositionOnMap(pos, GetGame()->GetAllData()->tamaData.mRadius) && !PositionOnMapArea0(pos, GetGame()->GetAllData()->tamaData.mRadius))
+			{
+				Tama* tama = new Tama(GetGame());
+				tama->SetPosition(pos);
+				GetGame()->GetStage()->GetLog()->AddText("Tamaが出現。");
+			}
+		}
+		else if (GetGame()->GetPhase() == Game::SECOND)
+		{
+			if (PositionOnMap(pos, GetGame()->GetAllData()->satelliteData.mHeight) && !PositionOnMapArea0(pos, GetGame()->GetAllData()->satelliteData.mHeight))
+			{
+				Satellite* satellite = new Satellite(GetGame(), pos);
+				CharacterActor::SEGMENT* seg = new CharacterActor::SEGMENT(satellite);
+				satellite->SetSeg(seg);
+				if (satellite->GetId() == 0)
+				{
+					GetGame()->GetStage()->GetLog()->AddText("SatelliteAが出現。");
+				}
+				else
+				{
+					GetGame()->GetStage()->GetLog()->AddText("SatelliteBが出現。");
+				}
+			}
+		}
+		else if (GetGame()->GetPhase() == Game::THIRD)
+		{
+			int num = random();
+			if (num % 4 == 0 || num % 4 == 2 || num % 4 == 3)
+			{
+				if (PositionOnMap(pos, GetGame()->GetAllData()->tamaData.mRadius) && !PositionOnMapArea0(pos, GetGame()->GetAllData()->tamaData.mRadius))
+				{
+					Tama* tama = new Tama(GetGame());
+					tama->SetPosition(pos);
+					GetGame()->GetStage()->GetLog()->AddText("Tamaが出現。");
+				}
+			}
+			else
+			{
+				if (PositionOnMap(pos, GetGame()->GetAllData()->satelliteData.mHeight) && !PositionOnMapArea0(pos, GetGame()->GetAllData()->satelliteData.mHeight))
+				{
+					Satellite* satellite = new Satellite(GetGame(), pos);
+					CharacterActor::SEGMENT* seg = new CharacterActor::SEGMENT(satellite);
+					satellite->SetSeg(seg);
+					if (satellite->GetId() == 0)
+					{
+						GetGame()->GetStage()->GetLog()->AddText("SatelliteAが出現。");
+					}
+					else
+					{
+						GetGame()->GetStage()->GetLog()->AddText("SatelliteBが出現。");
+					}
+				}
+			}
+		}
 	}
 }
 

@@ -1,7 +1,7 @@
 #include "Stage1.h"
 #include "Game.h"
 #include "StageClear.h"
-#include "UIProgressGauge.h"
+//#include "UIProgressGauge.h"
 #include "Items.h"
 #include "COLLISION_MAP.h"
 #include "Cannon.h"
@@ -42,7 +42,7 @@ int Stage1::SetUp()
 
 	class Barricade*b = new Barricade(GetGame());
 	b->SetPosition(0, 5.0f, -5.0f);
-	mProgress = new UIProgressGauge(this, GetGame());
+	//mProgress = new UIProgressGauge(this, GetGame());
 
 	//mModelCollisionsはマップ生成したら必要ないのでプレイするときだけ全消去
 

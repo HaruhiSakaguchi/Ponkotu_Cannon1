@@ -56,19 +56,19 @@ GamePlay::~GamePlay()
 
 void GamePlay::Update()
 {
-	if (mGame->GetStage()->GetClearCnt() <= 0 && mGameClearFlag == 0)
+	if (!mGame->GetEHome() && mGameClearFlag == 0)
 	{
 		if (mGame->GetScene() == Game::EPlay && (mGame->GetEnemies().empty() && mGame->GetWeapons().empty()))
 		{
 			bool jumpflag = false;
-			for (auto actor : mGame->GetActors())
+			/*for (auto actor : mGame->GetActors())
 			{
 				CharacterActor*chara = static_cast<CharacterActor*>(actor);
 				if (chara->GetJumpFlag() == 1)
 				{
 					jumpflag = true;
 				}
-			}
+			}*/
 			if (!jumpflag)
 			{
 				new StageClear(mGame);

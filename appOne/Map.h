@@ -44,6 +44,7 @@ public:
 	float GetStageMaxZ() { return Data.mStageMaxZ; }
 
 	void SetCaracterCapa(int num) { Data.mStageCharacterCapa = num; }
+	int GetStageCharacterCapa() { return Data.mStageCharacterCapa; }
 	int GetSecond() { return mSecond; }
 	int GetMunite() { return mMunite; }
 	std::string& GetTimeText() { return mTimeText; }

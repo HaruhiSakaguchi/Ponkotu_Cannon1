@@ -155,6 +155,7 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="ActorsWeapon.cpp" />
     <ClCompile Include="AllClear.cpp" />
+    <ClCompile Include="Barricade.cpp" />
     <ClCompile Include="BatchMeshComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cannon.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="ActorsWeapon.h" />
     <ClInclude Include="AllClear.h" />
+    <ClInclude Include="Barricade.h" />
     <ClInclude Include="BatchMeshComponent.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cannon.h" />

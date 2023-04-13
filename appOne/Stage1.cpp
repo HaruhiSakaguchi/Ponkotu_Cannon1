@@ -10,6 +10,7 @@
 #include "UILog.h"
 #include "PlayerHome.h"
 #include "EnemyHome.h"
+#include "Barricade.h"
 
 Stage1::Stage1(Game* game)
 	: Map(game)
@@ -38,6 +39,9 @@ int Stage1::SetUp()
 	SetClearCnt(30);
 	SetCaracterCapa(5);
 
+
+	class Barricade*b = new Barricade(GetGame());
+	b->SetPosition(0, 5.0f, -5.0f);
 	mProgress = new UIProgressGauge(this, GetGame());
 
 	//mModelCollisionsはマップ生成したら必要ないのでプレイするときだけ全消去

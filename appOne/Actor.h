@@ -62,6 +62,7 @@ public:
 		Item,
 		Object
 	};
+
 	void SetCategory(ActorsCategory category) { mCategory = category; }
 	ActorsCategory GetCategory() { return mCategory; }
 	class Game* GetGame() { return mGame; }

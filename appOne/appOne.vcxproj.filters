@@ -164,6 +164,12 @@
     <Filter Include="Actor\Character\EHome">
       <UniqueIdentifier>{36437e9c-ce68-45d2-83b5-153765b20d9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Dore">
+      <UniqueIdentifier>{32c44187-b4ec-4136-8b94-efb6a13ed4f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Barricade">
+      <UniqueIdentifier>{6f4e18dd-f9a4-47be-98ae-1a7fff13da91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
@@ -383,9 +389,6 @@
     <ClCompile Include="UIItemStatus.cpp">
       <Filter>UI\Cannon</Filter>
     </ClCompile>
-    <ClCompile Include="Dore.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerHome.cpp">
       <Filter>Actor\Character\PHome</Filter>
     </ClCompile>
@@ -398,8 +401,15 @@
     <ClCompile Include="EnemyFlag.cpp">
       <Filter>Actor\Character\EHome</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionMapComponent.cpp" />
-    <ClCompile Include="Barricade.cpp" />
+    <ClCompile Include="CollisionMapComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Dore.cpp">
+      <Filter>Actor\Dore</Filter>
+    </ClCompile>
+    <ClCompile Include="Barricade.cpp">
+      <Filter>Actor\Barricade</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -609,9 +619,6 @@
     <ClInclude Include="UIItemStatus.h">
       <Filter>UI\Cannon</Filter>
     </ClInclude>
-    <ClInclude Include="Dore.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerHome.h">
       <Filter>Actor\Character\PHome</Filter>
     </ClInclude>
@@ -624,7 +631,14 @@
     <ClInclude Include="EnemyFlag.h">
       <Filter>Actor\Character\EHome</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionMapComponent.h" />
-    <ClInclude Include="Barricade.h" />
+    <ClInclude Include="CollisionMapComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Dore.h">
+      <Filter>Actor\Dore</Filter>
+    </ClInclude>
+    <ClInclude Include="Barricade.h">
+      <Filter>Actor\Barricade</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

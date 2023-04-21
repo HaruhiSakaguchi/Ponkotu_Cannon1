@@ -6,6 +6,7 @@ class Barricade :
 {
 public:
     Barricade(Game* game);
+    ~Barricade();
     int SetUp()override;
     void UpdateActor()override;
     void Damage(int damage)override;

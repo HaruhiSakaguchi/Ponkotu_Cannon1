@@ -30,6 +30,7 @@ public:
 		float mItemCircleRadius;
 		float m3DCoordinate2DConvertRate;
 		float mStage1OffsetX;
+		float mStage1OffsetY;
 		float mStage2OffsetX;
 		float mStage2OffsetY;
 		float mStage3OffsetX;

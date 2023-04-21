@@ -9,6 +9,7 @@
 #include "TreeMeshComponent.h"
 #include "TamaBlackEye.h"
 #include "CollisionMapComponent.h"
+#include "PlayerHome.h"
 
 Tama::Tama(Game* game)
 	: Enemy(game)
@@ -24,6 +25,23 @@ Tama::Tama(Game* game)
 	mState->RegisterState(new TamaChase(mState));
 	mState->RegisterState(new TamaAttack(mState));
 	mState->ChangeState("Wait");
+}
+
+Tama::Tama(Game* game,const VECTOR&pos)
+	: Enemy(game)
+	, mState(nullptr)
+	, mScale(1.0f)
+	, mTc(nullptr)
+	, mEye(nullptr)
+{
+	SetUp();
+	mState = new StateComponent(this);
+	mState->RegisterState(new TamaWait(mState));
+	mState->RegisterState(new TamaMove(mState));
+	mState->RegisterState(new TamaChase(mState));
+	mState->RegisterState(new TamaAttack(mState));
+	mState->ChangeState("Wait");
+	SetPosition(pos);
 }
 
 Tama::~Tama()
@@ -91,6 +109,12 @@ void Tama::UpdateActor()
 			GetGame()->GetStage()->GetLog()->AddText("Tama‚ð“|‚µ‚½II");
 			SetState(Actor::EDead);
 		}
+	}
+
+
+	if (GetGame()->GetPHome())
+	{
+		Intersect(this, GetGame()->GetPHome());
 	}
 
 }

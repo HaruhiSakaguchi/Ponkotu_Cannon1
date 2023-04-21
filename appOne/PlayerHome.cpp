@@ -5,15 +5,17 @@
 #include "HpGaugeSpriteComponent.h"
 #include "Collision_Capsul.h"
 #include "Game.h"
+#include "window.h"
 
 PlayerHome::PlayerHome(class Game* game)
-	:CharacterActor(game)
+	: CharacterActor(game)
 	, mFlag1(nullptr)
 	, mFlag2(nullptr)
 	, mDore(nullptr)
 {
 	SetUp();
 	GetGame()->SetPHome(this);
+	GetGame()->AddPSide(this);
 }
 
 PlayerHome::~PlayerHome()
@@ -22,7 +24,7 @@ PlayerHome::~PlayerHome()
 	mFlag1->SetState(EDead);
 	mFlag2->SetState(EDead);
 	GetGame()->SetPHome(nullptr);
-
+	GetGame()->RemovePSide(this);
 }
 
 int PlayerHome::SetUp()
@@ -45,17 +47,35 @@ void PlayerHome::UpdateActor()
 	mFlag1->SetPosition(GetPosition() + Data.mFlag1Offset);
 	mFlag2->SetPosition(GetPosition() + Data.mFlag2Offset);
 
-	for(auto enemy : GetGame()->GetEnemies())
+	if (GetDamageInterval() > 0.0f)
 	{
-		Intersect(this, enemy);
+		SetDamageInterval(GetDamageInterval() - delta);
 	}
+
+	print("");
+	print("");
+	print("MinX" + (let)GetGame()->GetStage()->GetStageMinX() + (let)" : MaxX" + (let)GetGame()->GetStage()->GetStageMaxX());
+	print("MinZ" + (let)GetGame()->GetStage()->GetStageMinZ() + (let)" : MaxZ" + (let)GetGame()->GetStage()->GetStageMaxZ());
+
 }
 
 void PlayerHome::Damage(int damage)
 {
-	SetHp(GetHp() - damage);
+	if (GetDamageInterval() <= 0.0f)
+	{
+		SetHp(GetHp() - damage);
+		SetDamageInterval(Data.mMaxDamageInterval);
+	}
+	else
+	{
+		return;
+	}
+
 	if (GetHp() <= 0)
 	{
+		setVolume(mDeadSound, GetGame()->GetEffectVolume());
+		playSound(mDeadSound);
+		GetGame()->GetStage()->AddText("PlayerHome‚ª‰ó‚ê‚½");
 		SetState(EDead);
 	}
 }

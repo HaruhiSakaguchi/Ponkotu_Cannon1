@@ -16,9 +16,11 @@ Stage1::Stage1(Game* game)
 	: Map(game)
 {
 	SetUp();
-	new PlayerHome(GetGame());
+	PlayerHome*ph = new PlayerHome(GetGame());
+	ph->SetPosition(0.0f, 0.0f, -3.0f);
 	EnemyHome*eh = new EnemyHome(GetGame());
-	eh->SetPosition(-17.5f, 0.0f, 0.0f);
+	eh->SetPosition(0.0f, 0.0f, -51.0f);
+	eh->SetRotationY(3.1415926f);
 }
 
 int Stage1::SetUp()
@@ -29,10 +31,10 @@ int Stage1::SetUp()
 	GetGame()->SetCollisionMap(new COLLISION_MAP(0.5f, Maptext1));
 
 	class TreeMeshComponent* tc = new TreeMeshComponent(this);
-	tc->SetTree("Stage1");
+	tc->SetTree("background");
 	GetGame()->SetCannon(new Cannon(GetGame()));
 	
-	mMiniMap = new UIMiniMap(GetGame(), this, false);
+	mMiniMap = new UIMiniMap(GetGame(), this);
 
 	GetGame()->SetCamera(new Camera(GetGame()));
 
@@ -42,6 +44,9 @@ int Stage1::SetUp()
 
 	class Barricade*b = new Barricade(GetGame());
 	b->SetPosition(0, 5.0f, -5.0f);
+	b = new Barricade(GetGame());
+	b->SetPosition(-15.0f, 5.0f, -5.0f);
+
 	//mProgress = new UIProgressGauge(this, GetGame());
 
 	//mModelCollisionsはマップ生成したら必要ないのでプレイするときだけ全消去

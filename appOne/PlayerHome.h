@@ -19,6 +19,8 @@ public:
 		float mRadius = 3.0f;
 		float mHeight = 0.0f;
 		int mMaxHp = 20;
+		float mMaxDamageInterval = 0.09f;
+
 	};
 private:
 	DATA Data;

@@ -31,6 +31,17 @@ void SatelliteBullet::UpdateActor()
 		static_cast<class Cannon*>(GetGame()->GetCannon())->Damage(GetOwner());
 	}
 
+	for (auto pSide : GetGame()->GetPSide())
+	{
+		if (pSide != GetGame()->GetCannon() && Intersect(this,pSide,false))
+		{
+			SetState(Actor::EDead);
+			setVolume(iData.mImpactSound, GetGame()->GetEffectVolume());
+			playSound(iData.mImpactSound);
+			pSide->Damage(1);
+		}
+	}
+
 	if (!GetOnMapFlag())
 	{
 		SetState(Actor::EDead);

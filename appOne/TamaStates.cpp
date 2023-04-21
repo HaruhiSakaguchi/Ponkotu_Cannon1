@@ -25,11 +25,11 @@ void TamaWait::Update()
 	{
 		elapsedTime = 0;
 		t->SetElapsedTime(elapsedTime);
-		if (t->GetGame()->GetCannon())
+		for (auto pSide : t->GetGame()->GetPSide())
 		{
-			if (CollisionCircle(8, t->GetGame()->GetCannon()->GetRadius(), t->GetPosition(), t->GetGame()->GetCannon()->GetPosition()))
+			if (CollisionCircle(8, pSide->GetRadius(), t->GetPosition(), pSide->GetPosition()))
 			{
-				if (CollisionCircle(2.75f, t->GetGame()->GetCannon()->GetRadius(), t->GetPosition(), t->GetGame()->GetCannon()->GetPosition()))
+				if (CollisionCircle(2.75f, pSide->GetRadius(), t->GetPosition(), pSide->GetPosition()))
 				{
 					mOwnerCompo->ChangeState("Attack");
 					return;
@@ -40,13 +40,8 @@ void TamaWait::Update()
 					return;
 				}
 			}
-			else if (t->GetJumpFlag() == 0)
-			{
-				mOwnerCompo->ChangeState("Move");
-				return;
-			}
 		}
-		else
+		if (t->GetJumpFlag() == 0)
 		{
 			mOwnerCompo->ChangeState("Move");
 			return;
@@ -102,35 +97,53 @@ void TamaMove::Update()
 		return;
 	}
 
-	if (Intersect(t, t->GetGame()->GetCannon()))
+	for (auto pSide : t->GetGame()->GetPSide())
 	{
-		t->SetElapsedTime(t->GetMoveInterval());
-		mOwnerCompo->ChangeState("Wait");
-		return;
+		if (Intersect(t, pSide))
+		{
+			t->SetElapsedTime(t->GetMoveInterval());
+			mOwnerCompo->ChangeState("Wait");
+			return;
+		}
 	}
-
-
 }
 
 void TamaChase::OnEnter()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
-	if (t->GetGame()->GetCannon())
-	{
-		mTarget = t->GetGame()->GetCannon()->GetPosition();
-		setVolume(t->GetDushSound(), t->GetGame()->GetEffectVolume() - 450);
 
-		if (t->GetPosition().y == t->GetGame()->GetCannon()->GetPosition().y)
+	for (auto pSide : t->GetGame()->GetPSide())
+	{
+		if (pSide->GetState() == Actor::EActive)
 		{
-			mDushFlag = true;
-			playSound(t->GetDushSound());
+			VECTOR target = pSide->GetPosition();
+			float distx = target.x - t->GetPosition().x;
+			float disty = target.y - t->GetPosition().y;
+			float distz = target.z - t->GetPosition().z;
+			float dist = sqrtf(distx * distx + disty * disty + distz * distz);
+
+			float tdistx = mTarget.x - t->GetPosition().x;
+			float tdisty = mTarget.y - t->GetPosition().y;
+			float tdistz = mTarget.z - t->GetPosition().z;
+			float tdist = sqrtf(distx * distx + disty * disty + distz * distz);
+
+			if (mTarget.x == 0.0f && mTarget.y == 0.0f && mTarget.z == 0.0f)
+			{
+				mTarget = pSide->GetPosition();
+			}
+			else if (dist < tdist)
+			{
+				mTarget = pSide->GetPosition();
+			}
 		}
 	}
-	else
-	{
-		mAdv = VECTOR((float)random(-1, 1), t->GetPosition().y, (float)random(-1, 1));
-		mTarget = t->GetPosition() + mAdv;
-	}
+
+	setVolume(t->GetDushSound(), t->GetGame()->GetEffectVolume() - 450);
+
+
+	mDushFlag = true;
+	playSound(t->GetDushSound());
+
 
 	mCnt = 0;
 }
@@ -154,7 +167,7 @@ void TamaChase::Update()
 
 	if (t->PositionOnMap(pos, t->GetRadius()) && t->GetGame()->GetCollisionMap())
 	{
-		if (t->GetGame()->GetCollisionMap()->segment_triangles(pos,&mTarget, t->GetRadius()) == 1)
+		if (t->GetGame()->GetCollisionMap()->segment_triangles(pos, &mTarget, t->GetRadius()) == 1)
 		{
 			t->SetPosition(pos);
 			t->SetElapsedTime(t->GetMoveInterval());
@@ -171,6 +184,17 @@ void TamaChase::Update()
 		t->SetPosition(prePos);
 		mOwnerCompo->ChangeState("Move");
 		return;
+	}
+
+	for (auto pSide : t->GetGame()->GetPSide())
+	{
+		if (pSide != t->GetGame()->GetCannon() && Intersect(t, pSide))
+		{
+			t->SetElapsedTime(t->GetMoveInterval());
+			pSide->Damage();
+			mOwnerCompo->ChangeState("Wait");
+			return;
+		}
 	}
 
 	if (Intersect(t, t->GetGame()->GetCannon()))
@@ -190,13 +214,18 @@ void TamaChase::Update()
 
 }
 
+void TamaChase::OnExit()
+{
+	mTarget = VECTOR(0.0f, 0.0f, 0.0f);
+}
+
 void TamaAttack::OnEnter()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
 	mTime = 0;
 	mRotation = t->GetRotation();
 
-	if (t->GetGame()->GetCannon() && t->GetHp() > 0)
+	if (t->GetHp() > 0)
 	{
 		new TamaWeapon(t);
 		new TamaWeapon(t);
@@ -221,12 +250,20 @@ void TamaAttack::Update()
 
 	t->SetAnimAngle(animAngle);
 
+	for (auto pSide : t->GetGame()->GetPSide())
+	{
+		if (pSide != t->GetGame()->GetCannon() && Intersect(t, pSide))
+		{
+			pSide->Damage();
+		}
+	}
+
 	if (Intersect(t, t->GetGame()->GetCannon()))
 	{
 		static_cast<class Cannon*>(t->GetGame()->GetCannon())->Damage(t);
 	}
 
-	if (mTime >= mMaxTime || !t->GetGame()->GetCannon())
+	if (mTime >= mMaxTime)
 	{
 		mOwnerCompo->ChangeState("Wait");
 		return;

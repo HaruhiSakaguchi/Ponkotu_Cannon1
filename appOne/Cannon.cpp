@@ -13,6 +13,7 @@
 #include "UILog.h"
 #include "Map.h"
 #include "CollisionMapComponent.h"
+#include "PlayerHome.h"
 
 Cannon::Cannon(Game* game) :
 	CharacterActor(game)
@@ -35,6 +36,7 @@ Cannon::Cannon(Game* game) :
 	, mWheelR(nullptr)
 {
 	SetUp();
+	GetGame()->AddPSide(this);
 }
 
 Cannon::~Cannon()
@@ -58,6 +60,7 @@ Cannon::~Cannon()
 
 	stopSound(Data.mFallSound);
 	GetGame()->SetCannon(nullptr);
+	GetGame()->RemovePSide(this);
 
 }
 
@@ -206,6 +209,14 @@ void Cannon::UpdateActor()
 		if (enemy->GetHp() > 0)
 		{
 			Intersect(this, enemy);
+		}
+	}
+
+	for (auto pSide : GetGame()->GetPSide())
+	{
+		if (pSide != this && static_cast<PlayerHome*>(pSide) != GetGame()->GetPHome())
+		{
+			Intersect(this, pSide);
 		}
 	}
 

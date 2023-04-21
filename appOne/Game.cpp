@@ -255,6 +255,22 @@ void Game::RemoveCharacter(CharacterActor* actor)
 	}
 }
 
+void Game::AddPSide(class CharacterActor* actor)
+{
+	mPSideActors.emplace_back(actor);
+}
+
+void Game::RemovePSide(class CharacterActor* actor)
+{
+	auto iter = std::find(mPSideActors.begin(), mPSideActors.end(), actor);
+	if (iter != mPSideActors.end())
+	{
+		//このActorとケツのActorを入れ替える(消去後コピー処理を避けるため)
+		std::iter_swap(iter, mPSideActors.end() - 1);
+		mPSideActors.pop_back();
+	}
+}
+
 void Game::AddWeapons(ActorsWeapon* weapon)
 {
 	mWeapons.emplace_back(weapon);

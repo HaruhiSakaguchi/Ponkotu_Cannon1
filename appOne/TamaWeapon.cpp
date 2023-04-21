@@ -90,4 +90,12 @@ void TamaWeapon::UpdateActor()
 	{
 		SetState(Actor::EDead);
 	}
+
+	for (auto pSide : GetGame()->GetPSide())
+	{
+		if (pSide != GetGame()->GetCannon() && Intersect(this,pSide,false))
+		{
+			pSide->Damage(1);
+		}
+	}
 }

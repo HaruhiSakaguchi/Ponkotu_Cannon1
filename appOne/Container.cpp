@@ -229,7 +229,8 @@ void SetAllData(Container& ad)
 		ad.miniMapData.mWeaponSw = 5.0f;
 		ad.miniMapData.mItemCircleRadius = 10.0f;
 		ad.miniMapData.m3DCoordinate2DConvertRate = 10.0f;
-		ad.miniMapData.mStage1OffsetX = 395.0f;
+		ad.miniMapData.mStage1OffsetX = 288.0f;
+		ad.miniMapData.mStage1OffsetY = 450.0f;
 		ad.miniMapData.mStage2OffsetX = 293.5f;
 		ad.miniMapData.mStage2OffsetY = 440.0f;
 		ad.miniMapData.mStage3OffsetX = 293.5f;

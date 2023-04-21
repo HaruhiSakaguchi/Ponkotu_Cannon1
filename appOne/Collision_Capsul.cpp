@@ -247,6 +247,7 @@ bool CollisionCircle(float radius1, float radius2, const VECTOR& a, const VECTOR
 	{
 		return true;
 	}
+
 	return false;
 }
 
@@ -258,8 +259,20 @@ bool Intersect(CharacterActor* a, CharacterActor* b, bool flag)
 	}
 	else
 	{
+		float aRadius = a->GetRadius();
+		float bRadius = b->GetRadius();
 		float aHeight = a->GetHeight();
 		float bHeight = b->GetHeight();
+
+		if (a->GetSeg())
+		{
+			aRadius = aHeight;
+		}
+		if (b->GetSeg())
+		{
+			bRadius = bHeight;
+		}
+
 		VECTOR aPos = a->GetPosition() + a->GetCapsulOffset();
 		VECTOR bPos = b->GetPosition() + b->GetCapsulOffset();
 		VECTOR asp = VECTOR(aPos.x, aPos.y - aHeight / 2, aPos.z);
@@ -272,12 +285,12 @@ bool Intersect(CharacterActor* a, CharacterActor* b, bool flag)
 		if (a->GetSeg())
 		{
 			asp = a->GetSeg()->GetSp();
-			asp = a->GetSeg()->GetEp();
+			aep = a->GetSeg()->GetEp();
 		}
 		if (b->GetSeg())
 		{
 			bsp = b->GetSeg()->GetSp();
-			bsp = b->GetSeg()->GetEp();
+			bep = b->GetSeg()->GetEp();
 		}
 
 		float t1;
@@ -285,25 +298,20 @@ bool Intersect(CharacterActor* a, CharacterActor* b, bool flag)
 		VECTOR s1[2] = { asp,aep };
 		VECTOR s2[2] = { bsp,bep };
 
-		float dist = calcSegmentSegmentDist(s1, s2, mp1, mp2, t1, t2);
+		float dist = abs(calcSegmentSegmentDist(s1, s2, mp1, mp2, t1, t2));
 
+		float ABRadius = aRadius + bRadius;
 		VECTOR abDist = mp2 - mp1;
-		if (dist < (a->GetRadius() + b->GetRadius()))
+		if (dist < ABRadius)
 		{
 			if (flag == true)
 			{
 				VECTOR apos = a->GetPosition();
 				VECTOR bpos = b->GetPosition();
-				float radA = a->GetRadius() + 0.1f;
-				float radB = b->GetRadius() + 0.1f;
-				if (a->GetSeg())
-				{
-					radA = a->GetHeight() + 0.1f;
-				}
-				if (b->GetSeg())
-				{
-					radB = b->GetHeight() + 0.1f;
-				}
+
+				float radA = aRadius + 0.1f;
+				float radB = bRadius + 0.1f;
+				
 				VECTOR abvec = bpos - apos;
 				abvec.normalize();
 

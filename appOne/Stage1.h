@@ -9,6 +9,6 @@ public:
 	Stage1(class Game* game);
 	int SetUp()override;
 private:
-	const char* Maptext1 = "Assets\\All_Map\\Stage1\\Collision.txt";
+	const char* Maptext1 = "Assets\\All_Map\\BackGround\\Collision.txt";
 };
 

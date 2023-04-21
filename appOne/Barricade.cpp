@@ -10,6 +10,12 @@ Barricade::Barricade(Game* game)
 	:CharacterActor(game)
 {
 	SetUp();
+	GetGame()->AddPSide(this);
+}
+
+Barricade::~Barricade()
+{
+	GetGame()->RemovePSide(this);
 }
 
 int Barricade::SetUp()
@@ -24,7 +30,7 @@ int Barricade::SetUp()
 
 	TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("Barricade");
-	new HpGaugeSpriteComponent(this,VECTOR(0.0f,0.75f,0.0f));
+	new HpGaugeSpriteComponent(this, VECTOR(0.0f, 0.75f, 0.0f));
 	new CollisionMapComponent(this);
 
 	return 1;
@@ -32,15 +38,6 @@ int Barricade::SetUp()
 
 void Barricade::UpdateActor()
 {
-	for (auto weapon : GetGame()->GetWeapons())
-	{
-		if(Intersect(this, weapon))
-		{
-			Damage(1);
-			weapon->damage();
-		}
-	}
-
 	if (GetDamageInterval() > 0.0f)
 	{
 		SetDamageInterval(GetDamageInterval() - delta);

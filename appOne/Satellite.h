@@ -67,6 +67,7 @@ public:
 	};
 private:
 	static int Num;
+	bool mDeadFlag;
 	//data
 	DATA Data;
 	//component

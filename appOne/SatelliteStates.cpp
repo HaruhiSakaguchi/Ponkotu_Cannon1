@@ -7,21 +7,24 @@
 
 void SatelliteMove(Satellite* s)
 {
-	VECTOR pos = s->GetInitPosition();
+	//VECTOR pos = s->GetInitPosition();
+	VECTOR pos = s->GetPosition();
 	if (s->GetHp() <= 0)
 	{
 		pos = s->GetPosition();
 	}
-	if (s->GetHp() > 0)
+	else 
 	{
-		if (s->GetId() == 0)
+		/*if (s->GetId() == 0)
 		{
 			pos.z += sinf(s->GetAngleForPos()) * s->GetMoveRange();
 		}
 		else
 		{
 			pos.x += cosf(s->GetAngleForPos()) * s->GetMoveRange();
-		}
+		}*/
+
+		pos.z += delta * 0.1f;
 	}
 
 	s->SetPosition(pos);
@@ -64,10 +67,13 @@ void SatelliteNormal::Update()
 	SatelliteMove(s);
 	if (s->GetElapsedTime() >= s->GetLaunchInterval())
 	{
-		if (s->GetGame()->GetCannon() && CollisionCircle(7, s->GetGame()->GetCannon()->GetRadius(), s->GetPosition(), s->GetGame()->GetCannon()->GetPosition()))
+		for (auto pSide : s->GetGame()->GetPSide())
 		{
-			mOwnerCompo->ChangeState("Attack");
-			return;
+			if (CollisionCircle(7, pSide->GetRadius(), s->GetPosition(), pSide->GetPosition()))
+			{
+				mOwnerCompo->ChangeState("Attack");
+				return;
+			}
 		}
 		s->SetElapsedTime(0);
 	}
@@ -89,11 +95,12 @@ void SatelliteAttack::Update()
 	SatelliteMove(s);
 
 	s->SetRotationY(s->GetRotation().y + 0.17f);
-	if (s->GetGame()->GetCannon())
+
+	if (s->GetElapsedTime() >= s->GetLaunchInterval())
 	{
-		if (s->GetElapsedTime() >= s->GetLaunchInterval())
+		for (auto pSide : s->GetGame()->GetPSide())
 		{
-			if (!CollisionCircle(7, s->GetGame()->GetCannon()->GetRadius(), s->GetPosition(), s->GetGame()->GetCannon()->GetPosition()))
+			if (!CollisionCircle(7, pSide->GetRadius(), s->GetPosition(), pSide->GetPosition()))
 			{
 				mOwnerCompo->ChangeState("Normal");
 				return;
@@ -103,30 +110,25 @@ void SatelliteAttack::Update()
 				VECTOR offset = s->GetBulletOffset();
 				if (s->GetId() == 0)
 				{
-					new SatelliteBullet(s, s->GetPosition() + offset, VECTOR(s->GetGame()->GetCannon()->GetPosition() + s->GetGame()->GetCannon()->GetCapsulOffset() - (s->GetPosition() + offset)).normalize());
+					new SatelliteBullet(s, s->GetPosition() + offset, VECTOR((pSide->GetPosition() + pSide->GetCapsulOffset()) - (s->GetPosition() + offset)).normalize());
 				}
 				else
 				{
 					new SatelliteBullet(s, s->GetPosition() + offset, VECTOR(s->GetTargetPosition() - (s->GetPosition() + offset)).normalize());
 				}
 			}
-			if (s->GetId() == 1)
-			{
-				s->SetElapsedTime(s->GetLaunchInterval() / 2);
-			}
-			else
-			{
-				s->SetElapsedTime(0.0f);
-			}
-
 		}
-	}
-	else
-	{
-		mOwnerCompo->ChangeState("Normal");
-		return;
-	}
 
+		if (s->GetId() == 1)
+		{
+			s->SetElapsedTime(s->GetLaunchInterval() / 2);
+		}
+		else
+		{
+			s->SetElapsedTime(0.0f);
+		}
+
+	}
 }
 
 void SatelliteAttack::OnExit()

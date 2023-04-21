@@ -9,15 +9,18 @@ public:
 	int SetUp()override;
 	void UpdateActor()override;
 	void Damage(int damage = 1);
+	bool InEnemyArea(const VECTOR& pos);
 	struct DATA
 	{
-		VECTOR mFlag1Offset = VECTOR(-2.0f, 2.0f, -3.0f + 0.25f);
-		VECTOR mFlag2Offset = VECTOR(2.0f, 2.0f, -3.0f + 0.25f);
-		VECTOR mDoreOffset = VECTOR(0.0f, 1.8f, -1.9f);
+		VECTOR mFlag1Offset = VECTOR(-2.0f, 2.0f, 3.0f + 0.25f);
+		VECTOR mFlag2Offset = VECTOR(2.0f, 2.0f, 3.0f + 0.25f);
+		VECTOR mDoreOffset = VECTOR(0.0f, 1.8f, 1.9f);
 		VECTOR mHpGaugeOffset = VECTOR(0.0f, 3.0f, 0.0f);
 		int mMaxHp = 20;
 		float mRadius = 3.0f;
 		float mHeight = 0.0f;
+		float mMaxDamageInterval = 0.09f;
+
 	};
 private:
 	DATA Data;

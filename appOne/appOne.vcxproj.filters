@@ -392,9 +392,6 @@
     <ClCompile Include="PlayerHome.cpp">
       <Filter>Actor\Character\PHome</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerFlag.cpp">
-      <Filter>Actor\Character\EHome</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyHome.cpp">
       <Filter>Actor\Character\EHome</Filter>
     </ClCompile>
@@ -409,6 +406,9 @@
     </ClCompile>
     <ClCompile Include="Barricade.cpp">
       <Filter>Actor\Barricade</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFlag.cpp">
+      <Filter>Actor\Character\PHome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

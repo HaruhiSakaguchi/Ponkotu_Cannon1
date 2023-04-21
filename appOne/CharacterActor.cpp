@@ -56,13 +56,22 @@ void CharacterActor::Update()
 
 		if (GetPosition().y <= mMinPosY)
 		{
-			SetPosition(GetInitPosition());
+			if (this == GetGame()->GetCannon())
+			{
+				SetPosition(GetInitPosition());
+			}
+			else
+			{
+				SetState(EDead);
+			}
+
 			FallOption();
 		}
 
 		//今、マップエリア内にいるか
 		mOnMapFlag = PositionOnMap(GetPosition(), GetRadius());
 	}
+
 }
 
 int CharacterActor::rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed, int endOfRotationFlag)

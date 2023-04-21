@@ -5,6 +5,9 @@
 #include "window.h"
 #include "TreeMeshComponent.h"
 #include "UILog.h"
+#include "CollisionMapComponent.h"
+#include "CharacterActor.h"
+#include "PlayerHome.h"
 
 int Satellite::Num = 0;
 
@@ -12,6 +15,7 @@ Satellite::Satellite(class Game* game)
 	: Enemy(game)
 	, mHpGauge(nullptr)
 	, mState(nullptr)
+	, mDeadFlag(false)
 {
 	SetUp();
 	mState = new StateComponent(this);
@@ -21,13 +25,14 @@ Satellite::Satellite(class Game* game)
 }
 
 Satellite::Satellite(class Game* game, const VECTOR& pos)
-	:Enemy(game)
+	: Enemy(game)
 	, mHpGauge(nullptr)
 	, mState(nullptr)
+	, mDeadFlag(false)
 {
 	SetUp();
-	SetPosition(pos);
 	SetInitPosition(pos);
+	SetPosition(GetInitPosition());
 	mState = new StateComponent(this);
 	mState->RegisterState(new SatelliteNormal(mState));
 	mState->RegisterState(new SatelliteAttack(mState));
@@ -84,18 +89,11 @@ int Satellite::SetUp()
 
 void Satellite::UpdateActor()
 {
-	VECTOR pos = GetPosition();
-	float jumpVel = GetJumpVel();
-	int jumpFlag = 0;
-	float floorY = 0.0f;
-	if (GetHp() > 0)
+	if (GetHp() <= 0 && mDeadFlag == false)
 	{
-		GetGame()->GetCollisionMap()->capsule_triangles
-		(&pos, &jumpVel, &jumpFlag, GetAdvSpeed(), GetHeight(), GetCapsulOffset().y, GetSlant(), &floorY
-		);
+		mDeadFlag = true;
+		new CollisionMapComponent(this);
 	}
-
-	SetPosition(pos);
 
 	Master.identity();
 	Master.mulTranslate(GetPosition());
@@ -119,10 +117,10 @@ void Satellite::UpdateActor()
 		DamageOption();
 	}
 
-	if (GetHp() <= 0)
+	if (mDeadFlag == true)
 	{
 		mState->ChangeState("Normal");
-		if (GetPosition().y < 0.0f)
+		if (GetPosition().y <= 0.0f)
 		{
 			setVolume(mDeadSound, GetGame()->GetEffectVolume());
 			playSound(mDeadSound);
@@ -147,6 +145,9 @@ void Satellite::UpdateActor()
 			Intersect(this, enemy);
 		}
 	}
+
+	print("Sp(" + (let)GetSeg()->GetSp().x + "," + (let)GetSeg()->GetSp().y + "," + (let)GetSeg()->GetSp().z + ")");
+	print("Ep(" + (let)GetSeg()->GetEp().x + "," + (let)GetSeg()->GetEp().y + "," + (let)GetSeg()->GetEp().z + ")");
 }
 
 const VECTOR& Satellite::GetTargetPosition()

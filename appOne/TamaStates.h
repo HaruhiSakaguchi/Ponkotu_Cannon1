@@ -36,6 +36,7 @@ public:
 	TamaChase(class StateComponent* OwnerCompo) :State(OwnerCompo) {}
 	const char* GetName() const override { return "Chace"; }
 	virtual void OnEnter()override;
+	virtual void OnExit()override;
 	void Update() override;
 private:
 	VECTOR mAdv;
@@ -43,6 +44,7 @@ private:
 	VECTOR mTmpAngle;
 	bool mDushFlag = true;
 	int mCnt = 0;
+
 };
 class TamaAttack :
 	public State

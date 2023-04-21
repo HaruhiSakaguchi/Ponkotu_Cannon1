@@ -20,6 +20,7 @@ UIMiniMap::UIMiniMap(class Game* game, Map* owner, bool scroll)
 	{
 	case Game::FIRST:
 		Data.mOffsetX = Data.mStage1OffsetX;
+		Data.mOffsetY = Data.mStage1OffsetY;
 		break;
 	case Game::SECOND:
 		Data.mOffsetX = Data.mStage2OffsetX;

@@ -6,6 +6,8 @@ class Tama :
 {
 public:
 	Tama(class Game* game);
+	Tama(class Game* game,const VECTOR&pos);
+
 	~Tama();
 	int SetUp() override;
 	void UpdateActor() override;

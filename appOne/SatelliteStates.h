@@ -1,4 +1,5 @@
 #include "State.h"
+#include "VECTOR.h"
 
 class SatelliteNormal :
 	public State
@@ -8,6 +9,19 @@ public:
 	const char* GetName() const override { return "Normal"; }
 	virtual void OnEnter()override;
 	void Update() override;
+};
+class SatelliteMove :
+	public State
+{
+public:
+	SatelliteMove(class StateComponent*OwnerCompo):State(OwnerCompo){}
+	const char* GetName() const override { return "Move"; }
+	virtual void OnEnter()override;
+	void Update() override;
+private:
+	VECTOR mTarget;
+	VECTOR mAdv;
+	int mCnt;
 };
 class SatelliteAttack :
 	public State

@@ -7,6 +7,7 @@
 #include "rand.h"
 #include "TamaWeapon.h"
 #include "COLLISION_MAP.h"
+#include "PlayerHome.h"
 
 void TamaWait::OnEnter()
 {
@@ -58,7 +59,8 @@ void TamaWait::Update()
 void TamaMove::OnEnter()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
-	mAdv = VECTOR((float)random(-3, 3), t->GetPosition().y, (float)random(-3, 3));
+	
+	mAdv = VECTOR((float)random(-1, 1), t->GetPosition().y, (float)random(-1, 1));
 	mTarget = t->GetPosition() + mAdv;
 	mCnt = 0;
 }
@@ -69,15 +71,20 @@ void TamaMove::Update()
 
 	VECTOR prePos = t->GetPosition();
 	VECTOR pos = prePos;
+	if (t->GetGame()->GetPHome())
+	{
+		mTarget = t->GetGame()->GetPHome()->GetPosition();
+	}
 	VECTOR vec = mTarget - pos;
+
 	vec.normalize();
 
 	VECTOR angle = t->GetRotation();
 	t->rotate(&angle, vec, 0.05f, 1);
 	t->SetRotation(angle);
 
-	pos.x += vec.x * delta;
-	pos.z += vec.z * delta;
+	pos.x += vec.x * t->GetAdvSpeed() * delta * 6.0f;
+	pos.z += vec.z * t->GetAdvSpeed() * delta * 6.0f;
 
 	//移動先がマップエリア内か
 	if (t->PositionOnMap(pos, t->GetRadius()))

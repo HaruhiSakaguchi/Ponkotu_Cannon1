@@ -20,6 +20,7 @@ Satellite::Satellite(class Game* game)
 	SetUp();
 	mState = new StateComponent(this);
 	mState->RegisterState(new SatelliteNormal(mState));
+	mState->RegisterState(new SatelliteMove(mState));
 	mState->RegisterState(new SatelliteAttack(mState));
 	mState->ChangeState("Normal");
 }
@@ -35,6 +36,7 @@ Satellite::Satellite(class Game* game, const VECTOR& pos)
 	SetPosition(GetInitPosition());
 	mState = new StateComponent(this);
 	mState->RegisterState(new SatelliteNormal(mState));
+	mState->RegisterState(new SatelliteMove(mState));
 	mState->RegisterState(new SatelliteAttack(mState));
 	mState->ChangeState("Normal");
 }
@@ -146,8 +148,7 @@ void Satellite::UpdateActor()
 		}
 	}
 
-	print("Sp(" + (let)GetSeg()->GetSp().x + "," + (let)GetSeg()->GetSp().y + "," + (let)GetSeg()->GetSp().z + ")");
-	print("Ep(" + (let)GetSeg()->GetEp().x + "," + (let)GetSeg()->GetEp().y + "," + (let)GetSeg()->GetEp().z + ")");
+	print("(" + (let)GetPosition().x + "," + (let)GetPosition().y + "," + (let)GetPosition().z + ")");
 }
 
 const VECTOR& Satellite::GetTargetPosition()

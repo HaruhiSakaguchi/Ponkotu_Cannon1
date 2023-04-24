@@ -4,31 +4,11 @@
 #include "Collision_Capsul.h"
 #include "SatelliteBullet.h"
 #include "window.h"
+#include "rand.h"
+#include "PlayerHome.h"
 
-void SatelliteMove(Satellite* s)
+void SatelliteRotation(Satellite* s)
 {
-	//VECTOR pos = s->GetInitPosition();
-	VECTOR pos = s->GetPosition();
-	if (s->GetHp() <= 0)
-	{
-		pos = s->GetPosition();
-	}
-	else 
-	{
-		/*if (s->GetId() == 0)
-		{
-			pos.z += sinf(s->GetAngleForPos()) * s->GetMoveRange();
-		}
-		else
-		{
-			pos.x += cosf(s->GetAngleForPos()) * s->GetMoveRange();
-		}*/
-
-		pos.z += delta * 0.1f;
-	}
-
-	s->SetPosition(pos);
-
 	float angleForPos = s->GetAngleForPos();
 	angleForPos += s->GetAdvSpeed();
 
@@ -64,7 +44,8 @@ void SatelliteNormal::Update()
 		s->SetRotationY(s->GetRotation().y + 0.17f * 0.5f);
 	}
 
-	SatelliteMove(s);
+	SatelliteRotation(s);
+	print("State:Normal");
 	if (s->GetElapsedTime() >= s->GetLaunchInterval())
 	{
 		for (auto pSide : s->GetGame()->GetPSide())
@@ -74,8 +55,58 @@ void SatelliteNormal::Update()
 				mOwnerCompo->ChangeState("Attack");
 				return;
 			}
+
 		}
+
+		mOwnerCompo->ChangeState("Move");
 		s->SetElapsedTime(0);
+		return;
+	}
+}
+
+void SatelliteMove::OnEnter()
+{
+	Satellite* s = static_cast<Satellite*>(mOwnerCompo->GetActor());
+	s->SetElapsedTime(0.0f);
+	mAdv = VECTOR((float)random(-1, 1), s->GetPosition().y, (float)random(-1, 1));
+	mTarget = s->GetPosition() + mAdv;
+	mCnt = 0;
+}
+
+void SatelliteMove::Update()
+{
+	Satellite* s = static_cast<Satellite*>(mOwnerCompo->GetActor());
+	SatelliteRotation(s);
+	VECTOR pos = s->GetPosition();
+
+	if (s->GetGame()->GetPHome())
+	{
+		mTarget = s->GetGame()->GetPHome()->GetPosition();
+	}
+
+	VECTOR vec = mTarget - pos;
+	print("State:Move");
+
+	vec.normalize();
+
+	VECTOR angle = s->GetRotation();
+	s->rotate(&angle, vec, 0.05f, 1);
+	s->SetRotationY(angle.y);
+
+	pos.x += vec.x * s->GetAdvSpeed() * delta * 60.0f;
+	pos.z += vec.z * s->GetAdvSpeed() * delta * 60.0f;
+
+	if (pos.y < s->GetInitPosition().y)
+	{
+		pos.y += (s->GetInitPosition() - pos).normalize().y * s->GetAdvSpeed() * delta * 60.0f;
+	}
+	
+	s->SetPosition(pos);
+
+	if (++mCnt >= 20)
+	{
+		mOwnerCompo->ChangeState("Normal");
+		return;
 	}
 }
 
@@ -92,9 +123,10 @@ void SatelliteAttack::OnEnter()
 void SatelliteAttack::Update()
 {
 	Satellite* s = static_cast<Satellite*>(mOwnerCompo->GetActor());
-	SatelliteMove(s);
+	SatelliteRotation(s);
 
 	s->SetRotationY(s->GetRotation().y + 0.17f);
+	print("State:Attack");
 
 	if (s->GetElapsedTime() >= s->GetLaunchInterval())
 	{
@@ -127,7 +159,6 @@ void SatelliteAttack::Update()
 		{
 			s->SetElapsedTime(0.0f);
 		}
-
 	}
 }
 

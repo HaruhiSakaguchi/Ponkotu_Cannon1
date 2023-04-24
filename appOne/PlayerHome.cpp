@@ -51,12 +51,6 @@ void PlayerHome::UpdateActor()
 	{
 		SetDamageInterval(GetDamageInterval() - delta);
 	}
-
-	print("");
-	print("");
-	print("MinX" + (let)GetGame()->GetStage()->GetStageMinX() + (let)" : MaxX" + (let)GetGame()->GetStage()->GetStageMaxX());
-	print("MinZ" + (let)GetGame()->GetStage()->GetStageMinZ() + (let)" : MaxZ" + (let)GetGame()->GetStage()->GetStageMaxZ());
-
 }
 
 void PlayerHome::Damage(int damage)

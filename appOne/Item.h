@@ -46,4 +46,5 @@ protected:
 	commonDATA cData;
 protected:
 	class TreeMeshComponent* mTc;
+	class CharacterActor* mOwner;
 };

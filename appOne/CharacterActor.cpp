@@ -54,7 +54,7 @@ void CharacterActor::Update()
 			GetSeg()->update();
 		}
 
-		if (GetPosition().y <= mMinPosY)
+		if (GetPosition().y < mMinPosY)
 		{
 			if (this == GetGame()->GetCannon())
 			{

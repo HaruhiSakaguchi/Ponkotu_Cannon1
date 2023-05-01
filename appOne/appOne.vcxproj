@@ -169,6 +169,7 @@
     <ClCompile Include="COLLISION_MAP.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="DebugStage.cpp" />
     <ClCompile Include="Dore.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFlag.cpp" />
@@ -253,6 +254,7 @@
     <ClInclude Include="COLLISION_MAP.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Container.h" />
+    <ClInclude Include="DebugStage.h" />
     <ClInclude Include="Dore.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFlag.h" />

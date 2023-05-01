@@ -8,6 +8,8 @@
 #include "Game.h"
 #include "TransitionFade.h"
 #include "Container.h"
+#include "DebugStage.h"
+
 
 GamePlay::GamePlay(Game* game) :
 	UIState(game)
@@ -22,6 +24,11 @@ GamePlay::GamePlay(Game* game) :
 
 	mBgm = Data.mBgm1;
 	mSoundOffset = Data.mBgm1SoundVolumeOffset;
+
+#ifdef _DEBUG
+	mMap = new DebugStage(mGame);
+#endif
+#ifdef _RELEASE
 
 	if (mGame->GetPhase() == Game::THIRD)
 	{
@@ -40,9 +47,10 @@ GamePlay::GamePlay(Game* game) :
 			mMap = new Stage2(mGame);
 		}
 	}
+	mGame->GetTransition()->inTrigger();
+#endif
 
 	mGame->SetStage(mMap);
-	mGame->GetTransition()->inTrigger();
 
 	setVolume(mBgm, mGame->GetVolume() + mSoundOffset);
 	playLoopSound(mBgm);
@@ -81,7 +89,7 @@ void GamePlay::Update()
 		}
 	}
 	else {
-		if (!mGame->GetCannon() && (mGameOverFlag == 0 && mGame->GetScene() == Game::EPlay))
+		if (mGame->GetPSide().empty() && (mGameOverFlag == 0 && mGame->GetScene() == Game::EPlay))
 		{
 			new GameOver(mGame);
 			stopSound(mBgm);

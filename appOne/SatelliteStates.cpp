@@ -45,7 +45,7 @@ void SatelliteNormal::Update()
 	}
 
 	SatelliteRotation(s);
-	print("State:Normal");
+	
 	if (s->GetElapsedTime() >= s->GetLaunchInterval())
 	{
 		for (auto pSide : s->GetGame()->GetPSide())
@@ -85,8 +85,7 @@ void SatelliteMove::Update()
 	}
 
 	VECTOR vec = mTarget - pos;
-	print("State:Move");
-
+	
 	vec.normalize();
 
 	VECTOR angle = s->GetRotation();
@@ -96,7 +95,7 @@ void SatelliteMove::Update()
 	pos.x += vec.x * s->GetAdvSpeed() * delta * 60.0f;
 	pos.z += vec.z * s->GetAdvSpeed() * delta * 60.0f;
 
-	if (pos.y < s->GetInitPosition().y)
+	if (pos.y < s->GetHeight())
 	{
 		pos.y += (s->GetInitPosition() - pos).normalize().y * s->GetAdvSpeed() * delta * 60.0f;
 	}
@@ -126,7 +125,6 @@ void SatelliteAttack::Update()
 	SatelliteRotation(s);
 
 	s->SetRotationY(s->GetRotation().y + 0.17f);
-	print("State:Attack");
 
 	if (s->GetElapsedTime() >= s->GetLaunchInterval())
 	{

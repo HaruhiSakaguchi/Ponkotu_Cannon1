@@ -63,17 +63,18 @@ void Camera::UpdateActor()
 	VECTOR prePos = pos;
 
 	//Cannonの有無によって注視点を切り替え
-	if (!GetGame()->GetCannon())
-	{
-		//Cannonを殺したキャラクターのpositionをセット
-		SetPosition(GetCannonKillerPos());
-		Data.mLookatPos = GetPosition();
-		Data.mLookatPos.z += Data.mOffsetPosZ;
+	//if (!GetGame()->GetCannon())
+	//{
+	//	//Cannonを殺したキャラクターのpositionをセット
+	//	SetPosition(GetCannonKillerPos());
+	//	Data.mLookatPos = GetPosition();
+	//	Data.mLookatPos.z += Data.mOffsetPosZ;
 
-	}
-	else if (GetGame()->GetCannon())
+	//}
+	//else if (GetGame()->GetCannon())
 	{
-		SetPosition(GetGame()->GetCannon()->GetPosition() + GetGame()->GetCannon()->GetCapsulOffset());
+		//SetPosition(GetGame()->GetCannon()->GetPosition() + GetGame()->GetCannon()->GetCapsulOffset());
+		SetPosition(0.0f, 0.0f, -35.0f);
 		Data.mLookatPos = GetPosition();
 	}
 

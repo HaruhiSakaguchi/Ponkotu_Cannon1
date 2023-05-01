@@ -59,7 +59,7 @@ void TamaWait::Update()
 void TamaMove::OnEnter()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
-	
+
 	mAdv = VECTOR((float)random(-1, 1), t->GetPosition().y, (float)random(-1, 1));
 	mTarget = t->GetPosition() + mAdv;
 	mCnt = 0;
@@ -132,7 +132,7 @@ void TamaChase::OnEnter()
 			float tdistx = mTarget.x - t->GetPosition().x;
 			float tdisty = mTarget.y - t->GetPosition().y;
 			float tdistz = mTarget.z - t->GetPosition().z;
-			float tdist = sqrtf(distx * distx + disty * disty + distz * distz);
+			float tdist = sqrtf(tdistx * tdistx + tdisty * tdisty + tdistz * tdistz);
 
 			if (mTarget.x == 0.0f && mTarget.y == 0.0f && mTarget.z == 0.0f)
 			{
@@ -195,29 +195,23 @@ void TamaChase::Update()
 
 	for (auto pSide : t->GetGame()->GetPSide())
 	{
-		if (pSide != t->GetGame()->GetCannon() && Intersect(t, pSide))
+		if (Intersect(t, pSide))
 		{
 			t->SetElapsedTime(t->GetMoveInterval());
-			pSide->Damage();
+			pSide->Damage(1);
 			mOwnerCompo->ChangeState("Wait");
 			return;
 		}
+		else
+		{
+			if (++mCnt >= 15)
+			{
+				mOwnerCompo->ChangeState("Wait");
+				return;
+			}
+		}
 	}
 
-	if (Intersect(t, t->GetGame()->GetCannon()))
-	{
-		t->SetElapsedTime(t->GetMoveInterval());
-		static_cast<class Cannon*>(t->GetGame()->GetCannon())->Damage(t);
-		mOwnerCompo->ChangeState("Wait");
-		return;
-	}
-
-
-	if (++mCnt >= 15)
-	{
-		mOwnerCompo->ChangeState("Wait");
-		return;
-	}
 
 }
 

@@ -108,46 +108,99 @@ void CountInterval(Cannon* p)
 
 void UpCounter(Cannon* c)
 {
-	if (c->GetIn()->SelectBullet()) {
+	if (c->GetTimer() >= c->GetInterval()) {
 		if ((int)c->GetItemNums().size() != 0)
 		{
-			int Scnt = c->GetSlideCnt();
-			Scnt++;
-			c->SetSlideCnt(Scnt);
-			if (c->GetSlideCnt() > 15)
+			if ((int)c->GetItemNums().size() > 1)
+			{
+				int Scnt = c->GetSlideCnt();
+				Scnt++;
+				c->SetSlideCnt(Scnt);
+			}
+
+			if (c->GetSlideCnt() > 15 && c->GetItemNums()[c->GetCnt()] == 0)
 			{
 				int cnt = c->GetCnt();
-				++cnt %= (int)c->GetItemNums().size();
-				c->SetCnt(cnt);
-				if (c->GetItemNums().size() != 1)
+				if (c->GetItemNums()[c->GetCnt() + 1] != 1)
 				{
-					setVolume(c->GetSlide(), c->GetGame()->GetEffectVolume());
-					playSound(c->GetSlide());
+					++cnt %= (int)c->GetItemNums().size();
+					c->SetCnt(cnt);
+					if (c->GetItemNums().size() != 1)
+					{
+						setVolume(c->GetSlide(), c->GetGame()->GetEffectVolume());
+						playSound(c->GetSlide());
+					}
+					else
+					{
+						setVolume(c->GetOutOfBullets(), c->GetGame()->GetEffectVolume());
+						playSound(c->GetOutOfBullets());
+					}
+				}
+				else if (c->GetHp() < c->GetMaxHp())
+				{
+					++cnt %= (int)c->GetItemNums().size();
+					c->SetCnt(cnt);
+					if (c->GetItemNums().size() != 1)
+					{
+						setVolume(c->GetSlide(), c->GetGame()->GetEffectVolume());
+						playSound(c->GetSlide());
+					}
+					else
+					{
+						setVolume(c->GetOutOfBullets(), c->GetGame()->GetEffectVolume());
+						playSound(c->GetOutOfBullets());
+					}
 				}
 				else
 				{
-					setVolume(c->GetOutOfBullets(), c->GetGame()->GetEffectVolume());
-					playSound(c->GetOutOfBullets());
+					if ((int)c->GetItemNums().size() > 2)
+					{
+						int ItemNum = (int)c->GetItemNums().size();
+						int cnt = 0;
+						for (int i = 0; i < ItemNum; i++)
+						{
+							if (c->GetItemNums()[i] == 1)
+							{
+								cnt++;
+							}
+						}
+						if ((int)c->GetItemNums().size() - 1 != cnt)
+						{
+							++cnt %= (int)c->GetItemNums().size();
+							c->SetCnt(cnt);
+							if (c->GetItemNums().size() != 1)
+							{
+								setVolume(c->GetSlide(), c->GetGame()->GetEffectVolume());
+								playSound(c->GetSlide());
+							}
+							else
+							{
+								setVolume(c->GetOutOfBullets(), c->GetGame()->GetEffectVolume());
+								playSound(c->GetOutOfBullets());
+							}
+						}
+					}
 				}
+
 				c->SetSlideCnt(0);
 			}
 		}
 	}
 	else
 	{
-		c->SetSlideCnt(20);
+		c->SetSlideCnt(15);
 	}
 
 }
 
 void Launch(Cannon* p)
 {
-	if (p->GetGame()->GetScene() == Game::EPlay && p->GetGame()->GetState() == Game::EGameplay && p->GetIn()->StartLaunch() && p->GetTimer() == p->GetInterval())
+	if (p->GetGame()->GetScene() == Game::EPlay && p->GetGame()->GetState() == Game::EGameplay /* && p->GetIn()->StartLaunch()*/ && p->GetTimer() >= p->GetInterval())
 	{
 		if (p->GetCnt() == 0)
 		{
 			p->SetLaunchTime(50.0f);
-			new PlayerBullet(p, p->GetPosition() + p->GetCapsulOffset(), VECTOR(p->GetTargetPosition() - (p->GetPosition() + p->GetCapsulOffset())).normalize());
+			new PlayerBullet(p, p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos + p->GetCapsulOffset(), VECTOR((p->GetTargetPosition()) - (p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos)).normalize());
 		}
 		if (p->GetCnt() != 0)
 		{
@@ -156,7 +209,7 @@ void Launch(Cannon* p)
 			p->SetCnt(0);
 		}
 
-		p->SetTimer(0);
+		p->SetTimer(0.0f);
 	}
 }
 
@@ -166,10 +219,22 @@ void CannonWait::Update()
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
 
 	CountInterval(p);
-	Launch(p);
+	//Launch(p);
 	UpCounter(p);
 	p->SetWheelRotateX(0.0f);
 
+	if (p->GetTimer() >= p->GetInterval())
+	{
+		for (auto enemy : p->GetGame()->GetEnemies())
+		{
+			if (CollisionCircle(p->GetRange(), enemy->GetRadius(), p->GetPosition(), enemy->GetPosition() + enemy->GetCapsulOffset()))
+			{
+				mOwnerCompo->ChangeState("Rotate");
+				return;
+			}
+		}
+		p->SetTimer(0.0f);
+	}
 
 	if (p->GetIn()->StartMove())
 	{
@@ -188,7 +253,7 @@ void CannonMove::Update()
 {
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
 
-	MoveCannon(p);
+	//MoveCannon(p);
 	CountInterval(p);
 	Launch(p);
 	UpCounter(p);
@@ -224,7 +289,7 @@ void CannonJump::Update()
 {
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
 
-	MoveCannon(p);
+	//MoveCannon(p);
 	Launch(p);
 	CountInterval(p);
 	UpCounter(p);
@@ -241,3 +306,167 @@ void CannonJump::Update()
 	}
 }
 
+void CannonLaunch::OnEnter()
+{
+	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
+
+	for (auto eSide : p->GetGame()->GetEnemies())
+	{
+		if (eSide->GetHp() != 0)
+		{
+			VECTOR target = eSide->GetPosition();
+			target.y += eSide->GetCapsulOffset().y;
+			float distx = target.x - p->GetPosition().x;
+			float disty = target.y - (p->GetPosition().y);
+			float distz = target.z - p->GetPosition().z;
+			float dist = sqrtf(distx * distx + disty * disty + distz * distz);
+
+			float tdistx = mTarget.x - p->GetPosition().x;
+			float tdisty = mTarget.y - (p->GetPosition().y);
+			float tdistz = mTarget.z - p->GetPosition().z;
+			float tdist = sqrtf(tdistx * tdistx + tdisty * tdisty + tdistz * tdistz);
+
+			if (mTarget.x == 0.0f && mTarget.y == 0.0f && mTarget.z == 0.0f)
+			{
+				mTarget = eSide->GetPosition();
+				mTarget.y += eSide->GetCapsulOffset().y;
+			}
+			else if (dist <= tdist)
+			{
+				mTarget = eSide->GetPosition();
+				mTarget.y += eSide->GetCapsulOffset().y;
+			}
+		}
+	}
+	for (auto item : p->GetGame()->GetItems())
+	{
+		VECTOR target = item->GetPosition();
+		target.y += item->GetCapsulOffset().y;
+		float distx = target.x - p->GetPosition().x;
+		float disty = target.y - (p->GetPosition().y);
+		float distz = target.z - p->GetPosition().z;
+		float dist = sqrtf(distx * distx + disty * disty + distz * distz);
+
+		float tdistx = mTarget.x - p->GetPosition().x;
+		float tdisty = mTarget.y - (p->GetPosition().y);
+		float tdistz = mTarget.z - p->GetPosition().z;
+		float tdist = sqrtf(tdistx * tdistx + tdisty * tdisty + tdistz * tdistz);
+
+		if (mTarget.x == 0.0f && mTarget.y == 0.0f && mTarget.z == 0.0f)
+		{
+			mTarget = item->GetPosition() + item->GetCapsulOffset();
+		}
+		else if (dist <= tdist)
+		{
+			mTarget = item->GetPosition() + item->GetCapsulOffset();
+		}
+
+	}
+
+	float tdistx = mTarget.x - p->GetPosition().x;
+	float tdisty = mTarget.y - (p->GetPosition().y + p->GetCapsulOffset().y + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos.y);
+	float tdistz = mTarget.z - p->GetPosition().z;
+	float tdist = sqrtf(tdistx * tdistx + tdisty * tdisty + tdistz * tdistz);
+
+	p->SetRange(tdist);
+	mAdv = mTarget - (p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos + p->GetCapsulOffset());
+
+}
+
+void CannonLaunch::Update()
+{
+	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
+
+	Launch(p);
+
+	mOwnerCompo->ChangeState("Wait");
+	return;
+
+}
+
+void CannonLaunch::OnExit()
+{
+	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
+	p->SetRange(p->GetMaxRange());
+}
+
+void CannonRotate::OnEnter()
+{
+	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
+
+	for (auto eSide : p->GetGame()->GetEnemies())
+	{
+		if (eSide->GetHp() != 0)
+		{
+			VECTOR target = eSide->GetPosition();
+			target.y += eSide->GetCapsulOffset().y;
+			float distx = target.x - p->GetPosition().x;
+			float disty = target.y - (p->GetPosition().y);
+			float distz = target.z - p->GetPosition().z;
+			float dist = sqrtf(distx * distx + disty * disty + distz * distz);
+
+			float tdistx = mTarget.x - p->GetPosition().x;
+			float tdisty = mTarget.y - (p->GetPosition().y);
+			float tdistz = mTarget.z - p->GetPosition().z;
+			float tdist = sqrtf(tdistx * tdistx + tdisty * tdisty + tdistz * tdistz);
+
+			if (mTarget.x == 0.0f && mTarget.y == 0.0f && mTarget.z == 0.0f)
+			{
+				mTarget = eSide->GetPosition() + eSide->GetCapsulOffset();
+			}
+			else if (dist <= tdist)
+			{
+				mTarget = eSide->GetPosition() + eSide->GetCapsulOffset();
+			}
+		}
+	}
+	for (auto item : p->GetGame()->GetItems())
+	{
+		VECTOR target = item->GetPosition();
+		target.y += item->GetCapsulOffset().y;
+		float distx = target.x - p->GetPosition().x;
+		float disty = target.y - (p->GetPosition().y);
+		float distz = target.z - p->GetPosition().z;
+		float dist = sqrtf(distx * distx + disty * disty + distz * distz);
+
+		float tdistx = mTarget.x - p->GetPosition().x;
+		float tdisty = mTarget.y - (p->GetPosition().y);
+		float tdistz = mTarget.z - p->GetPosition().z;
+		float tdist = sqrtf(tdistx * tdistx + tdisty * tdisty + tdistz * tdistz);
+
+		if (mTarget.x == 0.0f && mTarget.y == 0.0f && mTarget.z == 0.0f)
+		{
+			mTarget = item->GetPosition() + item->GetCapsulOffset();
+		}
+		else if (dist <= tdist)
+		{
+			mTarget = item->GetPosition() + item->GetCapsulOffset();
+		}
+
+	}
+
+	mAdv = mTarget - (p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos + p->GetCapsulOffset());
+}
+
+void CannonRotate::Update()
+{
+	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
+
+	UpCounter(p);
+	VECTOR angle = p->GetRotation();
+	int endOfRotate = p->rotate(&angle, mAdv.normalize(), 0.05f);
+
+	p->SetRotation(angle);
+
+	if (endOfRotate == 1)
+	{
+		mOwnerCompo->ChangeState("Launch");
+		return;
+	}
+}
+
+void CannonRotate::OnExit()
+{
+	mAdv = VECTOR(0.0f, 0.0f, 0.0f);
+	mTarget = VECTOR(0.0f, 0.0f, 0.0f);
+}

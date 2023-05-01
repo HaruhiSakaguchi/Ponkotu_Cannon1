@@ -117,6 +117,8 @@ void Tama::UpdateActor()
 		Intersect(this, GetGame()->GetPHome());
 	}
 
+	//print("posY :" + (let)GetPosition().y);
+
 }
 
 void Tama::Damage(int damage)

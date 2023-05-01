@@ -76,6 +76,8 @@ public:
 	void AddPSide(class CharacterActor* actor);
 	void RemovePSide(class CharacterActor* actor);
 
+	void AddCannon(class Cannon* cannon);
+	void RemoveCannon(class Cannon* cannon);
 
 
 	// UI
@@ -94,13 +96,14 @@ public:
 	const class std::vector<ActorsWeapon*>& GetWeapons() { return mWeapons; }
 	const class std::vector<Item*>& GetItems() { return mItems; }
 	const class std::vector<CharacterActor*>& GetPSide() { return mPSideActors; }
+	const class std::vector<Cannon*>& GetCannons() { return mCannons; }
 	struct Container* GetAllData() { return &mContainer; }
 	void SetDisplayColor(const COLOR& color) { mDisplayColor = color; }
 	const COLOR& GetDisplayColor() { return mDisplayColor; }
 	class Renderer* GetRenderer() { return mRenderer; }
 	class TransitionFade* GetTransition() { return mTransition; }
 	bool GetContinueFlag() { return mContinueFlag; }
-	void SetContinueFlag(bool flag) { mContinueFlag = flag;}
+	void SetContinueFlag(bool flag) { mContinueFlag = flag; }
 	class Actor* GetCamera() { return mCamera; }
 	void SetCamera(class Camera* camera) { mCamera = camera; }
 	class CharacterActor* GetCannon() { return mCannon; }
@@ -113,8 +116,8 @@ public:
 	class Title* GetTitle() { return mTitle; }
 	class PlayerHome* GetPHome() { return mPHome; }
 	class EnemyHome* GetEHome() { return mEHome; }
-	void SetPHome(class PlayerHome*home) { mPHome = home; }
-	void SetEHome(class EnemyHome*home) { mEHome = home; }
+	void SetPHome(class PlayerHome* home) { mPHome = home; }
+	void SetEHome(class EnemyHome* home) { mEHome = home; }
 
 private:
 	void ProcessInput();
@@ -133,7 +136,7 @@ private:
 	std::vector<class CharacterActor*>mCharacters;
 	std::vector<class Enemy*>mEnemies;
 	std::vector<class Item*>mItems;
-
+	std::vector<class Cannon*>mCannons;
 	std::vector<class CharacterActor*>mPSideActors;
 	std::vector<class ActorsWeapon*> mWeapons;
 	// Update中フラッグ
@@ -143,10 +146,10 @@ private:
 	//続けて最後までプレイするか否か
 	bool mContinueFlag;
 	COLOR mDisplayColor;
-	class PlayerHome*mPHome;
+	class PlayerHome* mPHome;
 	class EnemyHome* mEHome;
 	class Title* mTitle;
-//音関係
+	//音関係
 private:
 	int mTmpVolume;//音声OFF時にON時のボリュームをとっておく
 	int mSetVolume;
@@ -167,7 +170,7 @@ public:
 	void SetSoundFlag(bool flag) { mSoundFlag = flag; }
 	bool GetBgmFlag() { return mBgmFlag; }
 	void SetBgmFlag(bool flag) { mBgmFlag = flag; }
-//カメラ関係
+	//カメラ関係
 private:
 	//カメラ感度
 	float mSensitivityX;

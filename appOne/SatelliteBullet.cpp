@@ -23,17 +23,17 @@ SatelliteBullet::SatelliteBullet(Satellite* satellite, const VECTOR& pos, const 
 
 void SatelliteBullet::UpdateActor()
 {
-	if (GetGame()->GetCannon() && Intersect(this, GetGame()->GetCannon(), true))
+	/*if (GetGame()->GetCannon() && Intersect(this, GetGame()->GetCannon(), true))
 	{
 		SetState(Actor::EDead);
 		setVolume(iData.mImpactSound, GetGame()->GetEffectVolume());
 		playSound(iData.mImpactSound);
 		static_cast<class Cannon*>(GetGame()->GetCannon())->Damage(GetOwner());
-	}
+	}*/
 
 	for (auto pSide : GetGame()->GetPSide())
 	{
-		if (pSide != GetGame()->GetCannon() && Intersect(this,pSide,false))
+		if (Intersect(this,pSide,false))
 		{
 			SetState(Actor::EDead);
 			setVolume(iData.mImpactSound, GetGame()->GetEffectVolume());

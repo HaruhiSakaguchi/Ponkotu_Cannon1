@@ -81,6 +81,10 @@ void Game::ProcessInput()
 {
 	if (mGameState == EGameplay)
 	{
+		if (isTrigger(KEY_ESCAPE))
+		{
+			mGameState = Game::EQuit;
+		}
 		if (mGameScene == Game::EPlay)
 		{
 			mUpdatingActors = true;
@@ -238,7 +242,7 @@ void Game::RemoveActor(Actor* actor)
 	}
 }
 
-void Game::AddCharacter(CharacterActor*actor)
+void Game::AddCharacter(CharacterActor* actor)
 {
 	mCharacters.emplace_back(actor);
 }
@@ -305,7 +309,7 @@ void Game::RemoveEnemies(Enemy* enemy)
 	}
 }
 
-void Game::AddItems(Item*item)
+void Game::AddItems(Item* item)
 {
 	mItems.emplace_back(item);
 }
@@ -319,6 +323,23 @@ void Game::RemoveItems(Item* item)
 		//このActorとケツのActorを入れ替える(消去後コピー処理を避けるため)
 		std::iter_swap(iter, mItems.end() - 1);
 		mItems.pop_back();
+	}
+}
+
+void Game::AddCannon(class Cannon*cannon)
+{
+	mCannons.emplace_back(cannon);
+}
+
+void Game::RemoveCannon(class Cannon*cannon)
+{
+	//このactorがmActorsにあるか探す
+	auto iter = std::find(mCannons.begin(), mCannons.end(), cannon);
+	if (iter != mCannons.end())
+	{
+		//このActorとケツのActorを入れ替える(消去後コピー処理を避けるため)
+		std::iter_swap(iter, mCannons.end() - 1);
+		mCannons.pop_back();
 	}
 }
 

@@ -12,7 +12,7 @@ UIItemStatus::UIItemStatus(class Cannon* owner)
 
 void UIItemStatus::Draw()
 {
-	for (auto item : mOwner->GetItemComponents())
+	for (auto item : static_cast<Cannon*>(mOwner->GetGame()->GetCannon())->GetItemComponents())
 	{
 		if (item->GetInterval() != 0)
 		{

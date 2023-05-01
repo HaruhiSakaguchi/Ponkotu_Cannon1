@@ -410,6 +410,7 @@
     <ClCompile Include="PlayerFlag.cpp">
       <Filter>Actor\Character\PHome</Filter>
     </ClCompile>
+    <ClCompile Include="DebugStage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -640,5 +641,6 @@
     <ClInclude Include="Barricade.h">
       <Filter>Actor\Barricade</Filter>
     </ClInclude>
+    <ClInclude Include="DebugStage.h" />
   </ItemGroup>
 </Project>

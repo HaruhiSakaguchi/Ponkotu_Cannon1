@@ -34,7 +34,6 @@ int SphereWeapon::SetUp(const DATA& data)
 
 void SphereWeapon::UpdateActor()
 {
-
 	Data.mLifeTime -= Data.mLifeTimeDecreaseSpeed * delta;
 
 	//GameScene‚ªEPlay‚Å‚È‚¢‚È‚çƒ_ƒ[ƒW‚ğ—^‚¦‚È‚¢

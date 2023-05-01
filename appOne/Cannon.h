@@ -16,6 +16,7 @@ public:
 	void UpdateActor()override;
 	const VECTOR& GetTargetPosition();
 	void Damage(Actor* actor = nullptr);
+	void Damage(int damage = 1)override;
 	void FallOption()override;
 
 	//setter,getter
@@ -35,6 +36,11 @@ public:
 	void SetRDamage(int damage) { Data.mRDamage = damage; }
 	int GetRDamage() { return Data.mRDamage; }
 	int GetMaxHp() { return Data.mMaxHp; }
+
+	float GetRange() { return mRange; }
+	float GetMaxRange() { return Data.mRange; }
+
+	void SetRange(float range) { mRange = range; }
 
 	class InputComponent* GetIn() { return mIn; }
 	class UIScope* GetScope() { return mScope; }
@@ -148,9 +154,9 @@ private:
 	bool mOnMap;
 	float mScale;
 	float mLaunchTime;
-
+	float mRange;
 	class CannonWheelL* mWheelL;
 	class CannonWheelR* mWheelR;
 
-
+	VECTOR mDefDir = VECTOR(0.0f, 0.0f, 1.0f);
 };

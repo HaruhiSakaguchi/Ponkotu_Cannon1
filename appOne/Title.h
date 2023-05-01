@@ -27,5 +27,6 @@ private:
 	DATA Data;
 	bool mPlayBgmFlag = true;
 	std::string mText;
+	bool mChangeStateFlag;
 };
 

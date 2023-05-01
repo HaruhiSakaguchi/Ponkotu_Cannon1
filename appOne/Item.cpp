@@ -8,10 +8,12 @@
 #include <sstream>
 #include "UILog.h"
 #include "CollisionMapComponent.h"
+#include "PlayerHome.h"
 
 Item::Item(Game* game)
 	: CharacterActor(game)
 	, mTc(nullptr)
+	, mOwner(nullptr)
 {
 	GetGame()->AddItems(this);
 }
@@ -35,7 +37,7 @@ int Item::SetUp()
 	cData.mLifeTime = cData.mMaxLifeTime;
 	setVolume(cData.mDropSound, GetGame()->GetEffectVolume() + cData.mDropSoundVolumeOffset);
 	playSound(cData.mDropSound);
-	SetScale(VECTOR(cData.mRadius, cData.mRadius,cData.mRadius) * 4.0f);
+	SetScale(VECTOR(cData.mRadius, cData.mRadius, cData.mRadius) * 4.0f);
 
 	new CollisionMapComponent(this);
 	return 0;
@@ -43,15 +45,19 @@ int Item::SetUp()
 
 void Item::UpdateActor()
 {
-	if (GetGame()->GetCannon() && Intersect(this, GetGame()->GetCannon(), false))
+	for (auto cannon : GetGame()->GetCannons())
 	{
-		if (update())
+		if (Intersect(this, cannon, false))
 		{
-			SetHp(GetHp() - 1);
-		}
-		if (GetHp() <= 0)
-		{
-			SetState(Actor::EDead);
+			mOwner = cannon;
+			if (update() && mOwner != nullptr)
+			{
+				SetHp(GetHp() - 1);
+			}
+			if (GetHp() <= 0)
+			{
+				SetState(Actor::EDead);
+			}
 		}
 	}
 
@@ -77,14 +83,4 @@ void Item::UpdateActor()
 		oss << GetName() << "アイテムが消滅。";
 		GetGame()->GetStage()->GetLog()->AddText(oss.str());
 	}
-
-	for (auto bullet : GetGame()->GetWeapons())
-	{
-		if (bullet->GetOwner() == GetGame()->GetCannon() && CollisionCircle(4, bullet->GetRadius(), GetPosition(), bullet->GetPosition()))
-		{
-			VECTOR vec = bullet->GetPosition() - GetPosition();
-			SetPosition(GetPosition() + vec.normalize() * delta);
-		}
-	}
-
 }

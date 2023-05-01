@@ -14,6 +14,7 @@
 #include "Map.h"
 #include "CollisionMapComponent.h"
 #include "PlayerHome.h"
+#include "HpGaugeSpriteComponent.h"
 
 Cannon::Cannon(Game* game) :
 	CharacterActor(game)
@@ -34,33 +35,43 @@ Cannon::Cannon(Game* game) :
 	, mLaunchTime(0.0f)
 	, mWheelL(nullptr)
 	, mWheelR(nullptr)
+	, mRange(0.0f)
 {
-	SetUp();
+	//SetUp();
 	GetGame()->AddPSide(this);
+	GetGame()->AddCannon(this);
 }
 
 Cannon::~Cannon()
 {
 	stopSound(Data.mJumpSound);
-	delete mHpGauge;
-	delete mScope;
-	delete mUIItem;
-	GetGame()->SetDisplayColor(GetGame()->GetDisplayColor());
-	if (GetGame()->GetCamera())
+
+	if (this == GetGame()->GetCannon())
 	{
-		GetGame()->GetCamera()->SetPosition(0.0f, 0.0f, 0.0f);
+		delete mHpGauge;
+		delete mScope;
+		delete mUIItem;
 	}
+
+	GetGame()->SetDisplayColor(GetGame()->GetDisplayColor());
 
 	mWheelL->SetState(EDead);
 	mWheelR->SetState(EDead);
+
 	while (!mItemNums.empty())
 	{
 		mItemNums.pop_back();
 	}
 
+	if (this == GetGame()->GetCannon())
+	{
+		GetGame()->SetCannon(nullptr);
+	}
+
 	stopSound(Data.mFallSound);
-	GetGame()->SetCannon(nullptr);
 	GetGame()->RemovePSide(this);
+	GetGame()->RemoveCannon(this);
+
 
 }
 
@@ -72,7 +83,9 @@ int Cannon::SetUp()
 	//StateMacine
 	mState = new StateComponent(this);
 	mState->RegisterState(new CannonWait(mState));
+	mState->RegisterState(new CannonLaunch(mState));
 	mState->RegisterState(new CannonMove(mState));
+	mState->RegisterState(new CannonRotate(mState));
 	mState->RegisterState(new CannonJump(mState));
 	mState->ChangeState("Wait");
 
@@ -88,12 +101,21 @@ int Cannon::SetUp()
 	SetAdvSpeed(Data.mAdvSpeed);
 	SetCapsulOffset(Data.mCapsulOffset);
 	SetImageColor(Data.mImageColor);
-
+	SetRange(Data.mRange);
 	SetRDamage(1);
 
 	//UI
-	mScope = new UIScope(GetGame(), this);
-	mHpGauge = new UIHpGauge(GetGame(), this);
+	if (this == GetGame()->GetCannon())
+	{
+		mScope = new UIScope(GetGame(), this);
+		mHpGauge = new UIHpGauge(GetGame(), this);
+		mUIItem = new UIItemStatus(this);
+	}
+	else
+	{
+		new HpGaugeSpriteComponent(this,GetCapsulOffset());
+	}
+
 	mIn = new InputComponent(this);
 
 	class TreeMeshComponent* bc = new TreeMeshComponent(this);
@@ -105,7 +127,6 @@ int Cannon::SetUp()
 	mWheelL = new CannonWheelL(this);
 	mWheelR = new CannonWheelR(this);
 
-	mUIItem = new UIItemStatus(this);
 	new CollisionMapComponent(this);
 
 	//砲弾のナンバー0をあらかじめセットしておく
@@ -171,17 +192,18 @@ void Cannon::UpdateActor()
 	}
 
 	//回転
-	SetRotation(VECTOR(GetGame()->GetCamera()->GetRotation().x, GetGame()->GetCamera()->GetRotation().y + 3.14159264f, GetGame()->GetCamera()->GetRotation().z));
+	//SetRotation(VECTOR(GetGame()->GetCamera()->GetRotation().x, GetGame()->GetCamera()->GetRotation().y + 3.14159264f, GetGame()->GetCamera()->GetRotation().z));
 
+	//SetRotationY(3.415926f);
 	//行列
 	Master.identity();
 
-	Master.mulTranslate(GetPosition() + GetCapsulOffset());
+	Master.mulTranslate(GetPosition());
 	Master.mulRotateY(GetRotation().y);
 	Master.mulRotateY(3.141592f);
 
 	Target.identity();
-	Target.mulTranslate(0.0f, 0.0f, -Data.mRange);
+	Target.mulTranslate(0.0f, 0.0f, -GetRange());
 
 	Body.identity();
 	Body.mulTranslate(Data.mBodyOffsetPos);
@@ -225,6 +247,13 @@ void Cannon::UpdateActor()
 		SetDamageInterval(GetDamageInterval() - delta);
 		DamageOption();
 	}
+
+//	print("Target(" + (let)Data.mTargetPos.x + "," + (let)Data.mTargetPos.y + "," + (let)Data.mTargetPos.z + ")");
+	//print(GetRange());
+	//print("posY :" + (let)GetPosition().y);
+	VECTOR rot = GetRotation();
+	rot.normalize();
+	print("Dir(" + (let)rot.x + "," + (let)rot.y + "," + (let)rot.z + ")");
 }
 
 const VECTOR& Cannon::GetTargetPosition()
@@ -265,26 +294,63 @@ void Cannon::Damage(Actor* actor)
 	}
 }
 
+void Cannon::Damage(int damage)
+{
+	if (GetDamageInterval() <= 0.0f)
+	{
+		if (GetBarrier())
+		{
+			GetBarrier()->SetHp(GetBarrier()->GetHp() - 1);
+		}
+
+		SetHp(GetHp() - Data.mRDamage);
+		SetDamageInterval(Data.mMaxDamageInterval);
+	}
+	else
+	{
+		return;
+	}
+
+	if (GetHp() <= 0)
+	{
+		setVolume(mDeadSound, GetGame()->GetEffectVolume());
+		playSound(mDeadSound);
+		GetGame()->GetStage()->AddText("Cannonは死んでしまった...。");
+		SetState(Actor::EDead);
+	}
+}
+
 void Cannon::DamageOption()
 {
-	if (GetDamageInterval() > 0)
+	if (this == GetGame()->GetCannon())
 	{
-		if (Data.mRDamage != 0)
+		if (GetDamageInterval() > 0)
 		{
-			GetGame()->SetDisplayColor(GetDamageColor());
-			setVolume(Data.mDamageSound, GetGame()->GetEffectVolume());
-			playSound(Data.mDamageSound);
+			if (Data.mRDamage != 0)
+			{
+				//GetGame()->SetDisplayColor(GetDamageColor());
+				setVolume(Data.mDamageSound, GetGame()->GetEffectVolume());
+				playSound(Data.mDamageSound);
+			}
+			else
+			{
+				//GetGame()->SetDisplayColor(Data.mGurdColor);
+				setVolume(Data.mGurdSound, GetGame()->GetEffectVolume());
+				playSound(Data.mGurdSound);
+			}
 		}
 		else
 		{
-			GetGame()->SetDisplayColor(Data.mGurdColor);
-			setVolume(Data.mGurdSound, GetGame()->GetEffectVolume());
-			playSound(Data.mGurdSound);
+			GetGame()->SetDisplayColor(Data.mDisplayColor);
 		}
 	}
 	else
 	{
-		GetGame()->SetDisplayColor(Data.mDisplayColor);
+		if (GetDamageInterval() > 0)
+		{
+			setVolume(Data.mDamageSound, GetGame()->GetEffectVolume());
+			playSound(Data.mDamageSound);
+		}
 	}
 }
 

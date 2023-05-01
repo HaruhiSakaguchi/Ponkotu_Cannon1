@@ -57,9 +57,12 @@ void TreeMeshComponent::Update()
 	mPos = mOwner->GetPosition();
 	mWorld.identity();
 	mWorld.mulTranslate(mPos + mOffsetPos);
-	mWorld.mulRotateY(mOwner->GetRotation().y + mOffsetAngle.y);
-	mWorld.mulRotateX(mOwner->GetRotation().x + mOffsetAngle.x);
-	mWorld.mulRotateZ(mOwner->GetRotation().z + mOffsetAngle.z);
+	mWorld.mulRotateY(mOwner->GetRotation().y);
+	mWorld.mulRotateX(mOwner->GetRotation().x);
+	mWorld.mulRotateZ(mOwner->GetRotation().z);
+	mWorld.mulRotateY(mOffsetAngle.y);
+	mWorld.mulRotateX(mOffsetAngle.x);
+	mWorld.mulRotateZ(mOffsetAngle.z);
 	mWorld.mulScaling(mOwner->GetScale());
 
 	if (static_cast<CharacterActor*>(mOwner)->GetDamageInterval() > 0.0f && mDamageTree != nullptr)

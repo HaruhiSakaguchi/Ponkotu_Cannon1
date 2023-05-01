@@ -18,8 +18,9 @@ Recovery::Recovery(class Game* game)
 
 bool Recovery::update()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetGame()->GetCannon());
-	if (GetGame()->GetCannon()->GetHp() < c->GetMaxHp())
+	class Cannon* c = static_cast<class Cannon*>(mOwner);
+
+	if (c->GetHp() < c->GetMaxHp())
 	{
 		new RecoveryCompo(c);
 		setVolume(iData.mSound1, GetGame()->GetEffectVolume() + mRecoverySoundVolumeOffset);
@@ -37,6 +38,7 @@ bool Recovery::update()
 		oss << GetName() << "アイテムをストック。";
 		GetGame()->GetStage()->GetLog()->AddText(oss.str());
 	}
+
 	return true;
 }
 
@@ -65,7 +67,7 @@ SpeedUp::SpeedUp(class Game* game)
 
 bool SpeedUp::update()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetGame()->GetCannon());
+	class Cannon* c = static_cast<class Cannon*>(mOwner);
 	if (!c->GetSpeed())
 	{
 		new SpeedUpCompo(c);
@@ -106,8 +108,8 @@ SpeedUpCompo::SpeedUpCompo(class Cannon* owner)
 
 SpeedUpCompo::~SpeedUpCompo()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner->GetGame()->GetCannon());
-	if (c)
+	class Cannon* c = static_cast<class Cannon*>(GetOwner());
+	if (c->GetState() == Actor::EActive && c->GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetAdvSpeed(mOwner->GetGame()->GetAllData()->cannonData.mAdvSpeed);
 		std::ostringstream oss;
@@ -120,7 +122,7 @@ SpeedUpCompo::~SpeedUpCompo()
 
 void SpeedUpCompo::Update()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner->GetGame()->GetCannon());
+	class Cannon* c = static_cast<class Cannon*>(mOwner);
 	if (c)
 	{
 		c->SetAdvSpeed(mOwner->GetGame()->GetAllData()->cannonData.mAdvSpeed + Data.mLevel * mOwner->GetGame()->GetAllData()->cannonData.mAdvSpeed * mSpeedUpRate);
@@ -142,7 +144,7 @@ PowerUp::PowerUp(class Game* game)
 
 bool PowerUp::update()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetGame()->GetCannon());
+	class Cannon* c = static_cast<class Cannon*>(mOwner);
 	if (!c->GetPower())
 	{
 		new PowerUpCompo(c);
@@ -181,9 +183,9 @@ PowerUpCompo::PowerUpCompo(class Cannon* owner)
 
 PowerUpCompo::~PowerUpCompo()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
+	class Cannon* c = static_cast<class Cannon*>(GetOwner());
 
-	if (mOwner->GetGame()->GetCannon())
+	if (c->GetState() == Actor::EActive && c->GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetDamage(1);
 		std::ostringstream oss;
@@ -195,8 +197,8 @@ PowerUpCompo::~PowerUpCompo()
 
 void PowerUpCompo::Update()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
-	if (mOwner->GetGame()->GetCannon())
+	class Cannon* c = static_cast<class Cannon*>(GetOwner());
+	if (c)
 	{
 		c->SetDamage(Data.mLevel + 1);
 	}
@@ -218,7 +220,7 @@ RapidFire::RapidFire(class Game* game)
 
 bool RapidFire::update()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetGame()->GetCannon());
+	class Cannon* c = static_cast<class Cannon*>(mOwner);
 
 	if (!c->GetRapid())
 	{
@@ -226,18 +228,24 @@ bool RapidFire::update()
 		c->GetRapid()->SetInterval(GetGame()->GetAllData()->rapidCompoData.mInterval);
 		c->GetRapid()->SetTime(c->GetRapid()->GetInterval());
 		c->GetRapid()->SetColor(iData.mColor);
-		std::ostringstream oss;
-		oss << GetName() << "アイテムを使用。";
-		GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		if (c->GetGame()->GetState() == Game::EGameplay)
+		{
+			std::ostringstream oss;
+			oss << GetName() << "アイテムを使用。";
+			GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		}
 	}
 	else
 	{
 		if (c->GetRapid()->GetLevel() != c->GetRapid()->GetMaxLevel())
 		{
 			c->GetRapid()->SetLevel(c->GetRapid()->GetLevel() + 1);
-			std::ostringstream oss;
-			oss << c->GetRapid()->GetName().c_str() << "がレベルアップ。";
-			GetGame()->GetStage()->GetLog()->AddText(oss.str());
+			if (c->GetGame()->GetState() == Game::EGameplay)
+			{
+				std::ostringstream oss;
+				oss << c->GetRapid()->GetName().c_str() << "がレベルアップ。";
+				GetGame()->GetStage()->GetLog()->AddText(oss.str());
+			}
 		}
 		c->GetRapid()->SetTime(c->GetRapid()->GetInterval());
 	}
@@ -259,9 +267,9 @@ RapidFireCompo::RapidFireCompo(class Cannon* owner)
 
 RapidFireCompo::~RapidFireCompo()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
+	class Cannon* c = static_cast<class Cannon*>(GetOwner());
 
-	if (mOwner->GetGame()->GetCannon())
+	if (c->GetState() == Actor::EActive && c->GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetInterval(mOwner->GetGame()->GetAllData()->cannonData.mInterval);
 		std::ostringstream oss;
@@ -274,9 +282,9 @@ RapidFireCompo::~RapidFireCompo()
 
 void RapidFireCompo::Update()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
+	class Cannon* c = static_cast<class Cannon*>(GetOwner());
 
-	if (mOwner->GetGame()->GetCannon())
+	if (c)
 	{
 		c->SetInterval(mOwner->GetGame()->GetAllData()->cannonData.mInterval - Data.mLevel * mLaunchIntervalDecreaseRate);
 	}
@@ -298,7 +306,7 @@ Barrier::Barrier(class Game* game)
 
 bool Barrier::update()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetGame()->GetCannon());
+	class Cannon* c = static_cast<class Cannon*>(mOwner);
 
 	if (!c->GetBarrier())
 	{
@@ -342,9 +350,9 @@ BarrierCompo::BarrierCompo(class Cannon* owner)
 
 BarrierCompo::~BarrierCompo()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
+	class Cannon* c = static_cast<class Cannon*>(GetOwner());
 
-	if (mOwner->GetGame()->GetCannon())
+	if (c->GetState() == Actor::EActive && c->GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetRDamage(1);
 		std::ostringstream oss;
@@ -356,9 +364,9 @@ BarrierCompo::~BarrierCompo()
 
 void BarrierCompo::Update()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
+	class Cannon* c = static_cast<class Cannon*>(GetOwner());
 
-	if (c->GetGame()->GetCannon())
+	if (c)
 	{
 		c->SetRDamage(0);
 	}

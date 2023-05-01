@@ -1,4 +1,4 @@
-#include "Stage1.h"
+#include "DebugStage.h"
 #include "Game.h"
 #include "StageClear.h"
 //#include "UIProgressGauge.h"
@@ -12,18 +12,18 @@
 #include "EnemyHome.h"
 #include "Barricade.h"
 
-Stage1::Stage1(Game* game)
+DebugStage::DebugStage(Game* game)
 	: Map(game)
 {
 	SetUp();
-	PlayerHome*ph = new PlayerHome(GetGame());
+	PlayerHome* ph = new PlayerHome(GetGame());
 	ph->SetPosition(0.0f, 0.0f, -3.0f);
-	EnemyHome*eh = new EnemyHome(GetGame());
+	EnemyHome* eh = new EnemyHome(GetGame());
 	eh->SetPosition(0.0f, 0.0f, -51.0f);
 	eh->SetRotationY(3.1415926f);
 }
 
-int Stage1::SetUp()
+int DebugStage::SetUp()
 {
 	SetCollisionText(Maptext1);
 
@@ -33,7 +33,19 @@ int Stage1::SetUp()
 	class TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("background");
 	GetGame()->SetCannon(new Cannon(GetGame()));
-	GetGame()->GetCannon()->SetPosition(VECTOR(0.0f, 0.0f, 0.0f));
+	GetGame()->GetCannon()->SetUp();
+	GetGame()->GetCannon()->SetPosition(VECTOR(0.0f, 0.0f, -30.0f));
+	GetGame()->GetCannon()->SetRotationY(3.1415926f);
+
+	class Cannon* c = new Cannon(GetGame());
+	c->SetUp();
+	c->SetPosition(VECTOR(5.0f, 0.0f, -30.0f));
+	c->SetRotationY(3.1415926f);
+	c = new Cannon(GetGame());
+	c->SetUp();
+	c->SetPosition(VECTOR(-5.0f, 0.0f, -30.0f));
+	c->SetRotationY(3.1415926f);
+
 	mMiniMap = new UIMiniMap(GetGame(), this);
 
 	GetGame()->SetCamera(new Camera(GetGame()));
@@ -42,10 +54,12 @@ int Stage1::SetUp()
 	SetCaracterCapa(5);
 
 
-	class Barricade*b = new Barricade(GetGame());
-	b->SetPosition(0, 5.0f, -5.0f);
+	class Barricade* b = new Barricade(GetGame());
+	b->SetPosition(0, 5.0f, -35.0f);
 	b = new Barricade(GetGame());
-	b->SetPosition(-15.0f, 5.0f, -5.0f);
+	b->SetPosition(5.0f, 5.0f, -35.0f);
+	b = new Barricade(GetGame());
+	b->SetPosition(-5.0f, 5.0f, -35.0f);
 
 	//mProgress = new UIProgressGauge(this, GetGame());
 

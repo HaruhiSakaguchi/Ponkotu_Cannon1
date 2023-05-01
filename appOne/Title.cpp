@@ -10,9 +10,11 @@
 #include "Option.h"
 #include "StageSelect.h"
 #include "GamePlay.h"
+#define D
 
 Title::Title(Game* game)
 	:UIState(game)
+	, mChangeStateFlag(false)
 {
 	Data = mGame->GetAllData()->titleData;
 	mTitle = Data.mTitle;
@@ -28,10 +30,13 @@ Title::Title(Game* game)
 	mText = oss.str();
 
 	mGame->SetScene(Game::ETitle);
+#ifdef RELEASE
 	if (mGame->GetTransition())
 	{
 		mGame->GetTransition()->inTrigger();
 	}
+
+
 
 	AddButton("‚Í‚¶‚ß‚©‚ç",
 		[this]() {
@@ -102,6 +107,7 @@ Title::Title(Game* game)
 	playLoopSound(Data.mBgm);
 	setVolume(Data.mBgm, mGame->GetVolume() + Data.mBgmSoundVolumeOffset);
 
+#endif
 }
 
 Title::~Title()
@@ -119,6 +125,14 @@ void Title::ChangeOption()
 
 void Title::Update()
 {
+#ifdef _DEBUG
+	if (!mChangeStateFlag)
+	{
+		mChangeStateFlag = true;
+		ChangeState();
+	}
+#endif
+
 	if (mGame->GetBgmFlag())
 	{
 		setVolume(Data.mBgm, mGame->GetVolume() + Data.mBgmSoundVolumeOffset);
@@ -133,6 +147,7 @@ void Title::Update()
 		stopSound(Data.mBgm);
 		mPlayBgmFlag = false;
 	}
+
 
 	UIState::Update();
 

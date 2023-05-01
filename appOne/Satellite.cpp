@@ -91,6 +91,11 @@ int Satellite::SetUp()
 
 void Satellite::UpdateActor()
 {
+	if (GetPosition().y > 10.0f)
+	{
+		SetHp(0);
+	}
+
 	if (GetHp() <= 0 && mDeadFlag == false)
 	{
 		mDeadFlag = true;

@@ -79,21 +79,9 @@ void TamaWeapon::UpdateActor()
 	//owner‚Ìhp‚ª0ˆÈã‚È‚çcannon‚Æ“–‚½‚è”»’è‚³‚¹‚é
 	bool ownerDead = GetOwner()->GetHp() > 0;
 
-	if (GetGame()->GetCannon())
-	{
-		if (Intersect(this, GetGame()->GetCannon(), ownerDead) && ownerDead)
-		{
-			static_cast<class Cannon*>(GetGame()->GetCannon())->Damage(t);
-		}
-	}
-	else
-	{
-		SetState(Actor::EDead);
-	}
-
 	for (auto pSide : GetGame()->GetPSide())
 	{
-		if (pSide != GetGame()->GetCannon() && Intersect(this,pSide,false))
+		if (Intersect(this,pSide,false))
 		{
 			pSide->Damage(1);
 		}

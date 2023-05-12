@@ -1,6 +1,7 @@
 #include "StateComponent.h"
 #include "State.h"
 #include "Actor.h"
+#include "graphic.h"
 
 StateComponent::StateComponent(class Actor* owner)
 	:Component(owner)
@@ -21,6 +22,7 @@ void StateComponent::Update()
 	if (mCurrentState)
 	{
 		mCurrentState->Update();
+		print("State :" + (let)mCurrentState->GetName());
 	}
 }
 

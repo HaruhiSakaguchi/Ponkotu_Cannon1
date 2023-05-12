@@ -20,12 +20,15 @@ Pause::Pause(Game* game)
 	mButtonPos = Data.mButtonPos;
 
 	//落下音を止める
-	static_cast<Cannon*>(mGame->GetCannon())->StopFallSound();
+	if (mGame->GetCannon())
+	{
+		static_cast<Cannon*>(mGame->GetCannon())->StopFallSound();
+	}
 
 	AddButton("再開する",
 		[this]() {
 			mGame->SetState(Game::EGameplay);
-	CloseMe();
+			CloseMe();
 		}
 		, 1
 			, "プレイを再開します"
@@ -50,7 +53,7 @@ Pause::Pause(Game* game)
 	AddButton("ゲームを終わる",
 		[this]() {
 			mQuitFlag = true;
-	        new Quit(mGame);
+			new Quit(mGame);
 		}
 		, 1
 			, "ゲームを終了します"
@@ -62,7 +65,7 @@ Pause::Pause(Game* game)
 		}
 		, 2
 			, "ヘルプを開きます"
-			,Data.mHelpButtonPosOffset
+			, Data.mHelpButtonPosOffset
 			);
 
 	setVolume(Data.mSound, mGame->GetEffectVolume() + Data.mPauseSoundVolumeOffset);

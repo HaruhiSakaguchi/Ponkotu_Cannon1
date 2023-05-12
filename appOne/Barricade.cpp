@@ -63,4 +63,9 @@ void Barricade::Damage(int damage)
 		GetGame()->GetStage()->AddText("Barricade‚ª‰ó‚ê‚½");
 		SetState(Actor::EDead);
 	}
+
+	for (auto enemy : GetGame()->GetEnemies())
+	{
+		Intersect(this, enemy);
+	}
 }

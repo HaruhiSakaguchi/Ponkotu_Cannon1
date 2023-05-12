@@ -14,7 +14,7 @@ class SatelliteMove :
 	public State
 {
 public:
-	SatelliteMove(class StateComponent*OwnerCompo):State(OwnerCompo){}
+	SatelliteMove(class StateComponent* OwnerCompo) :State(OwnerCompo) {}
 	const char* GetName() const override { return "Move"; }
 	virtual void OnEnter()override;
 	void Update() override;
@@ -22,6 +22,18 @@ private:
 	VECTOR mTarget;
 	VECTOR mAdv;
 	int mCnt;
+};
+class SatelliteRockOn :
+	public State
+{
+public:
+	SatelliteRockOn(class StateComponent* OwnerCompo) : State(OwnerCompo) {}
+	const char* GetName() const override { return "RockOn"; }
+	virtual void OnEnter();
+	void Update() override;
+private:
+	VECTOR mTarget;
+	VECTOR mAdv;
 };
 class SatelliteAttack :
 	public State
@@ -32,4 +44,10 @@ public:
 	virtual void OnEnter()override;
 	virtual void OnExit()override;
 	void Update() override;
+private:
+	VECTOR mTarget;
+	VECTOR mAdv;
+	int mCnt;
+	int mMaxCnt;
+	int mRotateCnt;
 };

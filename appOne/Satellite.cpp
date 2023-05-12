@@ -16,11 +16,13 @@ Satellite::Satellite(class Game* game)
 	, mHpGauge(nullptr)
 	, mState(nullptr)
 	, mDeadFlag(false)
+	, mRange(0.0f)
 {
 	SetUp();
 	mState = new StateComponent(this);
 	mState->RegisterState(new SatelliteNormal(mState));
 	mState->RegisterState(new SatelliteMove(mState));
+	mState->RegisterState(new SatelliteRockOn(mState));
 	mState->RegisterState(new SatelliteAttack(mState));
 	mState->ChangeState("Normal");
 }
@@ -30,6 +32,7 @@ Satellite::Satellite(class Game* game, const VECTOR& pos)
 	, mHpGauge(nullptr)
 	, mState(nullptr)
 	, mDeadFlag(false)
+	, mRange(0.0f)
 {
 	SetUp();
 	SetInitPosition(pos);
@@ -37,6 +40,7 @@ Satellite::Satellite(class Game* game, const VECTOR& pos)
 	mState = new StateComponent(this);
 	mState->RegisterState(new SatelliteNormal(mState));
 	mState->RegisterState(new SatelliteMove(mState));
+	mState->RegisterState(new SatelliteRockOn(mState));
 	mState->RegisterState(new SatelliteAttack(mState));
 	mState->ChangeState("Normal");
 }
@@ -56,6 +60,7 @@ int Satellite::SetUp()
 	SetRadius(Data.mRadius);
 	SetAdvSpeed(Data.mAdvSpeed);
 	SetJumpFlag(1);
+	SetRange(Data.mMaxRange);
 
 	Data.mId = Num % 2;
 	int maxHp = 0;
@@ -111,12 +116,12 @@ void Satellite::UpdateActor()
 		SetRotationX(3.1415926f / 2);
 	}
 
-	Master.mulRotateX(GetRotation().x);
+	//Master.mulRotateX(GetRotation().x);
 
 	Target.identity();
+	Target.mulTranslate(VECTOR(0.0f, 0.0f, 3.0f));
 
-	Target.mulTranslate(Data.mTargetOffsetPos);
-
+	Target = Master * Target;
 
 	if (GetDamageInterval() > 0.0f)
 	{
@@ -153,13 +158,12 @@ void Satellite::UpdateActor()
 		}
 	}
 
-	print("(" + (let)GetPosition().x + "," + (let)GetPosition().y + "," + (let)GetPosition().z + ")");
+	//print("(" + (let)GetTargetPosition().x + "," + (let)GetTargetPosition().y + "," + (let)GetTargetPosition().z + ")");
 }
 
 const VECTOR& Satellite::GetTargetPosition()
 {
-	Target = Master * Target;
-	Data.mTargetPos = VECTOR(Target._14, Target._24, Target._34) + Data.mBulletOffsetPos;
+	Data.mTargetPos = VECTOR(Target._14, Target._24, Target._34);
 	return Data.mTargetPos;
 }
 
@@ -173,6 +177,11 @@ void Satellite::Damage(int damage)
 		SetGravity(Data.mGravity);
 	}
 	SetDamageInterval(Data.mMaxDamageInterval);
+	if (mState->GetName() == "Attack")
+	{
+		mState->ChangeState("Normal");
+		return;
+	}
 }
 
 

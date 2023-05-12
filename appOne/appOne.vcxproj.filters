@@ -411,6 +411,7 @@
       <Filter>Actor\Character\PHome</Filter>
     </ClCompile>
     <ClCompile Include="DebugStage.cpp" />
+    <ClCompile Include="TamaPointer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -642,5 +643,6 @@
       <Filter>Actor\Barricade</Filter>
     </ClInclude>
     <ClInclude Include="DebugStage.h" />
+    <ClInclude Include="TamaPointer.h" />
   </ItemGroup>
 </Project>

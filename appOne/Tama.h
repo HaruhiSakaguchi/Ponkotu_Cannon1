@@ -23,6 +23,11 @@ public:
 	void SetAnimAngle(float angle) { Data.mAnimAngle = angle; }
 	float GetAnimSpeed() { return Data.mAnimSpeed; }
 	int GetDushSound() { return Data.mDushSound; }
+	class TamaPointer* GetTp() { return mTp; }
+	void SetAttackVector(const VECTOR& vec) { mAttackVector = vec; }
+	const VECTOR& GetAttackVector() { return mAttackVector; }
+	void SetTargetPos(const VECTOR& vec) { mTargetPos = vec; }
+	const VECTOR& GetTargetPos() { return mTargetPos; }
 public:
 	//Data
 	struct DATA {
@@ -58,12 +63,14 @@ private:
 	//data
 	DATA Data;
 private:
-
+	VECTOR mAttackVector;
+	VECTOR mTargetPos;
 	//component
 	class StateComponent* mState;
 	float mScale;
 	class TreeMeshComponent* mTc;
 	class TamaBlackEye* mEye;
+	class TamaPointer* mTp;
 };
 
 

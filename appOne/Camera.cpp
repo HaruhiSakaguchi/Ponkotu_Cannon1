@@ -74,7 +74,7 @@ void Camera::UpdateActor()
 	//else if (GetGame()->GetCannon())
 	{
 		//SetPosition(GetGame()->GetCannon()->GetPosition() + GetGame()->GetCannon()->GetCapsulOffset());
-		SetPosition(0.0f, 0.0f, -35.0f);
+		SetPosition(10.0f, 15.0f, -20.0f);
 		Data.mLookatPos = GetPosition();
 	}
 

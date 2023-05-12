@@ -31,11 +31,20 @@ public:
 	float GetAnimSpeed() { return Data.mAnimSpeed; }
 	int GetNum() { return Num; }
 	StateComponent* GetStateMacine() { return mState; }
+	void SetRange(float range) { mRange = range; }
+	float GetRange() { return mRange; }
+	void SetTargetPos(const VECTOR& pos) { mTargetPos = pos; }
 
 	std::vector<class SatelliteWing*>& GetWings() { return mWings; }
 	void AddWings(class SatelliteWing* wing);
 	void RemoveWings(class SatelliteWing* wing);
 	int GetId() { return Data.mId; }
+	void SetTmpRotation(const VECTOR& angle) { mTmpRotation = angle; }
+	void SetTmpTargetVec(const VECTOR& target) { mTargetVec = target; }
+
+	const VECTOR& GetTmpRotation() { return mTmpRotation; }
+	const VECTOR& GetType1TargetVec() { return mTargetVec; }
+
 	//data
 	struct DATA {
 		VECTOR mTargetPos;
@@ -55,6 +64,7 @@ public:
 		int mBodyNumCorners;
 		float mBodyFrontZ;
 		float mBodyBackZ;
+		float mMaxRange;
 		int mMaxHp;
 		int mMaxHp2;
 		int mId;
@@ -74,9 +84,12 @@ private:
 	class HpGaugeSpriteComponent* mHpGauge;
 	class StateComponent* mState;
 
+	float mRange;
 	MATRIX Master;
 	MATRIX Target;
-
+	VECTOR mTargetVec;
+	VECTOR mTmpRotation;
+	VECTOR mTargetPos;
 	std::vector<SatelliteWing*>mWings;
 
 };

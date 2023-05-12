@@ -251,9 +251,9 @@ void Cannon::UpdateActor()
 //	print("Target(" + (let)Data.mTargetPos.x + "," + (let)Data.mTargetPos.y + "," + (let)Data.mTargetPos.z + ")");
 	//print(GetRange());
 	//print("posY :" + (let)GetPosition().y);
-	VECTOR rot = GetRotation();
+	VECTOR rot = GetPosition();
 	rot.normalize();
-	print("Dir(" + (let)rot.x + "," + (let)rot.y + "," + (let)rot.z + ")");
+	print("Pos(" + (let)rot.x + "," + (let)rot.y + "," + (let)rot.z + ")");
 }
 
 const VECTOR& Cannon::GetTargetPosition()

@@ -51,6 +51,14 @@ void PlayerHome::UpdateActor()
 	{
 		SetDamageInterval(GetDamageInterval() - delta);
 	}
+
+	for (auto enemy : GetGame()->GetEnemies())
+	{
+		if (enemy->GetPosition().y == 0)
+		{
+			Intersect(this, enemy);
+		}
+	}
 }
 
 void PlayerHome::Damage(int damage)

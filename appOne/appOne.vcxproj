@@ -209,6 +209,7 @@
     <ClCompile Include="StateComponent.cpp" />
     <ClCompile Include="Tama.cpp" />
     <ClCompile Include="TamaBlackEye.cpp" />
+    <ClCompile Include="TamaPointer.cpp" />
     <ClCompile Include="TamaStates.cpp" />
     <ClCompile Include="TamaWeapon.cpp" />
     <ClCompile Include="Title.cpp" />
@@ -294,6 +295,7 @@
     <ClInclude Include="StateComponent.h" />
     <ClInclude Include="Tama.h" />
     <ClInclude Include="TamaBlackEye.h" />
+    <ClInclude Include="TamaPointer.h" />
     <ClInclude Include="TamaStates.h" />
     <ClInclude Include="TamaWeapon.h" />
     <ClInclude Include="Title.h" />

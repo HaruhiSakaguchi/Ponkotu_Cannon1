@@ -71,8 +71,8 @@ void HpGaugeSpriteComponent::Update()
 
 void HpGaugeSpriteComponent::Draw()
 {
-	if (mGauge != nullptr && GetOwner())
+	if (mGauge != nullptr)
 	{
-		mGauge->draw(mOwner->GetGame()->GetRenderer()->GetShader());
+		mGauge->draw(GetOwner()->GetGame()->GetRenderer()->GetShader());
 	}
 }

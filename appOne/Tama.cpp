@@ -10,6 +10,7 @@
 #include "TamaBlackEye.h"
 #include "CollisionMapComponent.h"
 #include "PlayerHome.h"
+#include "TamaPointer.h"
 
 Tama::Tama(Game* game)
 	: Enemy(game)
@@ -17,12 +18,15 @@ Tama::Tama(Game* game)
 	, mScale(1.0f)
 	, mTc(nullptr)
 	, mEye(nullptr)
+	, mTp(nullptr)
 {
 	SetUp();
 	mState = new StateComponent(this);
 	mState->RegisterState(new TamaWait(mState));
 	mState->RegisterState(new TamaMove(mState));
-	mState->RegisterState(new TamaChase(mState));
+	mState->RegisterState(new TamaRockOn(mState));
+	mState->RegisterState(new TamaSeache(mState));
+	mState->RegisterState(new TamaCharge(mState));
 	mState->RegisterState(new TamaAttack(mState));
 	mState->ChangeState("Wait");
 }
@@ -33,12 +37,16 @@ Tama::Tama(Game* game,const VECTOR&pos)
 	, mScale(1.0f)
 	, mTc(nullptr)
 	, mEye(nullptr)
+	, mTp(nullptr)
+
 {
 	SetUp();
 	mState = new StateComponent(this);
 	mState->RegisterState(new TamaWait(mState));
 	mState->RegisterState(new TamaMove(mState));
-	mState->RegisterState(new TamaChase(mState));
+	mState->RegisterState(new TamaRockOn(mState));
+	mState->RegisterState(new TamaSeache(mState));
+	mState->RegisterState(new TamaCharge(mState));
 	mState->RegisterState(new TamaAttack(mState));
 	mState->ChangeState("Wait");
 	SetPosition(pos);
@@ -73,6 +81,7 @@ int Tama::SetUp()
 	new CollisionMapComponent(this);
 
 	mTc->SetOffsetPos(GetCapsulOffset());
+	mTp = new TamaPointer(this);
 	return 0;
 }
 
@@ -110,26 +119,11 @@ void Tama::UpdateActor()
 			SetState(Actor::EDead);
 		}
 	}
-
-
-	if (GetGame()->GetPHome())
-	{
-		Intersect(this, GetGame()->GetPHome());
-	}
-
-	//print("posY :" + (let)GetPosition().y);
-
 }
 
 void Tama::Damage(int damage)
 {
 	SetHp(GetHp() - damage);
-
-	if (mState->GetName() == "Chace")
-	{
-		mState->ChangeState("Wait");
-	}
-
 	SetDamageInterval(Data.mMaxDamageInterval);
 }
 

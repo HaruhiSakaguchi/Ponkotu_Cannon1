@@ -50,7 +50,10 @@ void Renderer::Draw()
 	for (auto mesh : mMeshes)
 	{
 		setTextureSamplerWrap();
-		mesh->Draw();
+		if (mesh->GetOwner()->GetState() == Actor::EActive)
+		{
+			mesh->Draw();
+		}
 	}
 
 	for (auto sprite : mSprites)

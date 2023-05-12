@@ -557,11 +557,12 @@ void SetAllData(Container& ad)
 		ad.satelliteData.mBodyNumCorners = 36;
 		ad.satelliteData.mBodyFrontZ = 0.0f;
 		ad.satelliteData.mBodyBackZ = -1.5f;
+		ad.satelliteData.mMaxRange = 10.0f;
 		ad.satelliteData.mBulletOffsetPos = VECTOR(0.0f, -0.75f, 0.0f);
 		ad.satelliteData.mCapsulOffset = VECTOR(0.0f, 0.5f, 0.0f);
 		ad.satelliteData.mHpGaugeOffset = VECTOR(0.0f, -2.0f, 0.0f);
 		ad.satelliteData.mOffsetPos = VECTOR(0.0f, 0.0f, 0.75f);
-		ad.satelliteData.mTargetOffsetPos = VECTOR(-3.0f, 3.0f, 3.0f);
+		ad.satelliteData.mTargetOffsetPos = VECTOR(-7.0f, 7.0f, 7.0f);
 		ad.satelliteData.mTargetPos = VECTOR(0.0f, 0.0f, 0.0f);
 		ad.satelliteData.mDeadPoint = VECTOR(0.0f, 0.0f, 0.0f);
 		ad.satelliteData.mImageColor = COLOR(255, 0, 0);

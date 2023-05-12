@@ -14,5 +14,8 @@ public:
 	};
 private:
 	IDATA iData;
+	int mCnt;
+	int mChangeFlame = 50;
+	VECTOR mDefDir;
 };
 

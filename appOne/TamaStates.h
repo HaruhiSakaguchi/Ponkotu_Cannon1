@@ -29,12 +29,26 @@ private:
 	VECTOR mTmpAngle;
 	int mCnt = 0;
 };
-class TamaChase :
+
+class TamaSeache :
 	public State
 {
 public:
-	TamaChase(class StateComponent* OwnerCompo) :State(OwnerCompo) {}
-	const char* GetName() const override { return "Chace"; }
+	TamaSeache(class StateComponent*OwnerCompo):State(OwnerCompo){}
+	const char* GetName()const override { return "Search"; }
+	void Update()override;
+	virtual void OnEnter()override;
+private:
+	int mCnt;
+	int mRotateCnt;
+};
+
+class TamaRockOn :
+	public State
+{
+public:
+	TamaRockOn(class StateComponent* OwnerCompo) :State(OwnerCompo) {}
+	const char* GetName() const override { return "RockOn"; }
 	virtual void OnEnter()override;
 	virtual void OnExit()override;
 	void Update() override;
@@ -46,6 +60,25 @@ private:
 	int mCnt = 0;
 
 };
+
+class TamaCharge :
+	public State
+{
+public:
+	TamaCharge(class StateComponent*OwnerCompo) : State(OwnerCompo){}
+	const char* GetName() const override { return "Charge"; }
+	virtual void OnEnter()override;
+	virtual void OnExit()override;
+	void Update()override;
+private:
+	VECTOR mTarget;
+	VECTOR mDir;
+	int mCnt;
+	float mReb;
+	int mNX;
+	int mNZ;
+};
+
 class TamaAttack :
 	public State
 {
@@ -56,9 +89,12 @@ public:
 	virtual void OnEnter() override;
 	virtual void OnExit() override;
 private:
+	int mCnt;
 	float mTime = 0;
 	float mMaxTime = 120.0f;
 	VECTOR mTarget;
 	VECTOR mRotation;
 };
+
+
 

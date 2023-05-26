@@ -39,6 +39,7 @@ int EnemyHome::SetUp()
 	mFlag1->SetRotationY(3.1415926f);
 	mFlag2 = new EnemyFlag(GetGame());
 	mFlag2->SetRotationY(3.1415926f);
+	SetTag(EHome);
 	SetHp(Data.mMaxHp);
 	SetRadius(Data.mRadius);
 	SetHeight(Data.mHeight);

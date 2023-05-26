@@ -61,6 +61,7 @@ int Satellite::SetUp()
 	SetAdvSpeed(Data.mAdvSpeed);
 	SetJumpFlag(1);
 	SetRange(Data.mMaxRange);
+	SetTag(Satellite);
 
 	Data.mId = Num % 2;
 	int maxHp = 0;

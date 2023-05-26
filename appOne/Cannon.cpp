@@ -105,6 +105,7 @@ int Cannon::SetUp()
 	mState->ChangeState("Wait");
 
 	//基底クラスのデータにセット
+	SetTag(CharacterActor::Cannon);
 	SetPosition(Data.mInitPos);
 	SetRadius(Data.mCannonCapsulRadius);
 	SetHeight(Data.mCannonCapsulHeight);

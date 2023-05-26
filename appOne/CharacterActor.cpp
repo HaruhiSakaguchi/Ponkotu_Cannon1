@@ -30,6 +30,7 @@ CharacterActor::CharacterActor(Game* game)
 	, mOffsetY(0.5f)
 	, mLevel(0)
 	, mName("Chara")
+	, mTag(Others)
 
 {
 	SetCategory(Character);

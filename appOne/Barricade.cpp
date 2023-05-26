@@ -27,6 +27,7 @@ int Barricade::SetUp()
 	SetAdvSpeed(Data.mAdvSpeed);
 	SetCapsulOffset(Data.mCapsuleOffset);
 	SetImageColor(Data.mImageColor);
+	SetTag(CharacterActor::Barricade);
 
 	TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("Barricade");

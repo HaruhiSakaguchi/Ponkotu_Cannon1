@@ -70,6 +70,7 @@ int Tama::SetUp()
 	SetImageColor(Data.mImageColor);
 	SetGravity(Data.mGravity);
 	SetCapsulOffset(Data.mCapsulOffset);
+	SetTag(CharacterActor::Tama);
 
 	new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
 

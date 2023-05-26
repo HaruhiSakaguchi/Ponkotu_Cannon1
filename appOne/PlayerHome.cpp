@@ -35,6 +35,7 @@ int PlayerHome::SetUp()
 	mDore = new Dore(GetGame());
 	mFlag1 = new PlayerFlag(GetGame());
 	mFlag2 = new PlayerFlag(GetGame());
+	SetTag(PHome);
 	SetHp(Data.mMaxHp);
 	SetRadius(Data.mRadius);
 	SetHeight(Data.mHeight);

@@ -15,6 +15,7 @@ int SphereWeapon::SetUp(const DATA& data)
 	SetAdvSpeed(data.mAdvSpeed);
 	SetPosition(mTmpPos);
 	SetImageColor(data.mImageColor);
+	SetTag(Waepon);
 
 	SetDir(mTmpDir);
 

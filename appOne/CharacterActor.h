@@ -56,6 +56,22 @@ public:
 	int GetLevel() { return mLevel; }
 	void SetLevel(int level) { mLevel = level; }
 	bool GetOnMapFlag() { return mOnMapFlag; }
+
+	enum CharactersTag
+	{
+		Cannon,
+		Satellite,
+		Tama,
+		Barricade,
+		PHome,
+		EHome,
+		Waepon,
+		Others
+	};
+
+	CharactersTag GetTag() { return mTag; }
+	void SetTag(CharactersTag tag) { mTag = tag; }
+
 private:
 	//rotate()用データ
 	//回転用フラッグ
@@ -80,6 +96,7 @@ private:
 	int mHp;
 	int mMaxHp;
 	std::string mName;
+	CharactersTag mTag;
 protected:
 	int mDeadSound;
 private:

@@ -33,6 +33,7 @@
 #include "UIItemStatus.h"
 #include "Map.h"
 #include "UILog.h"
+#include "UIPSideCharacterStatus.h"
 
 struct Container {
 	float mWidth = 0.0f, mHeight = 0.0f;
@@ -88,6 +89,7 @@ struct Container {
 	UIItemStatus::DATA itemStatusData;
 	Map::DATA mapData;
 	UILog::DATA logData;
+	UIPSideCharacterStatus::DATA psData;
 	int mDeadSound = 0;
 	int mCloseSound = 0;
 	int mDialog1 = 0, mDialog2 = 0;

@@ -412,6 +412,8 @@
     </ClCompile>
     <ClCompile Include="DebugStage.cpp" />
     <ClCompile Include="TamaPointer.cpp" />
+    <ClCompile Include="UIPSideCharacterStatus.cpp" />
+    <ClCompile Include="UIPSideCharacterStatusClose.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -644,5 +646,7 @@
     </ClInclude>
     <ClInclude Include="DebugStage.h" />
     <ClInclude Include="TamaPointer.h" />
+    <ClInclude Include="UIPSideCharacterStatus.h" />
+    <ClInclude Include="UIPSideCharacterStatusClose.h" />
   </ItemGroup>
 </Project>

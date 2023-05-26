@@ -16,6 +16,7 @@ public:
 	virtual void Update() {};
 	virtual void Draw();
 	virtual void draw() {};
+	virtual void DrawAfterButton(){};
 	// UIステート。アクティブか、閉じるか
 	enum UIState
 	{

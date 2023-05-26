@@ -26,7 +26,10 @@ public:
 	void Draw();
 	void Update();
 	void DrawGuide();
-	
+
+	const VECTOR2& GetPosition() { return mPosition; }
+	void SetPosition(const VECTOR2& pos) { mPosition = pos; }
+
 	// マウスポインタがこのボタン内にあるか
 	bool ContainsPoint(const VECTOR2& pt, bool flag = true);
 	// クリックされたときに呼び出される関数

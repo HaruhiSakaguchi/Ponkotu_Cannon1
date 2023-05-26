@@ -79,11 +79,11 @@ void GamePlay::Update()
 			}*/
 			if (!jumpflag)
 			{
-				new StageClear(mGame);
-				if (mGame->GetPhase() == Game::FOURTH)
+				//new StageClear(mGame);
+				/*if (mGame->GetPhase() == Game::FOURTH)
 				{
 					stopSound(mBgm);
-				}
+				}*/
 				mGameClearFlag = 1;
 			}
 		}
@@ -91,8 +91,8 @@ void GamePlay::Update()
 	else {
 		if (mGame->GetPSide().empty() && (mGameOverFlag == 0 && mGame->GetScene() == Game::EPlay))
 		{
-			new GameOver(mGame);
-			stopSound(mBgm);
+			//new GameOver(mGame);
+			//stopSound(mBgm);
 			mGameOverFlag = 1;
 		}
 	}

@@ -14,6 +14,7 @@ public:
 	~Cannon();
 	int SetUp()override;
 	void UpdateActor()override;
+	void ActorInput()override;
 	const VECTOR& GetTargetPosition();
 	void Damage(Actor* actor = nullptr);
 	void Damage(int damage = 1)override;
@@ -37,6 +38,7 @@ public:
 	int GetRDamage() { return Data.mRDamage; }
 	int GetMaxHp() { return Data.mMaxHp; }
 
+	int GetNextTpIndex();
 	float GetRange() { return mRange; }
 	float GetMaxRange() { return Data.mRange; }
 
@@ -72,6 +74,13 @@ public:
 	void SetLaunchTime(float time) { mLaunchTime = time; }
 	void StopFallSound() { stopSound(Data.mFallSound); }
 	void OnMapOff() { mOnMap = false; }
+
+	void SetNum(int num) { mNum = num; }
+	int GetNum() { return mNum; }
+
+	const int GetTPIndex() { return mTPIndex; }
+	void SetTPIndex(int idx) { mTPIndex = idx; }
+
 	//data
 	struct DATA {
 		VECTOR mOffsetPos;
@@ -122,6 +131,17 @@ public:
 		int mFallSoundVolumeOffset;
 		int mOutOfBullets = 0;
 	};
+
+	enum MoveState
+	{
+		Stay,
+		Return,
+		HomePatroll,
+		FieldPatroll
+	};
+	void SetMoveState(MoveState state) { mMoveState = state; }
+	MoveState GetMoveState() { return mMoveState; }
+
 private:
 	//Data
 	DATA Data;
@@ -140,6 +160,7 @@ private:
 	class UIScope* mScope;
 	class UIItemStatus* mUIItem;
 
+	MoveState mMoveState;
 	//Hierarchy Matrix
 	MATRIX Master, Body, Target;
 
@@ -158,5 +179,7 @@ private:
 	class CannonWheelL* mWheelL;
 	class CannonWheelR* mWheelR;
 
+	int mTPIndex;
 	VECTOR mDefDir = VECTOR(0.0f, 0.0f, 1.0f);
+	int mNum;
 };

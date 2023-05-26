@@ -1,6 +1,7 @@
 #pragma once
 #include "Actor.h"
 #include "MATRIX.h"
+#include <string>
 
 class CharacterActor :public Actor
 {
@@ -30,6 +31,8 @@ public:
 	float GetOffsetY() { return mOffsetY; }
 	void SetHp(int hp) { mHp = hp; }
 	int GetHp() { return mHp; }
+	int GetMaxHp() { return mMaxHp; }
+	void SetMaxHp(int hp) { mMaxHp = hp; }
 	float GetSlant() const { return mSlant; }
 
 	//モデル回転関数
@@ -48,6 +51,10 @@ public:
 	const COLOR& GetImageColor() { return mImageColor; }
 	void SetImageColor(const COLOR& color) { mImageColor = color; }
 
+	std::string GetName() { return mName; }
+	void SetName(const char* name) { mName = name; }
+	int GetLevel() { return mLevel; }
+	void SetLevel(int level) { mLevel = level; }
 	bool GetOnMapFlag() { return mOnMapFlag; }
 private:
 	//rotate()用データ
@@ -64,12 +71,15 @@ private:
 	float mAdvSpeed;
 	float mDamageInterval;
 	float mOffsetY;
+	int mLevel;
 	COLOR mDamageColor;
 	//ミニマップ用カラー　アクターごとに持たせる
 	COLOR mImageColor;
 	//マップエリア内にいるか
 	bool mOnMapFlag;
 	int mHp;
+	int mMaxHp;
+	std::string mName;
 protected:
 	int mDeadSound;
 private:

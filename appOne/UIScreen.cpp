@@ -50,7 +50,7 @@ void UIScreen::ProcessInput()
 			// ロールオーバーしていたら
 			if (b->ContainsPoint(mousePos))
 			{
-				if (mGame->GetTransition()->inEndFlag())
+			//	if (mGame->GetTransition()->inEndFlag())
 				{
 					//サウンドフラッグが立っていなかったら音を鳴らす。鳴らすとサウンドフラッグが立つ。
 					if (!b->GetSound())
@@ -78,6 +78,8 @@ void UIScreen::Draw()
 
 	draw();
 
+	rectMode(CENTER);
+
 	// タイトル表示（もしあったら）
 	if (mTitle.c_str())
 	{
@@ -94,6 +96,9 @@ void UIScreen::Draw()
 	{
 		b->Draw();
 	}
+
+	DrawAfterButton();
+
 }
 
 void UIScreen::CloseMe()

@@ -20,6 +20,7 @@ CharacterActor::CharacterActor(Game* game)
 	, mAdvSpeed(0.0f)
 	, mSeg(nullptr)
 	, mHp(1)
+	, mMaxHp(1)
 	, mDeadSound(-1)
 	, mSlant(44.0f)//ŒXŽÎ
 	, mDamageInterval(0.0f)
@@ -27,6 +28,8 @@ CharacterActor::CharacterActor(Game* game)
 	, mImageColor(255, 255, 255)
 	, mDamageColor(255, 0, 0, 128)
 	, mOffsetY(0.5f)
+	, mLevel(0)
+	, mName("Chara")
 
 {
 	SetCategory(Character);

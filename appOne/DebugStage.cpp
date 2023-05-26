@@ -16,11 +16,6 @@ DebugStage::DebugStage(Game* game)
 	: Map(game)
 {
 	SetUp();
-	PlayerHome* ph = new PlayerHome(GetGame());
-	ph->SetPosition(0.0f, 0.0f, -3.0f);
-	EnemyHome* eh = new EnemyHome(GetGame());
-	eh->SetPosition(0.0f, 0.0f, -51.0f);
-	eh->SetRotationY(3.1415926f);
 }
 
 int DebugStage::SetUp()
@@ -48,6 +43,12 @@ int DebugStage::SetUp()
 
 	mMiniMap = new UIMiniMap(GetGame(), this);
 
+	PlayerHome* ph = new PlayerHome(GetGame());
+	ph->SetPosition(0.0f, 0.0f, -3.0f);
+	EnemyHome* eh = new EnemyHome(GetGame());
+	eh->SetPosition(0.0f, 0.0f, -51.0f);
+	eh->SetRotationY(3.1415926f);
+
 	GetGame()->SetCamera(new Camera(GetGame()));
 
 	SetClearCnt(30);
@@ -60,6 +61,16 @@ int DebugStage::SetUp()
 	b->SetPosition(5.0f, 5.0f, -35.0f);
 	b = new Barricade(GetGame());
 	b->SetPosition(-5.0f, 5.0f, -35.0f);
+
+	CharacterActor* ca= nullptr;
+
+	for (int i = 0; i <= 10; i++)
+	{
+		ca = new CharacterActor(GetGame());
+		ca->SetPosition(0.0f, i, (-54.0f) / 2.0f);
+		TreeMeshComponent*tmc = new TreeMeshComponent(ca);
+		tmc->SetTree("PlayerFlag");
+	}
 
 	//mProgress = new UIProgressGauge(this, GetGame());
 

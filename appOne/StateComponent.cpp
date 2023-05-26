@@ -22,7 +22,9 @@ void StateComponent::Update()
 	if (mCurrentState)
 	{
 		mCurrentState->Update();
+#ifdef _DEBUG
 		print("State :" + (let)mCurrentState->GetName());
+#endif
 	}
 }
 

@@ -54,7 +54,7 @@ void UIItemStatus::DrawRingOnLine(const VECTOR2& pos, float radius, float dia, f
 void UIItemStatus::DrawRing(const VECTOR2& pos, float radius, float sw, float angle, const COLOR& color, float angleOffset)
 {
 	VECTOR2 centerPos = pos;
-	float defAngle = 3.14159264f  / 180.0f* angleOffset;
+	float defAngle = 3.14159264f  / 180.0f * angleOffset;
 	for (int i = 0; i < 360; i++)
 	{
 		float preAngle = angle;

@@ -99,18 +99,25 @@ void Game::ProcessInput()
 			{
 				new Pause(this);
 			}
+			for (auto ui : mUIStack)
+			{
+				ui->ProcessInput();
+			}
 		}
-		if (mGameScene != EPlay)
+		else
 		{
 			if (!mUIStack.empty())
 			{
 				mUIStack.back()->ProcessInput();
 			}
 		}
+		
 	}
 	else if (!mUIStack.empty())
 	{
+
 		mUIStack.back()->ProcessInput();
+
 	}
 }
 
@@ -189,6 +196,7 @@ void Game::UpdateGame()
 void Game::GenerateOutput()
 {
 	mRenderer->Draw();
+	print(GetScene());
 }
 
 void Game::LoadData()
@@ -326,12 +334,12 @@ void Game::RemoveItems(Item* item)
 	}
 }
 
-void Game::AddCannon(class Cannon*cannon)
+void Game::AddCannon(class Cannon* cannon)
 {
 	mCannons.emplace_back(cannon);
 }
 
-void Game::RemoveCannon(class Cannon*cannon)
+void Game::RemoveCannon(class Cannon* cannon)
 {
 	//‚±‚Ìactor‚ªmActors‚É‚ ‚é‚©’T‚·
 	auto iter = std::find(mCannons.begin(), mCannons.end(), cannon);

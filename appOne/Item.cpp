@@ -47,7 +47,7 @@ void Item::UpdateActor()
 {
 	for (auto cannon : GetGame()->GetCannons())
 	{
-		if (Intersect(this, cannon, false))
+		if (cannon->GetState() == Actor::EActive && Intersect(this, cannon, false))
 		{
 			mOwner = cannon;
 			if (update() && mOwner != nullptr)

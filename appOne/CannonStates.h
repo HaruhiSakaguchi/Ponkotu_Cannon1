@@ -18,6 +18,33 @@ public:
     const char* GetName() const override { return "Move"; }
     void Update() override;
 };
+class CannonMoveReturnHome :
+    public State
+{
+public:
+    CannonMoveReturnHome(class StateComponent* OwnerCompo) :State(OwnerCompo) {}
+    const char* GetName() const override { return "Return"; }
+    void Update() override;
+};
+
+class CannonMoveHomePatroll :
+    public State
+{
+public:
+    CannonMoveHomePatroll(class StateComponent* OwnerCompo) :State(OwnerCompo) {}
+    const char* GetName() const override { return "HomePatroll"; }
+    void Update() override;
+};
+
+class CannonMoveFieldPatroll :
+    public State
+{
+public:
+    CannonMoveFieldPatroll(class StateComponent* OwnerCompo) :State(OwnerCompo) {}
+    const char* GetName() const override { return "FieldPatroll"; }
+    void Update() override;
+};
+
 class CannonJump :
     public State
 {

@@ -102,14 +102,14 @@ void Button::Draw()
 	// ƒ{ƒ^ƒ“‰æ‘œ•\Ž¦
 	int buttonImg = 0;
 	bool mChangeImageFlag = false;
-	for (auto button : mGame->GetUIStack().back()->GetButtons())
+	/*for (auto button : mGame->GetUIStack().back()->GetButtons())
 	{
 		if (button == this)
 		{
 			mChangeImageFlag = true;
 		}
-	}
-	if (mChangeImageFlag)
+	}*/
+	if (!mChangeImageFlag)
 	{
 		if (mImageNum == 1)
 		{

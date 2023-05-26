@@ -189,14 +189,16 @@ void SatelliteAttack::OnEnter()
 		wing->SetAttackFlag(true);
 	}
 	mCnt = 0;
-	if (s->GetId() == 0)
+	/*if (s->GetId() == 0)
 	{
 		mMaxCnt = 10;
 	}
 	else
 	{
 		mMaxCnt = 4;
-	}
+	}*/
+
+	mMaxCnt = 12;
 
 	mRotateCnt = 36;
 }
@@ -225,7 +227,7 @@ void SatelliteAttack::Update()
 
 	s->SetRotation(angle);
 
-	if (s->GetId() == 0)
+	/*if (s->GetId() == 0)
 	{
 		if (mCnt <= mMaxCnt)
 		{
@@ -233,12 +235,19 @@ void SatelliteAttack::Update()
 		}
 	}
 	else
+	{*/
+	if (mCnt % mMaxCnt == 0)
 	{
-		if (mCnt % mMaxCnt == 0)
+		if (s->GetId() == 0)
+		{
+			new SatelliteBullet(s, s->GetPosition() + offset, s->GetType1TargetVec());
+		}
+		else
 		{
 			new SatelliteBullet(s, s->GetTargetPosition(), VECTOR(0.0f, 0.0f, 0.0f));
 		}
 	}
+	//}
 
 	if (++mCnt >= mRotateCnt)
 	{

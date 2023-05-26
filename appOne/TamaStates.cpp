@@ -317,7 +317,9 @@ void TamaAttack::Update()
 	{
 		if (Intersect(t, pSide, false))
 		{
-			pSide->Damage(5);
+			//pSide->Damage(5);
+			pSide->Damage(1);
+
 			mOwnerCompo->ChangeState("Wait");
 			return;
 		}

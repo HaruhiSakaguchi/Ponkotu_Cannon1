@@ -6,6 +6,7 @@
 #include "Collision_Capsul.h"
 #include "Game.h"
 #include "window.h"
+#include "EnemyHome.h"
 
 PlayerHome::PlayerHome(class Game* game)
 	: CharacterActor(game)
@@ -46,6 +47,19 @@ void PlayerHome::UpdateActor()
 	mDore->SetPosition(GetPosition() + Data.mDoreOffset);
 	mFlag1->SetPosition(GetPosition() + Data.mFlag1Offset);
 	mFlag2->SetPosition(GetPosition() + Data.mFlag2Offset);
+
+	mHomeTargetPoints[0] = GetPosition() + VECTOR(-7.0f, 0.0f, -7.0f);
+	mHomeTargetPoints[1] = GetPosition() + VECTOR(7.0f, 0.0f, -7.0f);
+	mHomeTargetPoints[2] = GetPosition() + VECTOR(7.0f, 0.0f, 5.0f);
+	mHomeTargetPoints[3] = GetPosition() + VECTOR(-7.0f, 0.0f, 5.0f);
+
+	VECTOR PEHomeCenterPos = (GetPosition() + GetGame()->GetEHome()->GetPosition()) / 2;
+
+	mFieldTargetPoints[0] = PEHomeCenterPos + VECTOR(-7.0f, 0.0f, -7.0f);
+	mFieldTargetPoints[1] = PEHomeCenterPos + VECTOR(7.0f, 0.0f, -7.0f);
+	mFieldTargetPoints[2] = PEHomeCenterPos + VECTOR(7.0f, 0.0f, 7.0f);
+	mFieldTargetPoints[3] = PEHomeCenterPos + VECTOR(-7.0f, 0.0f, 7.0f);
+
 
 	if (GetDamageInterval() > 0.0f)
 	{

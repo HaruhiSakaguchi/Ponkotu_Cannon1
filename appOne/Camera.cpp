@@ -8,16 +8,25 @@ Camera::Camera(Game* game)
 	: Actor(game)
 	, mCannonKillerPos(0.0f, 0.0f, 0.0f)
 {
-	if (GetGame()->GetCannon())
-	{
-		SetPosition(GetGame()->GetCannon()->GetPosition());
-	}
-	else
-	{
-		SetPosition(0.0f, 0.0f, 0.0f);
-	}
+	//if (GetGame()->GetCannon())
+	//{
+	//	SetPosition(GetGame()->GetCannon()->GetPosition());
+	//}
+	//else
+	//{
+	//	SetPosition(0.0f, 0.0f, 0.0f);
+	//}
+	//SetRotationX(3.1415926f / 3);
 
+	//SetRotationX(3.1415926f / 2);
+	//SetRotationY(-3.1415926f / 6.0f);
+	SetRotationX(0.424f);
+	SetRotationY(0.334f);
+   // SetRotationY(3.1415926f);
 	Data = GetGame()->GetAllData()->cameraData;
+	//SetPosition(-10.0f, 50.0f, 0);
+//	SetPosition(-10.0f, 50.0f, 20.0f);
+	SetPosition(10.0f, 15.0f, 20.0f);
 }
 
 Camera::~Camera()
@@ -34,7 +43,7 @@ void Camera::UpdateActor()
 	float rotY = GetRotation().y;
 
 
-	if (GetGame()->GetScene() == Game::EPlay)
+	/*if (GetGame()->GetScene() == Game::EPlay)
 	{
 		rotX -= vec.y * GetGame()->GetCameraSY();
 		rotY += vec.x * GetGame()->GetCameraSX();
@@ -44,19 +53,21 @@ void Camera::UpdateActor()
 		rotX += 0;
 		rotY += 0;
 	}
-
-	if (rotX > Data.mMaxRotX) { rotX = Data.mMaxRotX; }
-	if (rotX < -Data.mMaxRotX) { rotX = -Data.mMaxRotX; }
+	*/
+	//rotX -= 0.17f;
+	//rotY += 0.17f;
+	//if (rotX > Data.mMaxRotX) { rotX = Data.mMaxRotX; }
+	//if (rotX < -Data.mMaxRotX) { rotX = -Data.mMaxRotX; }
 	if (Data.mDistanceFromLookatPos < Data.mMaxDistanceFromLookatPos) { Data.mDistanceFromLookatPos = Data.mMaxDistanceFromLookatPos; }
 
-	if (GetGame()->GetScene() == Game::EPlay)
+	/*if (GetGame()->GetScene() == Game::EPlay)
 	{
 		SetCursorPos((int)Data.mCenterPos.x, (int)Data.mCenterPos.y);
 	}
 	else
 	{
 		SetCursorPos((int)mouseX, (int)mouseY);
-	}
+	}*/
 
 	VECTOR pos = GetPosition();
 	//Œ»Ý‚ÌƒJƒƒ‰ˆÊ’u‚ð‚Æ‚Á‚Ä‚¨‚­
@@ -74,8 +85,14 @@ void Camera::UpdateActor()
 	//else if (GetGame()->GetCannon())
 	{
 		//SetPosition(GetGame()->GetCannon()->GetPosition() + GetGame()->GetCannon()->GetCapsulOffset());
-		SetPosition(10.0f, 15.0f, -20.0f);
+		//SetPosition(10.0f, 95.0f,(GetGame()->GetStage()->GetStageMinZ() + GetGame()->GetStage()->GetStageMaxZ()) / 2 + 10);
+		//SetPosition(-10.0f, 50.0f, 20.0f);
+		//SetPosition(0.0f, 95.0f, (GetGame()->GetStage()->GetStageMinZ() + GetGame()->GetStage()->GetStageMaxZ()) / 2);
+		SetPosition(10.0f, 15.0f, 20.0f);
+		SetRotationX(0.424f);
+		SetRotationY(0.334f);
 		Data.mLookatPos = GetPosition();
+
 	}
 
 	Data.mLookatPos.y += Data.mOffsetPosY;
@@ -90,10 +107,10 @@ void Camera::UpdateActor()
 
 	pos.x = prePos.x + (pos.x - prePos.x) * Data.mChangePosSpeed;
 	pos.z = prePos.z + (pos.z - prePos.z) * Data.mChangePosSpeed;
-	if (!GetGame()->GetCannon())
+	/*if (!GetGame()->GetCannon())
 	{
 		pos.y = prePos.y + (pos.y - prePos.y) * Data.mChangePosSpeed;
-	}
+	}*/
 
 	MATRIX view;
 	view.camera(pos, Data.mLookatPos, Data.mUpVec);
@@ -103,4 +120,12 @@ void Camera::UpdateActor()
 	SetRotationX(rotX);
 	SetPosition(pos);
 
+	//print(GetRotation().x);
+	//print(GetRotation().y);
+	//print(GetRotation().z);
+
+	/*print("mouse(" + (let)mouseX + "," + (let)mouseY + ")");
+	print("camRot(" + (let)GetRotation().x + "," + (let)GetRotation().y + "," + (let)GetRotation().z);
+
+	print("camPos(" + (let)GetPosition().x + "," + (let)GetPosition().y + "," + (let)GetPosition().z);*/
 }

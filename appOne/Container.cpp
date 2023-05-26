@@ -308,6 +308,35 @@ void SetAllData(Container& ad)
 		ad.itemStatusData.mItemNameTextColor = COLOR(0, 0, 0);
 
 	}
+	//UIpSideCharaStatus
+	{
+		ad.psData.mWidth = 260.0f;
+		ad.psData.mHeight = 150.0f;
+		ad.psData.mRadius = 50.0f;
+		ad.psData.mDiamiter = 10.0f;
+		ad.psData.mAngleOffset = 90.0f;
+		ad.psData.mAngle = 0.0f;
+		ad.psData.mRectWidth = 0.0f;
+		ad.psData.mTriangleWidth = 50.0f;
+		ad.psData.mTriangleHeight = 150.0f;
+		ad.psData.mTriangleAngle120 = 120.0f;
+		ad.psData.mTriangleAngle30 = 30.0f;
+		ad.psData.mChangeTimeSpeed = 0.04f;
+		ad.psData.mChangeWidthSpeed = 0.04f;
+		ad.psData.mItemNameTextSize = 30.0f;
+		ad.psData.mBarrierHpGaugeWidth = 100.0f;
+		ad.psData.mBarrierHpGaugeOffsetPosY = 130.0f;
+		ad.psData.mBarrierHpGaugeHeight = 10.0f;
+		ad.psData.mWhiteTriangleOffsetPosX = 10.0f;
+		ad.psData.mLineSw = 1.0f;
+		ad.psData.mTriangleColor = COLOR(128, 255, 255, 128);
+		ad.psData.mWhiteTriangleColor = COLOR(255, 255, 255);
+		ad.psData.mTimeGaugeColor = COLOR(255, 0, 0, 128);
+		ad.psData.mBarrierHpGaugeColor = COLOR(50, 50, 255);
+		ad.psData.mRingOnLineColor = COLOR(0, 0, 0);
+		ad.psData.mItemNameTextColor = COLOR(0, 0, 0);
+
+	}
 	//camera
 	{
 		ad.cameraData.mDistanceFromLookatPos = 1.0f;
@@ -325,7 +354,7 @@ void SetAllData(Container& ad)
 	}
 	//cannon
 	{
-		ad.cannonData.mAdvSpeed = 0.05f;
+		ad.cannonData.mAdvSpeed = 0.05f * 10.0f;
 		ad.cannonData.mAmbient = 0.3f;
 		ad.cannonData.mGravity = -24.0f;
 		ad.cannonData.mJumpVelocity = 0.0f;

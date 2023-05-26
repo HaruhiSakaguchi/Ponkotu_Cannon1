@@ -40,7 +40,7 @@ void Renderer::Shutdown()
 
 void Renderer::Draw()
 {
-	SetCursor();
+	//SetCursor();
 
 	mShader->setProjView(mProj * mView);
 	mShader->setLightPosition(Data.mLightPos);

@@ -204,10 +204,10 @@ void Map::UpdateActor()
 		mInitItemDropFlag = true;
 		GetLog()->AddText("Map‚ğ¶¬B");
 		GetLog()->AddText("Cannon‚ªoŒ»B");
-		for (int i = 0; i < 3; i++)
+		/*for (int i = 0; i < 3; i++)
 		{
 			DropItems(VECTOR(((float)i - 1.0f) * 2.0f, 5.0f, -2.0f));
-		}
+		}*/
 	}
 
 	if (!GetGame()->GetEHome() && GetGame()->GetEnemies().empty() && !mClearFlag)

@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "UIScope.h"
 #include "COLLISION_MAP.h"
+#include "PlayerHome.h"
 
 void MoveCannon(Cannon* p)
 {
@@ -233,17 +234,23 @@ void CannonWait::Update()
 				return;
 			}
 		}
-		p->SetTimer(0.0f);
-	}
+		for (auto item : p->GetGame()->GetItems())
+		{
+			if (CollisionCircle(p->GetRange(), item->GetRadius(), p->GetPosition(), item->GetPosition() + item->GetCapsulOffset()))
+			{
+				mOwnerCompo->ChangeState("Rotate");
+				return;
+			}
+		}
 
-	if (p->GetIn()->StartMove())
+		p->SetTimer(0.0f);
+		mOwnerCompo->ChangeState("Rotate");
+		return;
+
+	}
+	else
 	{
 		mOwnerCompo->ChangeState("Move");
-		return;
-	}
-	if (p->GetIn()->Jump())
-	{
-		mOwnerCompo->ChangeState("Jump");
 		return;
 	}
 }
@@ -253,24 +260,202 @@ void CannonMove::Update()
 {
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
 
-	//MoveCannon(p);
-	CountInterval(p);
-	Launch(p);
-	UpCounter(p);
-
-
-	if (p->GetIn()->StopMove())
+	if (p->GetMoveState() == Cannon::Stay)
 	{
 		mOwnerCompo->ChangeState("Wait");
 		return;
-
 	}
-	if (p->GetIn()->Jump())
+	else if (p->GetMoveState() == Cannon::Return)
 	{
-		mOwnerCompo->ChangeState("Jump");
+		mOwnerCompo->ChangeState("Return");
+		return;
+	}
+	else if (p->GetMoveState() == Cannon::HomePatroll)
+	{
+		mOwnerCompo->ChangeState("HomePatroll");
+		return;
+	}
+	else if (p->GetMoveState() == Cannon::FieldPatroll)
+	{
+		mOwnerCompo->ChangeState("FieldPatroll");
 		return;
 	}
 }
+
+void CannonMoveReturnHome::Update()
+{
+	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
+
+	if (p->GetGame()->GetPHome())
+	{
+		if (CollisionCircle(10.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
+		{
+			mOwnerCompo->ChangeState("Wait");
+			p->SetMoveState(Cannon::Stay);
+			return;
+		}
+
+		VECTOR vec = p->GetGame()->GetPHome()->GetPosition() - p->GetPosition();
+		vec.normalize();
+		VECTOR angle = p->GetRotation();
+		int EndOfRotate = p->rotate(&angle, vec, 0.05f);
+		p->SetRotation(angle);
+		VECTOR pos = p->GetPosition();
+
+		if (EndOfRotate == 1)
+		{
+			p->SetPosition(pos + vec * p->GetAdvSpeed());
+		}
+
+		if (p->GetMoveState() != Cannon::Return)
+		{
+			mOwnerCompo->ChangeState("Wait");
+			return;
+		}
+	}
+	else
+	{
+		mOwnerCompo->ChangeState("Wait");
+		p->SetMoveState(Cannon::Stay);
+		return;
+	}
+
+}
+
+void CannonMoveHomePatroll::Update()
+{
+	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
+	if (p->GetGame()->GetPHome())
+	{
+		VECTOR vec = p->GetGame()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()] - p->GetPosition();
+		vec.normalize();
+		VECTOR angle = p->GetRotation();
+		int EndOfRotate = p->rotate(&angle, vec, 0.05f);
+		p->SetRotation(angle);
+		VECTOR pos = p->GetPosition();
+		bool NextPointEmpty = true;
+
+		for (auto cannon : p->GetGame()->GetCannons())
+		{
+			if (p != cannon && CollisionCircle(1.0f, cannon->GetRadius(), p->GetGame()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()], cannon->GetPosition()))
+			{
+				NextPointEmpty = false;
+			}
+		}
+
+		if (EndOfRotate == 1 && NextPointEmpty)
+		{
+			p->SetPosition(pos + vec * p->GetAdvSpeed());
+		}
+
+		if (CollisionCircle(1.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()], p->GetPosition()))
+		{
+			p->SetTPIndex(p->GetNextTpIndex());
+		}
+
+		if (p->GetMoveState() != Cannon::HomePatroll)
+		{
+			mOwnerCompo->ChangeState("Wait");
+			return;
+		}
+
+		CountInterval(p);
+
+		if (p->GetTimer() >= p->GetInterval())
+		{
+			for (auto enemy : p->GetGame()->GetEnemies())
+			{
+				if (CollisionCircle(p->GetRange(), enemy->GetRadius(), p->GetPosition(), enemy->GetPosition() + enemy->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
+				{
+					mOwnerCompo->ChangeState("Rotate");
+					return;
+				}
+			}
+			for (auto item : p->GetGame()->GetItems())
+			{
+				if (CollisionCircle(p->GetRange(), item->GetRadius(), p->GetPosition(), item->GetPosition() + item->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
+				{
+					mOwnerCompo->ChangeState("Rotate");
+					return;
+				}
+			}
+		}
+	}
+	else
+	{
+		mOwnerCompo->ChangeState("Wait");
+		p->SetMoveState(Cannon::Stay);
+		return;
+	}
+}
+
+void CannonMoveFieldPatroll::Update()
+{
+	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
+	if (p->GetGame()->GetPHome())
+	{
+		VECTOR vec = p->GetGame()->GetPHome()->GetFieldTargetPoints()[p->GetTPIndex()] - p->GetPosition();
+		vec.normalize();
+		VECTOR angle = p->GetRotation();
+		int EndOfRotate = p->rotate(&angle, vec, 0.05f);
+		p->SetRotation(angle);
+		VECTOR pos = p->GetPosition();
+		bool NextPointEmpty = true;
+
+		for (auto cannon : p->GetGame()->GetCannons())
+		{
+			if (p != cannon && CollisionCircle(1.0f, cannon->GetRadius(), p->GetGame()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()], cannon->GetPosition()))
+			{
+				NextPointEmpty = false;
+			}
+		}
+
+		if (EndOfRotate == 1 && NextPointEmpty)
+		{
+			p->SetPosition(pos + vec * p->GetAdvSpeed());
+		}
+
+		if (CollisionCircle(1.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetFieldTargetPoints()[p->GetTPIndex()], p->GetPosition()))
+		{
+			p->SetTPIndex(p->GetNextTpIndex());
+		}
+
+		if (p->GetMoveState() != Cannon::FieldPatroll)
+		{
+			mOwnerCompo->ChangeState("Wait");
+			return;
+		}
+
+		CountInterval(p);
+
+		if (p->GetTimer() >= p->GetInterval())
+		{
+			for (auto enemy : p->GetGame()->GetEnemies())
+			{
+				if (CollisionCircle(p->GetRange(), enemy->GetRadius(), p->GetPosition(), enemy->GetPosition() + enemy->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
+				{
+					mOwnerCompo->ChangeState("Rotate");
+					return;
+				}
+			}
+			for (auto item : p->GetGame()->GetItems())
+			{
+				if (CollisionCircle(p->GetRange(), item->GetRadius(), p->GetPosition(), item->GetPosition() + item->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
+				{
+					mOwnerCompo->ChangeState("Rotate");
+					return;
+				}
+			}
+		}
+	}
+	else
+	{
+		mOwnerCompo->ChangeState("Wait");
+		p->SetMoveState(Cannon::Stay);
+		return;
+	}
+}
+
 
 void CannonJump::OnEnter()
 {

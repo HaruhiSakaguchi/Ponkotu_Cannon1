@@ -192,6 +192,7 @@
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerFlag.cpp" />
     <ClCompile Include="PlayerHome.cpp" />
+    <ClCompile Include="PSideCharacterActor.cpp" />
     <ClCompile Include="Quit.cpp" />
     <ClCompile Include="Reconfirm.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PlayerFlag.h" />
     <ClInclude Include="PlayerHome.h" />
+    <ClInclude Include="PSideCharacterActor.h" />
     <ClInclude Include="Quit.h" />
     <ClInclude Include="Reconfirm.h" />
     <ClInclude Include="Renderer.h" />

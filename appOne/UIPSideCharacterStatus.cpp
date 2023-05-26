@@ -5,6 +5,7 @@
 #include "graphic.h"
 #include "UIPSideCharacterStatusClose.h"
 #include <sstream>
+#include "PlayerHome.h"
 
 
 UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
@@ -131,7 +132,14 @@ void UIPSideCharacterStatus::Update()
 		mPos.x += mGame->GetAllData()->itemCompoData.mUIPosAdvSpeed;
 	}
 
-	mPos.y = (mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f) * static_cast<Cannon*>(mOwner)->GetNum() + mGame->GetAllData()->itemCompoData.mUIInitPos.y;
+	int num = static_cast<PSideCharacterActor*>(mOwner)->GetNum();
+
+	if (num > mGame->GetPHome()->GetNum())
+	{
+		num--;
+	}
+
+	mPos.y = (mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f) * num + mGame->GetAllData()->itemCompoData.mUIInitPos.y;
 
 	if (mOwner->GetState() == Actor::EActive)
 	{

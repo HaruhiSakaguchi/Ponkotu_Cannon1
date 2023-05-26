@@ -12,7 +12,7 @@ SatelliteWing::SatelliteWing(class Satellite* satellite)
 	, mAttackFlag(false)
 	, mTc(nullptr)
 {
-	Satellite* s = static_cast<Satellite*>(mOwner);
+	class Satellite* s = static_cast<class Satellite*>(mOwner);
 
 	SetUp();
 	s->AddWings(this);
@@ -20,13 +20,13 @@ SatelliteWing::SatelliteWing(class Satellite* satellite)
 
 SatelliteWing::~SatelliteWing()
 {
-	Satellite* s = static_cast<Satellite*>(mOwner);
+	class Satellite* s = static_cast<class Satellite*>(mOwner);
 	s->RemoveWings(this);
 }
 
 int SatelliteWing::SetUp()
 {
-	Satellite* s = static_cast<Satellite*>(mOwner);
+	class Satellite* s = static_cast<class Satellite*>(mOwner);
 
 	Data = GetGame()->GetAllData()->sWingData;
 	Data.mId = mNum % 4;
@@ -72,7 +72,7 @@ int SatelliteWing::SetUp()
 
 void SatelliteWing::UpdateActor()
 {
-	Satellite* s = static_cast<Satellite*>(mOwner);
+	class Satellite* s = static_cast<class Satellite*>(mOwner);
 
 	SetDamageInterval(s->GetDamageInterval());
 

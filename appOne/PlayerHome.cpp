@@ -9,14 +9,13 @@
 #include "EnemyHome.h"
 
 PlayerHome::PlayerHome(class Game* game)
-	: CharacterActor(game)
+	: PSideCharacterActor(game)
 	, mFlag1(nullptr)
 	, mFlag2(nullptr)
 	, mDore(nullptr)
 {
 	SetUp();
 	GetGame()->SetPHome(this);
-	GetGame()->AddPSide(this);
 }
 
 PlayerHome::~PlayerHome()
@@ -25,7 +24,6 @@ PlayerHome::~PlayerHome()
 	mFlag1->SetState(EDead);
 	mFlag2->SetState(EDead);
 	GetGame()->SetPHome(nullptr);
-	GetGame()->RemovePSide(this);
 }
 
 int PlayerHome::SetUp()
@@ -39,6 +37,7 @@ int PlayerHome::SetUp()
 	SetHp(Data.mMaxHp);
 	SetRadius(Data.mRadius);
 	SetHeight(Data.mHeight);
+	SetName("PlayerHome");
 	new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
 	return 1;
 }

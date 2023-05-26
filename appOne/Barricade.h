@@ -1,8 +1,8 @@
 #pragma once
-#include "CharacterActor.h"
+#include "PSideCharacterActor.h"
 
 class Barricade :
-    public CharacterActor
+    public PSideCharacterActor
 {
 public:
     Barricade(Game* game);

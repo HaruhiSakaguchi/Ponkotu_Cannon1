@@ -20,7 +20,7 @@
 #include "UIPSideCharacterStatusClose.h"
 
 Cannon::Cannon(Game* game) :
-	CharacterActor(game)
+	PSideCharacterActor(game)
 	, mIn(nullptr)
 	, mState(nullptr)
 	, mPower(nullptr)
@@ -44,7 +44,6 @@ Cannon::Cannon(Game* game) :
 	, mNum(0)
 {
 	//SetUp();
-	GetGame()->AddPSide(this);
 	GetGame()->AddCannon(this);
 }
 
@@ -75,14 +74,13 @@ Cannon::~Cannon()
 	}
 
 	stopSound(Data.mFallSound);
-	GetGame()->RemovePSide(this);
 	GetGame()->RemoveCannon(this);
 
 	for (auto cannon : GetGame()->GetCannons())
 	{
-		if (cannon->GetNum() > GetNum())
+		if (cannon->GetCNum() > GetCNum())
 		{
-			cannon->SetNum(cannon->GetNum() - 1);
+			cannon->SetCNum(cannon->GetCNum() - 1);
 		}
 	}
 }
@@ -284,7 +282,7 @@ void Cannon::UpdateActor()
 
 	for (auto pSide : GetGame()->GetPSide())
 	{
-		if (pSide != this && static_cast<PlayerHome*>(pSide) != GetGame()->GetPHome())
+		if (pSide != this && pSide != GetGame()->GetPHome())
 		{
 			Intersect(this, pSide);
 		}

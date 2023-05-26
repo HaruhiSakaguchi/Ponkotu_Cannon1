@@ -267,12 +267,12 @@ void Game::RemoveCharacter(CharacterActor* actor)
 	}
 }
 
-void Game::AddPSide(class CharacterActor* actor)
+void Game::AddPSide(class PSideCharacterActor* actor)
 {
 	mPSideActors.emplace_back(actor);
 }
 
-void Game::RemovePSide(class CharacterActor* actor)
+void Game::RemovePSide(class PSideCharacterActor* actor)
 {
 	auto iter = std::find(mPSideActors.begin(), mPSideActors.end(), actor);
 	if (iter != mPSideActors.end())

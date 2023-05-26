@@ -73,8 +73,8 @@ public:
 	void RemoveEnemies(class Enemy* enemy);
 	void AddItems(class Item* item);
 	void RemoveItems(class Item* item);
-	void AddPSide(class CharacterActor* actor);
-	void RemovePSide(class CharacterActor* actor);
+	void AddPSide(class PSideCharacterActor* actor);
+	void RemovePSide(class PSideCharacterActor* actor);
 
 	void AddCannon(class Cannon* cannon);
 	void RemoveCannon(class Cannon* cannon);
@@ -95,7 +95,7 @@ public:
 	const class std::vector<Enemy*>& GetEnemies() { return mEnemies; }
 	const class std::vector<ActorsWeapon*>& GetWeapons() { return mWeapons; }
 	const class std::vector<Item*>& GetItems() { return mItems; }
-	const class std::vector<CharacterActor*>& GetPSide() { return mPSideActors; }
+	const class std::vector<PSideCharacterActor*>& GetPSide() { return mPSideActors; }
 	const class std::vector<Cannon*>& GetCannons() { return mCannons; }
 	struct Container* GetAllData() { return &mContainer; }
 	void SetDisplayColor(const COLOR& color) { mDisplayColor = color; }
@@ -137,7 +137,7 @@ private:
 	std::vector<class Enemy*>mEnemies;
 	std::vector<class Item*>mItems;
 	std::vector<class Cannon*>mCannons;
-	std::vector<class CharacterActor*>mPSideActors;
+	std::vector<class PSideCharacterActor*>mPSideActors;
 	std::vector<class ActorsWeapon*> mWeapons;
 	// Update’†ƒtƒ‰ƒbƒO
 	bool mUpdatingActors;

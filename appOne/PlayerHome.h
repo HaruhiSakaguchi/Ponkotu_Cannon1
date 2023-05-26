@@ -1,7 +1,7 @@
 #pragma once
-#include "CharacterActor.h"
+#include "PSideCharacterActor.h"
 class PlayerHome :
-	public CharacterActor
+	public PSideCharacterActor
 {
 public:
 	PlayerHome(class Game* game);

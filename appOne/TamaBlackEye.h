@@ -8,10 +8,10 @@ public:
 	~TamaBlackEye() {};
 	int SetUp()override;
 	void UpdateActor();
-	Tama* GetOwner() { return mOwner; }
+	class Tama* GetOwner() { return mOwner; }
 private:
 	VECTOR mOffsetPos;
-	Tama*mOwner;
+	class Tama*mOwner;
 	float mScale;
 };
 

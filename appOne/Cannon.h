@@ -1,5 +1,5 @@
 #pragma once
-#include "CharacterActor.h"
+#include "PSideCharacterActor.h"
 #include "UIHpGauge.h"
 #include "UIScope.h"
 #include "StateComponent.h"
@@ -7,7 +7,7 @@
 #include "ItemComponent.h"
 
 class Cannon :
-	public CharacterActor
+	public PSideCharacterActor
 {
 public:
 	Cannon(class Game* game);
@@ -75,8 +75,8 @@ public:
 	void StopFallSound() { stopSound(Data.mFallSound); }
 	void OnMapOff() { mOnMap = false; }
 
-	void SetNum(int num) { mNum = num; }
-	int GetNum() { return mNum; }
+	void SetCNum(int num) { mNum = num; }
+	int GetCNum() { return mNum; }
 
 	const int GetTPIndex() { return mTPIndex; }
 	void SetTPIndex(int idx) { mTPIndex = idx; }

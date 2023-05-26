@@ -6,7 +6,7 @@
 class CannonWheelL : public CharacterActor
 {
 public:
-	CannonWheelL(Cannon* mOwner);
+	CannonWheelL(class Cannon* mOwner);
 	void UpdateActor()override;
 	int SetUp()override;
 private:

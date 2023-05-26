@@ -3,7 +3,7 @@
 #include "Container.h"
 #include "BatchMeshComponent.h"
 
-SatelliteBullet::SatelliteBullet(Satellite* satellite, const VECTOR& pos, const VECTOR& dir)
+SatelliteBullet::SatelliteBullet(class Satellite* satellite, const VECTOR& pos, const VECTOR& dir)
 	:SphereWeapon(satellite, pos, dir)
 	, mCnt(0)
 	, mDefDir(0.0f, 0.0f, 0.0f)
@@ -69,7 +69,7 @@ void SatelliteBullet::UpdateActor()
 			mMove->SetSpeed(GetAdvSpeed() * 2.0f);
 			mMove->SetDirection(GetDir());
 		}
-		else if (static_cast<Satellite*>(mOwner)->GetId() == 1)
+		else if (static_cast<class Satellite*>(mOwner)->GetId() == 1)
 		{
 			mMove->SetSpeed(0.0f);
 		}

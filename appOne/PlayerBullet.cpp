@@ -7,7 +7,7 @@
 #include <sstream>
 #include "EnemyHome.h"
 
-PlayerBullet::PlayerBullet(Cannon* cannon, const VECTOR& pos, const VECTOR& dir)
+PlayerBullet::PlayerBullet(class Cannon* cannon, const VECTOR& pos, const VECTOR& dir)
 	:SphereWeapon(cannon, pos, dir)
 {
 	//全ActorsWeapon共通のデータ
@@ -38,7 +38,7 @@ PlayerBullet::PlayerBullet(Cannon* cannon, const VECTOR& pos, const VECTOR& dir)
 
 void PlayerBullet::UpdateActor()
 {
-	class Cannon* c = static_cast<Cannon*>(mOwner);
+	class Cannon* c = static_cast<class Cannon*>(mOwner);
 
 	for (auto enemy : GetGame()->GetEnemies())
 	{

@@ -3,29 +3,33 @@
 #include "graphic.h"
 #include <sstream>
 #include "UIPSideCharacterStatus.h"
+#include "PlayerHome.h"
 
 UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* owner)
 	:UIScreen(owner->GetGame())
-	,mOwner(owner)
+	, mOwner(owner)
 	, mPos(0.0f, 0.0f)
 	, mHpGaugeWidth(0.0f)
-	,mOpenButtun(nullptr)
+	, mOpenButtun(nullptr)
 {
 	mPos = VECTOR2(0.0f, (mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f)) +
 		mGame->GetAllData()->itemCompoData.mUIInitPos;
 
-	AddButton("¤",
-		[this]() {
-			new UIPSideCharacterStatus(mOwner);
-			CloseMe();
-		}
-		, 2
-			, nullptr
-			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 50.0f, 215.0f)
+	if (mOwner->GetTag() == CharacterActor::Cannon)
+	{
+		AddButton("¤",
+			[this]() {
+				new UIPSideCharacterStatus(mOwner);
+				CloseMe();
+			}
+			, 2
+				, nullptr
+				, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 50.0f, 215.0f)
 
-			);
+				);
 
-	mOpenButtun = GetButtons()[0];
+		mOpenButtun = GetButtons()[0];
+	}
 }
 
 void UIPSideCharacterStatusClose::draw()
@@ -56,7 +60,14 @@ void UIPSideCharacterStatusClose::Update()
 		mPos.x += mGame->GetAllData()->itemCompoData.mUIPosAdvSpeed;
 	}
 
-	mPos.y = (mGame->GetAllData()->itemCompoData.mUIOffsetPosY / 2.0f) * static_cast<Cannon*>(mOwner)->GetNum() + mGame->GetAllData()->itemCompoData.mUIInitPos.y;
+	int num = static_cast<PSideCharacterActor*>(mOwner)->GetNum();
+
+	if (num > mGame->GetPHome()->GetNum())
+	{
+		num--;
+	}
+
+	mPos.y = (mGame->GetAllData()->itemCompoData.mUIOffsetPosY / 2.0f) * num + mGame->GetAllData()->itemCompoData.mUIInitPos.y;
 
 	if (mOwner->GetState() == Actor::EActive)
 	{
@@ -65,7 +76,10 @@ void UIPSideCharacterStatusClose::Update()
 		mHpGaugeWidth = preWidth + (wid - preWidth) * 0.05f;;
 	}
 
-	mOpenButtun->SetPosition(VECTOR2(mPos.x + 150.0f + 50.0f,mPos.y + 25.0f));
+	if (mOwner->GetTag() == CharacterActor::Cannon)
+	{
+		mOpenButtun->SetPosition(VECTOR2(mPos.x + 150.0f + 50.0f, mPos.y + 25.0f));
+	}
 }
 
 

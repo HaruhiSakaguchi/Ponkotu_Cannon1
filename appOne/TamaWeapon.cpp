@@ -10,7 +10,7 @@ TamaWeapon::TamaWeapon(class Tama* owner, const VECTOR& pos, const VECTOR& dir)
 	: SphereWeapon(owner, owner->GetPosition(), dir)
 	, mId(0)
 {
-	Tama* t = static_cast<Tama*>(mOwner);
+	class Tama* t = static_cast<class Tama*>(mOwner);
 
 	Data = GetGame()->GetAllData()->tWeaponData;
 	iData = GetGame()->GetAllData()->tWeaponIData;
@@ -33,14 +33,14 @@ TamaWeapon::TamaWeapon(class Tama* owner, const VECTOR& pos, const VECTOR& dir)
 
 TamaWeapon::~TamaWeapon()
 {
-	Tama* t = static_cast<Tama*>(mOwner);
+	class Tama* t = static_cast<class Tama*>(mOwner);
 	t->SetWeaponCnt(t->GetWeaponCnt() - 1);
 	stopSound(iData.mAttackSound);
 }
 
 void TamaWeapon::UpdateActor()
 {
-	Tama* t = static_cast<Tama*>(mOwner);
+	class Tama* t = static_cast<class Tama*>(mOwner);
 
 	SetDamageInterval(t->GetDamageInterval());
 

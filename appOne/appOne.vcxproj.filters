@@ -414,6 +414,7 @@
     <ClCompile Include="TamaPointer.cpp" />
     <ClCompile Include="UIPSideCharacterStatus.cpp" />
     <ClCompile Include="UIPSideCharacterStatusClose.cpp" />
+    <ClCompile Include="PSideCharacterActor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -648,5 +649,6 @@
     <ClInclude Include="TamaPointer.h" />
     <ClInclude Include="UIPSideCharacterStatus.h" />
     <ClInclude Include="UIPSideCharacterStatusClose.h" />
+    <ClInclude Include="PSideCharacterActor.h" />
   </ItemGroup>
 </Project>

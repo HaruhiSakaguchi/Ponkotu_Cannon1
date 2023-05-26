@@ -1,7 +1,7 @@
 #include "CannonWheelL.h"
 #include "Game.h"
 
-CannonWheelL::CannonWheelL(Cannon* owner)
+CannonWheelL::CannonWheelL(class Cannon* owner)
 	:CharacterActor(owner->GetGame())
 	, mOwner(owner)
 	, mTc(nullptr)

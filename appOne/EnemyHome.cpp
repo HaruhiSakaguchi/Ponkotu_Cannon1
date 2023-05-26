@@ -71,7 +71,7 @@ void EnemyHome::UpdateActor()
 		{
 			if (PositionOnMap(pos, GetGame()->GetAllData()->tamaData.mRadius) && InEnemyArea(pos))
 			{
-				Tama* tama = new Tama(GetGame(), pos);
+				class Tama* tama = new class Tama(GetGame(), pos);
 				GetGame()->GetStage()->GetLog()->AddText("Tama‚ªoŒ»B");
 			}
 		}
@@ -79,7 +79,7 @@ void EnemyHome::UpdateActor()
 		{
 			if (PositionOnMap(pos, GetGame()->GetAllData()->satelliteData.mHeight) && InEnemyArea(pos))
 			{
-				Satellite* satellite = new Satellite(GetGame(), pos);
+				class Satellite* satellite = new class Satellite(GetGame(), pos);
 				CharacterActor::SEGMENT* seg = new CharacterActor::SEGMENT(satellite);
 				satellite->SetSeg(seg);
 				if (satellite->GetId() == 0)

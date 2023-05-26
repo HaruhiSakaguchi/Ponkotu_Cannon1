@@ -5,22 +5,22 @@
 #include "Collision_Capsul.h"
 #include "Game.h"
 #include "window.h"
+#include "UIPSideCharacterStatusClose.h"
 
 Barricade::Barricade(Game* game)
-	:CharacterActor(game)
+	:PSideCharacterActor(game)
 {
 	SetUp();
-	GetGame()->AddPSide(this);
 }
 
 Barricade::~Barricade()
 {
-	GetGame()->RemovePSide(this);
 }
 
 int Barricade::SetUp()
 {
 	SetHp(Data.mHp);
+	SetMaxHp(Data.mHp);
 	SetGravity(Data.mGravity);
 	SetRadius(Data.mRadius);
 	SetJumpFlag(Data.mJumpFlag);
@@ -28,11 +28,14 @@ int Barricade::SetUp()
 	SetCapsulOffset(Data.mCapsuleOffset);
 	SetImageColor(Data.mImageColor);
 	SetTag(CharacterActor::Barricade);
+	SetName("Barricade");
 
 	TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("Barricade");
 	new HpGaugeSpriteComponent(this, VECTOR(0.0f, 0.75f, 0.0f));
 	new CollisionMapComponent(this);
+
+	new UIPSideCharacterStatusClose(this);
 
 	return 1;
 }

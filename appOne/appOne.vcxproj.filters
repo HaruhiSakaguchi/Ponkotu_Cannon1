@@ -415,6 +415,7 @@
     <ClCompile Include="UIPSideCharacterStatus.cpp" />
     <ClCompile Include="UIPSideCharacterStatusClose.cpp" />
     <ClCompile Include="PSideCharacterActor.cpp" />
+    <ClCompile Include="UIPSideCharacterStatusBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -650,5 +651,6 @@
     <ClInclude Include="UIPSideCharacterStatus.h" />
     <ClInclude Include="UIPSideCharacterStatusClose.h" />
     <ClInclude Include="PSideCharacterActor.h" />
+    <ClInclude Include="UIPSideCharacterStatusBase.h" />
   </ItemGroup>
 </Project>

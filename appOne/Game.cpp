@@ -18,6 +18,7 @@
 #include "ActorsWeapon.h"
 #include "PlayerHome.h"
 #include "EnemyHome.h"
+#include "UIPSideCharacterStatusBase.h"
 
 Game::Game()
 	: mGameState(EGameplay)
@@ -196,7 +197,8 @@ void Game::UpdateGame()
 void Game::GenerateOutput()
 {
 	mRenderer->Draw();
-	print(GetScene());
+	//print(GetScene());
+	print("UI :" + (let)GetUIStack().size());
 }
 
 void Game::LoadData()
@@ -211,10 +213,6 @@ void Game::LoadData()
 	mTitle = new Title(this);
 }
 
-void Game::PushUI(UIScreen* uiScreen)
-{
-	mUIStack.emplace_back(uiScreen);
-}
 
 void Game::AddActor(Actor* actor)
 {
@@ -225,16 +223,6 @@ void Game::AddActor(Actor* actor)
 	else
 	{
 		mActors.emplace_back(actor);
-	}
-}
-
-void Game::PullUI(UIScreen* uiScreen)
-{
-	auto iter = std::find(mUIStack.begin(), mUIStack.end(), uiScreen);
-	if (iter != mUIStack.end())
-	{
-		std::iter_swap(iter, mUIStack.end() - 1);
-		mUIStack.pop_back();
 	}
 }
 
@@ -249,6 +237,22 @@ void Game::RemoveActor(Actor* actor)
 		mActors.pop_back();
 	}
 }
+
+void Game::PushUI(UIScreen* uiScreen)
+{
+	mUIStack.emplace_back(uiScreen);
+}
+
+void Game::PullUI(UIScreen* uiScreen)
+{
+	auto iter = std::find(mUIStack.begin(), mUIStack.end(), uiScreen);
+	if (iter != mUIStack.end())
+	{
+		std::iter_swap(iter, mUIStack.end() - 1);
+		mUIStack.pop_back();
+	}
+}
+
 
 void Game::AddCharacter(CharacterActor* actor)
 {
@@ -375,3 +379,19 @@ void Game::MapClear()
 		delete mMap;
 	}
 }
+
+void Game::AddUIPSide(UIPSideCharacterStatusBase* uiScreen)
+{
+	mUIStatus.emplace_back(uiScreen);
+}
+
+void Game::RemoveUIPSide(UIPSideCharacterStatusBase* uiScreen)
+{
+	auto iter = std::find(mUIStatus.begin(), mUIStatus.end(), uiScreen);
+	if (iter != mUIStatus.end())
+	{
+		std::iter_swap(iter, mUIStatus.end() - 1);
+		mUIStatus.pop_back();
+	}
+}
+

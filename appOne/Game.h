@@ -76,6 +76,10 @@ public:
 	void AddPSide(class PSideCharacterActor* actor);
 	void RemovePSide(class PSideCharacterActor* actor);
 
+
+	void AddUIPSide(class UIPSideCharacterStatusBase* ui);
+	void RemoveUIPSide(class UIPSideCharacterStatusBase* ui);
+
 	void AddCannon(class Cannon* cannon);
 	void RemoveCannon(class Cannon* cannon);
 
@@ -119,6 +123,8 @@ public:
 	void SetPHome(class PlayerHome* home) { mPHome = home; }
 	void SetEHome(class EnemyHome* home) { mEHome = home; }
 
+	const std::vector<class UIPSideCharacterStatusBase*>& GetUIPSideStatus() { return mUIStatus; }
+
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -139,6 +145,7 @@ private:
 	std::vector<class Cannon*>mCannons;
 	std::vector<class PSideCharacterActor*>mPSideActors;
 	std::vector<class ActorsWeapon*> mWeapons;
+	std::vector<class UIPSideCharacterStatusBase*>mUIStatus;
 	// Update’†ƒtƒ‰ƒbƒO
 	bool mUpdatingActors;
 	std::vector<class Actor*> mPendingActors;

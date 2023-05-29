@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "window.h"
 #include "EnemyHome.h"
+#include "UIPSideCharacterStatusClose.h"
 
 PlayerHome::PlayerHome(class Game* game)
 	: PSideCharacterActor(game)
@@ -35,10 +36,13 @@ int PlayerHome::SetUp()
 	mFlag2 = new PlayerFlag(GetGame());
 	SetTag(PHome);
 	SetHp(Data.mMaxHp);
+	SetMaxHp(Data.mMaxHp);
+
 	SetRadius(Data.mRadius);
 	SetHeight(Data.mHeight);
 	SetName("PlayerHome");
 	new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
+	//new UIPSideCharacterStatusClose(this);
 	return 1;
 }
 

@@ -229,6 +229,7 @@
     <ClCompile Include="UIMiniMap.cpp" />
     <ClCompile Include="UIProgressGauge.cpp" />
     <ClCompile Include="UIPSideCharacterStatus.cpp" />
+    <ClCompile Include="UIPSideCharacterStatusBase.cpp" />
     <ClCompile Include="UIPSideCharacterStatusClose.cpp" />
     <ClCompile Include="UIScope.cpp" />
     <ClCompile Include="UIScreen.cpp" />
@@ -318,6 +319,7 @@
     <ClInclude Include="UIMiniMap.h" />
     <ClInclude Include="UIProgressGauge.h" />
     <ClInclude Include="UIPSideCharacterStatus.h" />
+    <ClInclude Include="UIPSideCharacterStatusBase.h" />
     <ClInclude Include="UIPSideCharacterStatusClose.h" />
     <ClInclude Include="UIScope.h" />
     <ClInclude Include="UIScreen.h" />

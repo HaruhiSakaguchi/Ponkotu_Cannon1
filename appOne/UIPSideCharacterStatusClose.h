@@ -1,9 +1,9 @@
 #pragma once
-#include "UIScreen.h"
+#include "UIPSideCharacterStatusBase.h"
 #include "CharacterActor.h"
 
 class UIPSideCharacterStatusClose
-	: public UIScreen
+	: public UIPSideCharacterStatusBase
 {
 public:
 	UIPSideCharacterStatusClose(class CharacterActor*owner);
@@ -12,9 +12,8 @@ public:
 	void draw()override;
 	void Update()override;
 private:
-	CharacterActor* mOwner;
 	float mHpGaugeWidth;
-	VECTOR2 mPos;
 	Button* mOpenButtun;
+
 };
 

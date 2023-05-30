@@ -17,6 +17,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 
 		}
 		,nullptr
+			,VECTOR2(50.0f,100.0f)
 	);
 
 

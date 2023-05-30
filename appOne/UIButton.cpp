@@ -166,21 +166,40 @@ void Button::Draw()
 		fill(color);
 		stroke(color);
 		rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.9875f / 2.0f - (mRectButtonDim.y * 0.05f + 5.0f), mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.0125f + 5.0f);
-		VECTOR2 sp = mPosition - mRectButtonDim / 2 - VECTOR2(2.0f,2.0f);
-		VECTOR2 ep = sp + VECTOR2(mRectButtonDim.x + 2.0f,0.0f);
+		VECTOR2 sp = mPosition - mRectButtonDim / 2 - VECTOR2(2.0f, 2.0f);
+		VECTOR2 ep = sp + VECTOR2(mRectButtonDim.x + 2.0f, 0.0f);
 		fill(COLOR(64, 64, 64, 64));
 		stroke(COLOR(64, 64, 64, 64));
 		strokeWeight(2.0f);
-		line(sp.x,sp.y,ep.x,ep.y);
+		line(sp.x, sp.y, ep.x, ep.y);
 	}
 
 	// ƒ{ƒ^ƒ“•¶Žš•\Ž¦
 	textSize(Data.mButtonTextSize);
 	VECTOR2 pos;
-	pos.x = mPosition.x - mName.length() * Data.mButtonTextSize / 4.0f;//”¼Šp•¶Žš‚Ì‚Ý‘Î‰ž
+	pos.x = mPosition.x + mName.length() * Data.mButtonTextSize / 4.0f;//”¼Šp•¶Žš‚Ì‚Ý‘Î‰ž
 	pos.y = mPosition.y + Data.mButtonTextSize / 2.0f - 2.0f;
 	fill(Data.mButtonTextColor);
-	text(mName.c_str(), pos.x, pos.y);
+	char* j;
+	std::string name;
+	if (mImageNum > 2 && mRectButtonDim.x < mRectButtonDim.y)
+	{
+		pos.x = mPosition.x - Data.mButtonTextSize / 2.0f;
+		pos.y = mPosition.y;
+		for (int i = 0; i < (int)(mName.length() / 2); i++)
+		{
+		    name = mName.substr(i * 2,2);
+			/*char j[7] = mName.c_str();
+			char n[7];
+			strncpy_s(n, sizeof(n), j + i, 1);*/
+			pos.y += Data.mButtonTextSize * i;
+			text(name.c_str(), pos.x, pos.y);
+		}
+	}
+	else
+	{
+		text(mName.c_str(), pos.x, pos.y);
+	}
 
 }
 

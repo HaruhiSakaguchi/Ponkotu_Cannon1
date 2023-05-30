@@ -35,7 +35,7 @@ public:
 	const char* GetTitle() { return mTitle.c_str(); }
 	// ボタンを追加（縦に配置されていく）
 	void AddButton(const char* name, std::function<void()> onClick, int imgNum = 1, const char* text = 0, const VECTOR2& ButtonOffsetPos = VECTOR2(0, 0), const VECTOR2& GuideTextOffset = VECTOR2(0, 0));
-	void AddRectButton(const char* name, std::function<void()> onClick,const char* text = 0,const VECTOR2 dim = VECTOR2(50.0f,50.0f), const COLOR onColor = COLOR(235, 180, 116), const COLOR& offColor = COLOR(99, 163, 235));
+	void AddRectButton(const char* name, std::function<void()> onClick,const char* text = 0,const VECTOR2 dim = VECTOR2(50.0f,50.0f), const COLOR onColor = COLOR(200, 180, 116), const COLOR& offColor = COLOR(99, 163, 200));
 
 	void Line(const VECTOR2& p1, const VECTOR2& p2);
 	void LineForRect(const VECTOR2& p1, const VECTOR2& p2, const VECTOR2& p3, const VECTOR2& p4)

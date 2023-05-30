@@ -75,6 +75,13 @@ bool Button::ContainsPoint(const VECTOR2& pt, bool flag)
 			pt.y < (mPosition.y - mDimensions2.y / 2.0f) ||
 			pt.y >(mPosition.y + mDimensions2.y / 2.0f);
 	}
+	else
+	{
+		no = pt.x < (mPosition.x - mRectButtonDim.x / 2.0f) ||
+			pt.x >(mPosition.x + mRectButtonDim.x / 2.0f) ||
+			pt.y < (mPosition.y - mRectButtonDim.y / 2.0f) ||
+			pt.y >(mPosition.y + mRectButtonDim.y / 2.0f);
+	}
 
 	mHighlighted = !no;
 
@@ -138,10 +145,35 @@ void Button::Draw()
 		}
 	}
 
-	if (buttonImg >= 0)
+	if (buttonImg >= 0 && mImageNum <= 2)
 	{
 		image(buttonImg, mPosition.x, mPosition.y);
 	}
+
+	if (mImageNum > 2)
+	{
+		COLOR color = mHighlighted ? mContainsColor : mNoContainsColor;
+		stroke(color);
+		strokeWeight(5.0f);
+		fill(color);
+		rect(mPosition.x, mPosition.y, mRectButtonDim.x, mRectButtonDim.y);
+		fill(COLOR(128, 128, 128, 64));
+		noStroke();
+		rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.5f / 2.0f, mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.25f + 5.0f);
+		fill(COLOR(64, 64, 64, 64));
+		noStroke();
+		rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.95f / 2.0f, mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.05f + 5.0f);
+		fill(color);
+		stroke(color);
+		rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.9875f / 2.0f - (mRectButtonDim.y * 0.05f + 5.0f), mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.0125f + 5.0f);
+		VECTOR2 sp = mPosition - mRectButtonDim / 2 - VECTOR2(2.0f,2.0f);
+		VECTOR2 ep = sp + VECTOR2(mRectButtonDim.x + 2.0f,0.0f);
+		fill(COLOR(64, 64, 64, 64));
+		stroke(COLOR(64, 64, 64, 64));
+		strokeWeight(2.0f);
+		line(sp.x,sp.y,ep.x,ep.y);
+	}
+
 	// ƒ{ƒ^ƒ“•¶Žš•\Ž¦
 	textSize(Data.mButtonTextSize);
 	VECTOR2 pos;

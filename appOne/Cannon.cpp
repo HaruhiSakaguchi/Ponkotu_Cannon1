@@ -41,7 +41,7 @@ Cannon::Cannon(Game* game) :
 	, mRange(0.0f)
 	, mMoveState(Stay)
 	, mTPIndex(0)
-	, mNum(0)
+	, mCNum(0)
 {
 	//SetUp();
 	GetGame()->AddCannon(this);
@@ -149,10 +149,10 @@ int Cannon::SetUp()
 	//砲弾のナンバー0をあらかじめセットしておく
 	mItemNums.emplace_back(0);
 
-	mNum = (int)(GetGame()->GetCannons().size()) - 1;
+	mCNum = (int)(GetGame()->GetCannons().size()) - 1;
 
 	std::ostringstream oss;
-	oss << "Cannon" << mNum;
+	oss << "Cannon" << mCNum;
 
 	SetName(oss.str().c_str());
 	return 0;

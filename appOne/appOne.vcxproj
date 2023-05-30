@@ -227,6 +227,7 @@
     <ClCompile Include="UIItemStatus.cpp" />
     <ClCompile Include="UILog.cpp" />
     <ClCompile Include="UIMiniMap.cpp" />
+    <ClCompile Include="UIPlayerHome.cpp" />
     <ClCompile Include="UIProgressGauge.cpp" />
     <ClCompile Include="UIPSideCharacterStatus.cpp" />
     <ClCompile Include="UIPSideCharacterStatusBase.cpp" />
@@ -317,6 +318,7 @@
     <ClInclude Include="UIItemStatus.h" />
     <ClInclude Include="UILog.h" />
     <ClInclude Include="UIMiniMap.h" />
+    <ClInclude Include="UIPlayerHome.h" />
     <ClInclude Include="UIProgressGauge.h" />
     <ClInclude Include="UIPSideCharacterStatus.h" />
     <ClInclude Include="UIPSideCharacterStatusBase.h" />

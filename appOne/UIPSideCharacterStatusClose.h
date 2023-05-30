@@ -14,6 +14,7 @@ public:
 private:
 	float mHpGaugeWidth;
 	Button* mOpenButtun;
+	Button* mLvUpButton;
 
 };
 

@@ -6,15 +6,28 @@
 #include "Game.h"
 #include "window.h"
 #include "UIPSideCharacterStatusClose.h"
+#include <sstream>
 
 Barricade::Barricade(Game* game)
 	:PSideCharacterActor(game)
+	,mNum(0)
 {
 	SetUp();
 }
 
 Barricade::~Barricade()
 {
+	for (auto chara : GetGame()->GetPSide())
+	{
+		if (chara->GetTag() == CharacterActor::Barricade)
+		{
+			auto barri = static_cast<Barricade*>(chara);
+			if (barri->GetBNum() > this->GetBNum())
+			{
+				barri->SetBNum(barri->GetBNum() - 1);
+			}
+		}
+	}
 }
 
 int Barricade::SetUp()
@@ -28,7 +41,7 @@ int Barricade::SetUp()
 	SetCapsulOffset(Data.mCapsuleOffset);
 	SetImageColor(Data.mImageColor);
 	SetTag(CharacterActor::Barricade);
-	SetName("Barricade");
+
 
 	TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("Barricade");
@@ -36,6 +49,21 @@ int Barricade::SetUp()
 	new CollisionMapComponent(this);
 
 	new UIPSideCharacterStatusClose(this);
+
+	int num = 0;
+	for (auto chara : GetGame()->GetPSide())
+	{
+		if (chara->GetTag() == CharacterActor::Barricade)
+		{
+			num++;
+		}
+	}
+
+	mNum = num - 1;
+
+	std::ostringstream oss;
+	oss << "Barricade" << mNum;
+	SetName(oss.str().c_str());
 
 	return 1;
 }
@@ -62,9 +90,11 @@ void Barricade::Damage(int damage)
 
 	if (GetHp() <= 0)
 	{
+		//std::ostringstream oss;
+		//oss << GetName().c_str() << "‚ª‰ó‚ê‚½";
 		setVolume(mDeadSound, GetGame()->GetEffectVolume());
 		playSound(mDeadSound);
-		GetGame()->GetStage()->AddText("Barricade‚ª‰ó‚ê‚½");
+		//GetGame()->GetStage()->AddText(oss.str().c_str());
 		SetState(Actor::EDead);
 	}
 

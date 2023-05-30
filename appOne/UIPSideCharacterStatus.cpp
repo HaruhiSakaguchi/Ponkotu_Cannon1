@@ -97,6 +97,15 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 
 	mCloseButton = GetButtons()[4];
 
+	AddButton("+LV",
+		[this]() {
+			mOwner->SetLevel(mOwner->GetLevel() + 1);
+		}
+		, 2
+			);
+
+	mLvUpButton = GetButtons()[5];
+
 }
 
 void UIPSideCharacterStatus::draw()
@@ -107,11 +116,16 @@ void UIPSideCharacterStatus::draw()
 
 		class Cannon* c = static_cast<Cannon*>(mOwner);
 
+		fill(50, 150, 255);
+		stroke(255, 255, 255);
+		strokeWeight(15);
+		rect(mPosition.x + mOffset.x, mPosition.y + mOffset.y, mGame->GetAllData()->itemStatusData.mWidth, mGame->GetAllData()->itemStatusData.mHeight * 1.75f);
 		noStroke();
 		fill(mGame->GetAllData()->itemStatusData.mTriangleColor);
 		rect(mPosition.x + mOffset.x, mPosition.y + mOffset.y, mGame->GetAllData()->itemStatusData.mWidth, mGame->GetAllData()->itemStatusData.mHeight);
 		rect(mPosition.x + 150.0f + mOffset.x, mPosition.y + mOffset.y + 20.0f, 100.0f, 100.0f);
 		textSize(15);
+		fill(0, 0, 0);
 
 		text("number :" + (let)mOwner->GetNum(), mPosition.x + 150.0f + mOffset.x, mPosition.y + mOffset.y + 20.0f);
 		DrawItemCompoLifeSpanGauge(c->GetSpeed(), VECTOR2(175.0f, 45.0f) + mOffset);
@@ -143,7 +157,7 @@ void UIPSideCharacterStatus::Update()
 
 		int num = static_cast<PSideCharacterActor*>(mOwner)->GetNum();
 
-		if (num > mGame->GetPHome()->GetNum())
+		if (mGame->GetPHome() && num > mGame->GetPHome()->GetNum())
 		{
 			num--;
 		}
@@ -195,14 +209,15 @@ void UIPSideCharacterStatus::Update()
 
 		//if (mOwner->GetState() == Actor::EActive)
 		{
-			mStayButton->SetPosition(mPosition + VECTOR2(50.0f, 195.0f) + mOffset);
-			mReturnButton->SetPosition(mPosition + VECTOR2(50.0f + 50.0f, 195.0f) + mOffset);
-			mHomePatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 100.0f, 195.0f) + mOffset);
-			mFieldPatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 150.0f, 195.0f) + mOffset);
-			mCloseButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f, 195.0f) + mOffset);
+			mStayButton->SetPosition(mPosition + VECTOR2(50.0f, 195.0f - 25.0f / 2) + mOffset);
+			mReturnButton->SetPosition(mPosition + VECTOR2(50.0f + 50.0f, 195.0f - 25.0f / 2) + mOffset);
+			mHomePatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 100.0f , 195.0f - 25.0f / 2) + mOffset);
+			mFieldPatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 150.0f, 195.0f - 25.0f / 2) + mOffset);
+			mCloseButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f - 50.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
+			mLvUpButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
+
 		}
 	}
-
 }
 
 void UIPSideCharacterStatus::DrawRing(const VECTOR2& pos, float radius, float sw, const COLOR& color)

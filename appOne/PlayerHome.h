@@ -33,5 +33,6 @@ private:
 	class Dore* mDore;
 	VECTOR mHomeTargetPoints[4];
 	VECTOR mFieldTargetPoints[4];
+	class UIPlayerHome* mUI;
 };
 

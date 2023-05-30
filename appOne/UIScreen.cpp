@@ -123,4 +123,13 @@ void UIScreen::AddButton(const char* name, std::function<void()> onClick, int im
 	}
 }
 
+void UIScreen::AddRectButton(const char* name, std::function<void()> onClick, const char* text, const VECTOR2 dim, const COLOR onColor, const COLOR& offColor)
+{
+	Button* b = new Button(name, onClick, mButtonPos, mGame, 3, text);
+	b->SetRectButtonDim(dim);
+	b->SetContainsRectButtonCOLOR(onColor);
+	b->SetNoContainsRectButtonCOLOR(offColor);
+	mButtons.emplace_back(b);
+}
+
 void UIScreen::Line(const VECTOR2& p1, const VECTOR2& p2) { line(p1.x, p1.y, p2.x, p2.y); }

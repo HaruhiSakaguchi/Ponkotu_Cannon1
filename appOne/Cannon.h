@@ -75,8 +75,8 @@ public:
 	void StopFallSound() { stopSound(Data.mFallSound); }
 	void OnMapOff() { mOnMap = false; }
 
-	void SetCNum(int num) { mNum = num; }
-	int GetCNum() { return mNum; }
+	void SetCNum(int num) { mCNum = num; }
+	int GetCNum() { return mCNum; }
 
 	const int GetTPIndex() { return mTPIndex; }
 	void SetTPIndex(int idx) { mTPIndex = idx; }
@@ -181,5 +181,5 @@ private:
 
 	int mTPIndex;
 	VECTOR mDefDir = VECTOR(0.0f, 0.0f, 1.0f);
-	int mNum;
+	int mCNum;
 };

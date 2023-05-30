@@ -8,12 +8,14 @@
 #include "window.h"
 #include "EnemyHome.h"
 #include "UIPSideCharacterStatusClose.h"
+#include "UIPlayerHome.h"
 
 PlayerHome::PlayerHome(class Game* game)
 	: PSideCharacterActor(game)
 	, mFlag1(nullptr)
 	, mFlag2(nullptr)
 	, mDore(nullptr)
+	, mUI(nullptr)
 {
 	SetUp();
 	GetGame()->SetPHome(this);
@@ -25,6 +27,7 @@ PlayerHome::~PlayerHome()
 	mFlag1->SetState(EDead);
 	mFlag2->SetState(EDead);
 	GetGame()->SetPHome(nullptr);
+	mUI->CloseMe();
 }
 
 int PlayerHome::SetUp()
@@ -42,6 +45,7 @@ int PlayerHome::SetUp()
 	SetHeight(Data.mHeight);
 	SetName("PlayerHome");
 	new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
+	mUI = new UIPlayerHome(this);
 	//new UIPSideCharacterStatusClose(this);
 	return 1;
 }

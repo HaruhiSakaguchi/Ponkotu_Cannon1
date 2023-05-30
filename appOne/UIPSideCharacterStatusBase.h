@@ -16,5 +16,6 @@ protected:
 	PSideCharacterActor* mOwner;
 	VECTOR2 mPosition;
 	VECTOR2 mOffset;
+	Button* mLvUpButton;
 };
 

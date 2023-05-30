@@ -41,6 +41,10 @@ public:
 	bool GetSound() { return mSoundFlag; }
 	void SetName(const char* name) { mName = name; }
 	const char* GetText() { return mText; }
+
+	void SetRectButtonDim(const VECTOR2& dim) { mRectButtonDim = dim; }
+	void SetContainsRectButtonCOLOR(const COLOR& color) { mContainsColor = color; }
+	void SetNoContainsRectButtonCOLOR(const COLOR& color) { mNoContainsColor = color; }
 	struct DATA
 	{
 		int mClickSound;
@@ -71,6 +75,10 @@ private:
 	std::function<void()> mOnClick;
 	int mImageNum;
 	Game* mGame;
+	VECTOR2 mRectButtonDim;
+	COLOR mContainsColor;
+	COLOR mNoContainsColor;
+
 private:
 	DATA Data;
 };

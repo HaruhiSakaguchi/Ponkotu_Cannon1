@@ -10,6 +10,8 @@ public:
     int SetUp()override;
     void UpdateActor()override;
     void Damage(int damage)override;
+    void SetBNum(int num) { mNum = num; }
+    int GetBNum() { return mNum; }
     struct DATA
     {
         int mHp = 10;
@@ -23,5 +25,6 @@ public:
     };
 private:
     DATA Data;
+    int mNum;
 };
 

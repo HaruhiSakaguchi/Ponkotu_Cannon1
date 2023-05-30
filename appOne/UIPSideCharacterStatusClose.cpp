@@ -25,7 +25,7 @@ UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* o
 					}
 				}
 				CloseMe();
-				UIPSideCharacterStatus*ui = new UIPSideCharacterStatus(mOwner);
+				UIPSideCharacterStatus* ui = new UIPSideCharacterStatus(mOwner);
 				ui->SetOffset(this->GetOffset());
 			}
 			, 2
@@ -35,8 +35,28 @@ UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* o
 				);
 
 		mOpenButtun = GetButtons()[0];
-	}
 
+
+		AddButton("+LV",
+			[this]() {
+				mOwner->SetLevel(mOwner->GetLevel() + 1);
+			}
+			, 2
+				);
+
+		mLvUpButton = GetButtons()[1];
+	}
+	else
+	{
+		AddButton("+LV",
+			[this]() {
+				mOwner->SetLevel(mOwner->GetLevel() + 1);
+			}
+			, 2
+				);
+
+		mLvUpButton = GetButtons()[0];
+	}
 }
 
 void UIPSideCharacterStatusClose::draw()
@@ -48,6 +68,7 @@ void UIPSideCharacterStatusClose::draw()
 		fill(mGame->GetAllData()->itemStatusData.mTriangleColor);
 		rect(mPosition.x + mOffset.x, mPosition.y + mOffset.y, mGame->GetAllData()->itemStatusData.mWidth, mGame->GetAllData()->itemStatusData.mHeight / 4);
 		textSize(15);
+		fill(0, 0, 0);
 		text("number :" + (let)mOwner->GetNum(), mPosition.x + 150.0f + mOffset.x, mPosition.y + mOffset.y + 20.0f);
 
 		DrawHpGauge();
@@ -72,10 +93,10 @@ void UIPSideCharacterStatusClose::Update()
 
 		int num = static_cast<PSideCharacterActor*>(mOwner)->GetNum();
 
-		/*if (num > mGame->GetPHome()->GetNum())
+		if (mGame->GetPHome() && num > mGame->GetPHome()->GetNum())
 		{
 			num--;
-		}*/
+		}
 
 		mPosition.y = (mGame->GetAllData()->itemCompoData.mUIOffsetPosY / 2.0f) * num + mGame->GetAllData()->itemCompoData.mUIInitPos.y;
 
@@ -87,8 +108,10 @@ void UIPSideCharacterStatusClose::Update()
 
 			if (mOwner->GetTag() == CharacterActor::Cannon)
 			{
-				mOpenButtun->SetPosition(VECTOR2(mPosition.x + 150.0f + 50.0f, mPosition.y + 25.0f) + mOffset);
+				mOpenButtun->SetPosition(VECTOR2(mPosition.x + 150.0f + 50.0f - 25.0f, mPosition.y + 25.0f) + mOffset);
 			}
+
+			mLvUpButton->SetPosition(VECTOR2(mPosition.x + 150.0f + 50.0f + 50.0f - 25.0f, mPosition.y + 25.0f) + mOffset);
 		}
 	}
 

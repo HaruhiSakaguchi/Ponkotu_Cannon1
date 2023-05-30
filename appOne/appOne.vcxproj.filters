@@ -416,6 +416,7 @@
     <ClCompile Include="UIPSideCharacterStatusClose.cpp" />
     <ClCompile Include="PSideCharacterActor.cpp" />
     <ClCompile Include="UIPSideCharacterStatusBase.cpp" />
+    <ClCompile Include="UIPlayerHome.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -652,5 +653,6 @@
     <ClInclude Include="UIPSideCharacterStatusClose.h" />
     <ClInclude Include="PSideCharacterActor.h" />
     <ClInclude Include="UIPSideCharacterStatusBase.h" />
+    <ClInclude Include="UIPlayerHome.h" />
   </ItemGroup>
 </Project>

@@ -41,6 +41,7 @@ public:
 	bool GetSound() { return mSoundFlag; }
 	void SetName(const char* name) { mName = name; }
 	const char* GetText() { return mText; }
+	void SetNameOffsetPos(const VECTOR2& pos) { mNameOffset = pos; }
 
 	void SetRectButtonDim(const VECTOR2& dim) { mRectButtonDim = dim; }
 	void SetContainsRectButtonCOLOR(const COLOR& color) { mContainsColor = color; }
@@ -58,6 +59,14 @@ public:
 		COLOR mGuideTextColor;
 		COLOR mGuideRectColor;
 	};
+	enum ButtonState
+	{
+		Enable,
+		Disable,
+		Draw_Enable
+	};
+	void SetState(ButtonState state) { mState = state; }
+
 private:
 	static int mButtonOnImg;
 	static int mButtonOffImg;
@@ -66,11 +75,13 @@ private:
 	static VECTOR2 mDimensions;//ƒ{ƒ^ƒ“‚Ì•‚Æ‚‚³
 	static VECTOR2 mDimensions2;//2‚Â–Ú‚Ü‚Å‰æ‘œ‚ğ“o˜^‚Å‚«‚é
 private:
+	ButtonState mState;
 	std::string mName;
 	VECTOR2 mPosition;
 	bool mHighlighted;
 	const char* mText;
 	VECTOR2 mTextOffset;
+	VECTOR2 mNameOffset;
 	bool mSoundFlag;
 	std::function<void()> mOnClick;
 	int mImageNum;

@@ -22,6 +22,7 @@ Map::Map(class Game* game)
 	, mMunite(0)
 	, mInitItemDropFlag(false)
 	, mClearFlag(false)
+	, mCenterPos(0.0f,0.0f,0.0f)
 {
 	Data = GetGame()->GetAllData()->mapData;
 	Data.mStageNum = (int)(GetGame()->GetPhase() + 1);
@@ -216,6 +217,7 @@ void Map::UpdateActor()
 		GetLog()->AddText("‚·‚×‚Ä‚Ì“G‚ğ“|‚µ‚½II");
 	}
 
+	mCenterPos = VECTOR((GetStageMaxX() + GetStageMinX()) / 2.0f, 0.0f, (GetStageMaxZ() + GetStageMinZ()) / 2.0f);
 }
 
 class UILog* Map::GetLog() { return mLog; }

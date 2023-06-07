@@ -11,6 +11,7 @@
 #include "PlayerHome.h"
 #include "EnemyHome.h"
 #include "Barricade.h"
+#include "CameraManager.h"
 
 DebugStage::DebugStage(Game* game)
 	: Map(game)
@@ -27,20 +28,6 @@ int DebugStage::SetUp()
 
 	class TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("background");
-	GetGame()->SetCannon(new Cannon(GetGame()));
-	GetGame()->GetCannon()->SetUp();
-	GetGame()->GetCannon()->SetPosition(VECTOR(0.0f, 0.0f, -30.0f));
-	GetGame()->GetCannon()->SetRotationY(3.1415926f);
-
-	class Cannon* c = new Cannon(GetGame());
-	c->SetUp();
-	c->SetPosition(VECTOR(5.0f, 0.0f, -30.0f));
-	c->SetRotationY(3.1415926f);
-	c = new Cannon(GetGame());
-	c->SetUp();
-	c->SetPosition(VECTOR(-5.0f, 0.0f, -30.0f));
-	c->SetRotationY(3.1415926f);
-
 	mMiniMap = new UIMiniMap(GetGame(), this);
 
 	PlayerHome* ph = new PlayerHome(GetGame());
@@ -49,7 +36,24 @@ int DebugStage::SetUp()
 	eh->SetPosition(0.0f, 0.0f, -51.0f);
 	eh->SetRotationY(3.1415926f);
 
-	GetGame()->SetCamera(new Camera(GetGame()));
+	new CameraManager(GetGame());
+
+	GetGame()->SetCannon(new Cannon(GetGame()));
+	GetGame()->GetCannon()->SetUp();
+	GetGame()->GetCannon()->SetInitPosition(VECTOR(0.0f, 0.0f, -30.0f));
+	GetGame()->GetCannon()->SetPosition(GetGame()->GetPHome()->GetPosition());
+	GetGame()->GetCannon()->SetRotationY(3.1415926f);
+
+	/*class Cannon* c = new Cannon(GetGame());
+	c->SetUp();
+	c->SetInitPosition(VECTOR(5.0f, 0.0f, -30.0f));
+	c->SetPosition(GetGame()->GetPHome()->GetPosition());
+	c->SetRotationY(3.1415926f);
+	c = new Cannon(GetGame());
+	c->SetUp();
+	c->SetPosition(GetGame()->GetPHome()->GetPosition());
+	c->SetInitPosition(VECTOR(-5.0f, 0.0f, -30.0f));
+	c->SetRotationY(3.1415926f);*/
 
 	SetClearCnt(30);
 	SetCaracterCapa(5);

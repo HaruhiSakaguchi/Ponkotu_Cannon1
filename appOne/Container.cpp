@@ -347,7 +347,7 @@ void SetAllData(Container& ad)
 		ad.cameraData.mLookatPos = 0.0f;
 		ad.cameraData.mOffsetPosY = 1.250f;
 		ad.cameraData.mOffsetPosZ = 10.0f;
-		ad.cameraData.mChangePosSpeed = 0.1f;
+		ad.cameraData.mChangePosSpeed = 0.5f;
 		ad.cameraData.mCorrectPos = 1.0f;
 		ad.cameraData.mCenterPos = VECTOR2(ad.mWidth / 2, ad.mHeight / 2);
 		ad.cameraData.mUpVec = VECTOR(0.0f, 1.0f, 0.0f);

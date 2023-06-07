@@ -10,9 +10,7 @@ public:
 	Camera(class Game* game);
 	~Camera();
 	void UpdateActor() override;
-	//カメラの視点方向に三角形を作り、その中にマップの表示用ポリゴンやキャラクターの座標を入れ、表示するかどうかを判断する。
-	void SetCannonKillerPos(const VECTOR&pos) { mCannonKillerPos = pos; }
-	const VECTOR& GetCannonKillerPos() { return mCannonKillerPos; }
+	const VECTOR& GetLookatPos() { return Data.mLookatPos; }
 	struct DATA
 	{
 		float mDistanceFromLookatPos;
@@ -30,8 +28,6 @@ public:
 		VECTOR2 mCenterPos;
 		VECTOR2 mMousePos;
 	};
-private:
+protected:
 	DATA Data;
-	//Cannonを殺したアクターのポインタ
-	VECTOR mCannonKillerPos;
 };

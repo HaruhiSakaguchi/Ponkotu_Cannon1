@@ -1,3 +1,4 @@
+#include "NormalCamera.h"
 #include "Camera.h"
 #include "Game.h"
 #include "Renderer.h"
@@ -6,24 +7,31 @@
 #include "PlayerHome.h"
 #include "TreeMeshComponent.h"
 
-Camera::Camera(Game* game)
-	: Actor(game)
+NormalCamera::NormalCamera(Game* game)
+	: Camera(game)
 {
+	SetPosition(VECTOR(0.0f, 90.0f, -27.0f));
+	//SetRotationY(-3.1415926f / 6.0f);
+	//SetRotationX(0.424f);
+	//SetRotationY(0.334f);
+	// SetRotationY(3.1415926f);
 	Data = GetGame()->GetAllData()->cameraData;
+	SetRotationX(3.1415926f / 2);
+	//SetPosition(-10.0f, 50.0f, 0);
+//	SetPosition(-10.0f, 50.0f, 20.0f);
+	//SetPosition(10.0f, 15.0f, 20.0f);
+	SetPosition(VECTOR(10.0f, 15.0f, -20.0f));
+	//ta.mLookatPos = GetPosition() + VECTOR(0.0f, -15.0f, 0.0f);
 }
 
-Camera::~Camera()
-{
-	GetGame()->SetCamera(nullptr);
-}
-
-void Camera::UpdateActor()
+void NormalCamera::UpdateActor()
 {
 	//VECTOR2 vec = VECTOR2(Data.mCenterPos.x - mouseX, Data.mCenterPos.y - mouseY);
 
 	//vec.normalize();
 	float rotX = GetRotation().x;
 	float rotY = GetRotation().y;
+
 
 	//rotX = 1.57f;
 
@@ -56,47 +64,19 @@ void Camera::UpdateActor()
 	VECTOR pos = GetPosition();
 	//現在のカメラ位置をとっておく
 	VECTOR prePos = pos;
-	
-		SetPosition(15.0f, 15.0f, 25.0f);
-		Data.mLookatPos = VECTOR(0.0f, -5.0f, (GetGame()->GetStage()->GetStageMinZ() + GetGame()->GetStage()->GetStageMaxZ()) / 2);
-		pos = GetPosition();
-	
-
-	//SetPosition(VECTOR(0.0f, 94.0f, (GetGame()->GetStage()->GetStageMinZ() + GetGame()->GetStage()->GetStageMaxZ()) / 2));
-	//SetRotationX(1.57f);
-
-	//pos = GetPosition();
-	//Data.mLookatPos = GetPosition();
-	//Data.mLookatPos.y += Data.mOffsetPosY;
+	SetPosition(15.0f, 15.0f, 25.0f);
+	Data.mLookatPos = VECTOR(0.0f, -5.0f, (GetGame()->GetStage()->GetStageMinZ() + GetGame()->GetStage()->GetStageMaxZ()) / 2);
+	pos = GetPosition();
+	Data.mLookatPos.y += Data.mOffsetPosY;
 
 	//カメラの位置を求める
-	//pos = Data.mLookatPos;
 	pos.x += sinf(rotY) * cosf(rotX) * Data.mDistanceFromLookatPos;
 	pos.y += sinf(rotX) * Data.mDistanceFromLookatPos;
 	pos.z += cosf(rotY) * cosf(rotX) * Data.mDistanceFromLookatPos;
 
 	//少し時間差でスムーズにカメラの位置を変更
 
-	pos.x = prePos.x + (pos.x - prePos.x) * Data.mChangePosSpeed;
-	pos.y = prePos.y + (pos.y - prePos.y) * Data.mChangePosSpeed;
-	pos.z = prePos.z + (pos.z - prePos.z) * Data.mChangePosSpeed;
-
-	MATRIX view;
-	view.camera(pos, Data.mLookatPos, Data.mUpVec);
-	GetGame()->GetRenderer()->SetView(view);
-
 	SetRotationY(rotY);
 	SetRotationX(rotX);
 	SetPosition(pos);
-
-	print(GetRotation().x);
-	//print(GetRotation().y);
-	//print(GetRotation().z);
-
-	/*print("mouse(" + (let)mouseX + "," + (let)mouseY + ")");
-	print("camRot(" + (let)GetRotation().x + "," + (let)GetRotation().y + "," + (let)GetRotation().z);
-	*/
-	print("camPos(" + (let)GetPosition().x + "," + (let)GetPosition().y + "," + (let)GetPosition().z);
-	print("LookPos(" + (let)Data.mLookatPos.x + "," + (let)Data.mLookatPos.y + "," + (let)Data.mLookatPos.z);
-
 }

@@ -655,3 +655,66 @@ void CannonRotate::OnExit()
 	mAdv = VECTOR(0.0f, 0.0f, 0.0f);
 	mTarget = VECTOR(0.0f, 0.0f, 0.0f);
 }
+
+void CannonGenerate::OnEnter()
+{
+	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
+	mFirstTargetCompleteFlag = false;
+	mFirstTarget = VECTOR(p->GetGame()->GetPHome()->GetPosition() + VECTOR(0.0f, 0.0f, -5.0f));
+}
+
+void CannonGenerate::Update()
+{
+	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
+	mTargetPos = p->GetInitPosition();
+	if (!mFirstTargetCompleteFlag)
+	{
+		mTargetPos = mFirstTarget;
+	}
+
+	VECTOR vec = mTargetPos - p->GetPosition();
+	vec.normalize();
+	VECTOR angle = p->GetRotation();
+	int endOfRotate = p->rotate(&angle, vec, 0.05f);
+	p->SetRotation(angle);
+
+	if (p->GetGame()->GetPHome())
+	{
+		if (endOfRotate == 1 && p->GetGame()->GetPHome()->GetOpenComplete())
+		{
+			p->SetPosition(p->GetPosition() + vec * p->GetAdvSpeed());
+		}
+		if (CollisionCircle(p->GetRadius(), 0.5f, p->GetPosition(), mFirstTarget))
+		{
+			mFirstTargetCompleteFlag = true;
+		}
+		for (auto pSide : p->GetGame()->GetPSide())
+		{
+			if (pSide != p && pSide->GetTag() != CharacterActor::PHome && Intersect(p, pSide, false) && !CollisionCircle(p->GetRadius(), p->GetGame()->GetPHome()->GetRadius(), p->GetPosition(), p->GetGame()->GetPHome()->GetPosition()) && !CollisionCircle(pSide->GetRadius(), p->GetGame()->GetPHome()->GetRadius(), pSide->GetPosition(), p->GetGame()->GetPHome()->GetPosition()))
+			{
+				mOwnerCompo->ChangeState("Wait");
+				return;
+			}
+		}
+		for (auto eSide : p->GetGame()->GetEnemies())
+		{
+			if (Intersect(p, eSide, false))
+			{
+				mOwnerCompo->ChangeState("Wait");
+				return;
+			}
+		}
+		if (CollisionCircle(p->GetRadius(), 0.5f, p->GetPosition(), p->GetInitPosition()))
+		{
+			mOwnerCompo->ChangeState("Wait");
+			return;
+		}
+	}
+	else
+	{
+		mOwnerCompo->ChangeState("Wait");
+		return;
+	}
+
+}
+

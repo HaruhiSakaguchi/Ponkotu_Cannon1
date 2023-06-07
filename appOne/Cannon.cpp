@@ -92,6 +92,7 @@ int Cannon::SetUp()
 
 	//StateMacine
 	mState = new StateComponent(this);
+	mState->RegisterState(new CannonGenerate(mState));
 	mState->RegisterState(new CannonWait(mState));
 	mState->RegisterState(new CannonLaunch(mState));
 	mState->RegisterState(new CannonMove(mState));
@@ -100,7 +101,7 @@ int Cannon::SetUp()
 	mState->RegisterState(new CannonMoveReturnHome(mState));
 	mState->RegisterState(new CannonMoveHomePatroll(mState));
 	mState->RegisterState(new CannonMoveFieldPatroll(mState));
-	mState->ChangeState("Wait");
+	mState->ChangeState("Generate");
 
 	//基底クラスのデータにセット
 	SetTag(CharacterActor::Cannon);
@@ -207,35 +208,35 @@ void Cannon::UpdateActor()
 		mScale = Data.mNormalBodyScale;
 	}
 
-	//空中にいるときの処理
-	if (GetJumpFlag() == 1)
-	{
-		mJumpSoundFlag = true;
-	}
+	////空中にいるときの処理
+	//if (GetJumpFlag() == 1)
+	//{
+	//	mJumpSoundFlag = true;
+	//}
 
-	if (GetGame()->GetScene() == Game::EPlay && GetGame()->GetState() == Game::EGameplay)
-	{
-		if (mIn->Jump() && GetJumpFlag() == 0)
-		{
-			setVolume(Data.mJumpSound, GetGame()->GetEffectVolume() + Data.mJumpSoundVolumeOffset);
-			playSound(Data.mJumpSound);
-		}
-		if (GetJumpFlag() == 0 && mJumpSoundFlag)
-		{
-			setVolume(Data.mCyakuchi, GetGame()->GetEffectVolume());
-			if (GetGame()->GetState() == Game::EGameplay)
-			{
-				playSound(Data.mCyakuchi);
-				stopSound(Data.mFallSound);
-				mJumpSoundFlag = false;
-			}
-		}
-		if (mOnMap && mJumpSoundFlag)
-		{
-			setVolume(Data.mFallSound, GetGame()->GetEffectVolume() + Data.mFallSoundVolumeOffset);
-			playSound(Data.mFallSound);
-		}
-	}
+	//if (GetGame()->GetScene() == Game::EPlay && GetGame()->GetState() == Game::EGameplay)
+	//{
+	//	if (GetJumpFlag() == 0)
+	//	{
+	//		setVolume(Data.mJumpSound, GetGame()->GetEffectVolume() + Data.mJumpSoundVolumeOffset);
+	//		playSound(Data.mJumpSound);
+	//	}
+	//	if (GetJumpFlag() == 0 && mJumpSoundFlag)
+	//	{
+	//		setVolume(Data.mCyakuchi, GetGame()->GetEffectVolume());
+	//		if (GetGame()->GetState() == Game::EGameplay)
+	//		{
+	//			playSound(Data.mCyakuchi);
+	//			stopSound(Data.mFallSound);
+	//			mJumpSoundFlag = false;
+	//		}
+	//	}
+	//	if (mOnMap && mJumpSoundFlag)
+	//	{
+	//		setVolume(Data.mFallSound, GetGame()->GetEffectVolume() + Data.mFallSoundVolumeOffset);
+	//		playSound(Data.mFallSound);
+	//	}
+	//}
 
 	//回転
 	//SetRotation(VECTOR(GetGame()->GetCamera()->GetRotation().x, GetGame()->GetCamera()->GetRotation().y + 3.14159264f, GetGame()->GetCamera()->GetRotation().z));
@@ -396,7 +397,7 @@ void Cannon::Damage(Actor* actor)
 	{
 		if (actor)
 		{
-			static_cast<class Camera*>(GetGame()->GetCamera())->SetCannonKillerPos(actor->GetPosition());
+			//static_cast<class Camera*>(GetGame()->GetCamera())->SetCannonKillerPos(actor->GetPosition());
 		}
 		setVolume(mDeadSound, GetGame()->GetEffectVolume());
 		playSound(mDeadSound);

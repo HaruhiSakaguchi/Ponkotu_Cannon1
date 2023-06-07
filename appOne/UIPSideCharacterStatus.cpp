@@ -25,10 +25,20 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 	Data = mGame->GetAllData()->psData;
 
 
-	AddButton("S",
+	mStayButton = AddButton("S",
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::Stay);
+			for (auto ui : mGame->GetUIPSideStatus())
+			{
+				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
+				{
+					ui->SetOffset(ui->GetOffset() - VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
+				}
+			}
+			CloseMe();
+			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
+			ui->SetOffset(this->GetOffset());
 		}
 		, 2
 			, nullptr
@@ -37,12 +47,21 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 
 			);
 
-	mStayButton = GetButtons()[0];
 
-	AddButton("R",
+	mReturnButton = AddButton("R",
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::Return);
+			for (auto ui : mGame->GetUIPSideStatus())
+			{
+				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
+				{
+					ui->SetOffset(ui->GetOffset() - VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
+				}
+			}
+			CloseMe();
+			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
+			ui->SetOffset(this->GetOffset());
 		}
 		, 2
 			, nullptr
@@ -50,33 +69,51 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 
 			);
 
-	mReturnButton = GetButtons()[1];
 
-	AddButton("Ht",
+	mHomePatrollButton = AddButton("Ht",
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::HomePatroll);
+			for (auto ui : mGame->GetUIPSideStatus())
+			{
+				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
+				{
+					ui->SetOffset(ui->GetOffset() - VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
+				}
+			}
+			CloseMe();
+			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
+			ui->SetOffset(this->GetOffset());
 		}
 		, 2
 			, nullptr
 			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 150.0f, 215.0f - 69.0f * 2)
 
 			);
-	mHomePatrollButton = GetButtons()[2];
 
-	AddButton("F",
+	mFieldPatrollButton = AddButton("F",
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::FieldPatroll);
+			for (auto ui : mGame->GetUIPSideStatus())
+			{
+				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
+				{
+					ui->SetOffset(ui->GetOffset() - VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
+				}
+			}
+			CloseMe();
+			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
+			ui->SetOffset(this->GetOffset());
 		}
 		, 2
 			, nullptr
 			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 200.0f, 215.0f - 69.0f * 3)
 
 			);
-	mFieldPatrollButton = GetButtons()[3];
 
-	AddButton("¢",
+
+	mCloseButton = AddButton("¢",
 		[this]() {
 			for (auto ui : mGame->GetUIPSideStatus())
 			{
@@ -86,7 +123,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 				}
 			}
 			CloseMe();
-			UIPSideCharacterStatusClose*ui = new UIPSideCharacterStatusClose(mOwner);
+			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
 		}
 		, 2
@@ -95,16 +132,16 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 
 			);
 
-	mCloseButton = GetButtons()[4];
-
-	AddButton("+LV",
+	mLvUpButton = AddButton("+LV",
 		[this]() {
-			mOwner->SetLevel(mOwner->GetLevel() + 1);
+			if (mOwner->GetLevel() < mGame->GetPHome()->GetLevel())
+			{
+				mOwner->SetLevel(mOwner->GetLevel() + 1);
+			}
 		}
 		, 2
 			);
 
-	mLvUpButton = GetButtons()[5];
 
 }
 
@@ -211,7 +248,7 @@ void UIPSideCharacterStatus::Update()
 		{
 			mStayButton->SetPosition(mPosition + VECTOR2(50.0f, 195.0f - 25.0f / 2) + mOffset);
 			mReturnButton->SetPosition(mPosition + VECTOR2(50.0f + 50.0f, 195.0f - 25.0f / 2) + mOffset);
-			mHomePatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 100.0f , 195.0f - 25.0f / 2) + mOffset);
+			mHomePatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 100.0f, 195.0f - 25.0f / 2) + mOffset);
 			mFieldPatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 150.0f, 195.0f - 25.0f / 2) + mOffset);
 			mCloseButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f - 50.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
 			mLvUpButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
@@ -359,7 +396,7 @@ void UIPSideCharacterStatus::DrawItemCompoLifeSpanGauge(class ItemComponent* ite
 	for (int i = 0; i < 8; i++)
 	{
 		DrawRingOnLine(mPosition + pos, 22.5f, 5, (float)(i * 3.14159264f / 4.0f), COLOR(0, 0, 0));
-	} 
+	}
 }
 
 void UIPSideCharacterStatus::DrawNameandLevel()

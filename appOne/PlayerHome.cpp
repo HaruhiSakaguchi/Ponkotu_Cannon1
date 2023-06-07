@@ -16,9 +16,18 @@ PlayerHome::PlayerHome(class Game* game)
 	, mFlag2(nullptr)
 	, mDore(nullptr)
 	, mUI(nullptr)
+	, mGenerateCannonLevel(0)
+	, mGenerateBarricadeLevel(0)
+	, mCurMyTpIdx(0)
+	, mCloseComplete(true)
+	, mOpenComplete(false)
+	, mBeginCloseFlag(false)
+	, mBeginOpenFlag(true)
+	, mGenerateFlag(true)
 {
 	SetUp();
 	GetGame()->SetPHome(this);
+
 }
 
 PlayerHome::~PlayerHome()
@@ -41,6 +50,7 @@ int PlayerHome::SetUp()
 	SetHp(Data.mMaxHp);
 	SetMaxHp(Data.mMaxHp);
 
+	mDore->SetRotationX(0.0f);
 	SetRadius(Data.mRadius);
 	SetHeight(Data.mHeight);
 	SetName("PlayerHome");
@@ -69,6 +79,11 @@ void PlayerHome::UpdateActor()
 	mFieldTargetPoints[3] = PEHomeCenterPos + VECTOR(-7.0f, 0.0f, 7.0f);
 
 
+	mMyTargetPoints[0] = VECTOR(0.0f, 0.0f, -3.0f);
+	mMyTargetPoints[1] = VECTOR(0.0f, 0.0f, (-3.0f + (GetGame()->GetStage()->GetStageMaxZ() + GetGame()->GetStage()->GetStageMinZ())) / 4.0f);
+	mMyTargetPoints[2] = VECTOR(0.0f, 0.0f, (-3.0f + (GetGame()->GetStage()->GetStageMaxZ() + GetGame()->GetStage()->GetStageMinZ())) / 2.0f);
+
+
 	if (GetDamageInterval() > 0.0f)
 	{
 		SetDamageInterval(GetDamageInterval() - delta);
@@ -80,6 +95,40 @@ void PlayerHome::UpdateActor()
 		{
 			Intersect(this, enemy);
 		}
+	}
+
+	//if (mMoveCompleteFlag == false)
+	{
+		mMoveCompleteFlag = GoToTargetPoint(mHomeTargetPoint);
+
+		if (mMoveCompleteFlag && mGenerateFlag)
+		{
+			if (mBeginOpenFlag && mCloseComplete)
+			{
+				OpenDore();
+			}
+			if (mBeginCloseFlag && mOpenComplete)
+			{
+				CloseDore();
+			}
+		}
+		//mCloseComplete = CloseDore();
+
+	}
+
+	//OpenDore();
+
+	int cnt = 0;
+	for (auto Actor : GetGame()->GetPSide())
+	{
+		if (CollisionCircle(GetRadius(), Actor->GetRadius(), GetPosition(), Actor->GetPosition()))
+		{
+			cnt++;
+		}
+	}
+	if (mGenerateFlag && cnt != 0)
+	{
+		Close();
 	}
 }
 
@@ -101,5 +150,56 @@ void PlayerHome::Damage(int damage)
 		playSound(mDeadSound);
 		GetGame()->GetStage()->AddText("PlayerHome‚ª‰ó‚ê‚½");
 		SetState(EDead);
+	}
+}
+
+bool PlayerHome::GoToTargetPoint(const VECTOR& pos)
+{
+	VECTOR dir = pos - GetPosition();
+	dir.normalize();
+
+
+	if (CollisionCircle(0.5f, 0.5f, GetPosition(), pos))
+	{
+		return true;
+	}
+	else
+	{
+		SetPosition(GetPosition() + dir * delta * 6.0f);
+		return false;
+	}
+}
+
+bool PlayerHome::OpenDore()
+{
+	if (mDore->GetRotation().x <= 3.1415926f / 2)
+	{
+		mDore->SetRotationX(mDore->GetRotation().x + 0.017f);
+		return false;
+	}
+	else
+	{
+		mBeginOpenFlag = false;
+		mOpenComplete = true;
+		mCloseComplete = false;
+		Close();
+		return true;
+	}
+}
+
+bool PlayerHome::CloseDore()
+{
+	if (mDore->GetRotation().x >= 0.0f)
+	{
+		mDore->SetRotationX(mDore->GetRotation().x - 0.017f);
+		return false;
+	}
+	else
+	{
+		mBeginCloseFlag = false;
+		mCloseComplete = true;
+		mOpenComplete = false;
+		mGenerateFlag = false;
+		return true;
 	}
 }

@@ -15,7 +15,7 @@ UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* o
 
 	if (mOwner->GetTag() == CharacterActor::Cannon)
 	{
-		AddButton("¤",
+		mOpenButtun = AddButton("¤",
 			[this]() {
 				for (auto ui : mGame->GetUIPSideStatus())
 				{
@@ -34,29 +34,16 @@ UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* o
 
 				);
 
-		mOpenButtun = GetButtons()[0];
-
-
-		AddButton("+LV",
-			[this]() {
+	}
+	mLvUpButton = AddButton("+LV",
+		[this]() {
+			if (mOwner->GetLevel() < mGame->GetPHome()->GetLevel())
+			{
 				mOwner->SetLevel(mOwner->GetLevel() + 1);
 			}
-			, 2
-				);
-
-		mLvUpButton = GetButtons()[1];
-	}
-	else
-	{
-		AddButton("+LV",
-			[this]() {
-				mOwner->SetLevel(mOwner->GetLevel() + 1);
-			}
-			, 2
-				);
-
-		mLvUpButton = GetButtons()[0];
-	}
+		}
+		, 2
+			);
 }
 
 void UIPSideCharacterStatusClose::draw()
@@ -67,9 +54,6 @@ void UIPSideCharacterStatusClose::draw()
 		noStroke();
 		fill(mGame->GetAllData()->itemStatusData.mTriangleColor);
 		rect(mPosition.x + mOffset.x, mPosition.y + mOffset.y, mGame->GetAllData()->itemStatusData.mWidth, mGame->GetAllData()->itemStatusData.mHeight / 4);
-		textSize(15);
-		fill(0, 0, 0);
-		text("number :" + (let)mOwner->GetNum(), mPosition.x + 150.0f + mOffset.x, mPosition.y + mOffset.y + 20.0f);
 
 		DrawHpGauge();
 

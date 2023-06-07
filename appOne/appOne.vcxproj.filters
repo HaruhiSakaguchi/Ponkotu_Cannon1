@@ -417,6 +417,11 @@
     <ClCompile Include="PSideCharacterActor.cpp" />
     <ClCompile Include="UIPSideCharacterStatusBase.cpp" />
     <ClCompile Include="UIPlayerHome.cpp" />
+    <ClCompile Include="LookPHomeCamera.cpp" />
+    <ClCompile Include="LookFieldCenterCamera.cpp" />
+    <ClCompile Include="NormalCamera.cpp" />
+    <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="UIGenerate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -654,5 +659,10 @@
     <ClInclude Include="PSideCharacterActor.h" />
     <ClInclude Include="UIPSideCharacterStatusBase.h" />
     <ClInclude Include="UIPlayerHome.h" />
+    <ClInclude Include="LookPHomeCamera.h" />
+    <ClInclude Include="LookFieldCenterCamera.h" />
+    <ClInclude Include="NormalCamera.h" />
+    <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="UIGenerate.h" />
   </ItemGroup>
 </Project>

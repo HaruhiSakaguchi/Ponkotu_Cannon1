@@ -20,6 +20,7 @@ Button::Button(const char* name, std::function<void()> onClick,
 	, mTextOffset(textOffset)
 	, mHighlighted(false)
 	, mSoundFlag(false)
+	, mState(Button::Enable)
 {
 	Data = mGame->GetAllData()->buttonData;
 }
@@ -83,6 +84,11 @@ bool Button::ContainsPoint(const VECTOR2& pt, bool flag)
 			pt.y >(mPosition.y + mRectButtonDim.y / 2.0f);
 	}
 
+	if (mState != Enable)
+	{
+		no = true;
+	}
+
 	mHighlighted = !no;
 
 	//ボタンの外にマウスカーソルがあったら次にボタンに触れたときに音声を再生するようにする
@@ -91,13 +97,14 @@ bool Button::ContainsPoint(const VECTOR2& pt, bool flag)
 		mSoundFlag = false;
 	}
 
+
 	return !no;
 }
 
 void Button::OnClick()
 {
 	// アタッチされた関数ハンドラがあれば呼び出す。
-	if (mOnClick)
+	if (mOnClick && mState == Button::Enable)
 	{
 		mOnClick();
 		playSound(Data.mClickSound);
@@ -109,98 +116,115 @@ void Button::Draw()
 	// ボタン画像表示
 	int buttonImg = 0;
 	bool mChangeImageFlag = false;
-	/*for (auto button : mGame->GetUIStack().back()->GetButtons())
+
+	if (mState != Button::Disable)
 	{
-		if (button == this)
+		if (!mChangeImageFlag)
 		{
-			mChangeImageFlag = true;
+			if (mImageNum == 1)
+			{
+				buttonImg = mHighlighted ? mButtonOnImg : mButtonOffImg;
+			}
+			else if (mImageNum == 2)
+			{
+				buttonImg = mHighlighted ? mButtonOnImg2 : mButtonOffImg2;
+			}
+
+			VECTOR2 mousePos = VECTOR2(mouseX, mouseY);
+			if (ContainsPoint(mousePos) && GetText())
+			{
+				DrawGuide();
+			}
 		}
-	}*/
-	if (!mChangeImageFlag)
+		else
+		{
+			if (mImageNum == 1)
+			{
+				buttonImg = mButtonOffImg;
+			}
+			else if (mImageNum == 2)
+			{
+				buttonImg = mButtonOffImg2;
+			}
+		}
+
+		if (buttonImg >= 0 && mImageNum <= 2)
+		{
+			image(buttonImg, mPosition.x, mPosition.y);
+		}
+
+		if (mImageNum > 2)
+		{
+			if (mName.length() * Data.mButtonTextSize / 2.0f > mRectButtonDim.x)
+			{
+				mRectButtonDim.x += mName.length() * Data.mButtonTextSize / 2.0f - mRectButtonDim.x;
+			}
+
+			COLOR color = mHighlighted ? mContainsColor : mNoContainsColor;
+			stroke(color);
+			strokeWeight(5.0f);
+			fill(color);
+			rect(mPosition.x, mPosition.y, mRectButtonDim.x, mRectButtonDim.y);
+			fill(COLOR(128, 128, 128, 64));
+			noStroke();
+			rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.5f / 2.0f, mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.25f + 5.0f);
+			fill(COLOR(64, 64, 64, 64));
+			noStroke();
+			rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.95f / 2.0f, mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.05f + 5.0f);
+			fill(color);
+			stroke(color);
+			rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.9875f / 2.0f - (mRectButtonDim.y * 0.05f + 5.0f), mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.0125f + 5.0f);
+			VECTOR2 sp = mPosition - mRectButtonDim / 2 - VECTOR2(2.0f, 2.0f);
+			VECTOR2 ep = sp + VECTOR2(mRectButtonDim.x + 2.0f, 0.0f);
+			fill(COLOR(64, 64, 64, 64));
+			stroke(COLOR(64, 64, 64, 64));
+			strokeWeight(2.0f);
+			line(sp.x, sp.y, ep.x, ep.y);
+		}
+
+		// ボタン文字表示
+		textSize(Data.mButtonTextSize);
+		VECTOR2 pos;
+		pos.x = mPosition.x - mName.length() * Data.mButtonTextSize / 4.0f + mNameOffset.x;//半角文字のみ対応
+		pos.y = mPosition.y + Data.mButtonTextSize / 2.0f - 2.0f + mNameOffset.y;
+		fill(Data.mButtonTextColor);
+		if (mImageNum > 2 && mRectButtonDim.x < mRectButtonDim.y)
+		{
+			pos.x = mPosition.x - Data.mButtonTextSize / 2.0f + mNameOffset.x;
+			pos.y = mPosition.y + mNameOffset.y;
+			for (int i = 0; i < (int)(mName.length() / 2); i++)
+			{
+				std::string name = mName.substr(i * 2, 2);//全角なので2倍する
+				pos.y += Data.mButtonTextSize * i;
+				text(name.c_str(), pos.x, pos.y);
+			}
+		}
+		else
+		{
+			text(mName.c_str(), pos.x, pos.y);
+		}
+	}
+
+	if (mState == Button::Draw_Enable)
 	{
+		VECTOR2 Dim;
 		if (mImageNum == 1)
 		{
-			buttonImg = mHighlighted ? mButtonOnImg : mButtonOffImg;
+			Dim = mDimensions;
 		}
 		else if (mImageNum == 2)
 		{
-			buttonImg = mHighlighted ? mButtonOnImg2 : mButtonOffImg2;
+			Dim = mDimensions2;
+		}
+		else
+		{
+			Dim = mRectButtonDim;
 		}
 
-		VECTOR2 mousePos = VECTOR2(mouseX, mouseY);
-		if (ContainsPoint(mousePos) && GetText())
-		{
-			DrawGuide();
-		}
-	}
-	else
-	{
-		if (mImageNum == 1)
-		{
-			buttonImg = mButtonOffImg;
-		}
-		else if (mImageNum == 2)
-		{
-			buttonImg = mButtonOffImg2;
-		}
-	}
-
-	if (buttonImg >= 0 && mImageNum <= 2)
-	{
-		image(buttonImg, mPosition.x, mPosition.y);
-	}
-
-	if (mImageNum > 2)
-	{
-		COLOR color = mHighlighted ? mContainsColor : mNoContainsColor;
-		stroke(color);
-		strokeWeight(5.0f);
-		fill(color);
-		rect(mPosition.x, mPosition.y, mRectButtonDim.x, mRectButtonDim.y);
-		fill(COLOR(128, 128, 128, 64));
 		noStroke();
-		rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.5f / 2.0f, mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.25f + 5.0f);
-		fill(COLOR(64, 64, 64, 64));
-		noStroke();
-		rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.95f / 2.0f, mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.05f + 5.0f);
-		fill(color);
-		stroke(color);
-		rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.9875f / 2.0f - (mRectButtonDim.y * 0.05f + 5.0f), mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.0125f + 5.0f);
-		VECTOR2 sp = mPosition - mRectButtonDim / 2 - VECTOR2(2.0f, 2.0f);
-		VECTOR2 ep = sp + VECTOR2(mRectButtonDim.x + 2.0f, 0.0f);
-		fill(COLOR(64, 64, 64, 64));
-		stroke(COLOR(64, 64, 64, 64));
-		strokeWeight(2.0f);
-		line(sp.x, sp.y, ep.x, ep.y);
+		fill(128, 128, 128, 128);
+		rect(mPosition.x, mPosition.y, Dim.x, Dim.y);
 	}
-
-	// ボタン文字表示
-	textSize(Data.mButtonTextSize);
-	VECTOR2 pos;
-	pos.x = mPosition.x + mName.length() * Data.mButtonTextSize / 4.0f;//半角文字のみ対応
-	pos.y = mPosition.y + Data.mButtonTextSize / 2.0f - 2.0f;
-	fill(Data.mButtonTextColor);
-	char* j;
-	std::string name;
-	if (mImageNum > 2 && mRectButtonDim.x < mRectButtonDim.y)
-	{
-		pos.x = mPosition.x - Data.mButtonTextSize / 2.0f;
-		pos.y = mPosition.y;
-		for (int i = 0; i < (int)(mName.length() / 2); i++)
-		{
-		    name = mName.substr(i * 2,2);
-			/*char j[7] = mName.c_str();
-			char n[7];
-			strncpy_s(n, sizeof(n), j + i, 1);*/
-			pos.y += Data.mButtonTextSize * i;
-			text(name.c_str(), pos.x, pos.y);
-		}
-	}
-	else
-	{
-		text(mName.c_str(), pos.x, pos.y);
-	}
-
 }
 
 void Button::Update()
@@ -214,25 +238,31 @@ void Button::Update()
 
 void Button::DrawGuide()
 {
-	float mOffsetPoM = 1.0f;
-	if (mPosition.x - strlen(mText) / 4.0f * Data.mGuideTextSize + strlen(mText) / 2.0f * Data.mGuideTextSize > width)
+	if (mState == Button::Enable)
 	{
-		mOffsetPoM *= -1;
-	}
-	VECTOR2 pos = VECTOR2(mPosition.x - strlen(mText) / 4.0f * Data.mGuideTextSize + strlen(mText) / 2.0f * Data.mGuideTextSize * mOffsetPoM + mTextOffset.x, mPosition.y + mTextOffset.y + Data.mGuideTextSize / 2.0f);
+		float mOffsetPoM = 1.0f;
+		if (mPosition.x - strlen(mText) / 4.0f * Data.mGuideTextSize + strlen(mText) / 2.0f * Data.mGuideTextSize > width)
+		{
+			mOffsetPoM *= -1;
+		}
+		VECTOR2 pos = VECTOR2(mPosition.x - strlen(mText) / 4.0f * Data.mGuideTextSize + strlen(mText) / 2.0f * Data.mGuideTextSize * mOffsetPoM + mTextOffset.x, mPosition.y + mTextOffset.y + Data.mGuideTextSize / 2.0f);
 
-	fill(Data.mGuideTextColor);
-	textSize(Data.mGuideTextSize);
-	text(mText, pos.x, pos.y);
-	stroke(Data.mGuideTextColor);
-	strokeWeight(Data.mGuideRectSw);
-	rectMode(CORNER);
-	fill(Data.mGuideRectColor);
-	rect(pos.x, pos.y - Data.mGuideTextSize, strlen(mText) * Data.mGuideTextSize / 2.0f, Data.mGuideTextSize);
-	rectMode(CENTER);
+		fill(Data.mGuideTextColor);
+		textSize(Data.mGuideTextSize);
+		text(mText, pos.x, pos.y);
+		stroke(Data.mGuideTextColor);
+		strokeWeight(Data.mGuideRectSw);
+		rectMode(CORNER);
+		fill(Data.mGuideRectColor);
+		rect(pos.x, pos.y - Data.mGuideTextSize, strlen(mText) * Data.mGuideTextSize / 2.0f, Data.mGuideTextSize);
+		rectMode(CENTER);
+	}
 }
 
 void Button::ContainsSound()
 {
-	playSound(Data.mContainsSound);
+	if (mState == Button::Enable)
+	{
+		playSound(Data.mContainsSound);
+	}
 }

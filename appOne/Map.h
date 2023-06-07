@@ -43,6 +43,7 @@ public:
 	float GetStageMinZ() { return Data.mStageMinZ; }
 	float GetStageMaxZ() { return Data.mStageMaxZ; }
 
+	const VECTOR& GetCenterPos() { return mCenterPos; }
 	void SetCaracterCapa(int num) { Data.mStageCharacterCapa = num; }
 	int GetStageCharacterCapa() { return Data.mStageCharacterCapa; }
 	int GetSecond() { return mSecond; }
@@ -94,5 +95,6 @@ private:
 	std::vector<std::string>mTexts;
 	bool mInitItemDropFlag;
 	bool mClearFlag;
+	VECTOR mCenterPos;
 };
 

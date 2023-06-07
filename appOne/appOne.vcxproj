@@ -158,6 +158,7 @@
     <ClCompile Include="Barricade.cpp" />
     <ClCompile Include="BatchMeshComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Cannon.cpp" />
     <ClCompile Include="CannonStates.cpp" />
     <ClCompile Include="CannonWheelL.cpp" />
@@ -182,10 +183,13 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemComponent.cpp" />
     <ClCompile Include="Items.cpp" />
+    <ClCompile Include="LookFieldCenterCamera.cpp" />
+    <ClCompile Include="LookPHomeCamera.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="MODEL_COLLISION.cpp" />
     <ClCompile Include="MoveComponent.cpp" />
+    <ClCompile Include="NormalCamera.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="GamePlay.cpp" />
@@ -219,6 +223,7 @@
     <ClCompile Include="TreeMeshComponent.cpp" />
     <ClCompile Include="TRIANGLE.cpp" />
     <ClCompile Include="UIButton.cpp" />
+    <ClCompile Include="UIGenerate.cpp" />
     <ClCompile Include="UIHelp1.cpp" />
     <ClCompile Include="UIHelp2.cpp" />
     <ClCompile Include="UIHelp3.cpp" />
@@ -249,6 +254,7 @@
     <ClInclude Include="Barricade.h" />
     <ClInclude Include="BatchMeshComponent.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Cannon.h" />
     <ClInclude Include="CannonStates.h" />
     <ClInclude Include="CannonWheelL.h" />
@@ -272,10 +278,13 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemComponent.h" />
     <ClInclude Include="Items.h" />
+    <ClInclude Include="LookFieldCenterCamera.h" />
+    <ClInclude Include="LookPHomeCamera.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="MODEL_COLLISION.h" />
     <ClInclude Include="MoveComponent.h" />
+    <ClInclude Include="NormalCamera.h" />
     <ClInclude Include="Option.h" />
     <ClInclude Include="Pause.h" />
     <ClInclude Include="GamePlay.h" />
@@ -310,6 +319,7 @@
     <ClInclude Include="TreeMeshComponent.h" />
     <ClInclude Include="TRIANGLE.h" />
     <ClInclude Include="UIButton.h" />
+    <ClInclude Include="UIGenerate.h" />
     <ClInclude Include="UIHelp1.h" />
     <ClInclude Include="UIHelp2.h" />
     <ClInclude Include="UIHelp3.h" />

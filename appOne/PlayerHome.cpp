@@ -49,6 +49,7 @@ int PlayerHome::SetUp()
 	SetTag(PHome);
 	SetHp(Data.mMaxHp);
 	SetMaxHp(Data.mMaxHp);
+	SetInitMaxHp(Data.mMaxHp);
 
 	mDore->SetRotationX(0.0f);
 	SetRadius(Data.mRadius);

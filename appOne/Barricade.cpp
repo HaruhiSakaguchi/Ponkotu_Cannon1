@@ -40,6 +40,7 @@ int Barricade::SetUp()
 	SetAdvSpeed(Data.mAdvSpeed);
 	SetCapsulOffset(Data.mCapsuleOffset);
 	SetImageColor(Data.mImageColor);
+	SetInitMaxHp(GetMaxHp());
 	SetTag(CharacterActor::Barricade);
 
 
@@ -90,11 +91,11 @@ void Barricade::Damage(int damage)
 
 	if (GetHp() <= 0)
 	{
-		//std::ostringstream oss;
-		//oss << GetName().c_str() << "‚ª‰ó‚ê‚½";
+		std::ostringstream oss;
+		oss << GetName().c_str() << "‚ª‰ó‚ê‚½";
 		setVolume(mDeadSound, GetGame()->GetEffectVolume());
 		playSound(mDeadSound);
-		//GetGame()->GetStage()->AddText(oss.str().c_str());
+		GetGame()->GetStage()->AddText(oss.str().c_str());
 		SetState(Actor::EDead);
 	}
 

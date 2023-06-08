@@ -59,22 +59,22 @@ int DebugStage::SetUp()
 	SetCaracterCapa(5);
 
 
-	class Barricade* b = new Barricade(GetGame());
+	/*class Barricade* b = new Barricade(GetGame());
 	b->SetPosition(0, 5.0f, -35.0f);
 	b = new Barricade(GetGame());
 	b->SetPosition(5.0f, 5.0f, -35.0f);
 	b = new Barricade(GetGame());
-	b->SetPosition(-5.0f, 5.0f, -35.0f);
+	b->SetPosition(-5.0f, 5.0f, -35.0f);*/
 
-	CharacterActor* ca= nullptr;
+	//CharacterActor* ca= nullptr;
 
-	for (int i = 0; i <= 10; i++)
+	/*for (int i = 0; i <= 10; i++)
 	{
 		ca = new CharacterActor(GetGame());
 		ca->SetPosition(0.0f, i, (-54.0f) / 2.0f);
 		TreeMeshComponent*tmc = new TreeMeshComponent(ca);
 		tmc->SetTree("PlayerFlag");
-	}
+	}*/
 
 	//mProgress = new UIProgressGauge(this, GetGame());
 

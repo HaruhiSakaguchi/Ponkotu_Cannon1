@@ -31,7 +31,7 @@ CharacterActor::CharacterActor(Game* game)
 	, mLevel(0)
 	, mName("Chara")
 	, mTag(Others)
-
+	, mMaxLevel(10)
 {
 	SetCategory(Character);
 	GetGame()->AddCharacter(this);

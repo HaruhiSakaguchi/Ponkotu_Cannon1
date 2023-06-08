@@ -55,7 +55,11 @@ public:
 	void SetName(const char* name) { mName = name; }
 	int GetLevel() { return mLevel; }
 	void SetLevel(int level) { mLevel = level; }
+	int GetMaxLevel() { return mMaxLevel; }
 	bool GetOnMapFlag() { return mOnMapFlag; }
+	int GetInitMaxHp() { return mInitMaxHp; }
+	void SetInitMaxHp(int hp) { mInitMaxHp = hp; }
+
 
 	enum CharactersTag
 	{
@@ -88,6 +92,7 @@ private:
 	float mDamageInterval;
 	float mOffsetY;
 	int mLevel;
+	int mMaxLevel;
 	COLOR mDamageColor;
 	//ミニマップ用カラー　アクターごとに持たせる
 	COLOR mImageColor;
@@ -95,6 +100,7 @@ private:
 	bool mOnMapFlag;
 	int mHp;
 	int mMaxHp;
+	int mInitMaxHp;
 	std::string mName;
 	CharactersTag mTag;
 protected:

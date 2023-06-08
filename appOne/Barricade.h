@@ -14,7 +14,7 @@ public:
     int GetBNum() { return mNum; }
     struct DATA
     {
-        int mHp = 10;
+        int mHp = 20;
         float mGravity = -9.8f;
         float mRadius = 0.75f;
         float mAdvSpeed = 0.5f;

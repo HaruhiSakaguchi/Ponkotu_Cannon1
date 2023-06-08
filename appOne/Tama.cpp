@@ -64,6 +64,8 @@ int Tama::SetUp()
 	SetHeight(Data.mHeight);
 	SetRadius(Data.mRadius);
 	SetHp(Data.mMaxHp);
+	SetMaxHp(GetHp());
+	SetInitMaxHp(GetMaxHp());
 	SetAdvSpeed(Data.mAdvSpeed);
 	SetJumpVel(Data.mJumpVelocity);
 	SetJumpFlag(Data.mJumpFlag);

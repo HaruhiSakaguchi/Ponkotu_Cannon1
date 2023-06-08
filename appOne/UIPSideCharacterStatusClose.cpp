@@ -39,7 +39,10 @@ UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* o
 		[this]() {
 			if (mOwner->GetLevel() < mGame->GetPHome()->GetLevel())
 			{
+				int curMaxHp = mOwner->GetMaxHp();
 				mOwner->SetLevel(mOwner->GetLevel() + 1);
+				mOwner->SetMaxHp((int)(mOwner->GetInitMaxHp() * ((mOwner->GetLevel() + mOwner->GetMaxLevel()) / 10.0f)));
+				mOwner->SetHp((int)(round(mOwner->GetMaxHp() * (float)mOwner->GetHp() / (float)curMaxHp)));
 			}
 		}
 		, 2

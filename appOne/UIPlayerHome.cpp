@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "PlayerHome.h"
 #include "UIGenerate.h"
+#include <sstream>
 
 UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 	:UIScreen(owner->GetGame())
@@ -47,7 +48,14 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 	mHomeLvUpButton = AddButton("Lv+"
 		, [this]()
 		{
-			mOwner->SetLevel(mOwner->GetLevel() + 1);
+			if (mOwner->GetLevel() < mOwner->GetMaxLevel())
+			{
+				int curMaxHp = mOwner->GetMaxHp();
+				mOwner->SetLevel(mOwner->GetLevel() + 1);
+				mOwner->SetMaxHp((int)(mOwner->GetInitMaxHp() * ((mOwner->GetLevel() + mOwner->GetMaxLevel()) / 10.0f)));
+				mOwner->SetHp((int)(round(mOwner->GetMaxHp() * (float)mOwner->GetHp() / (float)curMaxHp)));
+
+			}
 		}
 		, 2
 			);
@@ -59,7 +67,6 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetPSide().size()) - 1) < mGame->GetPHome()->GetLevel())
 			{
 				h->SetGenerateFlag(true);
-				//h->Open();
 				if (!mGenerate)
 				{
 					mGenerate = new UIGenerate(this, mGame, UIGenerate::Cannon);
@@ -74,8 +81,8 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, nullptr
 			, VECTOR2(100.0f, 100.0f)
 			);
-	mGenerateCannonButton->SetNameOffsetPos(VECTOR2(0.0f, -30.0f));
 
+	mGenerateCannonButton->SetNameOffsetPos(VECTOR2(0.0f, -30.0f));
 
 
 	mGenerateBarricadeButton = AddRectButton("Barricade"
@@ -125,7 +132,6 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		}
 		, 2
 			);
-
 }
 
 void UIPlayerHome::draw()
@@ -150,10 +156,10 @@ void UIPlayerHome::draw()
 	rectMode(CORNER);
 	fill(mGame->GetAllData()->hpGaugeUIData.mHpWindowColor);
 	strokeWeight(mGame->GetAllData()->hpGaugeUIData.mHpGaugeSw);
-	rect(mPos.x - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw, mPos.y - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw, mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight * mOwner->GetMaxHp() - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw * 2, mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight + 10.0f);
+	rect(mPos.x - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw, mPos.y - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw, mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight * mOwner->GetInitMaxHp() - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw * 2, mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight + 10.0f);
 	if (mOwner->GetHp() > mOwner->GetMaxHp())
 	{
-		rect(mPos.x + mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight * mOwner->GetMaxHp() + mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw * 2.0f, mPos.y - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw, (mOwner->GetHp() - mOwner->GetMaxHp()) * mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw, mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight + 10.0f);
+		rect(mPos.x + mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight * (mOwner->GetInitMaxHp()) - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw, mPos.y - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw, (mOwner->GetHp() - mOwner->GetMaxHp()) * mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw * 2.0f, mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight + 10.0f);
 	}
 	fill(color);
 	stroke(color);
@@ -179,7 +185,7 @@ void UIPlayerHome::draw()
 void UIPlayerHome::Update()
 {
 	float preWidth = mHpGaugeWidth;
-	float wid = mOwner->GetHp() * (mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight + 0.1f);
+	float wid = ((float)mOwner->GetHp() / (float)mOwner->GetMaxHp()) * (mOwner->GetInitMaxHp() * mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight + 0.1f);
 	mHpGaugeWidth = preWidth + (wid - preWidth) * 0.05f;
 	mGoButton->SetPosition(VECTOR2(mPos.x, mPos.y - 100.0f));
 	mReturnButton->SetPosition(VECTOR2(mPos.x + 100.0f, mPos.y - 100.0f));
@@ -194,8 +200,13 @@ void UIPlayerHome::DrawAfterButton()
 {
 	if (!mGenerate)
 	{
+		std::ostringstream cLevel;
+		std::ostringstream bLevel;
 		textSize(30);
-		text("Lv : " + (let)static_cast<PlayerHome*>(mOwner)->GetGenerateCannonLv(), mGenerateCannonButton->GetPosition().x - 15.0f * 3.0f, mGenerateCannonButton->GetPosition().y + 30.0f);
-		text("Lv : " + (let)static_cast<PlayerHome*>(mOwner)->GetGenerateBarricadeLv(), mGenerateBarricadeButton->GetPosition().x - 15.0f * 3.0f, mGenerateBarricadeButton->GetPosition().y + 30.0f);
+		cLevel << "Lv : " << static_cast<PlayerHome*>(mOwner)->GetGenerateCannonLv();
+		bLevel << "Lv : " << static_cast<PlayerHome*>(mOwner)->GetGenerateBarricadeLv();
+
+		text(cLevel.str().c_str(), mGenerateCannonButton->GetPosition().x - 15.0f * 3.0f, mGenerateCannonButton->GetPosition().y + 30.0f);
+		text(bLevel.str().c_str(), mGenerateBarricadeButton->GetPosition().x - 15.0f * 3.0f, mGenerateBarricadeButton->GetPosition().y + 30.0f);
 	}
 }

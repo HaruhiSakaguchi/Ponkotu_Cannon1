@@ -41,6 +41,9 @@ int EnemyHome::SetUp()
 	mFlag2->SetRotationY(3.1415926f);
 	SetTag(EHome);
 	SetHp(Data.mMaxHp);
+	SetMaxHp(Data.mMaxHp);
+	SetInitMaxHp(Data.mMaxHp);
+
 	SetRadius(Data.mRadius);
 	SetHeight(Data.mHeight);
 	new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);

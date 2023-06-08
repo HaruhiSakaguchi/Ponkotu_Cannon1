@@ -87,16 +87,20 @@ void UIGenerate::Update()
 				c->SetUp();
 				c->SetPosition(mGame->GetPHome()->GetPosition());
 				c->GetGame()->GetPHome()->Open();
+				c->SetLevel(c->GetGame()->GetPHome()->GetGenerateCannonLv());
 			}
 			else if (mId == GenerateActor_Id::Barricade)
 			{
 				c = new class Barricade(mGame);
 				c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));
 				mGame->GetPHome()->SetGenerateFlag(false);
+				c->SetLevel(c->GetGame()->GetPHome()->GetGenerateBarricadeLv());
 			}
 
 			c->SetInitPosition(mGenePos);
-			c->SetLevel(c->GetGame()->GetPHome()->GetGenerateCannonLv());
+			c->SetMaxHp((int)(c->GetInitMaxHp() * ((c->GetLevel() + c->GetMaxLevel()) / 10.0f)));
+			c->SetHp(c->GetMaxHp());
+
 		}
 
 		for (auto button : mOwner->GetButtons())

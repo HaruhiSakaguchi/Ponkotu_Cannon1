@@ -119,6 +119,7 @@ int Cannon::SetUp()
 	SetImageColor(Data.mImageColor);
 	SetRange(Data.mRange);
 	SetRDamage(1);
+	SetInitMaxHp(GetMaxHp());
 
 	//UI
 	if (this == GetGame()->GetCannon())

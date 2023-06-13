@@ -24,6 +24,9 @@ PlayerHome::PlayerHome(class Game* game)
 	, mBeginCloseFlag(false)
 	, mBeginOpenFlag(true)
 	, mGenerateFlag(true)
+	, mBattlePoints(0)
+	, mMaxBattlePoints(0)
+
 {
 	SetUp();
 	GetGame()->SetPHome(this);
@@ -57,6 +60,7 @@ int PlayerHome::SetUp()
 	SetName("PlayerHome");
 	new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
 	mUI = new UIPlayerHome(this);
+	mMaxBattlePoints = 500;
 	//new UIPSideCharacterStatusClose(this);
 	return 1;
 }
@@ -72,12 +76,15 @@ void PlayerHome::UpdateActor()
 	mHomeTargetPoints[2] = GetPosition() + VECTOR(7.0f, 0.0f, 5.0f);
 	mHomeTargetPoints[3] = GetPosition() + VECTOR(-7.0f, 0.0f, 5.0f);
 
-	VECTOR PEHomeCenterPos = (GetPosition() + GetGame()->GetEHome()->GetPosition()) / 2;
+	if (GetGame()->GetEHome())
+	{
+		VECTOR PEHomeCenterPos = (GetPosition() + GetGame()->GetEHome()->GetPosition()) / 2;
 
-	mFieldTargetPoints[0] = PEHomeCenterPos + VECTOR(-7.0f, 0.0f, -7.0f);
-	mFieldTargetPoints[1] = PEHomeCenterPos + VECTOR(7.0f, 0.0f, -7.0f);
-	mFieldTargetPoints[2] = PEHomeCenterPos + VECTOR(7.0f, 0.0f, 7.0f);
-	mFieldTargetPoints[3] = PEHomeCenterPos + VECTOR(-7.0f, 0.0f, 7.0f);
+		mFieldTargetPoints[0] = PEHomeCenterPos + VECTOR(-7.0f, 0.0f, -7.0f);
+		mFieldTargetPoints[1] = PEHomeCenterPos + VECTOR(7.0f, 0.0f, -7.0f);
+		mFieldTargetPoints[2] = PEHomeCenterPos + VECTOR(7.0f, 0.0f, 7.0f);
+		mFieldTargetPoints[3] = PEHomeCenterPos + VECTOR(-7.0f, 0.0f, 7.0f);
+	}
 
 
 	mMyTargetPoints[0] = VECTOR(0.0f, 0.0f, -3.0f);
@@ -127,9 +134,21 @@ void PlayerHome::UpdateActor()
 			cnt++;
 		}
 	}
+
 	if (mGenerateFlag && cnt != 0)
 	{
 		Close();
+	}
+
+	mMaxBattlePoints = 500 * (GetLevel() + 1);
+
+	if (mBattlePoints < mMaxBattlePoints)
+	{
+		mBattlePoints++;
+	}
+	if (mBattlePoints < 0)
+	{
+		mBattlePoints = 0;
 	}
 }
 

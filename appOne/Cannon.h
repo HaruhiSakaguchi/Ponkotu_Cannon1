@@ -44,6 +44,8 @@ public:
 
 	void SetRange(float range) { mRange = range; }
 
+	StateComponent* GetStateCompoState() { return mState; }
+
 	class InputComponent* GetIn() { return mIn; }
 	class UIScope* GetScope() { return mScope; }
 	class UIHpGauge* GetHpGauge() { return mHpGauge; }

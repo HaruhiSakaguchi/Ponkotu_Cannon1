@@ -11,6 +11,7 @@
 #include "CollisionMapComponent.h"
 #include "PlayerHome.h"
 #include "TamaPointer.h"
+#include "EnemyHome.h"
 
 Tama::Tama(Game* game)
 	: Enemy(game)
@@ -120,6 +121,19 @@ void Tama::UpdateActor()
 			DropItems(GetPosition());
 			GetGame()->GetStage()->GetLog()->AddText("Tama‚ð“|‚µ‚½II");
 			SetState(Actor::EDead);
+			if (GetGame()->GetPHome())
+			{
+				GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetBattlePoints() + 100 + GetLevel() * 50);
+			}
+
+			if (GetGame()->GetEHome())
+			{
+				if (GetGame()->GetEHome()->GetLevel() > GetGame()->GetEHome()->GetTamaGenerateLevel() && GetGame()->GetEHome()->GetBattlePoints() >= 100)
+				{
+					GetGame()->GetEHome()->SetBattlePoints(GetGame()->GetEHome()->GetBattlePoints() - 100);
+					GetGame()->GetEHome()->SetTamaGenerateLevel(GetGame()->GetEHome()->GetTamaGenerateLevel() + 1);
+				}
+			}
 		}
 	}
 }

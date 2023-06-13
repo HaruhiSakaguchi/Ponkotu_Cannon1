@@ -688,9 +688,12 @@ void CannonGenerate::Update()
 		{
 			mFirstTargetCompleteFlag = true;
 		}
-		for (auto pSide : p->GetGame()->GetPSide())
+
+		/*for (auto pSide : p->GetGame()->GetPSide())
 		{
-			if (pSide != p && pSide->GetTag() != CharacterActor::PHome && Intersect(p, pSide, false) && !CollisionCircle(p->GetRadius(), p->GetGame()->GetPHome()->GetRadius(), p->GetPosition(), p->GetGame()->GetPHome()->GetPosition()) && !CollisionCircle(pSide->GetRadius(), p->GetGame()->GetPHome()->GetRadius(), pSide->GetPosition(), p->GetGame()->GetPHome()->GetPosition()))
+			if (pSide != p && pSide->GetTag() != CharacterActor::PHome && Intersect(p, pSide, false) 
+				&& !CollisionCircle(p->GetRadius(), p->GetGame()->GetPHome()->GetRadius(), p->GetPosition(), p->GetGame()->GetPHome()->GetPosition())
+				&& !CollisionCircle(pSide->GetRadius(), p->GetGame()->GetPHome()->GetRadius(), pSide->GetPosition(), p->GetGame()->GetPHome()->GetPosition()))
 			{
 				mOwnerCompo->ChangeState("Wait");
 				return;
@@ -703,7 +706,7 @@ void CannonGenerate::Update()
 				mOwnerCompo->ChangeState("Wait");
 				return;
 			}
-		}
+		}*/
 		if (CollisionCircle(p->GetRadius(), 0.5f, p->GetPosition(), p->GetInitPosition()))
 		{
 			mOwnerCompo->ChangeState("Wait");

@@ -123,13 +123,13 @@ void Map::CreateCollisions(const char* filename)
 
 void Map::Draw()
 {
-	noStroke();
-	fill(Data.mStageNumRectColor);
-	rectMode(CORNER);
-	rect(Data.mStageNumRectPos.x, Data.mStageNumRectPos.y, Data.mStageNumTextSize * 3.0f, Data.mStageNumTextSize);
-	fill(Data.mStageNumTextColor);
-	textSize(Data.mStageNumTextSize);
-	text("Stage" + (let)Data.mStageNum, Data.mStageNumTextPos.x, Data.mStageNumTextPos.y);
+	//noStroke();
+	//fill(Data.mStageNumRectColor);
+	//rectMode(CORNER);
+	//rect(Data.mStageNumRectPos.x, Data.mStageNumRectPos.y, Data.mStageNumTextSize * 3.0f, Data.mStageNumTextSize);
+	//fill(Data.mStageNumTextColor);
+	//textSize(Data.mStageNumTextSize);
+	//text("Stage" + (let)Data.mStageNum, Data.mStageNumTextPos.x, Data.mStageNumTextPos.y);
 }
 
 void Map::CreateArea(float* maxX, float* maxZ, float* minX, float* minZ, int areaNum)

@@ -18,15 +18,15 @@ PlayerBullet::PlayerBullet(class Cannon* cannon, const VECTOR& pos, const VECTOR
 	BatchMeshComponent* bc = new BatchMeshComponent(this);
 	bc->SetBatch("PlayerBulletSphere");
 
-	//大砲がジャンプしていたらBulletが敵に与えるダメージが2倍になる
-	if (cannon->GetJumpFlag() == 0)
-	{
-		SetDamage(cannon->GetDamage());
-	}
-	else
-	{
-		SetDamage(cannon->GetDamage() * 2);
-	}
+	////大砲がジャンプしていたらBulletが敵に与えるダメージが2倍になる
+	//if (cannon->GetJumpFlag() == 0)
+	//{
+	//	SetDamage(cannon->GetDamage());
+	//}
+	//else
+	//{
+	//	SetDamage(cannon->GetDamage() * 2);
+	//}
 
 	//GamePlayStateの中でしか音を鳴らさない
 	if (GetGame()->GetScene() == Game::EPlay && GetGame()->GetState() == Game::EGameplay)
@@ -34,11 +34,12 @@ PlayerBullet::PlayerBullet(class Cannon* cannon, const VECTOR& pos, const VECTOR
 		setVolume(iData.mLaunchSound, GetGame()->GetEffectVolume() + iData.mLaunchSoundVolumeOffset);
 		playSound(iData.mLaunchSound);
 	}
+
+	SetDamage(cannon->GetDamage() + (int)(mOwner->GetLevel() / 2.0f));
 }
 
 void PlayerBullet::UpdateActor()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
 
 	for (auto enemy : GetGame()->GetEnemies())
 	{
@@ -63,14 +64,19 @@ void PlayerBullet::UpdateActor()
 	{
 		if (Intersect(this, item, false))
 		{
-			setVolume(iData.mItemStockSound, GetGame()->GetEffectVolume() + iData.mItemStockSoundVolumeOffset);
-			playSound(iData.mItemStockSound);
-			//アイテムに弾が当たるとアイテムの番号をCannonのアイテムナンバー配列に登録してストックする。
-			c->AddItemNum(static_cast<class Item*>(item)->GetNum());
+			if (mOwner && mOwner->GetState() == CharacterActor::EActive)
+			{
+				class Cannon* c = static_cast<class Cannon*>(mOwner);
+				setVolume(iData.mItemStockSound, GetGame()->GetEffectVolume() + iData.mItemStockSoundVolumeOffset);
+				playSound(iData.mItemStockSound);
+				//アイテムに弾が当たるとアイテムの番号をCannonのアイテムナンバー配列に登録してストックする。
+				c->AddItemNum(static_cast<class Item*>(item)->GetNum());
+				item->SetState(EDead);
+				std::ostringstream oss;
+				oss << item->GetName() << "アイテムをストック。";
+				GetGame()->GetStage()->GetLog()->AddText(oss.str());
+			}
 			item->SetState(EDead);
-			std::ostringstream oss;
-			oss << item->GetName() << "アイテムをストック。";
-			GetGame()->GetStage()->GetLog()->AddText(oss.str());
 		}
 	}
 

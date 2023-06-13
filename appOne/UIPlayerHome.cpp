@@ -22,7 +22,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetTargetPosIdx() < 2)
+			if (h->GetTargetPosIdx() < 2 && !h->GetGenerateFlag())
 			{
 				h->SetTargetPoint(h->GetHomeMoveTargetPoints()[h->GetTargetPosIdx() + 1]);
 				h->SetTargetPosIdx(h->GetTargetPosIdx() + 1);
@@ -35,7 +35,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetTargetPosIdx() > 0)
+			if (h->GetTargetPosIdx() > 0 && !h->GetGenerateFlag())
 			{
 				h->SetTargetPoint(h->GetHomeMoveTargetPoints()[h->GetTargetPosIdx() - 1]);
 				h->SetTargetPosIdx(h->GetTargetPosIdx() - 1);
@@ -48,13 +48,13 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 	mHomeLvUpButton = AddButton("Lv+"
 		, [this]()
 		{
-			if (mOwner->GetLevel() < mOwner->GetMaxLevel())
+			if (mOwner->GetLevel() < mOwner->GetMaxLevel() && static_cast<PlayerHome*>(mOwner)->GetBattlePoints() >= 300)
 			{
 				int curMaxHp = mOwner->GetMaxHp();
 				mOwner->SetLevel(mOwner->GetLevel() + 1);
 				mOwner->SetMaxHp((int)(mOwner->GetInitMaxHp() * ((mOwner->GetLevel() + mOwner->GetMaxLevel()) / 10.0f)));
 				mOwner->SetHp((int)(round(mOwner->GetMaxHp() * (float)mOwner->GetHp() / (float)curMaxHp)));
-
+				static_cast<PlayerHome*>(mOwner)->SetBattlePoints(static_cast<PlayerHome*>(mOwner)->GetBattlePoints() - 300);
 			}
 		}
 		, 2
@@ -64,7 +64,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetPSide().size()) - 1) < mGame->GetPHome()->GetLevel())
+			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetPSide().size()) - 1) <= mGame->GetPHome()->GetLevel() && !h->GetGenerateFlag())
 			{
 				h->SetGenerateFlag(true);
 				if (!mGenerate)
@@ -89,7 +89,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetPSide().size()) - 1) < mGame->GetPHome()->GetLevel())
+			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetPSide().size()) - 1) <= mGame->GetPHome()->GetLevel() && !h->GetGenerateFlag())
 			{
 				h->SetGenerateFlag(true);
 				//h->Open();
@@ -113,9 +113,10 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetGenerateCannonLv() < mOwner->GetLevel())
+			if (h->GetGenerateCannonLv() < mOwner->GetLevel() && h->GetBattlePoints() >= 150)
 			{
 				h->SetGenerateCannonLv(h->GetGenerateCannonLv() + 1);
+				h->SetBattlePoints(h->GetBattlePoints() - 150);
 			}
 		}
 		, 2
@@ -125,9 +126,10 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetGenerateBarricadeLv() < mOwner->GetLevel())
+			if (h->GetGenerateBarricadeLv() < mOwner->GetLevel() && h->GetBattlePoints() >= 100)
 			{
 				h->SetGenerateBarricadeLv(h->GetGenerateBarricadeLv() + 1);
+				h->SetBattlePoints(h->GetBattlePoints() - 100);
 			}
 		}
 		, 2
@@ -194,6 +196,7 @@ void UIPlayerHome::Update()
 	mGenerateCannonLvUpButton->SetPosition(VECTOR2(mPos.x + 300.0f + 100.0f, mPos.y - 100.0f + 25.0f));
 	mGenerateBarricadeButton->SetPosition(VECTOR2(mPos.x + 300.0f + 200.0f, mPos.y - 100.0f));
 	mGenerateBarricadeLvUpButton->SetPosition(VECTOR2(mPos.x + 300.0f + 200.0f + 100.0f, mPos.y - 100.0f + 25.0f));
+	
 }
 
 void UIPlayerHome::DrawAfterButton()
@@ -208,5 +211,6 @@ void UIPlayerHome::DrawAfterButton()
 
 		text(cLevel.str().c_str(), mGenerateCannonButton->GetPosition().x - 15.0f * 3.0f, mGenerateCannonButton->GetPosition().y + 30.0f);
 		text(bLevel.str().c_str(), mGenerateBarricadeButton->GetPosition().x - 15.0f * 3.0f, mGenerateBarricadeButton->GetPosition().y + 30.0f);
+		text((let)static_cast<PlayerHome*>(mOwner)->GetBattlePoints() + " / " + (let)static_cast<PlayerHome*>(mOwner)->GetMaxBattlePoints(), 0.0f, 50.0f);
 	}
 }

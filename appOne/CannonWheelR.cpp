@@ -42,5 +42,9 @@ void CannonWheelR::UpdateActor()
 		SetRotation(VECTOR(mOwner->GetWheelRotateX(), mOwner->GetRotation().y + 3.1415926f / 2.0f, mOwner->GetWheelRotateZ()));
 
 	}
+	else
+	{
+		SetState(EDead);
+	}
 
 }

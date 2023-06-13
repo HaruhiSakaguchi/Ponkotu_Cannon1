@@ -38,6 +38,9 @@ public:
 	void SetGenerateFlag(bool flag) { mGenerateFlag = flag; }
 	bool GetGenerateFlag() { return mGenerateFlag; }
 
+	int GetBattlePoints() { return mBattlePoints; }
+	int GetMaxBattlePoints() { return mMaxBattlePoints; }
+	void SetBattlePoints(int point) { mBattlePoints = point; }
 	struct DATA
 	{
 		VECTOR mFlag1Offset = VECTOR(-2.0f, 2.0f, -3.0f + 0.25f);
@@ -70,6 +73,9 @@ private:
 	bool mBeginOpenFlag;
 
 	bool mGenerateFlag;
+
+	int mBattlePoints;
+	int mMaxBattlePoints;
 
 };
 

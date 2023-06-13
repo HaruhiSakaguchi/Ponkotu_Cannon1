@@ -7,6 +7,7 @@
 #include "window.h"
 #include "UIPSideCharacterStatusClose.h"
 #include <sstream>
+#include "PlayerHome.h"
 
 Barricade::Barricade(Game* game)
 	:PSideCharacterActor(game)
@@ -102,5 +103,20 @@ void Barricade::Damage(int damage)
 	for (auto enemy : GetGame()->GetEnemies())
 	{
 		Intersect(this, enemy);
+	}
+
+	for (auto pSide : GetGame()->GetPSide())
+	{
+		if (pSide != this && pSide != GetGame()->GetPHome())
+		{
+			if (pSide->GetTag() != CharacterActor::Cannon)
+			{
+				Intersect(this, pSide);
+			}
+			else if (static_cast<class Cannon*>(pSide)->GetStateCompoState()->GetName() != "Generate")
+			{
+				Intersect(this, pSide);
+			}
+		}
 	}
 }

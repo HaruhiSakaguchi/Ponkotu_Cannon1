@@ -23,7 +23,7 @@ void StateComponent::Update()
 	{
 		mCurrentState->Update();
 #ifdef _DEBUG
-		print("State :" + (let)mCurrentState->GetName());
+		//print("State :" + (let)mCurrentState->GetName());
 #endif
 	}
 }

@@ -15,12 +15,14 @@ public:
         Empty
     };
     UIGenerate(class UIPlayerHome*owner,Game*game, GenerateActor_Id id = Empty);
+    ~UIGenerate();
 private:
     GenerateActor_Id mId;
     VECTOR mGenePos;
     float mMouseXPerWidth;
     float mMouseYPerHeight;
     UIPlayerHome *mOwner;
-
+    int mGenerateUsingPoints;
+    class CharacterActor* mGenerateActor;
 };
 

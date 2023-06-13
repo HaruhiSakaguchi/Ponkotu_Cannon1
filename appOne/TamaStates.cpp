@@ -336,10 +336,10 @@ void TamaAttack::OnExit()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
 	//t->SetRotation(mRotation);
-	if (!t->GetOnMapFlag())
+	/*if (!t->GetOnMapFlag())
 	{
 		t->SetJumpFlag(1);
-	}
+	}*/
 	t->SetAttackVector(VECTOR(0.0f, 0.0f, 0.0f));
 	t->SetTargetPos(VECTOR(0.0f, 0.0f, 0.0f));
 }

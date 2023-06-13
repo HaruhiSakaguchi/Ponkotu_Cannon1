@@ -121,16 +121,6 @@ int Cannon::SetUp()
 	SetRDamage(1);
 	SetInitMaxHp(GetMaxHp());
 
-	//UI
-	if (this == GetGame()->GetCannon())
-	{
-		//mScope = new UIScope(GetGame(), this);
-		//mHpGauge = new UIHpGauge(GetGame(), this);
-		//mUIItem = new UIItemStatus(this);
-	}
-	else
-	{
-	}
 
 	new HpGaugeSpriteComponent(this, GetCapsulOffset());
 	new UIPSideCharacterStatusClose(this);
@@ -276,15 +266,15 @@ void Cannon::UpdateActor()
 
 	for (auto enemy : GetGame()->GetEnemies())
 	{
-		if (enemy->GetHp() > 0)
+		if (enemy->GetHp() > 0 && mState->GetName() != "Generate")
 		{
 			Intersect(this, enemy);
 		}
 	}
 
-	for (auto pSide : GetGame()->GetPSide())
+	for (auto pSide : GetGame()->GetCannons())
 	{
-		if (pSide != this && pSide != GetGame()->GetPHome())
+		if (pSide != this && mState->GetName() != "Generate" && pSide->GetStateCompoState()->GetName() != "Generate")
 		{
 			Intersect(this, pSide);
 		}
@@ -364,7 +354,7 @@ void Cannon::UpdateActor()
 
 	text(GetName().c_str(), px, py);
 
-	print("CurTp :" + (let)mTPIndex + "NextTp :" + (let)GetNextTpIndex());
+	//print("CurTp :" + (let)mTPIndex + "NextTp :" + (let)GetNextTpIndex());
 	//print("(" + (let)px + "," + (let)py + ")");
 	//print(GetGame()->GetCamera()->GetRotation().x);
 }

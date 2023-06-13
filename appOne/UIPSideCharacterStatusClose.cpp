@@ -37,9 +37,10 @@ UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* o
 	}
 	mLvUpButton = AddButton("+LV",
 		[this]() {
-			if (mOwner->GetLevel() < mGame->GetPHome()->GetLevel())
+			if (mOwner->GetLevel() < mGame->GetPHome()->GetLevel() && (100 + mOwner->GetLevel() * 50) <= mGame->GetPHome()->GetBattlePoints())
 			{
 				int curMaxHp = mOwner->GetMaxHp();
+				mOwner->GetGame()->GetPHome()->SetBattlePoints(mOwner->GetGame()->GetPHome()->GetBattlePoints() - (100 + mOwner->GetLevel() * 50));
 				mOwner->SetLevel(mOwner->GetLevel() + 1);
 				mOwner->SetMaxHp((int)(mOwner->GetInitMaxHp() * ((mOwner->GetLevel() + mOwner->GetMaxLevel()) / 10.0f)));
 				mOwner->SetHp((int)(round(mOwner->GetMaxHp() * (float)mOwner->GetHp() / (float)curMaxHp)));

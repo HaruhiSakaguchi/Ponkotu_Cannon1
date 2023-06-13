@@ -21,7 +21,7 @@ public:
 		const char* text = 0,
 		const VECTOR2& textOffset = VECTOR2(0, 0)
 	);
-	~Button() {};
+	virtual ~Button() {};
 
 	void Draw();
 	void Update();

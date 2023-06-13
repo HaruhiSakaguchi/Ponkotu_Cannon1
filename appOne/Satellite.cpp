@@ -8,6 +8,7 @@
 #include "CollisionMapComponent.h"
 #include "CharacterActor.h"
 #include "PlayerHome.h"
+#include "EnemyHome.h"
 
 int Satellite::Num = 0;
 
@@ -145,12 +146,30 @@ void Satellite::UpdateActor()
 			if (Data.mId == 0)
 			{
 				GetGame()->GetStage()->GetLog()->AddText("SatelliteA‚ğ“|‚µ‚½II");
+				if (GetGame()->GetPHome())
+				{
+					GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetBattlePoints() + 150 + GetLevel() * 50);
+				}
 			}
 			else
 			{
 				GetGame()->GetStage()->GetLog()->AddText("SatelliteB‚ğ“|‚µ‚½II");
+				if (GetGame()->GetPHome())
+				{
+					GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetBattlePoints() + 175 + GetLevel() * 50);
+				}
 			}
 			SetState(Actor::EDead);
+
+			if (GetGame()->GetEHome())
+			{
+				if (GetGame()->GetEHome()->GetLevel() > GetGame()->GetEHome()->GetSatelliteGenerateLevel() && GetGame()->GetEHome()->GetBattlePoints() >= 150)
+				{
+					GetGame()->GetEHome()->SetBattlePoints(GetGame()->GetEHome()->GetBattlePoints() - 150);
+					GetGame()->GetEHome()->SetSatelliteGenerateLevel(GetGame()->GetEHome()->GetSatelliteGenerateLevel() + 1);
+				}
+			}
+			
 		}
 	}
 

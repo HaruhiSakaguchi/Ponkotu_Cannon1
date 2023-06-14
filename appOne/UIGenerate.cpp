@@ -103,70 +103,80 @@ void UIGenerate::Update()
 	mGenePos.x = mMouseXPerWidth * 4.0f * mGame->GetStage()->GetStageMaxX();
 	mGenePos.z = mMouseYPerHeight * 4.0f * -(mGame->GetStage()->GetStageMinZ() + -mGame->GetStage()->GetStageMaxZ()) / 2.0f + mGame->GetStage()->GetCenterPos().z;
 
-	if (mId != GenerateActor_Id::Empty)
+	if (!mGame->GetPHome())
 	{
-		if (mId == GenerateActor_Id::Cannon)
-		{
-			mGenerateUsingPoints = mGame->GetPHome()->GetGenerateCannonLv() * 100 + 300;
-		}
-		else if (mId == GenerateActor_Id::Barricade)
-		{
-			mGenerateUsingPoints = mGame->GetPHome()->GetGenerateBarricadeLv() * 50 + 100;
-		}
+		CloseMe();
 	}
-
-	if (mGenerateActor)
+	else
 	{
-		mGenerateActor->SetPosition(mGenePos);
-	}
 
-	if (isTrigger(MOUSE_RBUTTON) && ((int)(mGame->GetPSide().size()) - 1) <= mGame->GetPHome()->GetLevel())
-	{
-		if (mGenerateUsingPoints <= mGame->GetPHome()->GetBattlePoints())
+
+		if (mId != GenerateActor_Id::Empty)
 		{
-			if (mId != GenerateActor_Id::Empty)
+			if (mId == GenerateActor_Id::Cannon)
 			{
-				CharacterActor* c = nullptr;
-				if (mId == GenerateActor_Id::Cannon)
-				{
-					c = new class Cannon(mGame);
-					c->SetUp();
-					c->SetPosition(mGame->GetPHome()->GetPosition());
-					c->GetGame()->GetPHome()->Open();
-					c->SetLevel(c->GetGame()->GetPHome()->GetGenerateCannonLv());
-				}
-				else if (mId == GenerateActor_Id::Barricade)
-				{
-					c = new class Barricade(mGame);
-					c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));
-					mGame->GetPHome()->SetGenerateFlag(false);
-					c->SetLevel(c->GetGame()->GetPHome()->GetGenerateBarricadeLv());
-				}
-
-				c->SetInitPosition(mGenePos);
-				c->SetMaxHp((int)(c->GetInitMaxHp() * ((c->GetLevel() + c->GetMaxLevel()) / 10.0f)));
-				c->SetHp(c->GetMaxHp());
-				mGame->GetPHome()->SetBattlePoints(mGame->GetPHome()->GetBattlePoints() - mGenerateUsingPoints);
-
+				mGenerateUsingPoints = mGame->GetPHome()->GetGenerateCannonLv() * 100 + 300;
 			}
-
-			for (auto button : mOwner->GetButtons())
+			else if (mId == GenerateActor_Id::Barricade)
 			{
-				button->SetState(Button::Enable);
+				mGenerateUsingPoints = mGame->GetPHome()->GetGenerateBarricadeLv() * 50 + 100;
 			}
-			for (auto uiStatus : mGame->GetUIPSideStatus())
+		}
+
+		if (mGenerateActor)
+		{
+			mGenerateActor->SetPosition(mGenePos);
+		}
+
+		if (isTrigger(MOUSE_RBUTTON) && ((int)(mGame->GetPSide().size()) - 1) <= mGame->GetPHome()->GetLevel())
+		{
+			if (mGenerateUsingPoints <= mGame->GetPHome()->GetBattlePoints())
 			{
-				for (auto button : uiStatus->GetButtons())
+				if (mId != GenerateActor_Id::Empty)
+				{
+					CharacterActor* c = nullptr;
+					if (mId == GenerateActor_Id::Cannon)
+					{
+						c = new class Cannon(mGame);
+						c->SetUp();
+						c->SetPosition(mGame->GetPHome()->GetPosition());
+						c->GetGame()->GetPHome()->Open();
+						c->SetLevel(c->GetGame()->GetPHome()->GetGenerateCannonLv());
+					}
+					else if (mId == GenerateActor_Id::Barricade)
+					{
+						c = new class Barricade(mGame);
+						c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));
+						mGame->GetPHome()->SetGenerateFlag(false);
+						c->SetLevel(c->GetGame()->GetPHome()->GetGenerateBarricadeLv());
+					}
+
+					c->SetInitPosition(mGenePos);
+					c->SetMaxHp((int)(c->GetInitMaxHp() * ((c->GetLevel() + c->GetMaxLevel()) / 10.0f)));
+					c->SetHp(c->GetMaxHp());
+					mGame->GetPHome()->SetBattlePoints(mGame->GetPHome()->GetBattlePoints() - mGenerateUsingPoints);
+
+				}
+
+				for (auto button : mOwner->GetButtons())
 				{
 					button->SetState(Button::Enable);
 				}
+				for (auto uiStatus : mGame->GetUIPSideStatus())
+				{
+					for (auto button : uiStatus->GetButtons())
+					{
+						button->SetState(Button::Enable);
+					}
+				}
+				CloseMe();
+				mOwner->SetGenerate(nullptr);
 			}
-			CloseMe();
-			mOwner->SetGenerate(nullptr);
-		}
-		else
-		{
-			text("ポイントが足りない", width / 2, height / 2 + 250.0);
+			else
+			{
+				text("ポイントが足りない", width / 2, height / 2 + 250.0);
+			}
 		}
 	}
+
 }

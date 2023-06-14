@@ -103,6 +103,14 @@ void UIPSideCharacterStatusClose::Update()
 		}
 	}
 
+	if (!mGame->GetPHome())
+	{
+		for (auto button : GetButtons())
+		{
+			button->SetState(Button::Draw_Enable);
+		}
+	}
+
 }
 
 

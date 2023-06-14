@@ -103,6 +103,18 @@ void SatelliteWing::UpdateActor()
 		Master.mulTranslate(GetPosition());
 	}
 
+	if (s->GetId() == 0)
+	{
+		if (Data.mId == 0)
+		{
+			Master.mulRotateX(-s->GetRotation().x);
+		}
+		else if (Data.mId == 3)
+		{
+			Master.mulRotateX(-s->GetRotation().x);
+		}
+	}
+
 	Master.mulRotateY(GetRotation().y);
 
 	Wing.identity();
@@ -118,6 +130,7 @@ void SatelliteWing::UpdateActor()
 				Wing.mulRotateZ(s->GetAnimAngle());
 				Wing.mulScaling(Data.mWingScale2.x, Data.mWingScale2.y, Data.mWingScale2.z);
 				SetRotationZ(s->GetAnimAngle());
+				SetRotationX(s->GetRotation().x);
 				SetScale(VECTOR(Data.mWingScale2.x, Data.mWingScale2.y, Data.mWingScale2.z));
 
 			}
@@ -145,6 +158,7 @@ void SatelliteWing::UpdateActor()
 				Wing.mulTranslate(Data.mS0IdW3IdOffsetPos);
 				Wing.mulRotateY(0);
 				Wing.mulRotateZ(-s->GetAnimAngle());
+				SetRotationX(s->GetRotation().x);
 				Wing.mulScaling(Data.mWingScale2.x, Data.mWingScale2.y, Data.mWingScale2.z);
 				SetRotationZ(-s->GetAnimAngle());
 				SetScale(VECTOR(Data.mWingScale2.x, Data.mWingScale2.y, Data.mWingScale2.z));

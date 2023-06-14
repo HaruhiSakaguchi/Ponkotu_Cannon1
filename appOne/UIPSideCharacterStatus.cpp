@@ -259,6 +259,14 @@ void UIPSideCharacterStatus::Update()
 
 		}
 	}
+
+	if (!mGame->GetPHome())
+	{
+		for (auto button : GetButtons())
+		{
+			button->SetState(Button::Draw_Enable);
+		}
+	}
 }
 
 void UIPSideCharacterStatus::DrawRing(const VECTOR2& pos, float radius, float sw, const COLOR& color)

@@ -30,8 +30,8 @@ int DebugStage::SetUp()
 	tc->SetTree("background");
 	mMiniMap = new UIMiniMap(GetGame(), this);
 
-	PlayerHome* ph = new PlayerHome(GetGame());
-	ph->SetPosition(0.0f, 0.0f, -3.0f);
+	PlayerHome* ph = new PlayerHome(GetGame(),VECTOR(0.0f, 0.0f, -3.0f));
+
 	EnemyHome* eh = new EnemyHome(GetGame());
 	eh->SetPosition(0.0f, 0.0f, -51.0f);
 	eh->SetRotationY(3.1415926f);

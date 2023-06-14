@@ -22,10 +22,11 @@ Satellite::Satellite(class Game* game)
 	SetUp();
 	mState = new StateComponent(this);
 	mState->RegisterState(new SatelliteNormal(mState));
+	mState->RegisterState(new SatelliteGenerate(mState));
 	mState->RegisterState(new SatelliteMove(mState));
 	mState->RegisterState(new SatelliteRockOn(mState));
 	mState->RegisterState(new SatelliteAttack(mState));
-	mState->ChangeState("Normal");
+	mState->ChangeState("Generate");
 }
 
 Satellite::Satellite(class Game* game, const VECTOR& pos)
@@ -40,10 +41,12 @@ Satellite::Satellite(class Game* game, const VECTOR& pos)
 	SetPosition(GetInitPosition());
 	mState = new StateComponent(this);
 	mState->RegisterState(new SatelliteNormal(mState));
+	mState->RegisterState(new SatelliteGenerate(mState));
 	mState->RegisterState(new SatelliteMove(mState));
 	mState->RegisterState(new SatelliteRockOn(mState));
 	mState->RegisterState(new SatelliteAttack(mState));
-	mState->ChangeState("Normal");
+	mState->ChangeState("Generate");
+
 }
 
 Satellite::~Satellite()
@@ -169,15 +172,27 @@ void Satellite::UpdateActor()
 					GetGame()->GetEHome()->SetSatelliteGenerateLevel(GetGame()->GetEHome()->GetSatelliteGenerateLevel() + 1);
 				}
 			}
-			
+
 		}
 	}
 
 	for (auto enemy : GetGame()->GetEnemies())
 	{
-		if (enemy != this)
+		if (enemy != this && enemy->GetTag() == CharacterActor::Satellite)
 		{
-			Intersect(this, enemy);
+			auto satellite = static_cast<class Satellite*>(enemy);
+			if (satellite->GetStateCompoState()->GetName() != "Generate" && mState->GetName() != "Generate")
+			{
+				Intersect(this, satellite);
+			}
+		}
+		else if (enemy->GetTag() == CharacterActor::Tama)
+		{
+			auto tama = static_cast<class Tama*>(enemy);
+			if (tama->GetStateCompoState()->GetName() != "Generate" && mState->GetName() != "Generate")
+			{
+				Intersect(this, tama);
+			}
 		}
 	}
 

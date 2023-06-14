@@ -10,7 +10,7 @@
 #include "UIPSideCharacterStatusClose.h"
 #include "UIPlayerHome.h"
 
-PlayerHome::PlayerHome(class Game* game)
+PlayerHome::PlayerHome(class Game* game, const VECTOR& pos)
 	: PSideCharacterActor(game)
 	, mFlag1(nullptr)
 	, mFlag2(nullptr)
@@ -28,6 +28,8 @@ PlayerHome::PlayerHome(class Game* game)
 	, mMaxBattlePoints(0)
 
 {
+	SetInitPosition(pos);
+	SetPosition(pos);
 	SetUp();
 	GetGame()->SetPHome(this);
 
@@ -61,6 +63,7 @@ int PlayerHome::SetUp()
 	new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
 	mUI = new UIPlayerHome(this);
 	mMaxBattlePoints = 500;
+	mHomeTargetPoint = GetInitPosition();
 	//new UIPSideCharacterStatusClose(this);
 	return 1;
 }
@@ -87,9 +90,9 @@ void PlayerHome::UpdateActor()
 	}
 
 
-	mMyTargetPoints[0] = VECTOR(0.0f, 0.0f, -3.0f);
-	mMyTargetPoints[1] = VECTOR(0.0f, 0.0f, (-3.0f + (GetGame()->GetStage()->GetStageMaxZ() + GetGame()->GetStage()->GetStageMinZ())) / 4.0f);
-	mMyTargetPoints[2] = VECTOR(0.0f, 0.0f, (-3.0f + (GetGame()->GetStage()->GetStageMaxZ() + GetGame()->GetStage()->GetStageMinZ())) / 2.0f);
+	mMyTargetPoints[0] = GetInitPosition();
+	mMyTargetPoints[1] = GetInitPosition() + (VECTOR(0.0f, 0.0f, (GetGame()->GetStage()->GetStageMaxZ() + GetGame()->GetStage()->GetStageMinZ())) / 4.0f);
+	mMyTargetPoints[2] = GetInitPosition() + (VECTOR(0.0f, 0.0f, (GetGame()->GetStage()->GetStageMaxZ() + GetGame()->GetStage()->GetStageMinZ())) / 2.0f);
 
 
 	if (GetDamageInterval() > 0.0f)
@@ -99,15 +102,19 @@ void PlayerHome::UpdateActor()
 
 	for (auto enemy : GetGame()->GetEnemies())
 	{
-		if (enemy->GetPosition().y == 0)
+		if (enemy->GetTag() != CharacterActor::Satellite)
 		{
-			Intersect(this, enemy);
+			if (Intersect(this, enemy) && !mMoveCompleteFlag)
+			{
+				enemy->Damage(1 + (int)(GetLevel() / 2));
+			}
 		}
 	}
 
 	//if (mMoveCompleteFlag == false)
 	{
 		mMoveCompleteFlag = GoToTargetPoint(mHomeTargetPoint);
+
 
 		if (mMoveCompleteFlag && mGenerateFlag)
 		{
@@ -135,7 +142,7 @@ void PlayerHome::UpdateActor()
 		}
 	}
 
-	if (mGenerateFlag && cnt != 0)
+	if (mGenerateFlag && cnt == 0)
 	{
 		Close();
 	}
@@ -177,7 +184,6 @@ bool PlayerHome::GoToTargetPoint(const VECTOR& pos)
 {
 	VECTOR dir = pos - GetPosition();
 	dir.normalize();
-
 
 	if (CollisionCircle(0.5f, 0.5f, GetPosition(), pos))
 	{

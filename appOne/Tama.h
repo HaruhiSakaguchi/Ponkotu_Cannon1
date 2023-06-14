@@ -28,6 +28,9 @@ public:
 	const VECTOR& GetAttackVector() { return mAttackVector; }
 	void SetTargetPos(const VECTOR& vec) { mTargetPos = vec; }
 	const VECTOR& GetTargetPos() { return mTargetPos; }
+
+	class StateComponent* GetStateCompoState() { return mState; }
+
 public:
 	//Data
 	struct DATA {

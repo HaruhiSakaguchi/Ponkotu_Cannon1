@@ -4,7 +4,7 @@ class PlayerHome :
 	public PSideCharacterActor
 {
 public:
-	PlayerHome(class Game* game);
+	PlayerHome(class Game* game,const VECTOR&pos = VECTOR(0.0f,0.0f,0.0f));
 	~PlayerHome();
 	int SetUp()override;
 	void UpdateActor()override;

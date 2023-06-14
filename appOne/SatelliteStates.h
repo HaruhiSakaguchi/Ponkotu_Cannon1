@@ -51,3 +51,19 @@ private:
 	int mMaxCnt;
 	int mRotateCnt;
 };
+
+class SatelliteGenerate :
+	public State
+{
+public:
+	SatelliteGenerate(class StateComponent* OwnerCompo) :State(OwnerCompo) {}
+	const char* GetName()const override { return "Generate"; }
+	void Update()override;
+	virtual void OnEnter()override;
+	virtual void OnExit()override;
+
+private:
+	VECTOR mTargetPos;
+	VECTOR mFirstTarget;
+	bool mFirstTargetCompleteFlag = false;
+};

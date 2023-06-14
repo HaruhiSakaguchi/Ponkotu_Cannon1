@@ -6,6 +6,7 @@
 #include "window.h"
 #include "rand.h"
 #include "PlayerHome.h"
+#include "EnemyHome.h"
 
 void SatelliteCountElapsedTime(Satellite* s)
 {
@@ -270,4 +271,69 @@ void SatelliteAttack::OnExit()
 	s->SetRange(s->GetGame()->GetAllData()->satelliteData.mMaxRange);
 	VECTOR angle = s->GetRotation();
 	//s->SetRotationY(0.0f);
+}
+
+
+void SatelliteGenerate::OnEnter()
+{
+	Satellite* s = static_cast<Satellite*>(mOwnerCompo->GetActor());
+
+	mFirstTargetCompleteFlag = false;
+	mFirstTarget = VECTOR(s->GetGame()->GetEHome()->GetPosition() + VECTOR(0.0f, 2.0f, 10.0f));
+}
+
+void SatelliteGenerate::OnExit()
+{
+	Satellite* s = static_cast<Satellite*>(mOwnerCompo->GetActor());
+	s->SetRotationX(0.0f);
+}
+
+void SatelliteGenerate::Update()
+{
+	Satellite* s = static_cast<Satellite*>(mOwnerCompo->GetActor());
+
+	mTargetPos = s->GetInitPosition();
+	if (!mFirstTargetCompleteFlag)
+	{
+		mTargetPos = mFirstTarget;
+	}
+
+	VECTOR vec = mTargetPos - s->GetPosition();
+	vec.normalize();
+	VECTOR angle = s->GetRotation();
+	int endOfRotate = s->rotate(&angle, vec, 0.05f);
+	s->SetRotation(angle);
+
+	if (s->GetGame()->GetEHome())
+	{
+		if (endOfRotate == 1)
+		{
+			if (!mFirstTargetCompleteFlag)
+			{
+				if (s->GetGame()->GetEHome()->GetOpenComplete())
+				{
+					s->SetPosition(s->GetPosition() + vec * s->GetAdvSpeed() * 10.0f);
+				}
+			}
+			else
+			{
+				s->SetPosition(s->GetPosition() + vec * s->GetAdvSpeed() * 10.0f);
+			}
+		}
+
+		if (CollisionCircle(s->GetRadius(), 0.5f, s->GetPosition(), mFirstTarget))
+		{
+			mFirstTargetCompleteFlag = true;
+		}
+		if (CollisionCircle(s->GetRadius(), 0.5f, s->GetPosition(), s->GetInitPosition()))
+		{
+			mOwnerCompo->ChangeState("Normal");
+			return;
+		}
+	}
+	else
+	{
+		mOwnerCompo->ChangeState("Normal");
+		return;
+	}
 }

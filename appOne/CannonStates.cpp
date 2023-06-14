@@ -680,33 +680,25 @@ void CannonGenerate::Update()
 
 	if (p->GetGame()->GetPHome())
 	{
-		if (endOfRotate == 1 && p->GetGame()->GetPHome()->GetOpenComplete())
+		if (endOfRotate == 1)
 		{
-			p->SetPosition(p->GetPosition() + vec * p->GetAdvSpeed());
+			if (!mFirstTargetCompleteFlag)
+			{
+				if (p->GetGame()->GetPHome()->GetOpenComplete())
+				{
+					p->SetPosition(p->GetPosition() + vec * p->GetAdvSpeed());
+				}
+			}
+			else
+			{
+				p->SetPosition(p->GetPosition() + vec * p->GetAdvSpeed());
+			}
 		}
+
 		if (CollisionCircle(p->GetRadius(), 0.5f, p->GetPosition(), mFirstTarget))
 		{
 			mFirstTargetCompleteFlag = true;
 		}
-
-		/*for (auto pSide : p->GetGame()->GetPSide())
-		{
-			if (pSide != p && pSide->GetTag() != CharacterActor::PHome && Intersect(p, pSide, false) 
-				&& !CollisionCircle(p->GetRadius(), p->GetGame()->GetPHome()->GetRadius(), p->GetPosition(), p->GetGame()->GetPHome()->GetPosition())
-				&& !CollisionCircle(pSide->GetRadius(), p->GetGame()->GetPHome()->GetRadius(), pSide->GetPosition(), p->GetGame()->GetPHome()->GetPosition()))
-			{
-				mOwnerCompo->ChangeState("Wait");
-				return;
-			}
-		}
-		for (auto eSide : p->GetGame()->GetEnemies())
-		{
-			if (Intersect(p, eSide, false))
-			{
-				mOwnerCompo->ChangeState("Wait");
-				return;
-			}
-		}*/
 		if (CollisionCircle(p->GetRadius(), 0.5f, p->GetPosition(), p->GetInitPosition()))
 		{
 			mOwnerCompo->ChangeState("Wait");

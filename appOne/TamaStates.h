@@ -39,7 +39,7 @@ public:
 	void Update()override;
 	virtual void OnEnter()override;
 private:
-	int mCnt;
+	int mCnt = 0;
 	int mRotateCnt;
 };
 
@@ -94,6 +94,20 @@ private:
 	float mMaxTime = 120.0f;
 	VECTOR mTarget;
 	VECTOR mRotation;
+};
+
+class TamaGenerate :
+	public State
+{
+public:
+	TamaGenerate(class StateComponent* OwnerCompo):State(OwnerCompo){}
+	const char* GetName()const override { return "Generate"; }
+	void Update()override;
+	virtual void OnEnter()override;
+private:
+	VECTOR mTargetPos;
+	VECTOR mFirstTarget;
+	bool mFirstTargetCompleteFlag = false;
 };
 
 

@@ -43,14 +43,16 @@ Tama::Tama(Game* game,const VECTOR&pos)
 {
 	SetUp();
 	mState = new StateComponent(this);
+	mState->RegisterState(new TamaGenerate(mState));
 	mState->RegisterState(new TamaWait(mState));
 	mState->RegisterState(new TamaMove(mState));
 	mState->RegisterState(new TamaRockOn(mState));
 	mState->RegisterState(new TamaSeache(mState));
 	mState->RegisterState(new TamaCharge(mState));
 	mState->RegisterState(new TamaAttack(mState));
-	mState->ChangeState("Wait");
-	SetPosition(pos);
+	mState->ChangeState("Generate");
+	//SetPosition(pos);
+	SetInitPosition(pos);
 }
 
 Tama::~Tama()
@@ -95,9 +97,21 @@ void Tama::UpdateActor()
 
 	for (auto enemy : GetGame()->GetEnemies())
 	{
-		if (enemy != this)
+		if (enemy != this && enemy->GetTag() == CharacterActor::Satellite)
 		{
-			Intersect(this, enemy);
+			auto satellite = static_cast<class Satellite*>(enemy);
+			if (satellite->GetStateCompoState()->GetName() != "Generate" && mState->GetName() != "Generate")
+			{
+				Intersect(this, satellite);
+			}
+		}
+		else if (enemy->GetTag() == CharacterActor::Tama)
+		{
+			auto tama = static_cast<class Tama*>(enemy);
+			if (tama->GetStateCompoState()->GetName() != "Generate" && mState->GetName() != "Generate")
+			{
+				Intersect(this, tama);
+			}
 		}
 	}
 

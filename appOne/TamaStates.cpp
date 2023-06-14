@@ -9,6 +9,7 @@
 #include "COLLISION_MAP.h"
 #include "PlayerHome.h"
 #include "TamaPointer.h"
+#include "EnemyHome.h"
 
 void TamaWait::OnEnter()
 {
@@ -216,7 +217,7 @@ void TamaRockOn::Update()
 
 	if (EndOfRotate == 1)
 	{
-	//	if (CollisionCircle(t->GetTp()->GetMaxDist(), 1.5f, t->GetPosition(), mTarget))
+		//	if (CollisionCircle(t->GetTp()->GetMaxDist(), 1.5f, t->GetPosition(), mTarget))
 		{
 			mOwnerCompo->ChangeState("Charge");
 			return;
@@ -286,16 +287,7 @@ void TamaCharge::OnExit()
 void TamaAttack::OnEnter()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
-	/*mTime = 0;
-	mRotation = t->GetRotation();
 
-	if (t->GetHp() > 0)
-	{
-		new TamaWeapon(t);
-		new TamaWeapon(t);
-	}
-
-	t->SetRotationY(0);*/
 	mCnt = 0;
 	setVolume(t->GetDushSound(), t->GetGame()->GetEffectVolume());
 	playSound(t->GetDushSound());
@@ -317,9 +309,7 @@ void TamaAttack::Update()
 	{
 		if (Intersect(t, pSide, false))
 		{
-			//pSide->Damage(5);
-			pSide->Damage(1);
-
+			pSide->Damage(1 + (int)(t->GetLevel() / 2));
 			mOwnerCompo->ChangeState("Wait");
 			return;
 		}
@@ -335,13 +325,66 @@ void TamaAttack::Update()
 void TamaAttack::OnExit()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
-	//t->SetRotation(mRotation);
-	/*if (!t->GetOnMapFlag())
-	{
-		t->SetJumpFlag(1);
-	}*/
 	t->SetAttackVector(VECTOR(0.0f, 0.0f, 0.0f));
 	t->SetTargetPos(VECTOR(0.0f, 0.0f, 0.0f));
+}
+
+void TamaGenerate::OnEnter()
+{
+	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
+
+	mFirstTargetCompleteFlag = false;
+	mFirstTarget = VECTOR(t->GetGame()->GetEHome()->GetPosition() + VECTOR(0.0f, 0.0f, 10.0f));
+}
+
+void TamaGenerate::Update()
+{
+	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
+
+	mTargetPos = t->GetInitPosition();
+	if (!mFirstTargetCompleteFlag)
+	{
+		mTargetPos = mFirstTarget;
+	}
+
+	VECTOR vec = mTargetPos - t->GetPosition();
+	vec.normalize();
+	VECTOR angle = t->GetRotation();
+	int endOfRotate = t->rotate(&angle, vec, 0.05f);
+	t->SetRotation(angle);
+
+	if (t->GetGame()->GetEHome())
+	{
+		if (endOfRotate == 1)
+		{
+			if (!mFirstTargetCompleteFlag)
+			{
+				if (t->GetGame()->GetEHome()->GetOpenComplete())
+				{
+					t->SetPosition(t->GetPosition() + vec * t->GetAdvSpeed());
+				}
+			}
+			else
+			{
+				t->SetPosition(t->GetPosition() + vec * t->GetAdvSpeed());
+			}
+		}
+
+		if (CollisionCircle(t->GetRadius(), 0.5f, t->GetPosition(), mFirstTarget))
+		{
+			mFirstTargetCompleteFlag = true;
+		}
+		if (CollisionCircle(t->GetRadius(), 0.5f, t->GetPosition(), t->GetInitPosition()))
+		{
+			mOwnerCompo->ChangeState("Wait");
+			return;
+		}
+	}
+	else
+	{
+		mOwnerCompo->ChangeState("Wait");
+		return;
+	}
 }
 
 

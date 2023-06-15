@@ -44,6 +44,7 @@ void TamaWeapon::UpdateActor()
 
 	SetDamageInterval(t->GetDamageInterval());
 
+	SetRotationY(GetRotation().y + 0.17f);
 	SphereWeapon::UpdateActor();
 
 	setVolume(iData.mAttackSound, GetGame()->GetEffectVolume());
@@ -57,7 +58,7 @@ void TamaWeapon::UpdateActor()
 
 	MATRIX mat;
 	mat.identity();
-	mat.mulRotateY(t->GetRotation().y);
+	mat.mulRotateY(GetRotation().y);
 
 	if (mId == 0)
 	{

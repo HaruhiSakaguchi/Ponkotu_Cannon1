@@ -66,4 +66,6 @@ private:
 	VECTOR mTargetPos;
 	VECTOR mFirstTarget;
 	bool mFirstTargetCompleteFlag = false;
+	bool mRotateFlag = false;
+	bool mSwitch = false;
 };

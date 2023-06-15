@@ -190,16 +190,8 @@ void SatelliteAttack::OnEnter()
 		wing->SetAttackFlag(true);
 	}
 	mCnt = 0;
-	/*if (s->GetId() == 0)
-	{
-		mMaxCnt = 10;
-	}
-	else
-	{
-		mMaxCnt = 4;
-	}*/
 
-	mMaxCnt = 12;
+	mMaxCnt = (int)(36 / (2 + (int)(s->GetLevel() / 2)));
 
 	mRotateCnt = 36;
 }
@@ -304,26 +296,44 @@ void SatelliteGenerate::Update()
 	int endOfRotate = s->rotate(&angle, vec, 0.05f);
 	s->SetRotation(angle);
 
+	if (!mSwitch && endOfRotate == 1)
+	{
+		mRotateFlag = true;
+		mSwitch = true;
+	}
+
 	if (s->GetGame()->GetEHome())
 	{
-		if (endOfRotate == 1)
+		if (mRotateFlag)
 		{
 			if (!mFirstTargetCompleteFlag)
 			{
 				if (s->GetGame()->GetEHome()->GetOpenComplete())
 				{
 					s->SetPosition(s->GetPosition() + vec * s->GetAdvSpeed() * 10.0f);
+					SatelliteRotation(s);
+					if (s->GetId() == 1)
+					{
+						s->SetRotationY(s->GetRotation().y + 0.17f);
+					}
 				}
 			}
 			else
 			{
 				s->SetPosition(s->GetPosition() + vec * s->GetAdvSpeed() * 10.0f);
+				SatelliteRotation(s);
+				if (s->GetId() == 1)
+				{
+					s->SetRotationY(s->GetRotation().y + 0.17f);
+				}
 			}
 		}
 
 		if (CollisionCircle(s->GetRadius(), 0.5f, s->GetPosition(), mFirstTarget))
 		{
 			mFirstTargetCompleteFlag = true;
+			mSwitch = false;
+			mRotateFlag = false;
 		}
 		if (CollisionCircle(s->GetRadius(), 0.5f, s->GetPosition(), s->GetInitPosition()))
 		{

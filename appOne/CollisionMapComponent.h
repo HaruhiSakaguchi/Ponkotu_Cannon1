@@ -7,5 +7,9 @@ class CollisionMapComponent :
 public:
     CollisionMapComponent(Actor* owner);
     void Update()override;
+    void NoCollisionMap() { mIsMapCollision = false; }
+private:
+    bool mIsMapCollision;
+
 };
 

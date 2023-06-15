@@ -288,6 +288,13 @@ void TamaAttack::OnEnter()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
 
+
+	for (int i = 0; i < (int)(t->GetLevel() / 5); i++)
+	{
+		new TamaWeapon(t);
+	}
+
+
 	mCnt = 0;
 	setVolume(t->GetDushSound(), t->GetGame()->GetEffectVolume());
 	playSound(t->GetDushSound());

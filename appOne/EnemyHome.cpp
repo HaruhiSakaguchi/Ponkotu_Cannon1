@@ -145,7 +145,7 @@ void EnemyHome::UpdateActor()
 					}
 					else
 					{
-						EPos.y = -0.5f;
+						EPos.y = 0.5f;
 					}
 
 					satellite->SetPosition(EPos);

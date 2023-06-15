@@ -112,7 +112,8 @@ void Satellite::UpdateActor()
 	if (GetHp() <= 0 && mDeadFlag == false)
 	{
 		mDeadFlag = true;
-		new CollisionMapComponent(this);
+		auto Collision = new CollisionMapComponent(this);
+		Collision->NoCollisionMap();
 	}
 
 	Master.identity();

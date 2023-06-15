@@ -5,6 +5,7 @@
 
 CollisionMapComponent::CollisionMapComponent(Actor* owner)
 	:Component(owner)
+	, mIsMapCollision(true)
 {
 
 }
@@ -18,13 +19,16 @@ void CollisionMapComponent::Update()
 	float jumpVel = owner->GetJumpVel();
 	int jumpFlag = owner->GetJumpFlag();
 
-	if (mOwner->GetGame()->GetCollisionMap())
+	if (mIsMapCollision)
 	{
-		mOwner->GetGame()->GetCollisionMap()->capsule_triangles
-		(&pos, &jumpVel, &jumpFlag, owner->GetAdvSpeed(), owner->GetRadius(), owner->GetOffsetY(), owner->GetSlant(), &floorY
-		);
-	}
+		if (mOwner->GetGame()->GetCollisionMap())
+		{
+			mOwner->GetGame()->GetCollisionMap()->capsule_triangles
+			(&pos, &jumpVel, &jumpFlag, owner->GetAdvSpeed(), owner->GetRadius(), owner->GetOffsetY(), owner->GetSlant(), &floorY
+			);
+		}
 
+	}
 	if (jumpFlag == 0 && pos.y != floorY)
 	{
 		pos.y = floorY;

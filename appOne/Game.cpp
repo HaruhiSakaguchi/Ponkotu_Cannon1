@@ -86,7 +86,7 @@ void Game::ProcessInput()
 		{
 			mGameState = Game::EQuit;
 		}
-		if (mGameScene == Game::EPlay)
+		//if (mGameScene == Game::EPlay)
 		{
 			mUpdatingActors = true;
 			for (auto actor : mActors)
@@ -95,21 +95,15 @@ void Game::ProcessInput()
 			}
 			mUpdatingActors = false;
 
-			//Pause
-			if (isTrigger(KEY_ENTER))
-			{
-				new Pause(this);
-			}
 			for (auto ui : mUIStack)
 			{
 				ui->ProcessInput();
 			}
-		}
-		else
-		{
-			if (!mUIStack.empty())
+
+			//Pause
+			if (isTrigger(KEY_ENTER))
 			{
-				mUIStack.back()->ProcessInput();
+				new Pause(this);
 			}
 		}
 		
@@ -198,7 +192,7 @@ void Game::GenerateOutput()
 {
 	mRenderer->Draw();
 	//print(GetScene());
-	print("UI :" + (let)GetUIStack().size());
+	//print("UI :" + (let)GetUIStack().size());
 }
 
 void Game::LoadData()

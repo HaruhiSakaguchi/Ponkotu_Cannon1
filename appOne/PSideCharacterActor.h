@@ -7,7 +7,7 @@ class PSideCharacterActor :
 {
 
 public:
-    PSideCharacterActor(Game*game);
+    PSideCharacterActor(class Game*game);
     ~PSideCharacterActor();
     void SetUI(UIPSideCharacterStatusBase* ui) { mUI = ui; }
 

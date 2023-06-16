@@ -19,28 +19,34 @@ Pause::Pause(Game* game)
 	mTitlePos = Data.mTitlePos;
 	mButtonPos = Data.mButtonPos;
 
-	//落下音を止める
-	if (mGame->GetCannon())
-	{
-		static_cast<Cannon*>(mGame->GetCannon())->StopFallSound();
-	}
-
 	AddButton("再開する",
 		[this]() {
 			mGame->SetState(Game::EGameplay);
 			CloseMe();
+			for (auto ui : mGame->GetUIStack())
+			{
+				if (ui != this)
+				{
+					for (auto button : ui->GetButtons())
+					{
+						button->SetState(Button::Enable);
+					}
+				}
+			}
 		}
 		, 1
 			, "プレイを再開します"
 			);
 
-	AddButton("オプション",
+	auto option = AddButton("オプション",
 		[this]() {
 			new Option(mGame);
 		}
 		, 1
 			, "オプションを開きます"
 			);
+
+	option->SetState(Button::Draw_Enable);
 
 	AddButton("タイトルに戻る",
 		[this]() {
@@ -59,7 +65,7 @@ Pause::Pause(Game* game)
 			, "ゲームを終了します"
 			);
 
-	AddButton("?",
+	auto help = AddButton("?",
 		[this]() {
 			new UIHelp1(mGame);
 		}
@@ -68,8 +74,21 @@ Pause::Pause(Game* game)
 			, Data.mHelpButtonPosOffset
 			);
 
+	help->SetState(Button::Draw_Enable);
+
 	setVolume(Data.mSound, mGame->GetEffectVolume() + Data.mPauseSoundVolumeOffset);
 	playSound(Data.mSound);
+
+	for (auto ui : mGame->GetUIStack())
+	{
+		if (ui != this)
+		{
+			for (auto button : ui->GetButtons())
+			{
+				button->SetState(Button::Disable);
+			}
+		}
+	}
 }
 
 Pause::~Pause()
@@ -79,12 +98,6 @@ Pause::~Pause()
 	{
 		setVolume(Data.mSound, mGame->GetEffectVolume() + Data.mPauseSoundVolumeOffset);
 		playSound(Data.mSound);
-	}
-
-	if (mGame->GetCannon() && mGame->GetCannon()->GetJumpFlag() == 1)
-	{
-		//pause前にプレイヤーが落下していたら音を鳴らしなおす
-		static_cast<Cannon*>(mGame->GetCannon())->PlayFallSound();
 	}
 }
 
@@ -96,6 +109,16 @@ void Pause::ProcessInput()
 	{
 		mGame->SetState(Game::EGameplay);
 		CloseMe();
+		for (auto ui : mGame->GetUIStack())
+		{
+			if (ui != this)
+			{
+				for (auto button : ui->GetButtons())
+				{
+					button->SetState(Button::Enable);
+				}
+			}
+		}
 	}
 }
 

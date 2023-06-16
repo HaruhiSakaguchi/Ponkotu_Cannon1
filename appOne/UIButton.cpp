@@ -155,31 +155,7 @@ void Button::Draw()
 
 		if (mImageNum > 2)
 		{
-			if (mName.length() * Data.mButtonTextSize / 2.0f > mRectButtonDim.x)
-			{
-				mRectButtonDim.x += mName.length() * Data.mButtonTextSize / 2.0f - mRectButtonDim.x;
-			}
-
-			COLOR color = mHighlighted ? mContainsColor : mNoContainsColor;
-			stroke(color);
-			strokeWeight(5.0f);
-			fill(color);
-			rect(mPosition.x, mPosition.y, mRectButtonDim.x, mRectButtonDim.y);
-			fill(COLOR(128, 128, 128, 64));
-			noStroke();
-			rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.5f / 2.0f, mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.25f + 5.0f);
-			fill(COLOR(64, 64, 64, 64));
-			noStroke();
-			rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.95f / 2.0f, mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.05f + 5.0f);
-			fill(color);
-			stroke(color);
-			rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.9875f / 2.0f - (mRectButtonDim.y * 0.05f + 5.0f), mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.0125f + 5.0f);
-			VECTOR2 sp = mPosition - mRectButtonDim / 2 - VECTOR2(2.0f, 2.0f);
-			VECTOR2 ep = sp + VECTOR2(mRectButtonDim.x + 2.0f, 0.0f);
-			fill(COLOR(64, 64, 64, 64));
-			stroke(COLOR(64, 64, 64, 64));
-			strokeWeight(2.0f);
-			line(sp.x, sp.y, ep.x, ep.y);
+			DrawRectButton();
 		}
 
 		// ƒ{ƒ^ƒ“•¶Žš•\Ž¦
@@ -257,6 +233,35 @@ void Button::DrawGuide()
 		rect(pos.x, pos.y - Data.mGuideTextSize, strlen(mText) * Data.mGuideTextSize / 2.0f, Data.mGuideTextSize);
 		rectMode(CENTER);
 	}
+}
+
+void Button::DrawRectButton()
+{
+	if (mName.length() * Data.mButtonTextSize / 2.0f > mRectButtonDim.x)
+	{
+		mRectButtonDim.x += mName.length() * Data.mButtonTextSize / 2.0f - mRectButtonDim.x;
+	}
+
+	COLOR color = mHighlighted ? mContainsColor : mNoContainsColor;
+	stroke(color);
+	strokeWeight(5.0f);
+	fill(color);
+	rect(mPosition.x, mPosition.y, mRectButtonDim.x, mRectButtonDim.y);
+	fill(COLOR(128, 128, 128, 64));
+	noStroke();
+	rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.5f / 2.0f, mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.25f + 5.0f);
+	fill(COLOR(64, 64, 64, 64));
+	noStroke();
+	rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.95f / 2.0f, mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.05f + 5.0f);
+	fill(color);
+	stroke(color);
+	rect(mPosition.x, mPosition.y + mRectButtonDim.y * 0.9875f / 2.0f - (mRectButtonDim.y * 0.05f + 5.0f), mRectButtonDim.x + 5.0f, mRectButtonDim.y * 0.0125f + 5.0f);
+	VECTOR2 sp = mPosition - mRectButtonDim / 2 - VECTOR2(2.0f, 2.0f);
+	VECTOR2 ep = sp + VECTOR2(mRectButtonDim.x + 2.0f, 0.0f);
+	fill(COLOR(64, 64, 64, 64));
+	stroke(COLOR(64, 64, 64, 64));
+	strokeWeight(2.0f);
+	line(sp.x, sp.y, ep.x, ep.y);
 }
 
 void Button::ContainsSound()

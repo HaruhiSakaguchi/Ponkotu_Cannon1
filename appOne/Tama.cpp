@@ -51,7 +51,6 @@ Tama::Tama(Game* game,const VECTOR&pos)
 	mState->RegisterState(new TamaCharge(mState));
 	mState->RegisterState(new TamaAttack(mState));
 	mState->ChangeState("Generate");
-	//SetPosition(pos);
 	SetInitPosition(pos);
 }
 
@@ -138,6 +137,10 @@ void Tama::UpdateActor()
 			if (GetGame()->GetPHome())
 			{
 				GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetBattlePoints() + 100 + GetLevel() * 50);
+				if (GetGame()->GetPHome()->GetMaxBattlePoints() < GetGame()->GetPHome()->GetBattlePoints())
+				{
+					GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetMaxBattlePoints());
+				}
 			}
 
 			if (GetGame()->GetEHome())

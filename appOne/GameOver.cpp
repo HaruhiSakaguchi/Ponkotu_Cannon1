@@ -24,6 +24,7 @@ GameOver::GameOver(Game* game)
 
 	mGame->SetScene(Game::EGameOver);
 	mGame->GetTransition()->inTrigger();
+
 	mPlayFlag = false;
 	mTitleFlag = false;
 

@@ -29,10 +29,11 @@ void CollisionMapComponent::Update()
 		}
 
 	}
-	if (jumpFlag == 0 && pos.y != floorY)
+
+	/*if (jumpFlag == 0 && pos.y != floorY)
 	{
 		pos.y = floorY;
-	}
+	}*/
 
 	if (jumpFlag == 1)
 	{

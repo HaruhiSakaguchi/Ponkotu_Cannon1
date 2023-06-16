@@ -153,6 +153,10 @@ void Satellite::UpdateActor()
 				if (GetGame()->GetPHome())
 				{
 					GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetBattlePoints() + 150 + GetLevel() * 50);
+					if (GetGame()->GetPHome()->GetMaxBattlePoints() < GetGame()->GetPHome()->GetBattlePoints())
+					{
+						GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetMaxBattlePoints());
+					}
 				}
 			}
 			else
@@ -160,7 +164,11 @@ void Satellite::UpdateActor()
 				GetGame()->GetStage()->GetLog()->AddText("SatelliteB‚ð“|‚µ‚½II");
 				if (GetGame()->GetPHome())
 				{
-					GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetBattlePoints() + 175 + GetLevel() * 50);
+					GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetBattlePoints() + 100 + GetLevel() * 50);
+					if (GetGame()->GetPHome()->GetMaxBattlePoints() < GetGame()->GetPHome()->GetBattlePoints())
+					{
+						GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetMaxBattlePoints());
+					}
 				}
 			}
 			SetState(Actor::EDead);

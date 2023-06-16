@@ -443,7 +443,7 @@ void SetAllData(Container& ad)
 		ad.itemCompoData.mUIPosChangeSpeed = 0.5f;
 		ad.itemCompoData.mNumber = 0;
 		ad.itemCompoData.mKeepTime = 0.0f;
-		ad.itemCompoData.mUIInitPos = VECTOR2(2600.0f, 200.0f);
+		ad.itemCompoData.mUIInitPos = VECTOR2(2600.0f, 100.0f);
 		ad.itemCompoData.mPosition = VECTOR2(0.0f, 0.0f);
 	}
 	//recoverCompo

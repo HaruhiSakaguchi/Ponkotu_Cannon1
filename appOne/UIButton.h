@@ -26,6 +26,7 @@ public:
 	void Draw();
 	void Update();
 	void DrawGuide();
+	void DrawRectButton();
 
 	const VECTOR2& GetPosition() { return mPosition; }
 	void SetPosition(const VECTOR2& pos) { mPosition = pos; }

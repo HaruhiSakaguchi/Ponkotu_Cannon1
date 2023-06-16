@@ -14,15 +14,13 @@ StageClear::StageClear(Game* game)
 	Data = mGame->GetAllData()->stageClearData;
 	std::ostringstream oss;
 
-	oss << "Stage" << (int)(mGame->GetPhase() + 1) << "Clear!";
+	oss << "Stage" << "Clear!";
 
 	mTitle = oss.str();
 	mTitleColor = Data.mTitleColor;
 	mTextSize = Data.mTextSize;;
 	mTitlePos = Data.mTitlePos;
 	mButtonPos = Data.mButtonPos;
-
-	static_cast<Cannon*>(mGame->GetCannon())->StopFallSound();
 
 	mGame->SetScene(Game::EStageClear);
 	mGame->SetState(Game::EPaused);
@@ -34,10 +32,10 @@ StageClear::StageClear(Game* game)
 
 	const char* text = 0;
 	if (mGame->GetPhase() != Game::FOURTH && mGame->GetContinueFlag())
-	{
+	/*{
 		text = "次のステージに進みます";
 	}
-	else
+	else*/
 	{
 		text = "エンディングに進みます";
 	}
@@ -45,7 +43,7 @@ StageClear::StageClear(Game* game)
 	AddButton("次へ",
 		[this]() {
 			ChangeState();
-	mGame->SetScene(Game::EPlay);
+	        mGame->SetScene(Game::EPlay);
 		}
 		, 1
 			, text
@@ -109,12 +107,12 @@ void StageClear::ChangeOption()
 	}
 	else if (mGame->GetScene() != Game::EGameQuit)
 	{
-		if (mGame->GetPhase() != Game::FOURTH && mGame->GetContinueFlag())
+		/*if (mGame->GetPhase() != Game::FOURTH && mGame->GetContinueFlag())
 		{
 			new GamePlay(mGame);
 			mGame->GetTransition()->inTrigger();
 		}
-		else
+		else*/
 		{
 			new AllClear(mGame);
 		}

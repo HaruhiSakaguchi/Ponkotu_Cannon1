@@ -50,7 +50,7 @@ void UIScreen::ProcessInput()
 			// ロールオーバーしていたら
 			if (b->ContainsPoint(mousePos))
 			{
-			//	if (mGame->GetTransition()->inEndFlag())
+				if (mGame->GetTransition()->inEndFlag())
 				{
 					//サウンドフラッグが立っていなかったら音を鳴らす。鳴らすとサウンドフラッグが立つ。
 					if (!b->GetSound())

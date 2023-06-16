@@ -47,9 +47,9 @@ GamePlay::GamePlay(Game* game) :
 			mMap = new Stage2(mGame);
 		}
 	}
-	mGame->GetTransition()->inTrigger();
 #endif
 
+	mGame->GetTransition()->inTrigger();
 	mGame->SetStage(mMap);
 
 	setVolume(mBgm, mGame->GetVolume() + mSoundOffset);
@@ -64,36 +64,20 @@ GamePlay::~GamePlay()
 
 void GamePlay::Update()
 {
-	if (!mGame->GetEHome() && mGameClearFlag == 0)
+	if (mGame->GetScene() == Game::EPlay && mGameClearFlag == 0 && mGameOverFlag == 0)
 	{
-		if (mGame->GetScene() == Game::EPlay && (mGame->GetEnemies().empty() && mGame->GetWeapons().empty()))
+		if ((mGame->GetEnemies().empty() && mGame->GetWeapons().empty()) && !mGame->GetEHome())
 		{
-			bool jumpflag = false;
-			/*for (auto actor : mGame->GetActors())
-			{
-				CharacterActor*chara = static_cast<CharacterActor*>(actor);
-				if (chara->GetJumpFlag() == 1)
-				{
-					jumpflag = true;
-				}
-			}*/
-			if (!jumpflag)
-			{
-				//new StageClear(mGame);
-				/*if (mGame->GetPhase() == Game::FOURTH)
-				{
-					stopSound(mBgm);
-				}*/
-				mGameClearFlag = 1;
-			}
+			new StageClear(mGame);
+			stopSound(mBgm);
+			mGameClearFlag = 1;
 		}
-	}
-	else {
-		if (mGame->GetPSide().empty() && (mGameOverFlag == 0 && mGame->GetScene() == Game::EPlay))
+		else if (mGame->GetPSide().empty())
 		{
-			//new GameOver(mGame);
-			//stopSound(mBgm);
+			new GameOver(mGame);
+			stopSound(mBgm);
 			mGameOverFlag = 1;
+
 		}
 	}
 

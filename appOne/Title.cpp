@@ -30,7 +30,7 @@ Title::Title(Game* game)
 	mText = oss.str();
 
 	mGame->SetScene(Game::ETitle);
-#ifdef RELEASE
+//#ifdef RELEASE
 	if (mGame->GetTransition())
 	{
 		mGame->GetTransition()->inTrigger();
@@ -48,17 +48,18 @@ Title::Title(Game* game)
 			, "最初からゲームを始めます"
 			);
 
-	AddButton("ステージセレクト",
+	auto select = AddButton("ステージセレクト",
 		[this]() {
 			new StageSelect(mGame);
 		}
 		, 1
 			, "ステージを選んで始めます"
 			);
+	select->SetState(Button::Draw_Enable);
 
 	if (mGame->GetPhase() != Game::FIRST)
 	{
-		AddButton("続きから",
+		auto Continue = AddButton("続きから",
 			[this]() {
 				ChangeState();
 				mGame->SetContinueFlag(true);
@@ -66,9 +67,13 @@ Title::Title(Game* game)
 			, 1
 				, mText.c_str()
 				);
+
+		Continue->SetState(Button::Draw_Enable);
 	}
 
-	AddButton("オプション",
+
+
+	auto option = AddButton("オプション",
 		[this]()
 		{
 			new Option(mGame);
@@ -76,6 +81,8 @@ Title::Title(Game* game)
 		, 1
 			, "オプションを開きます"
 			);
+
+	option->SetState(Button::Draw_Enable);
 
 	AddButton("終わる",
 		[this]() {
@@ -95,7 +102,7 @@ Title::Title(Game* game)
 		ofst = Data.mPhaseFirstButtonOffsetPos;
 	}
 
-	AddButton("?",
+	auto help = AddButton("?",
 		[this]() {
 			new UIHelp1(mGame);
 		}
@@ -104,10 +111,12 @@ Title::Title(Game* game)
 			, ofst
 			);
 
+	help->SetState(Button::Draw_Enable);
+
 	playLoopSound(Data.mBgm);
 	setVolume(Data.mBgm, mGame->GetVolume() + Data.mBgmSoundVolumeOffset);
 
-#endif
+//#endif
 }
 
 Title::~Title()
@@ -125,13 +134,13 @@ void Title::ChangeOption()
 
 void Title::Update()
 {
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	if (!mChangeStateFlag)
 	{
 		mChangeStateFlag = true;
 		ChangeState();
 	}
-#endif
+//#endif
 
 	if (mGame->GetBgmFlag())
 	{

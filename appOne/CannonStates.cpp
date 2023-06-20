@@ -250,16 +250,16 @@ void CannonMoveReturnHome::Update()
 {
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
 
-	if (p->GetGame()->GetPHome())
+	if (p->GetGame()->GetActorManager()->GetPHome())
 	{
-		if (CollisionCircle(10.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
+		if (CollisionCircle(10.0f, p->GetRadius(), p->GetGame()->GetActorManager()->GetPHome()->GetPosition(), p->GetPosition()))
 		{
 			mOwnerCompo->ChangeState("Wait");
 			p->SetMoveState(Cannon::Stay);
 			return;
 		}
 
-		VECTOR vec = p->GetGame()->GetPHome()->GetPosition() - p->GetPosition();
+		VECTOR vec = p->GetGame()->GetActorManager()->GetPHome()->GetPosition() - p->GetPosition();
 		vec.normalize();
 		VECTOR angle = p->GetRotation();
 		int EndOfRotate = p->rotate(&angle, vec, 0.05f);
@@ -289,9 +289,9 @@ void CannonMoveReturnHome::Update()
 void CannonMoveHomePatroll::Update()
 {
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
-	if (p->GetGame()->GetPHome())
+	if (p->GetGame()->GetActorManager()->GetPHome())
 	{
-		VECTOR vec = p->GetGame()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()] - p->GetPosition();
+		VECTOR vec = p->GetGame()->GetActorManager()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()] - p->GetPosition();
 		vec.normalize();
 		VECTOR angle = p->GetRotation();
 		int EndOfRotate = p->rotate(&angle, vec, 0.05f);
@@ -301,7 +301,7 @@ void CannonMoveHomePatroll::Update()
 
 		for (auto cannon : p->GetGame()->GetActorManager()->GetCannons())
 		{
-			if (p != cannon && CollisionCircle(1.0f, cannon->GetRadius(), p->GetGame()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()], cannon->GetPosition()))
+			if (p != cannon && CollisionCircle(1.0f, cannon->GetRadius(), p->GetGame()->GetActorManager()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()], cannon->GetPosition()))
 			{
 				NextPointEmpty = false;
 			}
@@ -312,7 +312,7 @@ void CannonMoveHomePatroll::Update()
 			p->SetPosition(pos + vec * p->GetAdvSpeed());
 		}
 
-		if (CollisionCircle(1.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()], p->GetPosition()))
+		if (CollisionCircle(1.0f, p->GetRadius(), p->GetGame()->GetActorManager()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()], p->GetPosition()))
 		{
 			p->SetTPIndex(p->GetNextTpIndex());
 		}
@@ -329,7 +329,7 @@ void CannonMoveHomePatroll::Update()
 		{
 			for (auto enemy : p->GetGame()->GetActorManager()->GetEnemies())
 			{
-				if (CollisionCircle(p->GetRange(), enemy->GetRadius(), p->GetPosition(), enemy->GetPosition() + enemy->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
+				if (CollisionCircle(p->GetRange(), enemy->GetRadius(), p->GetPosition(), enemy->GetPosition() + enemy->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetActorManager()->GetPHome()->GetPosition(), p->GetPosition()))
 				{
 					mOwnerCompo->ChangeState("Rotate");
 					return;
@@ -337,7 +337,7 @@ void CannonMoveHomePatroll::Update()
 			}
 			for (auto item : p->GetGame()->GetActorManager()->GetItems())
 			{
-				if (CollisionCircle(p->GetRange(), item->GetRadius(), p->GetPosition(), item->GetPosition() + item->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
+				if (CollisionCircle(p->GetRange(), item->GetRadius(), p->GetPosition(), item->GetPosition() + item->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetActorManager()->GetPHome()->GetPosition(), p->GetPosition()))
 				{
 					mOwnerCompo->ChangeState("Rotate");
 					return;
@@ -356,9 +356,9 @@ void CannonMoveHomePatroll::Update()
 void CannonMoveFieldPatroll::Update()
 {
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
-	if (p->GetGame()->GetPHome())
+	if (p->GetGame()->GetActorManager()->GetPHome())
 	{
-		VECTOR vec = p->GetGame()->GetPHome()->GetFieldTargetPoints()[p->GetTPIndex()] - p->GetPosition();
+		VECTOR vec = p->GetGame()->GetActorManager()->GetPHome()->GetFieldTargetPoints()[p->GetTPIndex()] - p->GetPosition();
 		vec.normalize();
 		VECTOR angle = p->GetRotation();
 		int EndOfRotate = p->rotate(&angle, vec, 0.05f);
@@ -368,7 +368,7 @@ void CannonMoveFieldPatroll::Update()
 
 		for (auto cannon : p->GetGame()->GetActorManager()->GetCannons())
 		{
-			if (p != cannon && CollisionCircle(1.0f, cannon->GetRadius(), p->GetGame()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()], cannon->GetPosition()))
+			if (p != cannon && CollisionCircle(1.0f, cannon->GetRadius(), p->GetGame()->GetActorManager()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()], cannon->GetPosition()))
 			{
 				NextPointEmpty = false;
 			}
@@ -379,7 +379,7 @@ void CannonMoveFieldPatroll::Update()
 			p->SetPosition(pos + vec * p->GetAdvSpeed());
 		}
 
-		if (CollisionCircle(1.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetFieldTargetPoints()[p->GetTPIndex()], p->GetPosition()))
+		if (CollisionCircle(1.0f, p->GetRadius(), p->GetGame()->GetActorManager()->GetPHome()->GetFieldTargetPoints()[p->GetTPIndex()], p->GetPosition()))
 		{
 			p->SetTPIndex(p->GetNextTpIndex());
 		}
@@ -396,7 +396,7 @@ void CannonMoveFieldPatroll::Update()
 		{
 			for (auto enemy : p->GetGame()->GetActorManager()->GetEnemies())
 			{
-				if (CollisionCircle(p->GetRange(), enemy->GetRadius(), p->GetPosition(), enemy->GetPosition() + enemy->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
+				if (CollisionCircle(p->GetRange(), enemy->GetRadius(), p->GetPosition(), enemy->GetPosition() + enemy->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetActorManager()->GetPHome()->GetPosition(), p->GetPosition()))
 				{
 					mOwnerCompo->ChangeState("Rotate");
 					return;
@@ -404,7 +404,7 @@ void CannonMoveFieldPatroll::Update()
 			}
 			for (auto item : p->GetGame()->GetActorManager()->GetItems())
 			{
-				if (CollisionCircle(p->GetRange(), item->GetRadius(), p->GetPosition(), item->GetPosition() + item->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
+				if (CollisionCircle(p->GetRange(), item->GetRadius(), p->GetPosition(), item->GetPosition() + item->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetActorManager()->GetPHome()->GetPosition(), p->GetPosition()))
 				{
 					mOwnerCompo->ChangeState("Rotate");
 					return;
@@ -591,7 +591,7 @@ void CannonGenerate::OnEnter()
 {
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
 	mFirstTargetCompleteFlag = false;
-	mFirstTarget = VECTOR(p->GetGame()->GetPHome()->GetPosition() + VECTOR(0.0f, 0.0f, -5.0f));
+	mFirstTarget = VECTOR(p->GetGame()->GetActorManager()->GetPHome()->GetPosition() + VECTOR(0.0f, 0.0f, -5.0f));
 }
 
 void CannonGenerate::Update()
@@ -609,13 +609,13 @@ void CannonGenerate::Update()
 	int endOfRotate = p->rotate(&angle, vec, 0.05f);
 	p->SetRotation(angle);
 
-	if (p->GetGame()->GetPHome())
+	if (p->GetGame()->GetActorManager()->GetPHome())
 	{
 		if (endOfRotate == 1)
 		{
 			if (!mFirstTargetCompleteFlag)
 			{
-				if (p->GetGame()->GetPHome()->GetOpenComplete())
+				if (p->GetGame()->GetActorManager()->GetPHome()->GetOpenComplete())
 				{
 					p->SetPosition(p->GetPosition() + vec * p->GetAdvSpeed());
 				}

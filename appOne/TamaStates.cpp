@@ -38,7 +38,7 @@ void TamaMove::OnEnter()
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
 
 	mAdv = VECTOR((float)random(-1, 1), t->GetPosition().y, (float)random(-1, 1));
-	if (!t->GetGame()->GetPHome())
+	if (!t->GetGame()->GetActorManager()->GetPHome())
 	{
 		mTarget = t->GetPosition() + mAdv;
 	}
@@ -295,7 +295,7 @@ void TamaAttack::Update()
 		}
 	}
 
-	if (++mCnt >= 30 || !t->GetGame()->GetPHome())
+	if (++mCnt >= 30 || !t->GetGame()->GetActorManager()->GetPHome())
 	{
 		mOwnerCompo->ChangeState("Search");
 		return;
@@ -314,7 +314,7 @@ void TamaGenerate::OnEnter()
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
 
 	mFirstTargetCompleteFlag = false;
-	mFirstTarget = VECTOR(t->GetGame()->GetEHome()->GetPosition() + VECTOR(0.0f, 0.0f, 10.0f));
+	mFirstTarget = VECTOR(t->GetGame()->GetActorManager()->GetEHome()->GetPosition() + VECTOR(0.0f, 0.0f, 10.0f));
 }
 
 void TamaGenerate::Update()
@@ -333,13 +333,13 @@ void TamaGenerate::Update()
 	int endOfRotate = t->rotate(&angle, vec, 0.05f);
 	t->SetRotation(angle);
 
-	if (t->GetGame()->GetEHome())
+	if (t->GetGame()->GetActorManager()->GetEHome())
 	{
 		if (endOfRotate == 1)
 		{
 			if (!mFirstTargetCompleteFlag)
 			{
-				if (t->GetGame()->GetEHome()->GetOpenComplete())
+				if (t->GetGame()->GetActorManager()->GetEHome()->GetOpenComplete())
 				{
 					t->SetPosition(t->GetPosition() + vec * t->GetAdvSpeed());
 				}

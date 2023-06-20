@@ -35,6 +35,11 @@ public:
 
 	void CreateArea(float* maxX, float* maxZ, float* minX, float* minZ, int areaNum);
 
+	void MapClear();
+	void SetCollisionMap(class COLLISION_MAP* map) { mMap = map; }
+
+	class COLLISION_MAP* GetCollisionMap() { return mMap; }
+
 	void SetClearCnt(int cnt) { Data.mClearCnt = cnt; }
 	int GetClearCnt() { return Data.mClearCnt; }
 
@@ -96,5 +101,6 @@ private:
 	bool mInitItemDropFlag;
 	bool mClearFlag;
 	VECTOR mCenterPos;
+	class COLLISION_MAP* mMap;
 };
 

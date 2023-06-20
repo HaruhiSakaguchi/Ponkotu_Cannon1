@@ -19,7 +19,7 @@ ItemComponent::~ItemComponent()
 {
 	class Cannon* c = static_cast<class Cannon*>(mOwner);
 
-	if (Data.mMaxHp != 0 && !mOwner->GetGame()->GetTransition()->outEndFlag())
+	if (Data.mMaxHp != 0 && !mOwner->GetGame()->GetRenderer()->GetTransition()->outEndFlag())
 	{
 		setVolume(mOwner->GetGame()->GetAllData()->mCloseSound, mOwner->GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mOwner->GetGame()->GetAllData()->mCloseSound);

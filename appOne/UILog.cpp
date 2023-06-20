@@ -37,7 +37,7 @@ void UILog::Draw()
 void UILog::AddText(std::string string)
 {
 	std::ostringstream oss;
-	oss << mGame->GetStage()->GetTimeText().c_str() << " " << string.c_str();
+	oss << mGame->GetActorManager()->GetStage()->GetTimeText().c_str() << " " << string.c_str();
 	mTexts.emplace_back(oss.str());
 	if (mTexts.size() > (int)(Data.mHeight / Data.mTextSize))
 	{

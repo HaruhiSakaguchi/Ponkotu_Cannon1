@@ -37,7 +37,7 @@ Reconfirm::~Reconfirm()
 {
 	if (mFlag)
 	{
-		mGame->GetTransition()->outTrigger();
+		mGame->GetRenderer()->GetTransition()->outTrigger();
 	}
 }
 

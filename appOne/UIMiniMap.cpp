@@ -342,11 +342,11 @@ void UIMiniMap::Draw()
 void UIMiniMap::Update()
 {
 	//ƒXƒNƒ[ƒ‹
-	if (mScroll && mGame->GetPHome())
+	if (mScroll && mGame->GetActorManager()->GetPHome())
 	{
-		if (mGame->GetPHome()->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapWindowHeight / 3.0f > Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f && Data.mMiniMapCornerPos.y + Data.mMiniMapWindowHeight / 3.0f > Data.mMinPosY + Data.mMiniMapOffsetY + Data.mOffsetY)
+		if (mGame->GetActorManager()->GetPHome()->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapWindowHeight / 3.0f > Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f && Data.mMiniMapCornerPos.y + Data.mMiniMapWindowHeight / 3.0f > Data.mMinPosY + Data.mMiniMapOffsetY + Data.mOffsetY)
 		{
-			Data.mMiniMapOffsetY = -(mGame->GetPHome()->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY) + (Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f);
+			Data.mMiniMapOffsetY = -(mGame->GetActorManager()->GetPHome()->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY) + (Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f);
 		}
 	}
 }

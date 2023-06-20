@@ -31,7 +31,7 @@ PlayerHome::PlayerHome(class Game* game, const VECTOR& pos)
 	SetInitPosition(pos);
 	SetPosition(pos);
 	SetUp();
-	GetGame()->SetPHome(this);
+	GetGame()->GetActorManager()->SetPHome(this);
 
 }
 
@@ -40,7 +40,7 @@ PlayerHome::~PlayerHome()
 	mDore->SetState(EDead);
 	mFlag1->SetState(EDead);
 	mFlag2->SetState(EDead);
-	GetGame()->SetPHome(nullptr);
+	GetGame()->GetActorManager()->SetPHome(nullptr);
 	mUI->CloseMe();
 }
 
@@ -79,9 +79,9 @@ void PlayerHome::UpdateActor()
 	mHomeTargetPoints[2] = GetPosition() + VECTOR(7.0f, 0.0f, 5.0f);
 	mHomeTargetPoints[3] = GetPosition() + VECTOR(-7.0f, 0.0f, 5.0f);
 
-	if (GetGame()->GetEHome())
+	if (GetGame()->GetActorManager()->GetEHome())
 	{
-		VECTOR PEHomeCenterPos = (GetPosition() + GetGame()->GetEHome()->GetPosition()) / 2;
+		VECTOR PEHomeCenterPos = (GetPosition() + GetGame()->GetActorManager()->GetEHome()->GetPosition()) / 2;
 
 		mFieldTargetPoints[0] = PEHomeCenterPos + VECTOR(-7.0f, 0.0f, -7.0f);
 		mFieldTargetPoints[1] = PEHomeCenterPos + VECTOR(7.0f, 0.0f, -7.0f);
@@ -91,8 +91,8 @@ void PlayerHome::UpdateActor()
 
 
 	mMyTargetPoints[0] = GetInitPosition();
-	mMyTargetPoints[1] = GetInitPosition() + (VECTOR(0.0f, 0.0f, (GetGame()->GetStage()->GetStageMaxZ() + GetGame()->GetStage()->GetStageMinZ())) / 4.0f);
-	mMyTargetPoints[2] = GetInitPosition() + (VECTOR(0.0f, 0.0f, (GetGame()->GetStage()->GetStageMaxZ() + GetGame()->GetStage()->GetStageMinZ())) / 2.0f);
+	mMyTargetPoints[1] = GetInitPosition() + (VECTOR(0.0f, 0.0f, (GetGame()->GetActorManager()->GetStage()->GetStageMaxZ() + GetGame()->GetActorManager()->GetStage()->GetStageMinZ())) / 4.0f);
+	mMyTargetPoints[2] = GetInitPosition() + (VECTOR(0.0f, 0.0f, (GetGame()->GetActorManager()->GetStage()->GetStageMaxZ() + GetGame()->GetActorManager()->GetStage()->GetStageMinZ())) / 2.0f);
 
 
 	if (GetDamageInterval() > 0.0f)
@@ -175,7 +175,7 @@ void PlayerHome::Damage(int damage)
 	{
 		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mDeadSound);
-		GetGame()->GetStage()->AddText("PlayerHome‚ª‰ó‚ê‚½");
+		GetGame()->GetActorManager()->GetStage()->AddText("PlayerHome‚ª‰ó‚ê‚½");
 		SetState(EDead);
 	}
 }

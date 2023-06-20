@@ -9,7 +9,7 @@ public:
 	virtual void create() {};
 	void inTrigger();
 	void outTrigger();
-	void draw();
+	void Draw();
 	virtual void inTriggerProc() {};
 	virtual bool inProc() { return true; }
 	virtual void outTriggerProc() {};

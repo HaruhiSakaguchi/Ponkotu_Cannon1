@@ -21,7 +21,7 @@ int Stage3::SetUp()
 	SetCollisionText(Maptext3);
 	CreateCollisions(Maptext3);
 
-	GetGame()->SetCollisionMap(new COLLISION_MAP(1.0f, Maptext3));
+	//GetGame()->SetCollisionMap(new COLLISION_MAP(1.0f, Maptext3));
 
 	class TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("Stage3");

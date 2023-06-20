@@ -12,7 +12,7 @@ AllClear::AllClear(class Game* game)
 	Data = mGame->GetAllData()->allClearData;
 
 	mButtonPos = Data.mButtonPos;
-	mGame->GetTransition()->inTrigger();
+	mGame->GetRenderer()->GetTransition()->inTrigger();
 	mState = State::EAllClear;
 
 	AddButton("ƒ^ƒCƒgƒ‹‚É–ß‚é",

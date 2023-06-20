@@ -60,11 +60,11 @@ void Actor::Update()
 bool Actor::PositionOnMap(const VECTOR& pos, float radius)
 {
 	int cnt = 0;
-	if (GetGame()->GetStage())
+	if (GetGame()->GetActorManager()->GetStage())
 	{
-		for (int i = 0; i < mGame->GetStage()->GetAreaNum(); i++)
+		for (int i = 0; i < mGame->GetActorManager()->GetStage()->GetAreaNum(); i++)
 		{
-			if ((pos.x - radius <= mGame->GetStage()->GetMaxX()[i] && pos.x + radius >= mGame->GetStage()->GetMinX()[i] && pos.z - radius <= mGame->GetStage()->GetMaxZ()[i] && pos.z + radius >= mGame->GetStage()->GetMinZ()[i]) && (pos.y >= 0 && pos.y <= mMaxPosY))
+			if ((pos.x - radius <= mGame->GetActorManager()->GetStage()->GetMaxX()[i] && pos.x + radius >= mGame->GetActorManager()->GetStage()->GetMinX()[i] && pos.z - radius <= mGame->GetActorManager()->GetStage()->GetMaxZ()[i] && pos.z + radius >= mGame->GetActorManager()->GetStage()->GetMinZ()[i]) && (pos.y >= 0 && pos.y <= mMaxPosY))
 			{
 				cnt++;
 			}
@@ -84,7 +84,7 @@ bool Actor::PositionOnMap(const VECTOR& pos, float radius)
 bool Actor::PositionOnMapArea0(const VECTOR& pos, float radius)
 {
 	int cnt = 0;
-	if (GetGame()->GetStage() && ((pos.x - radius <= mGame->GetStage()->GetMaxX()[0] && pos.x + radius >= mGame->GetStage()->GetMinX()[0] && pos.z - radius <= mGame->GetStage()->GetMaxZ()[0] && pos.z + radius >= mGame->GetStage()->GetMinZ()[0]) && (pos.y >= 0 && pos.y <= mMaxPosY)))
+	if (GetGame()->GetActorManager()->GetStage() && ((pos.x - radius <= mGame->GetActorManager()->GetStage()->GetMaxX()[0] && pos.x + radius >= mGame->GetActorManager()->GetStage()->GetMinX()[0] && pos.z - radius <= mGame->GetActorManager()->GetStage()->GetMaxZ()[0] && pos.z + radius >= mGame->GetActorManager()->GetStage()->GetMinZ()[0]) && (pos.y >= 0 && pos.y <= mMaxPosY)))
 	{
 		return true;
 	}
@@ -223,7 +223,7 @@ void Actor::DropItems(const VECTOR& pos)
 		i->SetPosition(pos);
 		std::ostringstream oss;
 		oss << i->GetName() << "アイテムがドロップ。";
-		GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	}
 
 }

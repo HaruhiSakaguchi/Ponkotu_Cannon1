@@ -130,25 +130,25 @@ void Tama::UpdateActor()
 		{
 			setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 			playSound(mDeadSound);
-			GetGame()->GetStage()->SetClearCnt(GetGame()->GetStage()->GetClearCnt() - 1);
+			GetGame()->GetActorManager()->GetStage()->SetClearCnt(GetGame()->GetActorManager()->GetStage()->GetClearCnt() - 1);
 			DropItems(GetPosition());
-			GetGame()->GetStage()->GetLog()->AddText("Tamaを倒した！！");
+			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("Tamaを倒した！！");
 			SetState(Actor::EDead);
-			if (GetGame()->GetPHome())
+			if (GetGame()->GetActorManager()->GetPHome())
 			{
-				GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetBattlePoints() + 100 + GetLevel() * 50);
-				if (GetGame()->GetPHome()->GetMaxBattlePoints() < GetGame()->GetPHome()->GetBattlePoints())
+				GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() + 100 + GetLevel() * 50);
+				if (GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints() < GetGame()->GetActorManager()->GetPHome()->GetBattlePoints())
 				{
-					GetGame()->GetPHome()->SetBattlePoints(GetGame()->GetPHome()->GetMaxBattlePoints());
+					GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints());
 				}
 			}
 
-			if (GetGame()->GetEHome())
+			if (GetGame()->GetActorManager()->GetEHome())
 			{
-				if (GetGame()->GetEHome()->GetLevel() > GetGame()->GetEHome()->GetTamaGenerateLevel() && GetGame()->GetEHome()->GetBattlePoints() >= 100)
+				if (GetGame()->GetActorManager()->GetEHome()->GetLevel() > GetGame()->GetActorManager()->GetEHome()->GetTamaGenerateLevel() && GetGame()->GetActorManager()->GetEHome()->GetBattlePoints() >= 100)
 				{
-					GetGame()->GetEHome()->SetBattlePoints(GetGame()->GetEHome()->GetBattlePoints() - 100);
-					GetGame()->GetEHome()->SetTamaGenerateLevel(GetGame()->GetEHome()->GetTamaGenerateLevel() + 1);
+					GetGame()->GetActorManager()->GetEHome()->SetBattlePoints(GetGame()->GetActorManager()->GetEHome()->GetBattlePoints() - 100);
+					GetGame()->GetActorManager()->GetEHome()->SetTamaGenerateLevel(GetGame()->GetActorManager()->GetEHome()->GetTamaGenerateLevel() + 1);
 				}
 			}
 		}
@@ -163,7 +163,7 @@ void Tama::Damage(int damage)
 
 void Tama::FallOption()
 {
-	GetGame()->GetStage()->GetLog()->AddText("Tamaが奈落に落ちた。");
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("Tamaが奈落に落ちた。");
 	SetState(EDead);
 }
 

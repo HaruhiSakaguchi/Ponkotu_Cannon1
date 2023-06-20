@@ -220,7 +220,7 @@ void SatelliteWing::UpdateActor()
 		if (GetPosition().y < 0.0f)
 		{
 			SetState(Actor::EDead);
-			GetGame()->GetStage()->GetLog()->AddText("Wing‚ğ”j‰óB");
+			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("Wing‚ğ”j‰óB");
 		}
 	}
 	else

@@ -34,9 +34,9 @@ Title::Title(Game* game)
 	mText = oss.str();
 
 //#ifdef RELEASE
-	if (mGame->GetTransition())
+	if (mGame->GetRenderer()->GetTransition())
 	{
-		mGame->GetTransition()->inTrigger();
+		mGame->GetRenderer()->GetTransition()->inTrigger();
 	}
 
 

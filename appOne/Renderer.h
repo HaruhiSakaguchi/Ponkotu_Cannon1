@@ -25,6 +25,11 @@ public:
 	class CONTAINER* GetContainer() { return mContainer; }
 	void SetView(class MATRIX& view) { mView = view; }
 
+	void SetDisplayColor(const COLOR& color) { mDisplayColor = color; }
+	const COLOR& GetDisplayColor() { return mDisplayColor; }
+
+	class TransitionFade* GetTransition() { return mTransition; }
+
 	struct DATA
 	{
 		float mAmbient = 0.0f;
@@ -43,12 +48,15 @@ private:
 private:
 	class SHADER* mShader;
 	class CONTAINER* mContainer;
+	class TransitionFade* mTransition;
 	std::vector<class MeshComponent*>mMeshes;
 
 	MATRIX mView;
 	MATRIX mProj;
 	class Game* mGame;
 	std::vector<class SpriteComponent*>mSprites;
+
+	COLOR mDisplayColor;
 
 };
 

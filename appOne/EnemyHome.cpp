@@ -28,7 +28,7 @@ EnemyHome::EnemyHome(class Game* game)
 	, mGenerateFlag(false)
 {
 	SetUp();
-	GetGame()->SetEHome(this);
+	GetGame()->GetActorManager()->SetEHome(this);
 }
 
 EnemyHome::~EnemyHome()
@@ -36,7 +36,7 @@ EnemyHome::~EnemyHome()
 	mDore->SetState(EDead);
 	mFlag1->SetState(EDead);
 	mFlag2->SetState(EDead);
-	GetGame()->SetEHome(nullptr);
+	GetGame()->GetActorManager()->SetEHome(nullptr);
 }
 
 int EnemyHome::SetUp()
@@ -104,7 +104,7 @@ void EnemyHome::UpdateActor()
 		}
 		else if ((int)(GetGame()->GetActorManager()->GetEnemies().size()) < (GetLevel() + 1) && (int)(GetGame()->GetActorManager()->GetEnemies().size()) < GetMaxLevel() && mCloseComplete)
 		{
-			VECTOR pos = VECTOR(random(GetGame()->GetStage()->GetStageMinX(), GetGame()->GetStage()->GetStageMaxX()), random(4.0f, 7.5f), random(GetGame()->GetStage()->GetStageMinZ(), GetGame()->GetStage()->GetCenterPos().z));
+			VECTOR pos = VECTOR(random(GetGame()->GetActorManager()->GetStage()->GetStageMinX(), GetGame()->GetActorManager()->GetStage()->GetStageMaxX()), random(4.0f, 7.5f), random(GetGame()->GetActorManager()->GetStage()->GetStageMinZ(), GetGame()->GetActorManager()->GetStage()->GetCenterPos().z));
 			int num = random();
 			if (num % 4 == 0 || num % 4 == 2 || num % 4 == 3)
 			{
@@ -117,7 +117,7 @@ void EnemyHome::UpdateActor()
 					tama->SetMaxHp((int)(tama->GetInitMaxHp() * ((tama->GetLevel() + tama->GetMaxLevel()) / 10.0f)));
 					tama->SetHp(tama->GetMaxHp());
 					mBattlePoints -= (150 + mGenerateTamaLevel * 50);
-					GetGame()->GetStage()->GetLog()->AddText("が出現。");
+					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("が出現。");
 					mElapsedTime = 0.0f;
 					mGenerateFlag = true;
 					Open();
@@ -152,11 +152,11 @@ void EnemyHome::UpdateActor()
 					mElapsedTime = 0.0f;
 					if (satellite->GetId() == 0)
 					{
-						GetGame()->GetStage()->GetLog()->AddText("SatelliteAが出現。");
+						GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteAが出現。");
 					}
 					else
 					{
-						GetGame()->GetStage()->GetLog()->AddText("SatelliteBが出現。");
+						GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteBが出現。");
 					}
 					mGenerateFlag = true;
 					Open();

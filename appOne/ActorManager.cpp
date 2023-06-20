@@ -9,6 +9,15 @@
 #include "Actor.h"
 #include "Camera.h"
 
+ActorManager::ActorManager(class Game* game) :
+	mGame(game)
+	, mUpdatingActors(false)
+	, mStage(nullptr)
+    , mPHome(nullptr)
+    , mEHome(nullptr)
+{
+};
+
 ActorManager::~ActorManager()
 {
 	ActorClear();

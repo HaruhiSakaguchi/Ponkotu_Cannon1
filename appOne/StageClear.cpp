@@ -25,11 +25,10 @@ StageClear::StageClear(Game* game)
 	mButtonPos = Data.mButtonPos;
 	mState = State::EStageClear;
 
-	mGame->GetTransition()->inTrigger();
+	mGame->GetRenderer()->GetTransition()->inTrigger();
 	mGame->SetPhase(static_cast<Game::StagePhase>(mGame->GetPhase() + 1));
-	mGame->SetDisplayColor(mGame->GetAllData()->mNormalDisplayColor);
 
-	mClearTimeText = mGame->GetStage()->GetTimeText();
+	mClearTimeText = mGame->GetActorManager()->GetStage()->GetTimeText();
 
 	const char* text = 0;
 	if (mGame->GetPhase() != Game::FOURTH && mGame->GetContinueFlag())
@@ -100,12 +99,12 @@ StageClear::~StageClear()
 void StageClear::ChangeOption()
 {
 	mGame->GetActorManager()->ActorClear();
-	mGame->MapClear();
+	mGame->GetActorManager()->GetStage()->MapClear();
 
 	if (mIsChangeTitle)
 	{
 		new Title(mGame);
-		mGame->GetTransition()->inTrigger();
+		mGame->GetRenderer()->GetTransition()->inTrigger();
 	}
 	else if (mIsChangeAllClear)
 	{

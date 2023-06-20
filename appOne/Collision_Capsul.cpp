@@ -315,7 +315,7 @@ bool Intersect(CharacterActor* a, CharacterActor* b, bool flag)
 				VECTOR abvec = bpos - apos;
 				abvec.normalize();
 
-				if (b->GetGame()->GetCollisionMap()->capsule_triangles_walls(b) == 0 && b->GetHp() > 0 && a->GetHp() > 0)
+				if (b->GetGame()->GetActorManager()->GetStage()->GetCollisionMap()->capsule_triangles_walls(b) == 0 && b->GetHp() > 0 && a->GetHp() > 0)
 				{
 					VECTOR maxDist = abvec * (radA + radB);
 

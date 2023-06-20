@@ -83,13 +83,13 @@ void SatelliteMove::Update()
 	SatelliteRotation(s);
 	VECTOR pos = s->GetPosition();
 
-	if (s->GetGame()->GetPHome())
+	if (s->GetGame()->GetActorManager()->GetPHome())
 	{
-		mTarget = s->GetGame()->GetPHome()->GetPosition();
+		mTarget = s->GetGame()->GetActorManager()->GetPHome()->GetPosition();
 	}
 	else if (mCnt % 2 == 0)
 	{
-		mTarget = s->GetGame()->GetStage()->GetCenterPos();
+		mTarget = s->GetGame()->GetActorManager()->GetStage()->GetCenterPos();
 	}
 
 	mTarget.y = s->GetPosition().y;
@@ -238,7 +238,7 @@ void SatelliteGenerate::OnEnter()
 	Satellite* s = static_cast<Satellite*>(mOwnerCompo->GetActor());
 
 	mFirstTargetCompleteFlag = false;
-	mFirstTarget = VECTOR(s->GetGame()->GetEHome()->GetPosition() + VECTOR(0.0f, 2.0f, 10.0f));
+	mFirstTarget = VECTOR(s->GetGame()->GetActorManager()->GetEHome()->GetPosition() + VECTOR(0.0f, 2.0f, 10.0f));
 }
 
 void SatelliteGenerate::OnExit()
@@ -269,13 +269,13 @@ void SatelliteGenerate::Update()
 		mSwitch = true;
 	}
 
-	if (s->GetGame()->GetEHome())
+	if (s->GetGame()->GetActorManager()->GetEHome())
 	{
 		if (mRotateFlag)
 		{
 			if (!mFirstTargetCompleteFlag)
 			{
-				if (s->GetGame()->GetEHome()->GetOpenComplete())
+				if (s->GetGame()->GetActorManager()->GetEHome()->GetOpenComplete())
 				{
 					s->SetPosition(s->GetPosition() + vec * s->GetAdvSpeed() * 10.0f);
 					SatelliteRotation(s);

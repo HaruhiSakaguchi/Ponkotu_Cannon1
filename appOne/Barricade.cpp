@@ -96,7 +96,7 @@ void Barricade::Damage(int damage)
 		oss << GetName().c_str() << "‚ª‰ó‚ê‚½";
 		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mDeadSound);
-		GetGame()->GetStage()->AddText(oss.str().c_str());
+		GetGame()->GetActorManager()->GetStage()->AddText(oss.str().c_str());
 		SetState(Actor::EDead);
 	}
 
@@ -107,7 +107,7 @@ void Barricade::Damage(int damage)
 
 	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
-		if (pSide != this && pSide != GetGame()->GetPHome())
+		if (pSide != this && pSide != GetGame()->GetActorManager()->GetPHome())
 		{
 			if (pSide->GetTag() != CharacterActor::Cannon)
 			{

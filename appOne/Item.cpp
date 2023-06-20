@@ -81,6 +81,6 @@ void Item::UpdateActor()
 		SetState(Actor::EDead);
 		std::ostringstream oss;
 		oss << GetName() << "アイテムが消滅。";
-		GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	}
 }

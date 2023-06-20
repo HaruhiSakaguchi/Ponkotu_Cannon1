@@ -65,7 +65,7 @@ void NormalCamera::UpdateActor()
 	//Œ»Ý‚ÌƒJƒƒ‰ˆÊ’u‚ð‚Æ‚Á‚Ä‚¨‚­
 	VECTOR prePos = pos;
 	SetPosition(15.0f, 15.0f, 25.0f);
-	Data.mLookatPos = VECTOR(0.0f, -5.0f, (GetGame()->GetStage()->GetStageMinZ() + GetGame()->GetStage()->GetStageMaxZ()) / 2);
+	Data.mLookatPos = VECTOR(0.0f, -5.0f, (GetGame()->GetActorManager()->GetStage()->GetStageMinZ() + GetGame()->GetActorManager()->GetStage()->GetStageMaxZ()) / 2);
 	pos = GetPosition();
 	Data.mLookatPos.y += Data.mOffsetPosY;
 

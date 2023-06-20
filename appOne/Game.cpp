@@ -5,15 +5,9 @@
 #include "input.h"
 
 #include "Renderer.h"
-#include "TransitionFade.h"
 #include "Title.h"
 #include "Pause.h"
-#include "Actor.h"
-#include "Camera.h"
-#include "COLLISION_MAP.h"
-#include "Map.h"
-#include "PlayerHome.h"
-#include "EnemyHome.h"
+
 
 Game::Game()
 	: mGameState(EGameplay)
@@ -21,12 +15,6 @@ Game::Game()
 	, mInitPhase(mPhase)
 	, mContinueFlag(false)
 	, mRenderer(nullptr)
-	, mTransition(nullptr)
-	, mDisplayColor(0, 0, 0, 0)
-	, mMap(nullptr)
-	, mStage(nullptr)
-	, mPHome(nullptr)
-	, mEHome(nullptr)
 	, mCurState(nullptr)
 	, mCameraManager(nullptr)
 	, mActorManager(nullptr)
@@ -59,11 +47,9 @@ void Game::RunLoop()
 
 void Game::Shutdown()
 {
-	delete mTransition;
 	delete mActorManager;
 	delete mCameraManager;
 	delete mUIManager;
-	MapClear();
 	delete mRenderer;
 	delete mSoundVolumeManager;
 }
@@ -112,8 +98,6 @@ void Game::UpdateGame()
 void Game::GenerateOutput()
 {
 	mRenderer->Draw();
-	//print(GetScene());
-	//print("UI :" + (let)GetUIStack().size());
 }
 
 void Game::LoadData()
@@ -121,17 +105,7 @@ void Game::LoadData()
 	mActorManager = new ActorManager(this);
 	mUIManager = new UIManager(this);
 	mRenderer = new Renderer(this);
-	mTransition = new TransitionFade(this);
-	mTransition->create();
 	mSoundVolumeManager = new SoundVolumeManager(this);
 	new GamePlay(this);
-}
-
-void Game::MapClear()
-{
-	if (mMap)
-	{
-		delete mMap;
-	}
 }
 

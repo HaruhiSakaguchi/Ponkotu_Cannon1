@@ -45,13 +45,13 @@ void CameraManager::Update()
 {
 	VECTOR prePos = mCurCamera->GetPosition();
 
-	if (mGame->GetPHome())
+	if (mGame->GetActorManager()->GetPHome())
 	{
-		if ((!mGame->GetPHome()->GetMoveCompleteFlag() || mGame->GetPHome()->BeginOpen()) || !mGame->GetPHome()->GetCloseComplete())
+		if ((!mGame->GetActorManager()->GetPHome()->GetMoveCompleteFlag() || mGame->GetActorManager()->GetPHome()->BeginOpen()) || !mGame->GetActorManager()->GetPHome()->GetCloseComplete())
 		{
 			mCurCamera = mCameras[2];
 		}
-		else if (mGame->GetPHome()->GetGenerateFlag())
+		else if (mGame->GetActorManager()->GetPHome()->GetGenerateFlag())
 		{
 			mCurCamera = mCameras[1];
 		}

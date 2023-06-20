@@ -10,10 +10,14 @@
 #include "MeshComponent.h"
 
 Renderer::Renderer(class Game* game)
-	:mGame(game)
+	: mGame(game)
+	, mDisplayColor(0, 0, 0, 0)
+	, mTransition(nullptr)
+
 {
 	Initialize();
 }
+
 Renderer::~Renderer()
 {
 	Shutdown();
@@ -25,8 +29,10 @@ bool Renderer::Initialize()
 
 	mShader = new LAMBERT;
 	setRasterizerCullBack();
+	
 	mProj.pers(Data.mPerspectiveAngle, Data.mPerspectiveAspect, Data.mPerspectiveNear, Data.mPerspectiveFar);
 
+	mTransition = new TransitionFade(mGame);
 	mContainer = new CONTAINER("Assets\\Assets.txt");
 
 	return true;
@@ -36,6 +42,7 @@ void Renderer::Shutdown()
 {
 	delete mShader;
 	delete mContainer;
+	delete mTransition;
 }
 
 void Renderer::Draw()
@@ -64,9 +71,9 @@ void Renderer::Draw()
 		}
 	}
 
-	if (mGame->GetStage())
+	if (mGame->GetActorManager()->GetStage())
 	{
-		mGame->GetStage()->Draw();
+		mGame->GetActorManager()->GetStage()->Draw();
 	}
 
 	if (mGame->GetState() == Game::EPaused)
@@ -82,9 +89,9 @@ void Renderer::Draw()
 		}
 	}
 
-	if (mGame->GetTransition())
+	if (mTransition)
 	{
-		mGame->GetTransition()->draw();
+		mTransition->Draw();
 	}
 
 	if (mGame->GetCurState() && mGame->GetState() != Game::EQuit)
@@ -147,9 +154,9 @@ void Renderer::DrawDisplay()
 	//ダメージやゲームステートによって色を変える
 	rectMode(CORNER);
 	noStroke();
-	if (mGame->GetDisplayColor().a != 0)
+	if (mDisplayColor.a != 0)
 	{
-		fill(mGame->GetDisplayColor());
+		fill(mDisplayColor);
 		rect(0, 0, width, height);
 	}
 }

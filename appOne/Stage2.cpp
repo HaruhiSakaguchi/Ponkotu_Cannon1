@@ -23,7 +23,7 @@ int Stage2::SetUp()
 	class TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("Stage2");
 
-	GetGame()->SetCollisionMap(new COLLISION_MAP(0.5f, Maptext2));
+	//GetGame()->SetCollisionMap(new COLLISION_MAP(0.5f, Maptext2));
 
 	new Cannon(GetGame());
 

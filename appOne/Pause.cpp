@@ -94,7 +94,7 @@ Pause::Pause(Game* game)
 
 Pause::~Pause()
 {
-	mGame->SetDisplayColor(mGame->GetAllData()->mNormalDisplayColor);
+	mGame->GetRenderer()->SetDisplayColor(mGame->GetAllData()->mNormalDisplayColor);
 	if (mGame->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
 		setVolume(Data.mSound, mGame->GetSoundVolumeManager()->GetEffectVolume() + Data.mPauseSoundVolumeOffset);
@@ -126,7 +126,7 @@ void Pause::ProcessInput()
 
 void Pause::Draw()
 {
-	mGame->SetDisplayColor(mGame->GetAllData()->mPauseDisplayColor);
+	mGame->GetRenderer()->SetDisplayColor(mGame->GetAllData()->mPauseDisplayColor);
 	UIScreen::Draw();
 }
 
@@ -135,7 +135,7 @@ void Pause::ChangeOption()
 	if (!mQuitFlag)
 	{
 		mGame->GetActorManager()->ActorClear();
-		mGame->MapClear();
+		mGame->GetActorManager()->GetStage()->MapClear();
 		new Title(mGame);
 		mGame->SetState(Game::EGameplay);
 	}

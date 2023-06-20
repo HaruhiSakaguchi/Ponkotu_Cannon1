@@ -398,22 +398,54 @@
     <ClCompile Include="PlayerFlag.cpp">
       <Filter>Actor\Character\PHome</Filter>
     </ClCompile>
-    <ClCompile Include="DebugStage.cpp" />
-    <ClCompile Include="TamaPointer.cpp" />
-    <ClCompile Include="UIPSideCharacterStatus.cpp" />
-    <ClCompile Include="UIPSideCharacterStatusClose.cpp" />
-    <ClCompile Include="PSideCharacterActor.cpp" />
-    <ClCompile Include="UIPSideCharacterStatusBase.cpp" />
-    <ClCompile Include="UIPlayerHome.cpp" />
-    <ClCompile Include="LookPHomeCamera.cpp" />
-    <ClCompile Include="LookFieldCenterCamera.cpp" />
-    <ClCompile Include="NormalCamera.cpp" />
-    <ClCompile Include="CameraManager.cpp" />
-    <ClCompile Include="UIGenerate.cpp" />
-    <ClCompile Include="UIMainState.cpp" />
-    <ClCompile Include="ActorManager.cpp" />
-    <ClCompile Include="UIManager.cpp" />
-    <ClCompile Include="SoundVolumeManager.cpp" />
+    <ClCompile Include="UIManager.cpp">
+      <Filter>GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundVolumeManager.cpp">
+      <Filter>GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorManager.cpp">
+      <Filter>GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPSideCharacterStatusClose.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPSideCharacterStatusBase.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPSideCharacterStatus.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPlayerHome.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGenerate.cpp">
+      <Filter>UI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMainState.cpp">
+      <Filter>UI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PSideCharacterActor.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="TamaPointer.cpp">
+      <Filter>Actor\Character\Weapons\Tama</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalCamera.cpp">
+      <Filter>Actor\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="LookPHomeCamera.cpp">
+      <Filter>Actor\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="LookFieldCenterCamera.cpp">
+      <Filter>Actor\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugStage.cpp">
+      <Filter>Actor\MapActor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -635,21 +667,53 @@
     <ClInclude Include="Barricade.h">
       <Filter>Actor\Barricade</Filter>
     </ClInclude>
-    <ClInclude Include="DebugStage.h" />
-    <ClInclude Include="TamaPointer.h" />
-    <ClInclude Include="UIPSideCharacterStatus.h" />
-    <ClInclude Include="UIPSideCharacterStatusClose.h" />
-    <ClInclude Include="PSideCharacterActor.h" />
-    <ClInclude Include="UIPSideCharacterStatusBase.h" />
-    <ClInclude Include="UIPlayerHome.h" />
-    <ClInclude Include="LookPHomeCamera.h" />
-    <ClInclude Include="LookFieldCenterCamera.h" />
-    <ClInclude Include="NormalCamera.h" />
-    <ClInclude Include="CameraManager.h" />
-    <ClInclude Include="UIGenerate.h" />
-    <ClInclude Include="UIMainState.h" />
-    <ClInclude Include="ActorManager.h" />
-    <ClInclude Include="UIManager.h" />
-    <ClInclude Include="SoundVolumeManager.h" />
+    <ClInclude Include="UIManager.h">
+      <Filter>GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundVolumeManager.h">
+      <Filter>GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorManager.h">
+      <Filter>GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPSideCharacterStatusClose.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPSideCharacterStatusBase.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPSideCharacterStatus.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIPlayerHome.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIGenerate.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMainState.h">
+      <Filter>UI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PSideCharacterActor.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TamaPointer.h">
+      <Filter>Actor\Character\Weapons\Tama</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalCamera.h">
+      <Filter>Actor\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="LookPHomeCamera.h">
+      <Filter>Actor\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="LookFieldCenterCamera.h">
+      <Filter>Actor\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugStage.h">
+      <Filter>Actor\MapActor</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

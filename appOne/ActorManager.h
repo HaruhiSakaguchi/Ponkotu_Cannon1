@@ -3,7 +3,7 @@
 class ActorManager
 {
 public:
-	ActorManager(class Game* game) :mGame(game),mUpdatingActors(false){};
+	ActorManager(class Game* game);
 	~ActorManager();
 	void Update();
 	void ProcessInput();
@@ -34,6 +34,13 @@ public:
 
 	void ActorClear();
 
+	class Map* GetStage() { return mStage; }
+	void SetStage(Map* map) { mStage = map; }
+	class PlayerHome* GetPHome() { return mPHome; }
+	class EnemyHome* GetEHome() { return mEHome; }
+	void SetPHome(class PlayerHome* home) { mPHome = home; }
+	void SetEHome(class EnemyHome* home) { mEHome = home; }
+
 private:
 	Game* mGame;
 	std::vector<class Actor*>mActors;
@@ -46,5 +53,8 @@ private:
 
 	bool mUpdatingActors;
 	std::vector<class Actor*> mPendingActors;
+	class Map* mStage;
+	class PlayerHome* mPHome;
+	class EnemyHome* mEHome;
 };
 

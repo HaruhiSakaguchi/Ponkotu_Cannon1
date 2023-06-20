@@ -23,6 +23,7 @@ Map::Map(class Game* game)
 	, mInitItemDropFlag(false)
 	, mClearFlag(false)
 	, mCenterPos(0.0f,0.0f,0.0f)
+	, mMap(nullptr)
 {
 	Data = GetGame()->GetAllData()->mapData;
 	Data.mStageNum = (int)(GetGame()->GetPhase() + 1);
@@ -32,12 +33,11 @@ Map::Map(class Game* game)
 
 Map::~Map()
 {
-	delete GetGame()->GetCollisionMap();
-	GetGame()->SetCollisionMap(nullptr);
+	MapClear();
 	delete mMiniMap;
 	delete mProgress;
 	delete mLog;
-	GetGame()->SetStage(nullptr);
+	GetGame()->GetActorManager()->SetStage(nullptr);
 	while (!mTexts.empty())
 	{
 		mTexts.pop_back();
@@ -164,7 +164,7 @@ void Map::UpdateActor()
 {
 	std::ostringstream oss;
 
-	if (!GetGame()->GetActorManager()->GetEnemies().empty() && GetGame()->GetEHome())
+	if (!GetGame()->GetActorManager()->GetEnemies().empty() && GetGame()->GetActorManager()->GetEHome())
 	{
 		auto end = std::chrono::system_clock::now();
 		auto dur = end - mStart;
@@ -200,7 +200,7 @@ void Map::UpdateActor()
 		}*/
 	}
 
-	if (!GetGame()->GetEHome() && GetGame()->GetActorManager()->GetEnemies().empty() && !mClearFlag)
+	if (!GetGame()->GetActorManager()->GetEHome() && GetGame()->GetActorManager()->GetEnemies().empty() && !mClearFlag)
 	{
 		mClearFlag = true;
 		GetLog()->AddText("‚·‚×‚Ä‚Ì“G‚ğ“|‚µ‚½II");
@@ -229,5 +229,14 @@ void Map::RemoveText(int num)
 	if (iter != mTexts.end())
 	{
 		mTexts.erase(iter);
+	}
+}
+
+void Map::MapClear()
+{
+	if (mMap)
+	{
+		delete mMap;
+		SetCollisionMap(nullptr);
 	}
 }

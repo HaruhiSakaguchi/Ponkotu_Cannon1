@@ -7,6 +7,7 @@ TransitionFade::TransitionFade(class Game* game)
 	, mColor(0, 0, 0)
 	, mTime(0.0f) 
 {
+	create();
 }
 
 void TransitionFade::create() {

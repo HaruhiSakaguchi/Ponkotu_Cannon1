@@ -10,9 +10,9 @@ UIState::UIState(class Game* game)
 
 void UIState::Update()
 {
-	if (mGame->GetTransition())
+	if (mGame->GetRenderer()->GetTransition())
 	{
-		if (mGame->GetTransition()->outEndFlag())
+		if (mGame->GetRenderer()->GetTransition()->outEndFlag())
 		{
 			ChangeOption();
 			CloseMe();
@@ -22,7 +22,7 @@ void UIState::Update()
 
 void UIState::ChangeState()
 {
-	mGame->GetTransition()->outTrigger();
+	mGame->GetRenderer()->GetTransition()->outTrigger();
 }
 
 

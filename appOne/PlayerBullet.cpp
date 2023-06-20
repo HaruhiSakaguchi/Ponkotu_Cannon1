@@ -44,7 +44,7 @@ void PlayerBullet::UpdateActor()
 	}
 
 	//壁に当たったら消える
-	if (GetGame()->GetCollisionMap()->capsule_triangles_walls(this) != 0)
+	if (GetGame()->GetActorManager()->GetStage()->GetCollisionMap()->capsule_triangles_walls(this) != 0)
 	{
 		ActorsWeapon::damage();
 	}
@@ -63,7 +63,7 @@ void PlayerBullet::UpdateActor()
 				item->SetState(EDead);
 				std::ostringstream oss;
 				oss << item->GetName() << "アイテムをストック。";
-				GetGame()->GetStage()->GetLog()->AddText(oss.str());
+				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 			}
 			item->SetState(EDead);
 		}
@@ -78,12 +78,12 @@ void PlayerBullet::UpdateActor()
 		}
 	}
 
-	if (GetGame()->GetEHome())
+	if (GetGame()->GetActorManager()->GetEHome())
 	{
-		if (Intersect(this, GetGame()->GetEHome(), false))
+		if (Intersect(this, GetGame()->GetActorManager()->GetEHome(), false))
 		{
 			this->damage();
-			GetGame()->GetEHome()->Damage(Data.mDamage);
+			GetGame()->GetActorManager()->GetEHome()->Damage(Data.mDamage);
 		}
 	}
 

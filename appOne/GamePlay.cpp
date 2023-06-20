@@ -49,8 +49,8 @@ GamePlay::GamePlay(Game* game) :
 	}
 #endif
 
-	mGame->GetTransition()->inTrigger();
-	mGame->SetStage(mMap);
+	mGame->GetRenderer()->GetTransition()->inTrigger();
+	mGame->GetActorManager()->SetStage(mMap);
 
 	setVolume(mBgm, mGame->GetSoundVolumeManager()->GetVolume() + mSoundOffset);
 	playLoopSound(mBgm);
@@ -66,7 +66,7 @@ void GamePlay::Update()
 {
 	if (mGameClearFlag == 0 && mGameOverFlag == 0)
 	{
-		if ((mGame->GetActorManager()->GetEnemies().empty() && mGame->GetActorManager()->GetWeapons().empty()) && !mGame->GetEHome())
+		if ((mGame->GetActorManager()->GetEnemies().empty() && mGame->GetActorManager()->GetWeapons().empty()) && !mGame->GetActorManager()->GetEHome())
 		{
 			new StageClear(mGame);
 			stopSound(mBgm);

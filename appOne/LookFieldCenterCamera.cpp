@@ -27,7 +27,7 @@ void LookFieldCenterCamera::UpdateActor()
 	//Œ»Ý‚ÌƒJƒƒ‰ˆÊ’u‚ð‚Æ‚Á‚Ä‚¨‚­
 	VECTOR prePos = pos;
 
-	SetPosition(GetGame()->GetStage()->GetCenterPos() + VECTOR(0.0f,94.0f,0.0f));
+	SetPosition(GetGame()->GetActorManager()->GetStage()->GetCenterPos() + VECTOR(0.0f,94.0f,0.0f));
 
 	
 	Data.mLookatPos = GetPosition();

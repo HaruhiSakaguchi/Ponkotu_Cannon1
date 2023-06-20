@@ -49,8 +49,6 @@ Cannon::~Cannon()
 {
 	stopSound(Data.mJumpSound);
 
-	GetGame()->SetDisplayColor(GetGame()->GetDisplayColor());
-
 	mWheelL->SetState(EDead);
 	mWheelR->SetState(EDead);
 
@@ -212,7 +210,7 @@ void Cannon::UpdateActor()
 
 	SetScale(VECTOR(mScale, mScale, mScale));
 
-	if (GetGame()->GetActorManager()->GetEnemies().empty() && !GetGame()->GetEHome())
+	if (GetGame()->GetActorManager()->GetEnemies().empty() && !GetGame()->GetActorManager()->GetEHome())
 	{
 		while (!mItemComponents.empty())
 		{
@@ -250,8 +248,8 @@ void Cannon::UpdateActor()
 		/*VECTOR2 textPos = VECTOR2((GetPosition().x / (GetGame()->GetStage()->GetStageMaxX() + -1.0f * GetGame()->GetStage()->GetStageMinX())) * 1920.0f * 100.0f, (GetPosition().z / (GetGame()->GetStage()->GetStageMaxZ() + -1.0f * GetGame()->GetStage()->GetStageMinZ())) * 1080.0f * 100.0f);
 	*/
 	//fill(0.0f, 0.0f, 0.0f);
-	float t = (GetPosition().x / (GetGame()->GetStage()->GetStageMaxX() + -1.0f * GetGame()->GetStage()->GetStageMinX())) * width;
-	float k = -1 * (GetPosition().z / (GetGame()->GetStage()->GetStageMaxZ() + -1.0f * GetGame()->GetStage()->GetStageMinZ())) * height;
+	float t = (GetPosition().x / (GetGame()->GetActorManager()->GetStage()->GetStageMaxX() + -1.0f * GetGame()->GetActorManager()->GetStage()->GetStageMinX())) * width;
+	float k = -1 * (GetPosition().z / (GetGame()->GetActorManager()->GetStage()->GetStageMaxZ() + -1.0f * GetGame()->GetActorManager()->GetStage()->GetStageMinZ())) * height;
 	float tt = width / t + t;
 	float kk = height / 2 - k;
 
@@ -264,8 +262,8 @@ void Cannon::UpdateActor()
 
 	float tSize = 30.0f;
 	textSize(tSize);
-	float cPosx = (GetGame()->GetStage()->GetStageMaxX() + GetGame()->GetStage()->GetStageMinX()) / 2.0f;
-	float cPosz = (GetGame()->GetStage()->GetStageMaxZ() + GetGame()->GetStage()->GetStageMinZ()) / 2.0f;
+	float cPosx = (GetGame()->GetActorManager()->GetStage()->GetStageMaxX() + GetGame()->GetActorManager()->GetStage()->GetStageMinX()) / 2.0f;
+	float cPosz = (GetGame()->GetActorManager()->GetStage()->GetStageMaxZ() + GetGame()->GetActorManager()->GetStage()->GetStageMinZ()) / 2.0f;
 
 	float p = (cPosx - GetPosition().x) / 9.0f;
 	float s = 340.0f + 260.0f;
@@ -350,7 +348,7 @@ void Cannon::Damage(Actor* actor)
 		}
 		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mDeadSound);
-		GetGame()->GetStage()->AddText("Cannonは死んでしまった...。");
+		GetGame()->GetActorManager()->GetStage()->AddText("Cannonは死んでしまった...。");
 		SetState(Actor::EDead);
 	}
 }
@@ -376,7 +374,7 @@ void Cannon::Damage(int damage)
 	{
 		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mDeadSound);
-		GetGame()->GetStage()->AddText("Cannonは死んでしまった...。");
+		GetGame()->GetActorManager()->GetStage()->AddText("Cannonは死んでしまった...。");
 		SetState(Actor::EDead);
 	}
 }
@@ -395,10 +393,6 @@ void Cannon::DamageOption()
 			setVolume(Data.mGurdSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 			playSound(Data.mGurdSound);
 		}
-	}
-	else
-	{
-		GetGame()->SetDisplayColor(Data.mDisplayColor);
 	}
 }
 

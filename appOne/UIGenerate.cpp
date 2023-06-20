@@ -23,7 +23,7 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 	AddRectButton("キャンセル",
 		[this]()
 		{
-			mGame->GetPHome()->SetGenerateFlag(false);
+			mGame->GetActorManager()->GetPHome()->SetGenerateFlag(false);
 			CloseMe();
 			mOwner->SetGenerate(nullptr);
 			for (auto button : mOwner->GetButtons())
@@ -83,7 +83,7 @@ void UIGenerate::draw()
 {
 	textSize(30);
 	fill(0, 0, 0);
-	text((let)mGame->GetPHome()->GetBattlePoints() + " / " + (let)mGame->GetPHome()->GetMaxBattlePoints(), width / 2, height / 2 + 150.0f);
+	text((let)mGame->GetActorManager()->GetPHome()->GetBattlePoints() + " / " + (let)mGame->GetActorManager()->GetPHome()->GetMaxBattlePoints(), width / 2, height / 2 + 150.0f);
 	if (mId == GenerateActor_Id::Cannon)
 	{
 		text("Cannonをどこに出撃させますか？ " + (let)mGenerateUsingPoints + "ポイント消費", width / 2, height / 2 + 200.0f);
@@ -100,10 +100,10 @@ void UIGenerate::Update()
 	mMouseXPerWidth = (width / 2.0f - mouseX) / -340.0f / 2;
 	mMouseYPerHeight = (height / 2.0f - mouseY) / -height / 2;
 
-	mGenePos.x = mMouseXPerWidth * 4.0f * mGame->GetStage()->GetStageMaxX();
-	mGenePos.z = mMouseYPerHeight * 4.0f * -(mGame->GetStage()->GetStageMinZ() + -mGame->GetStage()->GetStageMaxZ()) / 2.0f + mGame->GetStage()->GetCenterPos().z;
+	mGenePos.x = mMouseXPerWidth * 4.0f * mGame->GetActorManager()->GetStage()->GetStageMaxX();
+	mGenePos.z = mMouseYPerHeight * 4.0f * -(mGame->GetActorManager()->GetStage()->GetStageMinZ() + -mGame->GetActorManager()->GetStage()->GetStageMaxZ()) / 2.0f + mGame->GetActorManager()->GetStage()->GetCenterPos().z;
 
-	if (!mGame->GetPHome())
+	if (!mGame->GetActorManager()->GetPHome())
 	{
 		CloseMe();
 	}
@@ -115,11 +115,11 @@ void UIGenerate::Update()
 		{
 			if (mId == GenerateActor_Id::Cannon)
 			{
-				mGenerateUsingPoints = mGame->GetPHome()->GetGenerateCannonLv() * 100 + 300;
+				mGenerateUsingPoints = mGame->GetActorManager()->GetPHome()->GetGenerateCannonLv() * 100 + 300;
 			}
 			else if (mId == GenerateActor_Id::Barricade)
 			{
-				mGenerateUsingPoints = mGame->GetPHome()->GetGenerateBarricadeLv() * 50 + 100;
+				mGenerateUsingPoints = mGame->GetActorManager()->GetPHome()->GetGenerateBarricadeLv() * 50 + 100;
 			}
 		}
 
@@ -128,9 +128,9 @@ void UIGenerate::Update()
 			mGenerateActor->SetPosition(mGenePos);
 		}
 
-		if (isTrigger(MOUSE_RBUTTON) && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetPHome()->GetLevel())
+		if (isTrigger(MOUSE_RBUTTON) && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel())
 		{
-			if (mGenerateUsingPoints <= mGame->GetPHome()->GetBattlePoints())
+			if (mGenerateUsingPoints <= mGame->GetActorManager()->GetPHome()->GetBattlePoints())
 			{
 				if (mId != GenerateActor_Id::Empty)
 				{
@@ -139,22 +139,22 @@ void UIGenerate::Update()
 					{
 						c = new class Cannon(mGame);
 						c->SetUp();
-						c->SetPosition(mGame->GetPHome()->GetPosition());
-						c->GetGame()->GetPHome()->Open();
-						c->SetLevel(c->GetGame()->GetPHome()->GetGenerateCannonLv());
+						c->SetPosition(mGame->GetActorManager()->GetPHome()->GetPosition());
+						c->GetGame()->GetActorManager()->GetPHome()->Open();
+						c->SetLevel(c->GetGame()->GetActorManager()->GetPHome()->GetGenerateCannonLv());
 					}
 					else if (mId == GenerateActor_Id::Barricade)
 					{
 						c = new class Barricade(mGame);
 						c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));
-						mGame->GetPHome()->SetGenerateFlag(false);
-						c->SetLevel(c->GetGame()->GetPHome()->GetGenerateBarricadeLv());
+						mGame->GetActorManager()->GetPHome()->SetGenerateFlag(false);
+						c->SetLevel(c->GetGame()->GetActorManager()->GetPHome()->GetGenerateBarricadeLv());
 					}
 
 					c->SetInitPosition(mGenePos);
 					c->SetMaxHp((int)(c->GetInitMaxHp() * ((c->GetLevel() + c->GetMaxLevel()) / 10.0f)));
 					c->SetHp(c->GetMaxHp());
-					mGame->GetPHome()->SetBattlePoints(mGame->GetPHome()->GetBattlePoints() - mGenerateUsingPoints);
+					mGame->GetActorManager()->GetPHome()->SetBattlePoints(mGame->GetActorManager()->GetPHome()->GetBattlePoints() - mGenerateUsingPoints);
 
 				}
 

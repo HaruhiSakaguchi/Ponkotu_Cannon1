@@ -27,7 +27,7 @@ bool Recovery::update()
 		playSound(iData.mSound1);
 		std::ostringstream oss;
 		oss << GetName() << "アイテムを使用。";
-		GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	}
 	else
 	{
@@ -36,7 +36,7 @@ bool Recovery::update()
 		playSound(iData.mSound2);
 		std::ostringstream oss;
 		oss << GetName() << "アイテムをストック。";
-		GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	}
 
 	return true;
@@ -76,7 +76,7 @@ bool SpeedUp::update()
 		c->GetSpeed()->SetColor(iData.mColor);
 		std::ostringstream oss;
 		oss << GetName() << "アイテムを使用。";
-		GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	}
 	else
 	{
@@ -88,7 +88,7 @@ bool SpeedUp::update()
 
 		std::ostringstream oss;
 		oss << c->GetSpeed()->GetName().c_str() << "がレベルアップ。";
-		GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	}
 
 	setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mSpeedUpSoundVolumeOffset);
@@ -114,7 +114,7 @@ SpeedUpCompo::~SpeedUpCompo()
 		c->SetAdvSpeed(mOwner->GetGame()->GetAllData()->cannonData.mAdvSpeed);
 		std::ostringstream oss;
 		oss << c->GetSpeed()->GetName().c_str() << "の効果が切れた。";
-		c->GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 		c->SetSpeed(nullptr);
 	}
 
@@ -153,7 +153,7 @@ bool PowerUp::update()
 		c->GetPower()->SetColor(iData.mColor);
 		std::ostringstream oss;
 		oss << GetName() << "アイテムを使用。";
-		GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	}
 	else
 	{
@@ -164,7 +164,7 @@ bool PowerUp::update()
 		c->GetPower()->SetTime(c->GetPower()->GetInterval());
 		std::ostringstream oss;
 		oss << c->GetPower()->GetName().c_str() << "がレベルアップ。";
-		GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	}
 
 	setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mPowerUpSoundVolumeOffset);
@@ -190,7 +190,7 @@ PowerUpCompo::~PowerUpCompo()
 		c->SetDamage(1);
 		std::ostringstream oss;
 		oss << c->GetPower()->GetName().c_str() << "の効果が切れた。";
-		c->GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 		c->SetPower(nullptr);
 	}
 }
@@ -232,7 +232,7 @@ bool RapidFire::update()
 		{
 			std::ostringstream oss;
 			oss << GetName() << "アイテムを使用。";
-			GetGame()->GetStage()->GetLog()->AddText(oss.str());
+			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 		}
 	}
 	else
@@ -244,7 +244,7 @@ bool RapidFire::update()
 			{
 				std::ostringstream oss;
 				oss << c->GetRapid()->GetName().c_str() << "がレベルアップ。";
-				GetGame()->GetStage()->GetLog()->AddText(oss.str());
+				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 			}
 		}
 		c->GetRapid()->SetTime(c->GetRapid()->GetInterval());
@@ -274,7 +274,7 @@ RapidFireCompo::~RapidFireCompo()
 		c->SetInterval(mOwner->GetGame()->GetAllData()->cannonData.mInterval);
 		std::ostringstream oss;
 		oss << c->GetRapid()->GetName().c_str() << "の効果が切れた。";
-		c->GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 		c->SetRapid(nullptr);
 	}
 
@@ -318,7 +318,7 @@ bool Barrier::update()
 		c->GetBarrier()->SetHp(c->GetBarrier()->GetMaxHp());
 		std::ostringstream oss;
 		oss << GetName() << "アイテムを使用。";
-		GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	}
 	else
 	{
@@ -327,7 +327,7 @@ bool Barrier::update()
 			c->GetBarrier()->SetLevel(c->GetBarrier()->GetLevel() + 1);
 			std::ostringstream oss;
 			oss << c->GetBarrier()->GetName().c_str() << "がレベルアップ。";
-			GetGame()->GetStage()->GetLog()->AddText(oss.str());;
+			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());;
 		}
 		c->GetBarrier()->SetMaxHp(c->GetBarrier()->GetLevel() * 2 + 1);
 		c->GetBarrier()->SetHp(c->GetBarrier()->GetMaxHp());
@@ -357,7 +357,7 @@ BarrierCompo::~BarrierCompo()
 		c->SetRDamage(1);
 		std::ostringstream oss;
 		oss << c->GetBarrier()->GetName().c_str() << "の効果が切れた。";
-		c->GetGame()->GetStage()->GetLog()->AddText(oss.str());
+		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 		c->SetBarrier(nullptr);
 	}
 }

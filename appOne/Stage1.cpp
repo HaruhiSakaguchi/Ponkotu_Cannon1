@@ -28,7 +28,7 @@ int Stage1::SetUp()
 	SetCollisionText(Maptext1);
 
 	CreateCollisions(Maptext1);
-	GetGame()->SetCollisionMap(new COLLISION_MAP(0.5f, Maptext1));
+	//GetGame()->SetCollisionMap(new COLLISION_MAP(0.5f, Maptext1));
 
 	class TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("background");

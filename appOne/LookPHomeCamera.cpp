@@ -16,10 +16,10 @@ void LookPHomeCamera::UpdateActor()
 {
 	VECTOR pos = GetPosition();
 
-	if (GetGame()->GetPHome())
+	if (GetGame()->GetActorManager()->GetPHome())
 	{
-		SetPosition(GetGame()->GetPHome()->GetPosition());
-		Data.mLookatPos = GetGame()->GetPHome()->GetPosition();
+		SetPosition(GetGame()->GetActorManager()->GetPHome()->GetPosition());
+		Data.mLookatPos = GetGame()->GetActorManager()->GetPHome()->GetPosition();
 	}
 	pos = GetPosition() + VECTOR(0.0f, 5.0f, -10.0f);
 

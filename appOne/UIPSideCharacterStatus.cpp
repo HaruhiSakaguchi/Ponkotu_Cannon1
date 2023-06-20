@@ -134,10 +134,10 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 
 	mLvUpButton = AddButton("+LV",
 		[this]() {
-			if (mOwner->GetLevel() < mGame->GetPHome()->GetLevel() && (100 + mOwner->GetLevel() * 50) <= mGame->GetPHome()->GetBattlePoints())
+			if (mOwner->GetLevel() < mGame->GetActorManager()->GetPHome()->GetLevel() && (100 + mOwner->GetLevel() * 50) <= mGame->GetActorManager()->GetPHome()->GetBattlePoints())
 			{
 				int curMaxHp = mOwner->GetMaxHp();
-				mOwner->GetGame()->GetPHome()->SetBattlePoints(mOwner->GetGame()->GetPHome()->GetBattlePoints() - (100 + mOwner->GetLevel() * 50));
+				mOwner->GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(mOwner->GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() - (100 + mOwner->GetLevel() * 50));
 				mOwner->SetLevel(mOwner->GetLevel() + 1);
 				mOwner->SetMaxHp((int)(mOwner->GetInitMaxHp() * ((mOwner->GetLevel() + mOwner->GetMaxLevel()) / 10.0f)));
 				mOwner->SetHp((int)(round(mOwner->GetMaxHp() * (float)mOwner->GetHp() / (float)curMaxHp)));
@@ -198,7 +198,7 @@ void UIPSideCharacterStatus::Update()
 
 		int num = static_cast<PSideCharacterActor*>(mOwner)->GetNum();
 
-		if (mGame->GetPHome() && num > mGame->GetPHome()->GetNum())
+		if (mGame->GetActorManager()->GetPHome() && num > mGame->GetActorManager()->GetPHome()->GetNum())
 		{
 			num--;
 		}
@@ -260,7 +260,7 @@ void UIPSideCharacterStatus::Update()
 		}
 	}
 
-	if (!mGame->GetPHome())
+	if (!mGame->GetActorManager()->GetPHome())
 	{
 		for (auto button : GetButtons())
 		{

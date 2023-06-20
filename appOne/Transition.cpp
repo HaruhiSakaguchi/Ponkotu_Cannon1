@@ -22,7 +22,7 @@ void Transition::outTrigger()
 	}
 }
 
-void Transition::draw() {
+void Transition::Draw() {
 	if (State == STATE::IN_END ||State == STATE::OUT_END) 
 	{
 		return;

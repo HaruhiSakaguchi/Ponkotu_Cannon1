@@ -23,7 +23,7 @@ GameOver::GameOver(Game* game)
 	mButtonPos = Data.mButtonPos;
 	mState = State::EGameOver;
 
-	mGame->GetTransition()->inTrigger();
+	mGame->GetRenderer()->GetTransition()->inTrigger();
 
 	AddButton("ƒ^ƒCƒgƒ‹‚É–ß‚é",
 		[this]() {
@@ -75,14 +75,14 @@ void GameOver::ChangeOption()
 	if (mIsRetryFlag && !mIsChangeTitleFlag)
 	{
 		mGame->GetActorManager()->ActorClear();
-		mGame->MapClear();
+		mGame->GetActorManager()->GetStage()->MapClear();
 		new GamePlay(mGame);
 		mGame->SetState(Game::EGameplay);
 	}
 	else if (!mIsRetryFlag && mIsChangeTitleFlag)
 	{
 		mGame->GetActorManager()->ActorClear();
-		mGame->MapClear();
+		mGame->GetActorManager()->GetStage()->MapClear();
 		new Title(mGame);
 		mGame->SetState(Game::EGameplay);
 	}

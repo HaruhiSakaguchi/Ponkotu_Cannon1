@@ -24,7 +24,7 @@ int DebugStage::SetUp()
 	SetCollisionText(Maptext1);
 
 	CreateCollisions(Maptext1);
-	GetGame()->SetCollisionMap(new COLLISION_MAP(0.5f, Maptext1));
+	SetCollisionMap(new COLLISION_MAP(0.5f, Maptext1));
 
 	class TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("background");
@@ -41,7 +41,7 @@ int DebugStage::SetUp()
 	auto c = new Cannon(GetGame());
 	c->SetUp();
 	c->SetInitPosition(VECTOR(0.0f, 0.0f, -30.0f));
-	c->SetPosition(GetGame()->GetPHome()->GetPosition());
+	c->SetPosition(GetGame()->GetActorManager()->GetPHome()->GetPosition());
 	c->SetRotationY(3.1415926f);
 
 	/*class Cannon* c = new Cannon(GetGame());

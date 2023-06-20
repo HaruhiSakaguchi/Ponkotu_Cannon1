@@ -18,8 +18,6 @@ StageSelect::StageSelect(class Game* game)
 
 	mBackImg = mGame->GetAllData()->mDialog2;
 
-	mGame->SetScene(Game::ETitle);
-
 	AddButton("ステージ1",
 		[this]() {
 			mGame->SetPhase(Game::FIRST);

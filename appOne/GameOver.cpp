@@ -9,10 +9,10 @@
 #include "Container.h"
 
 GameOver::GameOver(Game* game)
-	: UIState(game)
+	: UIMainState(game)
 	, mTime(0.0f)
-	, mPlayFlag(false)
-	, mTitleFlag(false)
+	, mIsRetryFlag(false)
+	, mIsChangeTitleFlag(false)
 {
 	Data = mGame->GetAllData()->overData;
 
@@ -21,16 +21,13 @@ GameOver::GameOver(Game* game)
 	mTextSize = Data.mTitleTextSize;
 	mTitlePos = Data.mTitlePos;
 	mButtonPos = Data.mButtonPos;
+	mState = State::EGameOver;
 
-	mGame->SetScene(Game::EGameOver);
 	mGame->GetTransition()->inTrigger();
-
-	mPlayFlag = false;
-	mTitleFlag = false;
 
 	AddButton("タイトルに戻る",
 		[this]() {
-			mTitleFlag = true;
+			mIsChangeTitleFlag = true;
 			ChangeState();
 		}
 		, 1
@@ -39,7 +36,7 @@ GameOver::GameOver(Game* game)
 
 	AddButton("リトライ",
 		[this]() {
-			mPlayFlag = true;
+			mIsRetryFlag = true;
 			ChangeState();
 		}
 		, 1
@@ -75,21 +72,19 @@ void GameOver::Update()
 
 void GameOver::ChangeOption()
 {
-	if (!mTitleFlag && mPlayFlag)
+	if (mIsRetryFlag && !mIsChangeTitleFlag)
 	{
-		mGame->ActorClear();
+		mGame->GetActorManager()->ActorClear();
 		mGame->MapClear();
 		new GamePlay(mGame);
 		mGame->SetState(Game::EGameplay);
-		mGame->SetScene(Game::EPlay);
 	}
-	else if (!mPlayFlag && mTitleFlag)
+	else if (!mIsRetryFlag && mIsChangeTitleFlag)
 	{
-		mGame->ActorClear();
+		mGame->GetActorManager()->ActorClear();
 		mGame->MapClear();
 		new Title(mGame);
 		mGame->SetState(Game::EGameplay);
-		mGame->SetScene(Game::ETitle);
 	}
 }
 

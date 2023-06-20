@@ -1,8 +1,8 @@
 #pragma once
-#include "UIState.h"
+#include "UIMainState.h"
 #include "sound.h"
 
-class GamePlay : public UIState
+class GamePlay : public UIMainState
 {
 public:
 	GamePlay(class Game* game);

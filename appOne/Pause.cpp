@@ -7,6 +7,7 @@
 #include "Option.h"
 #include "UIHelp1.h"
 #include "Container.h"
+#include "UIMainState.h"
 
 Pause::Pause(Game* game)
 	: UIState(game)
@@ -94,11 +95,12 @@ Pause::Pause(Game* game)
 Pause::~Pause()
 {
 	mGame->SetDisplayColor(mGame->GetAllData()->mNormalDisplayColor);
-	if (mGame->GetScene() == Game::EPlay)
+	if (mGame->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
 		setVolume(Data.mSound, mGame->GetEffectVolume() + Data.mPauseSoundVolumeOffset);
 		playSound(Data.mSound);
 	}
+
 }
 
 void Pause::ProcessInput()
@@ -132,7 +134,7 @@ void Pause::ChangeOption()
 {
 	if (!mQuitFlag)
 	{
-		mGame->ActorClear();
+		mGame->GetActorManager()->ActorClear();
 		mGame->MapClear();
 		new Title(mGame);
 		mGame->SetState(Game::EGameplay);

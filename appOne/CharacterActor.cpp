@@ -34,7 +34,7 @@ CharacterActor::CharacterActor(Game* game)
 	, mMaxLevel(10)
 {
 	SetCategory(Character);
-	GetGame()->AddCharacter(this);
+	GetGame()->GetActorManager()->AddCharacter(this);
 	mDeadSound = GetGame()->GetAllData()->mDeadSound;
 }
 
@@ -44,7 +44,7 @@ CharacterActor::~CharacterActor()
 	{
 		delete mSeg;
 	}
-	GetGame()->RemoveCharacter(this);
+	GetGame()->GetActorManager()->RemoveCharacter(this);
 
 }
 
@@ -60,15 +60,7 @@ void CharacterActor::Update()
 
 		if (GetPosition().y < mMinPosY)
 		{
-			if (this == GetGame()->GetCannon())
-			{
-				SetPosition(GetInitPosition());
-			}
-			else
-			{
-				SetState(EDead);
-			}
-
+			SetState(EDead);
 			FallOption();
 		}
 

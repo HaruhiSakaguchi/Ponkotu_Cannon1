@@ -25,7 +25,7 @@ int Stage2::SetUp()
 
 	GetGame()->SetCollisionMap(new COLLISION_MAP(0.5f, Maptext2));
 
-	GetGame()->SetCannon(new Cannon(GetGame()));
+	new Cannon(GetGame());
 
 	mMiniMap = new UIMiniMap(GetGame(), this);
 

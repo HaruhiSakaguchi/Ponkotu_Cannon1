@@ -9,7 +9,9 @@
 #include "Container.h"
 
 StageClear::StageClear(Game* game)
-	:UIState(game)
+	: UIMainState(game)
+	, mIsChangeTitle(false)
+	, mIsChangeAllClear(false)
 {
 	Data = mGame->GetAllData()->stageClearData;
 	std::ostringstream oss;
@@ -21,9 +23,8 @@ StageClear::StageClear(Game* game)
 	mTextSize = Data.mTextSize;;
 	mTitlePos = Data.mTitlePos;
 	mButtonPos = Data.mButtonPos;
+	mState = State::EStageClear;
 
-	mGame->SetScene(Game::EStageClear);
-	mGame->SetState(Game::EPaused);
 	mGame->GetTransition()->inTrigger();
 	mGame->SetPhase(static_cast<Game::StagePhase>(mGame->GetPhase() + 1));
 	mGame->SetDisplayColor(mGame->GetAllData()->mNormalDisplayColor);
@@ -32,18 +33,18 @@ StageClear::StageClear(Game* game)
 
 	const char* text = 0;
 	if (mGame->GetPhase() != Game::FOURTH && mGame->GetContinueFlag())
-	/*{
-		text = "次のステージに進みます";
-	}
-	else*/
+		/*{
+			text = "次のステージに進みます";
+		}
+		else*/
 	{
 		text = "エンディングに進みます";
 	}
 
 	AddButton("次へ",
 		[this]() {
+			mIsChangeAllClear = true;
 			ChangeState();
-	        mGame->SetScene(Game::EPlay);
 		}
 		, 1
 			, text
@@ -53,6 +54,7 @@ StageClear::StageClear(Game* game)
 	{
 		AddButton("タイトルに戻る",
 			[this]() {
+				mIsChangeTitle = true;
 				ChangeState();
 			}
 			, 1
@@ -97,15 +99,15 @@ StageClear::~StageClear()
 
 void StageClear::ChangeOption()
 {
-	mGame->ActorClear();
+	mGame->GetActorManager()->ActorClear();
 	mGame->MapClear();
 
-	if (mGame->GetScene() == Game::EStageClear)
+	if (mIsChangeTitle)
 	{
 		new Title(mGame);
 		mGame->GetTransition()->inTrigger();
 	}
-	else if (mGame->GetScene() != Game::EGameQuit)
+	else if (mIsChangeAllClear)
 	{
 		/*if (mGame->GetPhase() != Game::FOURTH && mGame->GetContinueFlag())
 		{

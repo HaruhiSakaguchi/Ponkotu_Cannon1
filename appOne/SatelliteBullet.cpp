@@ -16,7 +16,7 @@ SatelliteBullet::SatelliteBullet(class Satellite* satellite, const VECTOR& pos, 
 	BatchMeshComponent* bc = new BatchMeshComponent(this);
 	bc->SetBatch("SatelliteBulletSphere");
 
-	if (GetGame()->GetScene() == Game::EPlay && GetGame()->GetState() == Game::EGameplay)
+	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
 		setVolume(iData.mLaunchSound, GetGame()->GetEffectVolume());
 		playSound(iData.mLaunchSound);
@@ -27,11 +27,10 @@ void SatelliteBullet::UpdateActor()
 {
 	if (mOwner->GetHp() > 0)
 	{
-
 		if (++mCnt >= mChangeFlame)
 		{
 			VECTOR mTarget = VECTOR(0.0f, 0.0f, 0.0f);
-			for (auto pSide : GetGame()->GetPSide())
+			for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 			{
 				if (pSide->GetHp() != 0)
 				{
@@ -58,14 +57,9 @@ void SatelliteBullet::UpdateActor()
 				}
 			}
 
-			//if (mCnt % 2 == 0)
-			{
-				SetDir((mTarget - GetPosition()).normalize());
-			}
-			//else
-			{
-				//SetDir(mDefDir);
-			}
+
+			SetDir((mTarget - GetPosition()).normalize());
+
 			mMove->SetSpeed(GetAdvSpeed() * 2.0f);
 			mMove->SetDirection(GetDir());
 		}
@@ -81,13 +75,16 @@ void SatelliteBullet::UpdateActor()
 		mMove->SetSpeed(GetAdvSpeed() * 2.0f);
 	}
 
-	for (auto pSide : GetGame()->GetPSide())
+	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
 		if (Intersect(this, pSide, false))
 		{
 			SetState(Actor::EDead);
-			setVolume(iData.mImpactSound, GetGame()->GetEffectVolume());
-			playSound(iData.mImpactSound);
+			if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
+			{
+				setVolume(iData.mImpactSound, GetGame()->GetEffectVolume());
+				playSound(iData.mImpactSound);
+			}
 			pSide->Damage(1);
 		}
 	}

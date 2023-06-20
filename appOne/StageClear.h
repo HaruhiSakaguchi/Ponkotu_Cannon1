@@ -1,7 +1,7 @@
 #pragma once
-#include "UIState.h"
+#include "UIMainState.h"
 
-class StageClear : public UIState
+class StageClear : public UIMainState
 {
 public:
 	StageClear(class Game* game);
@@ -21,4 +21,6 @@ public:
 private:
 	DATA Data;
 	std::string mClearTimeText;
+	bool mIsChangeTitle;
+	bool mIsChangeAllClear;
 };

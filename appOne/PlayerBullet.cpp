@@ -18,18 +18,8 @@ PlayerBullet::PlayerBullet(class Cannon* cannon, const VECTOR& pos, const VECTOR
 	BatchMeshComponent* bc = new BatchMeshComponent(this);
 	bc->SetBatch("PlayerBulletSphere");
 
-	////‘å–C‚ªƒWƒƒƒ“ƒv‚µ‚Ä‚¢‚½‚çBullet‚ª“G‚É—^‚¦‚éƒ_ƒ[ƒW‚ª2”{‚É‚È‚é
-	//if (cannon->GetJumpFlag() == 0)
-	//{
-	//	SetDamage(cannon->GetDamage());
-	//}
-	//else
-	//{
-	//	SetDamage(cannon->GetDamage() * 2);
-	//}
-
 	//GamePlayState‚Ì’†‚Å‚µ‚©‰¹‚ð–Â‚ç‚³‚È‚¢
-	if (GetGame()->GetScene() == Game::EPlay && GetGame()->GetState() == Game::EGameplay)
+	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
 		setVolume(iData.mLaunchSound, GetGame()->GetEffectVolume() + iData.mLaunchSoundVolumeOffset);
 		playSound(iData.mLaunchSound);
@@ -40,8 +30,7 @@ PlayerBullet::PlayerBullet(class Cannon* cannon, const VECTOR& pos, const VECTOR
 
 void PlayerBullet::UpdateActor()
 {
-
-	for (auto enemy : GetGame()->GetEnemies())
+	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
 		if (Intersect(this, enemy, false) && enemy->GetHp() > 0)
 		{
@@ -60,7 +49,7 @@ void PlayerBullet::UpdateActor()
 		ActorsWeapon::damage();
 	}
 
-	for (auto item : GetGame()->GetItems())
+	for (auto item : GetGame()->GetActorManager()->GetItems())
 	{
 		if (Intersect(this, item, false))
 		{
@@ -80,7 +69,7 @@ void PlayerBullet::UpdateActor()
 		}
 	}
 
-	for (auto weapon : GetGame()->GetWeapons())
+	for (auto weapon : GetGame()->GetActorManager()->GetWeapons())
 	{
 		if (Intersect(this, weapon, false) && this->GetOwner() != weapon->GetOwner() && this != weapon && weapon->GetHp() > 0)
 		{
@@ -103,7 +92,10 @@ void PlayerBullet::UpdateActor()
 
 void PlayerBullet::damage()
 {
-	setVolume(iData.mImpactSound, GetGame()->GetEffectVolume() + iData.mImpactSoundVolumeOffset);
-	playSound(iData.mImpactSound);
+	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
+	{
+		setVolume(iData.mImpactSound, GetGame()->GetEffectVolume() + iData.mImpactSoundVolumeOffset);
+		playSound(iData.mImpactSound);
+	}
 	ActorsWeapon::damage();
 }

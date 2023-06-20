@@ -152,9 +152,6 @@
     <Filter Include="Component\graphic\Mesh\base">
       <UniqueIdentifier>{68822e1b-200e-44b0-8fa0-5cec3e4d99ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Cannon">
-      <UniqueIdentifier>{63e9b26b-2047-4484-bd42-84a0fd570508}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Character\base">
       <UniqueIdentifier>{be06a6af-ade9-4de1-802a-9473f6738ae7}</UniqueIdentifier>
     </Filter>
@@ -380,15 +377,6 @@
     <ClCompile Include="MODEL_COLLISION.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="UIScope.cpp">
-      <Filter>UI\Cannon</Filter>
-    </ClCompile>
-    <ClCompile Include="UIHpGauge.cpp">
-      <Filter>UI\Cannon</Filter>
-    </ClCompile>
-    <ClCompile Include="UIItemStatus.cpp">
-      <Filter>UI\Cannon</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerHome.cpp">
       <Filter>Actor\Character\PHome</Filter>
     </ClCompile>
@@ -422,6 +410,8 @@
     <ClCompile Include="NormalCamera.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="UIGenerate.cpp" />
+    <ClCompile Include="UIMainState.cpp" />
+    <ClCompile Include="ActorManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -622,15 +612,6 @@
     <ClInclude Include="MODEL_COLLISION.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="UIScope.h">
-      <Filter>UI\Cannon</Filter>
-    </ClInclude>
-    <ClInclude Include="UIHpGauge.h">
-      <Filter>UI\Cannon</Filter>
-    </ClInclude>
-    <ClInclude Include="UIItemStatus.h">
-      <Filter>UI\Cannon</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerHome.h">
       <Filter>Actor\Character\PHome</Filter>
     </ClInclude>
@@ -664,5 +645,7 @@
     <ClInclude Include="NormalCamera.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="UIGenerate.h" />
+    <ClInclude Include="UIMainState.h" />
+    <ClInclude Include="ActorManager.h" />
   </ItemGroup>
 </Project>

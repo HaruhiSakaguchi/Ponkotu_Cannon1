@@ -1,8 +1,8 @@
 #pragma once
-#include "UIState.h"
+#include "UIMainState.h"
 #include <string>
 
-class Title : public UIState
+class Title : public UIMainState
 {
 public:
 	Title(class Game* game);
@@ -28,5 +28,6 @@ private:
 	bool mPlayBgmFlag = true;
 	std::string mText;
 	bool mChangeStateFlag;
+	bool mIsChangePlay;
 };
 

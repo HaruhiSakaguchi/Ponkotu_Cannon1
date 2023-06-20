@@ -18,12 +18,12 @@ Actor::Actor(Game* game)
 	, mMinPosY(-45.0f)
 	, mMaxPosY(15.0f)
 {
-	mGame->AddActor(this);
+	mGame->GetActorManager()->AddActor(this);
 }
 
 Actor::~Actor()
 {
-	mGame->RemoveActor(this);
+	mGame->GetActorManager()->RemoveActor(this);
 
 	while (!mComponents.empty())
 	{

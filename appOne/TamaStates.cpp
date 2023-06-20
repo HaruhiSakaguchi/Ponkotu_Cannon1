@@ -49,7 +49,7 @@ void TamaMove::OnEnter()
 
 	mCnt = 0;
 
-	for (auto pSide : t->GetGame()->GetPSide())
+	for (auto pSide : t->GetGame()->GetActorManager()->GetPSide())
 	{
 		if (pSide->GetState() == Actor::EActive)
 		{
@@ -83,11 +83,6 @@ void TamaMove::Update()
 	VECTOR prePos = t->GetPosition();
 	VECTOR pos = prePos;
 
-	/*if (t->GetGame()->GetPHome())
-	{
-		mTarget = t->GetGame()->GetPHome()->GetPosition();
-	}*/
-
 	VECTOR vec = mTarget - pos;
 
 	vec.normalize();
@@ -99,7 +94,6 @@ void TamaMove::Update()
 	if (CollisionCircle(3.0f, 1.0f, t->GetPosition(), mTarget))
 	{
 		mOwnerCompo->ChangeState("RockOn");
-		//mOwnerCompo->ChangeState("Wait");
 		return;
 	}
 
@@ -121,20 +115,8 @@ void TamaMove::Update()
 	if (++mCnt >= 20 || CollisionCircle(5.0f, 1.0f, t->GetPosition(), mTarget))
 	{
 		mOwnerCompo->ChangeState("Search");
-		//mOwnerCompo->ChangeState("Wait");
 		return;
 	}
-
-
-	/*for (auto pSide : t->GetGame()->GetPSide())
-	{
-		if (Intersect(t, pSide, false))
-		{
-			t->SetElapsedTime(t->GetMoveInterval());
-			mOwnerCompo->ChangeState("RockOn");
-			return;
-		}
-	}*/
 }
 void TamaSeache::OnEnter()
 {
@@ -152,12 +134,8 @@ void TamaSeache::Update()
 	{
 		if (t->GetTp()->CheckCollisionPSide())
 		{
-			//mCnt++;
-			//if (mCnt > 0)
-			{
-				mOwnerCompo->ChangeState("RockOn");
-				return;
-			}
+			mOwnerCompo->ChangeState("RockOn");
+			return;
 		}
 	}
 	else
@@ -174,7 +152,7 @@ void TamaRockOn::OnEnter()
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
 	mTarget = VECTOR(1000.0f, 1000.0f, 1000.0f);
 
-	for (auto pSide : t->GetGame()->GetPSide())
+	for (auto pSide : t->GetGame()->GetActorManager()->GetPSide())
 	{
 		if (pSide->GetState() == Actor::EActive)
 		{
@@ -217,18 +195,8 @@ void TamaRockOn::Update()
 
 	if (EndOfRotate == 1)
 	{
-		//	if (CollisionCircle(t->GetTp()->GetMaxDist(), 1.5f, t->GetPosition(), mTarget))
-		{
-			mOwnerCompo->ChangeState("Charge");
-			return;
-		}
-		/*else
-		{
-			mOwnerCompo->ChangeState("Wait");
-			t->SetTargetPos(VECTOR(0.0f, 0.0f, 0.0f));
-			t->SetAttackVector(VECTOR(0.0f, 0.0f, 0.0f));
-			return;
-		}*/
+		mOwnerCompo->ChangeState("Charge");
+		return;
 	}
 }
 
@@ -296,8 +264,11 @@ void TamaAttack::OnEnter()
 
 
 	mCnt = 0;
-	setVolume(t->GetDushSound(), t->GetGame()->GetEffectVolume());
-	playSound(t->GetDushSound());
+	if (t->GetGame()->GetState() == Game::EGameplay && t->GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
+	{
+		setVolume(t->GetDushSound(), t->GetGame()->GetEffectVolume());
+		playSound(t->GetDushSound());
+	}
 }
 
 void TamaAttack::Update()
@@ -306,13 +277,15 @@ void TamaAttack::Update()
 
 	VECTOR pos = t->GetPosition();
 
-	pos.x += t->GetAttackVector().x * t->GetAdvSpeed();
-	pos.z += t->GetAttackVector().z * t->GetAdvSpeed();
+	VECTOR vec = t->GetAttackVector();
+	vec.normalize();
 
+	pos.x += vec.x * t->GetAdvSpeed();
+	pos.z += vec.z * t->GetAdvSpeed();
 
 	t->SetPosition(pos);
 
-	for (auto pSide : t->GetGame()->GetPSide())
+	for (auto pSide : t->GetGame()->GetActorManager()->GetPSide())
 	{
 		if (Intersect(t, pSide, false))
 		{

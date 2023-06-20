@@ -31,7 +31,7 @@ void TamaPointer::UpdateActor()
 
 	mTarget = VECTOR(1000.0f, 1000.0f, 1000.0f);
 
-	for (auto pSide : GetGame()->GetPSide())
+	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
 		if (pSide->GetState() == Actor::EActive)
 		{
@@ -93,7 +93,7 @@ void TamaPointer::UpdateActor()
 bool TamaPointer::CheckCollisionPSide()
 {
 	int cnt = 0;
-	for (auto pSide : GetGame()->GetPSide())
+	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
 		if (Intersect(this, pSide, false))
 		{

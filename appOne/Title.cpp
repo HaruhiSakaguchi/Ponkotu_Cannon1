@@ -13,8 +13,9 @@
 #define D
 
 Title::Title(Game* game)
-	:UIState(game)
+	:UIMainState(game)
 	, mChangeStateFlag(false)
+	,mIsChangePlay(false)
 {
 	Data = mGame->GetAllData()->titleData;
 	mTitle = Data.mTitle;
@@ -24,12 +25,14 @@ Title::Title(Game* game)
 	mBackPos = Data.mBackPos;
 	mTitlePos = Data.mTitlePos;
 	mButtonPos = Data.mButtonPos;
+	mState = State::ETitle;
+	mGame->SetCurState(this);
+
 
 	std::ostringstream oss;
 	oss << "ステージ" << int(mGame->GetPhase() + 1) << "から始めます";
 	mText = oss.str();
 
-	mGame->SetScene(Game::ETitle);
 //#ifdef RELEASE
 	if (mGame->GetTransition())
 	{
@@ -37,12 +40,12 @@ Title::Title(Game* game)
 	}
 
 
-
 	AddButton("はじめから",
 		[this]() {
 			mGame->SetPhase(mGame->GetInitPhase());
 			ChangeState();
 			mGame->SetContinueFlag(true);
+			mIsChangePlay = true;
 		}
 		, 1
 			, "最初からゲームを始めます"
@@ -55,6 +58,7 @@ Title::Title(Game* game)
 		, 1
 			, "ステージを選んで始めます"
 			);
+
 	select->SetState(Button::Draw_Enable);
 
 	if (mGame->GetPhase() != Game::FIRST)
@@ -63,6 +67,7 @@ Title::Title(Game* game)
 			[this]() {
 				ChangeState();
 				mGame->SetContinueFlag(true);
+				mIsChangePlay = true;
 			}
 			, 1
 				, mText.c_str()
@@ -70,8 +75,6 @@ Title::Title(Game* game)
 
 		Continue->SetState(Button::Draw_Enable);
 	}
-
-
 
 	auto option = AddButton("オプション",
 		[this]()
@@ -126,7 +129,7 @@ Title::~Title()
 
 void Title::ChangeOption()
 {
-	if (mGame->GetScene() == Game::ETitle)
+	if (mIsChangePlay)
 	{
 		new GamePlay(mGame);
 	}

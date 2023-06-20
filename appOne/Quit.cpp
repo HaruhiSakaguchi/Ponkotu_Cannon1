@@ -2,7 +2,7 @@
 #include "Game.h"
 
 Quit::Quit(Game* game)
-	:UIState(game)
+	:UIMainState(game)
 {
 	Data = mGame->GetAllData()->quitData;
 
@@ -13,9 +13,7 @@ Quit::Quit(Game* game)
 	mTitle = Data.mTitle;
 	mTitleColor = Data.mTitleColor;
 	mTextSize = Data.mTextSize;
-
-	mGame->SetTmpScene(mGame->GetScene());
-	mGame->SetScene(Game::EGameQuit);
+	mState = State::EQuit;
 
 	AddButton("‚Í‚¢",
 		[this]() {
@@ -25,7 +23,6 @@ Quit::Quit(Game* game)
 
 	AddButton("‚¢‚¢‚¦",
 		[this]() {
-			mGame->SetScene(mGame->GetTmpScene());
 	        CloseMe();
 		}
 	);

@@ -57,15 +57,6 @@ public:
 	void Update() override;
 };
 
-class CannonJump :
-	public State
-{
-public:
-	CannonJump(class StateComponent* OwnerCompo) : State(OwnerCompo) {}
-	const char* GetName() const override { return "Jump"; }
-	void OnEnter() override;
-	void Update() override;
-};
 class CannonLaunch :
 	public State
 {

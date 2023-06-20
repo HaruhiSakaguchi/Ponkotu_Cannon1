@@ -10,9 +10,8 @@
 #include "Container.h"
 #include "DebugStage.h"
 
-
 GamePlay::GamePlay(Game* game) :
-	UIState(game)
+	UIMainState(game)
 	, mGameOverFlag(0)
 	, mGameClearFlag(0)
 	, mMap(nullptr)
@@ -20,10 +19,11 @@ GamePlay::GamePlay(Game* game) :
 	, mBgm(0)
 {
 	Data = mGame->GetAllData()->playData;
-	mGame->SetScene(Game::EPlay);
 
 	mBgm = Data.mBgm1;
 	mSoundOffset = Data.mBgm1SoundVolumeOffset;
+	mState = State::EGamePlay;
+
 
 #ifdef _DEBUG
 	mMap = new DebugStage(mGame);
@@ -64,20 +64,21 @@ GamePlay::~GamePlay()
 
 void GamePlay::Update()
 {
-	if (mGame->GetScene() == Game::EPlay && mGameClearFlag == 0 && mGameOverFlag == 0)
+	if (mGameClearFlag == 0 && mGameOverFlag == 0)
 	{
-		if ((mGame->GetEnemies().empty() && mGame->GetWeapons().empty()) && !mGame->GetEHome())
+		if ((mGame->GetActorManager()->GetEnemies().empty() && mGame->GetActorManager()->GetWeapons().empty()) && !mGame->GetEHome())
 		{
 			new StageClear(mGame);
 			stopSound(mBgm);
 			mGameClearFlag = 1;
+			CloseMe();
 		}
-		else if (mGame->GetPSide().empty())
+		else if (mGame->GetActorManager()->GetPSide().empty())
 		{
 			new GameOver(mGame);
 			stopSound(mBgm);
 			mGameOverFlag = 1;
-
+			CloseMe();
 		}
 	}
 
@@ -96,10 +97,6 @@ void GamePlay::Update()
 		mPlayBgmFlag = false;
 	}
 
-	if (mGame->GetScene() == Game::ETitle)
-	{
-		CloseMe();
-	}
 
 	UIState::Update();
 

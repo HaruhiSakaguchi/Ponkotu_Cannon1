@@ -26,7 +26,7 @@ int Stage3::SetUp()
 	class TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("Stage3");
 
-	GetGame()->SetCannon(new Cannon(GetGame()));
+	new Cannon(GetGame());
 
 	mMiniMap = new UIMiniMap(GetGame(), this);
 

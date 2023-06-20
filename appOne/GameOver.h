@@ -1,7 +1,7 @@
 #pragma once
-#include "UIState.h"
+#include "UIMainState.h"
 
-class GameOver : public UIState
+class GameOver : public UIMainState
 {
 public:
 	GameOver(class Game* game);
@@ -23,6 +23,6 @@ private:
 	DATA Data;
 private:
 	float mTime;
-	bool mPlayFlag;
-	bool mTitleFlag;
+	bool mIsRetryFlag;
+	bool mIsChangeTitleFlag;
 };

@@ -37,12 +37,6 @@ void SphereWeapon::UpdateActor()
 {
 	Data.mLifeTime -= Data.mLifeTimeDecreaseSpeed * delta;
 
-	//GameSceneがEPlayでないならダメージを与えない
-	if (GetGame()->GetScene() != Game::EPlay)
-	{
-		Data.mDamage = 0;
-	}
-
 	//LifeTimeがなくなるか、Ownerが死んだら死ぬ
 	if (Data.mLifeTime <= 0.0f || GetOwner()->GetState() != Actor::EActive)
 	{

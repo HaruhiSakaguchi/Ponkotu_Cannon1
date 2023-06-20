@@ -64,7 +64,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetPSide().size()) - 1) <= mGame->GetPHome()->GetLevel() && !h->GetGenerateFlag() && (int)(mGame->GetPSide().size()) - 1 != mOwner->GetMaxLevel())
+			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetPHome()->GetLevel() && !h->GetGenerateFlag() && (int)(mGame->GetActorManager()->GetPSide().size()) - 1 != mOwner->GetMaxLevel())
 			{
 				h->SetGenerateFlag(true);
 				if (!mGenerate)
@@ -89,7 +89,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetPSide().size()) - 1) <= mGame->GetPHome()->GetLevel() && !h->GetGenerateFlag() && (int)(mGame->GetPSide().size()) - 1 != mOwner->GetMaxLevel())
+			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetPHome()->GetLevel() && !h->GetGenerateFlag() && (int)(mGame->GetActorManager()->GetPSide().size()) - 1 != mOwner->GetMaxLevel())
 			{
 				h->SetGenerateFlag(true);
 				//h->Open();

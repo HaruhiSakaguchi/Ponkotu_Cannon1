@@ -16,7 +16,7 @@ Reconfirm::Reconfirm(class UIState* state, class Game* game, const char* name)
 	mButtonPos = Data.mButtonPos;
 	mTitleColor = Data.mTitleColor;
 	mBackImg = mGame->GetAllData()->mDialog2;
-
+	
 	AddButton("‚Í‚¢",
 		[this]() {
 			mFlag = true;

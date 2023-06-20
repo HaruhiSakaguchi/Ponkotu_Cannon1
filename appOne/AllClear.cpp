@@ -6,19 +6,19 @@
 #include "Container.h"
 
 AllClear::AllClear(class Game* game)
-	:UIState(game)
+	:UIMainState(game)
+	,mIsChangeTitle(false)
 {
 	Data = mGame->GetAllData()->allClearData;
 
 	mButtonPos = Data.mButtonPos;
 	mGame->GetTransition()->inTrigger();
-
-	mGame->SetScene(Game::EStageClear);
+	mState = State::EAllClear;
 
 	AddButton("ƒ^ƒCƒgƒ‹‚É–ß‚é",
 		[this]() {
 			mGame->SetPhase(mGame->GetInitPhase());
-			mGame->SetScene(Game::ETitle);
+			mIsChangeTitle = true;
 			ChangeState();
 		}
 	);
@@ -43,7 +43,7 @@ AllClear::~AllClear()
 
 void AllClear::ChangeOption()
 {
-	if (mGame->GetScene() == Game::ETitle)
+	if (mIsChangeTitle)
 	{
 		new Title(mGame);
 	}

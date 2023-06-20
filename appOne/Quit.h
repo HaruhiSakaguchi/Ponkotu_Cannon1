@@ -1,7 +1,7 @@
 #pragma once
-#include "UIState.h"
+#include "UIMainState.h"
 
-class Quit : public UIState
+class Quit : public UIMainState
 {
 public:
 	Quit(class Game* game);

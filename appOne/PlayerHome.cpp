@@ -100,7 +100,7 @@ void PlayerHome::UpdateActor()
 		SetDamageInterval(GetDamageInterval() - delta);
 	}
 
-	for (auto enemy : GetGame()->GetEnemies())
+	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
 		if (enemy->GetTag() != CharacterActor::Satellite)
 		{
@@ -134,7 +134,7 @@ void PlayerHome::UpdateActor()
 	//OpenDore();
 
 	int cnt = 0;
-	for (auto Actor : GetGame()->GetPSide())
+	for (auto Actor : GetGame()->GetActorManager()->GetPSide())
 	{
 		if (CollisionCircle(GetRadius(), Actor->GetRadius(), GetPosition(), Actor->GetPosition()))
 		{

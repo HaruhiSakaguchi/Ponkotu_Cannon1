@@ -72,10 +72,9 @@ void EnemyHome::UpdateActor()
 		SetDamageInterval(GetDamageInterval() - delta);
 	}
 
-
 	if (mElapsedTime >= mInterval)
 	{
-		if ((int)(GetGame()->GetEnemies().size() - 1) == (GetLevel()))
+		if ((int)(GetGame()->GetActorManager()->GetEnemies().size() - 1) == (GetLevel()))
 		{
 			if (mCnt % 2 == 0)
 			{
@@ -89,8 +88,8 @@ void EnemyHome::UpdateActor()
 			}
 			else
 			{
-				int num = random(0, ((int)(GetGame()->GetEnemies().size()) - 1));
-				auto enemy = GetGame()->GetEnemies()[num];
+				int num = random(0, ((int)(GetGame()->GetActorManager()->GetEnemies().size()) - 1));
+				auto enemy = GetGame()->GetActorManager()->GetEnemies()[num];
 				if (enemy->GetLevel() < GetLevel() && (100 + 50 * enemy->GetLevel()) <= mBattlePoints)
 				{
 					mBattlePoints -= (100 + 50 * enemy->GetLevel());
@@ -103,7 +102,7 @@ void EnemyHome::UpdateActor()
 				mElapsedTime = 0.0f;
 			}
 		}
-		else if ((int)(GetGame()->GetEnemies().size()) < (GetLevel() + 1) && (int)(GetGame()->GetEnemies().size()) < GetMaxLevel() && mCloseComplete)
+		else if ((int)(GetGame()->GetActorManager()->GetEnemies().size()) < (GetLevel() + 1) && (int)(GetGame()->GetActorManager()->GetEnemies().size()) < GetMaxLevel() && mCloseComplete)
 		{
 			VECTOR pos = VECTOR(random(GetGame()->GetStage()->GetStageMinX(), GetGame()->GetStage()->GetStageMaxX()), random(4.0f, 7.5f), random(GetGame()->GetStage()->GetStageMinZ(), GetGame()->GetStage()->GetCenterPos().z));
 			int num = random();
@@ -207,17 +206,6 @@ void EnemyHome::UpdateActor()
 		mBattlePoints = 0;
 	}
 
-
-	fill(0, 0, 0);
-	print("EBP" + (let)mBattlePoints + " / " + (let)mMaxBattlePoints + " ELv : " + (let)GetLevel());
-	print("ElapsedTime :" + (let)mElapsedTime);
-	print("GeneLv : Tama : " + (let)mGenerateTamaLevel + " Satellite : " + (let)mGenerateSatelliteLevel);
-
-	for (auto enemy : GetGame()->GetEnemies())
-	{
-		print((let)enemy->GetName().c_str() + (let)" lv : " + (let)enemy->GetLevel());
-	}
-
 	if (mGenerateFlag)
 	{
 		if (mBeginOpenFlag && mCloseComplete)
@@ -231,7 +219,7 @@ void EnemyHome::UpdateActor()
 	}
 
 	int cnt = 0;
-	for (auto Actor : GetGame()->GetEnemies())
+	for (auto Actor : GetGame()->GetActorManager()->GetEnemies())
 	{
 		if (CollisionCircle(GetRadius(), Actor->GetRadius(), GetPosition(), Actor->GetPosition()))
 		{

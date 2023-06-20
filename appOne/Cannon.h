@@ -1,7 +1,5 @@
 #pragma once
 #include "PSideCharacterActor.h"
-#include "UIHpGauge.h"
-#include "UIScope.h"
 #include "StateComponent.h"
 #include "sound.h"
 #include "ItemComponent.h"
@@ -14,7 +12,6 @@ public:
 	~Cannon();
 	int SetUp()override;
 	void UpdateActor()override;
-	void ActorInput()override;
 	const VECTOR& GetTargetPosition();
 	void Damage(Actor* actor = nullptr);
 	void Damage(int damage = 1)override;
@@ -47,8 +44,6 @@ public:
 	StateComponent* GetStateCompoState() { return mState; }
 
 	class InputComponent* GetIn() { return mIn; }
-	class UIScope* GetScope() { return mScope; }
-	class UIHpGauge* GetHpGauge() { return mHpGauge; }
 	class PowerUpCompo* GetPower() { return mPower; }
 	class SpeedUpCompo* GetSpeed() { return mSpeed; }
 	class BarrierCompo* GetBarrier() { return mBarrier; }
@@ -156,11 +151,6 @@ private:
 	class SpeedUpCompo* mSpeed;
 	class BarrierCompo* mBarrier;
 	class RapidFireCompo* mRapid;
-
-	//ui
-	class UIHpGauge* mHpGauge;
-	class UIScope* mScope;
-	class UIItemStatus* mUIItem;
 
 	MoveState mMoveState;
 	//Hierarchy Matrix

@@ -9,13 +9,13 @@ ActorsWeapon::ActorsWeapon(class CharacterActor* owner, const VECTOR& pos, const
 	, mMove(nullptr)
 	, mMoveFlag(true)
 {
-	GetGame()->AddWeapons(this);
+	GetGame()->GetActorManager()->AddWeapons(this);
 	SetCategory(Actor::Weapon);
 }
 
 ActorsWeapon::~ActorsWeapon()
 {
-	GetGame()->RemoveWeapons(this);
+	GetGame()->GetActorManager()->RemoveWeapons(this);
 }
 
 int ActorsWeapon::SetUp(const DATA& data)

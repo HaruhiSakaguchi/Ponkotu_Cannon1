@@ -38,11 +38,11 @@ int DebugStage::SetUp()
 
 	new CameraManager(GetGame());
 
-	GetGame()->SetCannon(new Cannon(GetGame()));
-	GetGame()->GetCannon()->SetUp();
-	GetGame()->GetCannon()->SetInitPosition(VECTOR(0.0f, 0.0f, -30.0f));
-	GetGame()->GetCannon()->SetPosition(GetGame()->GetPHome()->GetPosition());
-	GetGame()->GetCannon()->SetRotationY(3.1415926f);
+	auto c = new Cannon(GetGame());
+	c->SetUp();
+	c->SetInitPosition(VECTOR(0.0f, 0.0f, -30.0f));
+	c->SetPosition(GetGame()->GetPHome()->GetPosition());
+	c->SetRotationY(3.1415926f);
 
 	/*class Cannon* c = new Cannon(GetGame());
 	c->SetUp();

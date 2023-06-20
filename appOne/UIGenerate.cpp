@@ -128,7 +128,7 @@ void UIGenerate::Update()
 			mGenerateActor->SetPosition(mGenePos);
 		}
 
-		if (isTrigger(MOUSE_RBUTTON) && ((int)(mGame->GetPSide().size()) - 1) <= mGame->GetPHome()->GetLevel())
+		if (isTrigger(MOUSE_RBUTTON) && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetPHome()->GetLevel())
 		{
 			if (mGenerateUsingPoints <= mGame->GetPHome()->GetBattlePoints())
 			{

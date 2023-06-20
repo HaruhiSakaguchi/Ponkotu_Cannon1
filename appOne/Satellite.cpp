@@ -125,8 +125,6 @@ void Satellite::UpdateActor()
 		SetRotationX(3.1415926f / 2);
 	}
 
-	//Master.mulRotateX(GetRotation().x);
-
 	Target.identity();
 	Target.mulTranslate(VECTOR(0.0f, 0.0f, 3.0f));
 
@@ -185,7 +183,7 @@ void Satellite::UpdateActor()
 		}
 	}
 
-	for (auto enemy : GetGame()->GetEnemies())
+	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
 		if (enemy != this && enemy->GetTag() == CharacterActor::Satellite)
 		{
@@ -205,7 +203,6 @@ void Satellite::UpdateActor()
 		}
 	}
 
-	//print("(" + (let)GetTargetPosition().x + "," + (let)GetTargetPosition().y + "," + (let)GetTargetPosition().z + ")");
 }
 
 const VECTOR& Satellite::GetTargetPosition()
@@ -223,7 +220,9 @@ void Satellite::Damage(int damage)
 		SetJumpFlag(1);
 		SetGravity(Data.mGravity);
 	}
+
 	SetDamageInterval(Data.mMaxDamageInterval);
+
 	if (mState->GetName() == "Attack")
 	{
 		mState->ChangeState("Normal");

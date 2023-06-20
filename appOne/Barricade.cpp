@@ -18,7 +18,7 @@ Barricade::Barricade(Game* game)
 
 Barricade::~Barricade()
 {
-	for (auto chara : GetGame()->GetPSide())
+	for (auto chara : GetGame()->GetActorManager()->GetPSide())
 	{
 		if (chara->GetTag() == CharacterActor::Barricade)
 		{
@@ -53,7 +53,7 @@ int Barricade::SetUp()
 	new UIPSideCharacterStatusClose(this);
 
 	int num = 0;
-	for (auto chara : GetGame()->GetPSide())
+	for (auto chara : GetGame()->GetActorManager()->GetPSide())
 	{
 		if (chara->GetTag() == CharacterActor::Barricade)
 		{
@@ -100,12 +100,12 @@ void Barricade::Damage(int damage)
 		SetState(Actor::EDead);
 	}
 
-	for (auto enemy : GetGame()->GetEnemies())
+	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
 		Intersect(this, enemy);
 	}
 
-	for (auto pSide : GetGame()->GetPSide())
+	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
 		if (pSide != this && pSide != GetGame()->GetPHome())
 		{

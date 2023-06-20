@@ -94,7 +94,7 @@ void Tama::UpdateActor()
 {
 	SetScale(VECTOR(mScale, mScale, mScale));
 
-	for (auto enemy : GetGame()->GetEnemies())
+	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
 		if (enemy != this && enemy->GetTag() == CharacterActor::Satellite)
 		{

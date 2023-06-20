@@ -121,17 +121,6 @@ void Map::CreateCollisions(const char* filename)
 	}
 }
 
-void Map::Draw()
-{
-	//noStroke();
-	//fill(Data.mStageNumRectColor);
-	//rectMode(CORNER);
-	//rect(Data.mStageNumRectPos.x, Data.mStageNumRectPos.y, Data.mStageNumTextSize * 3.0f, Data.mStageNumTextSize);
-	//fill(Data.mStageNumTextColor);
-	//textSize(Data.mStageNumTextSize);
-	//text("Stage" + (let)Data.mStageNum, Data.mStageNumTextPos.x, Data.mStageNumTextPos.y);
-}
-
 void Map::CreateArea(float* maxX, float* maxZ, float* minX, float* minZ, int areaNum)
 {
 	//マップの範囲情報を作る
@@ -175,7 +164,7 @@ void Map::UpdateActor()
 {
 	std::ostringstream oss;
 
-	if (GetGame()->GetScene() == Game::EPlay)
+	if (!GetGame()->GetActorManager()->GetEnemies().empty() && GetGame()->GetEHome())
 	{
 		auto end = std::chrono::system_clock::now();
 		auto dur = end - mStart;
@@ -211,7 +200,7 @@ void Map::UpdateActor()
 		}*/
 	}
 
-	if (!GetGame()->GetEHome() && GetGame()->GetEnemies().empty() && !mClearFlag)
+	if (!GetGame()->GetEHome() && GetGame()->GetActorManager()->GetEnemies().empty() && !mClearFlag)
 	{
 		mClearFlag = true;
 		GetLog()->AddText("すべての敵を倒した！！");

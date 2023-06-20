@@ -44,17 +44,12 @@ void SatelliteNormal::Update()
 {
 	Satellite* s = static_cast<Satellite*>(mOwnerCompo->GetActor());
 
-	/*if (s->GetId() == 1)
-	{
-		s->SetRotationY(s->GetRotation().y + 0.17f * 0.5f);
-	}*/
-
 	SatelliteRotation(s);
 	SatelliteCountElapsedTime(s);
 
 	if (s->GetElapsedTime() >= s->GetLaunchInterval())
 	{
-		for (auto pSide : s->GetGame()->GetPSide())
+		for (auto pSide : s->GetGame()->GetActorManager()->GetPSide())
 		{
 			if (CollisionCircle(s->GetRange(), pSide->GetRadius(), s->GetPosition(), pSide->GetPosition()))
 			{
@@ -70,7 +65,6 @@ void SatelliteNormal::Update()
 	else
 	{
 		mOwnerCompo->ChangeState("Move");
-		//s->SetElapsedTime(0);
 		return;
 	}
 }
@@ -78,7 +72,6 @@ void SatelliteNormal::Update()
 void SatelliteMove::OnEnter()
 {
 	Satellite* s = static_cast<Satellite*>(mOwnerCompo->GetActor());
-	//s->SetElapsedTime(0.0f);
 	mAdv = VECTOR((float)random(-1, 1), s->GetPosition().y, (float)random(-1, 1));
 	mTarget = s->GetPosition() + mAdv;
 	mCnt = 0;
@@ -94,6 +87,12 @@ void SatelliteMove::Update()
 	{
 		mTarget = s->GetGame()->GetPHome()->GetPosition();
 	}
+	else if (mCnt % 2 == 0)
+	{
+		mTarget = s->GetGame()->GetStage()->GetCenterPos();
+	}
+
+	mTarget.y = s->GetPosition().y;
 
 	if (s->GetId() == 1)
 	{
@@ -130,7 +129,7 @@ void SatelliteRockOn::OnEnter()
 	Satellite* s = static_cast<Satellite*>(mOwnerCompo->GetActor());
 	mTarget = VECTOR(0.0f, 0.0f, 0.0f);
 
-	for (auto pSide : s->GetGame()->GetPSide())
+	for (auto pSide : s->GetGame()->GetActorManager()->GetPSide())
 	{
 		if (pSide->GetHp() != 0)
 		{
@@ -205,30 +204,6 @@ void SatelliteAttack::Update()
 
 	VECTOR offset = s->GetBulletOffset();
 
-	VECTOR angle = s->GetRotation();
-
-	int EndOfRotate = 0;
-
-	/*if (s->GetId() == 0)
-	{
-		EndOfRotate = s->rotate(&angle, -s->GetType1TargetVec(), -0.05f);
-	}
-	else
-	{
-		EndOfRotate = s->rotate(&angle, -s->GetTargetPosition(), -0.05f);
-	}*/
-
-	s->SetRotation(angle);
-
-	/*if (s->GetId() == 0)
-	{
-		if (mCnt <= mMaxCnt)
-		{
-			new SatelliteBullet(s, s->GetPosition() + offset, s->GetType1TargetVec());
-		}
-	}
-	else
-	{*/
 	if (mCnt % mMaxCnt == 0)
 	{
 		if (s->GetId() == 0)
@@ -240,19 +215,12 @@ void SatelliteAttack::Update()
 			new SatelliteBullet(s, s->GetTargetPosition(), VECTOR(0.0f, 0.0f, 0.0f));
 		}
 	}
-	//}
 
 	if (++mCnt >= mRotateCnt)
 	{
-		//VECTOR dir = VECTOR(0.0f, s->GetPosition().y, 0.0f);
-		//int EndOfRotate = s->rotate(&angle, dir.normalize(), 0.05f);
-		//s->SetRotation(angle);
 		s->SetRotationX(0.0f);
-		//if (EndOfRotate == 1)
-		{
-			mOwnerCompo->ChangeState("Normal");
-			return;
-		}
+		mOwnerCompo->ChangeState("Normal");
+		return;
 	}
 
 }
@@ -262,7 +230,6 @@ void SatelliteAttack::OnExit()
 	Satellite* s = static_cast<Satellite*>(mOwnerCompo->GetActor());
 	s->SetRange(s->GetGame()->GetAllData()->satelliteData.mMaxRange);
 	VECTOR angle = s->GetRotation();
-	//s->SetRotationY(0.0f);
 }
 
 

@@ -69,7 +69,7 @@ void Renderer::Draw()
 		mGame->GetStage()->Draw();
 	}
 
-	if (mGame->GetScene() != Game::ETitle)
+	if (mGame->GetState() == Game::EPaused)
 	{
 		DrawDisplay();
 	}
@@ -85,6 +85,13 @@ void Renderer::Draw()
 	if (mGame->GetTransition())
 	{
 		mGame->GetTransition()->draw();
+	}
+
+	if (mGame->GetCurState() && mGame->GetState() != Game::EQuit)
+	{
+		textSize(30);
+		fill(0, 0, 0);
+		print((int)mGame->GetCurState()->GetState());
 	}
 
 }
@@ -131,21 +138,7 @@ void Renderer::SetCursor()
 	//カーソルの状態をゲームステートに合わせて切り替える
 	//Uiを前に出すため、スプライトよりも前に表示する
 
-	if (mGame->GetState() == Game::EGameplay)
-	{
-		if (mGame->GetScene() == Game::EPlay)
-		{
-			hideCursor();
-		}
-		else
-		{
-			showCursor();
-		}
-	}
-	else
-	{
-		showCursor();
-	}
+	showCursor();
 }
 
 void Renderer::DrawDisplay()

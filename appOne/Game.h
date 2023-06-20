@@ -23,26 +23,11 @@ public:
 
 	GameState GetState() { return mGameState; }
 	void SetState(GameState gameState) { mGameState = gameState; }
+	void SetCurState(UIMainState* state) { mCurState = state; }
+	UIMainState* GetCurState() { return mCurState; }
+
 private:
 	GameState mGameState;
-public:
-
-	enum GameScene
-	{
-		ETitle,
-		EPlay,
-		EStageClear,
-		EGameQuit,
-		EGameOver,
-	};
-
-	GameScene GetScene() { return mGameScene; }
-	void SetScene(GameScene scene) { mGameScene = scene; }
-	GameScene GetTmpScene() { return mTmpScene; }
-	void SetTmpScene(GameScene scene) { mTmpScene = scene; }
-private:
-	GameScene mGameScene;
-	GameScene mTmpScene;
 public:
 
 	enum StagePhase
@@ -61,46 +46,19 @@ private:
 	StagePhase mPhase;
 	StagePhase mInitPhase;
 public:
-	//Actor
-	void AddActor(class Actor* actor);
-	void RemoveActor(class Actor* actor);
-
-	void AddCharacter(class CharacterActor* actor);
-	void RemoveCharacter(class CharacterActor* actor);
-	void AddWeapons(class ActorsWeapon* weapon);
-	void RemoveWeapons(class ActorsWeapon* weapon);
-	void AddEnemies(class Enemy* enemy);
-	void RemoveEnemies(class Enemy* enemy);
-	void AddItems(class Item* item);
-	void RemoveItems(class Item* item);
-	void AddPSide(class PSideCharacterActor* actor);
-	void RemovePSide(class PSideCharacterActor* actor);
-
-
+	
 	void AddUIPSide(class UIPSideCharacterStatusBase* ui);
 	void RemoveUIPSide(class UIPSideCharacterStatusBase* ui);
-
-	void AddCannon(class Cannon* cannon);
-	void RemoveCannon(class Cannon* cannon);
-
 
 	// UI
 	void PushUI(class UIScreen* uiScreen);
 	void PullUI(class UIScreen* uiScreen);
 public:
-	void ActorClear();
 	void UIClear();
 	void MapClear();
 public:
-	//getter&setter
-	const class std::vector<Actor*>& GetActors() { return mActors; }
-	const class std::vector<CharacterActor*>& GetCharacters() { return mCharacters; }
+	
 	const class std::vector<class UIScreen*>& GetUIStack() { return mUIStack; }
-	const class std::vector<Enemy*>& GetEnemies() { return mEnemies; }
-	const class std::vector<ActorsWeapon*>& GetWeapons() { return mWeapons; }
-	const class std::vector<Item*>& GetItems() { return mItems; }
-	const class std::vector<PSideCharacterActor*>& GetPSide() { return mPSideActors; }
-	const class std::vector<Cannon*>& GetCannons() { return mCannons; }
 	struct Container* GetAllData() { return &mContainer; }
 	void SetDisplayColor(const COLOR& color) { mDisplayColor = color; }
 	const COLOR& GetDisplayColor() { return mDisplayColor; }
@@ -108,16 +66,15 @@ public:
 	class TransitionFade* GetTransition() { return mTransition; }
 	bool GetContinueFlag() { return mContinueFlag; }
 	void SetContinueFlag(bool flag) { mContinueFlag = flag; }
+
 	class Actor* GetCamera() { return mCamera; }
 	void SetCamera(class Camera* camera) { mCamera = camera; }
-	class CharacterActor* GetCannon() { return mCannon; }
-	void SetCannon(CharacterActor* cannon) { mCannon = cannon; }
+
 	void SetCollisionMap(class COLLISION_MAP* map) { mMap = map; }
 
 	class COLLISION_MAP* GetCollisionMap() { return mMap; }
 	class Map* GetStage() { return mStage; }
 	void SetStage(Map* map) { mStage = map; }
-	class Title* GetTitle() { return mTitle; }
 	class PlayerHome* GetPHome() { return mPHome; }
 	class EnemyHome* GetEHome() { return mEHome; }
 	void SetPHome(class PlayerHome* home) { mPHome = home; }
@@ -125,6 +82,7 @@ public:
 
 	const std::vector<class UIPSideCharacterStatusBase*>& GetUIPSideStatus() { return mUIStatus; }
 
+	class ActorManager* GetActorManager() { return mActorManager; }
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -135,16 +93,10 @@ private:
 	class Renderer* mRenderer;
 	class TransitionFade* mTransition;
 	class Actor* mCamera;
-	class CharacterActor* mCannon;
 	class COLLISION_MAP* mMap;
 	class Map* mStage;
-	std::vector<class Actor*>mActors;
-	std::vector<class CharacterActor*>mCharacters;
-	std::vector<class Enemy*>mEnemies;
-	std::vector<class Item*>mItems;
-	std::vector<class Cannon*>mCannons;
-	std::vector<class PSideCharacterActor*>mPSideActors;
-	std::vector<class ActorsWeapon*> mWeapons;
+	class UIMainState* mCurState;
+	class ActorManager* mActorManager;
 	std::vector<class UIPSideCharacterStatusBase*>mUIStatus;
 	// Update中フラッグ
 	bool mUpdatingActors;
@@ -155,7 +107,6 @@ private:
 	COLOR mDisplayColor;
 	class PlayerHome* mPHome;
 	class EnemyHome* mEHome;
-	class Title* mTitle;
 	//音関係
 private:
 	int mTmpVolume;//音声OFF時にON時のボリュームをとっておく

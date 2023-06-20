@@ -27,9 +27,6 @@ Cannon::Cannon(Game* game) :
 	, mSpeed(nullptr)
 	, mBarrier(nullptr)
 	, mRapid(nullptr)
-	, mHpGauge(nullptr)
-	, mScope(nullptr)
-	, mUIItem(nullptr)
 	, mJumpSoundFlag(false)
 	, mCnt(0)
 	, mSlideCnt(0)
@@ -44,19 +41,12 @@ Cannon::Cannon(Game* game) :
 	, mCNum(0)
 {
 	//SetUp();
-	GetGame()->AddCannon(this);
+	GetGame()->GetActorManager()->AddCannon(this);
 }
 
 Cannon::~Cannon()
 {
 	stopSound(Data.mJumpSound);
-
-	/*if (this == GetGame()->GetCannon())
-	{
-		delete mHpGauge;
-		delete mScope;
-		delete mUIItem;
-	}*/
 
 	GetGame()->SetDisplayColor(GetGame()->GetDisplayColor());
 
@@ -68,15 +58,10 @@ Cannon::~Cannon()
 		mItemNums.pop_back();
 	}
 
-	if (this == GetGame()->GetCannon())
-	{
-		GetGame()->SetCannon(nullptr);
-	}
-
 	stopSound(Data.mFallSound);
-	GetGame()->RemoveCannon(this);
+	GetGame()->GetActorManager()->RemoveCannon(this);
 
-	for (auto cannon : GetGame()->GetCannons())
+	for (auto cannon : GetGame()->GetActorManager()->GetCannons())
 	{
 		if (cannon->GetCNum() > GetCNum())
 		{
@@ -97,7 +82,6 @@ int Cannon::SetUp()
 	mState->RegisterState(new CannonLaunch(mState));
 	mState->RegisterState(new CannonMove(mState));
 	mState->RegisterState(new CannonRotate(mState));
-	mState->RegisterState(new CannonJump(mState));
 	mState->RegisterState(new CannonMoveReturnHome(mState));
 	mState->RegisterState(new CannonMoveHomePatroll(mState));
 	mState->RegisterState(new CannonMoveFieldPatroll(mState));
@@ -141,36 +125,13 @@ int Cannon::SetUp()
 	//砲弾のナンバー0をあらかじめセットしておく
 	mItemNums.emplace_back(0);
 
-	mCNum = (int)(GetGame()->GetCannons().size()) - 1;
+	mCNum = (int)(GetGame()->GetActorManager()->GetCannons().size()) - 1;
 
 	std::ostringstream oss;
 	oss << "Cannon" << mCNum;
 
 	SetName(oss.str().c_str());
 	return 0;
-}
-
-void Cannon::ActorInput()
-{
-	if (this == GetGame()->GetCannon())
-	{
-		if (isTrigger(KEY_W))
-		{
-			SetMoveState(Stay);
-		}
-		else if (isTrigger(KEY_R))
-		{
-			SetMoveState(Return);
-		}
-		else if (isTrigger(KEY_H))
-		{
-			SetMoveState(HomePatroll);
-		}
-		else if (isTrigger(KEY_F))
-		{
-			SetMoveState(FieldPatroll);
-		}
-	}
 }
 
 void Cannon::UpdateActor()
@@ -250,21 +211,17 @@ void Cannon::UpdateActor()
 
 	SetScale(VECTOR(mScale, mScale, mScale));
 
-	if (GetGame()->GetScene() != Game::EPlay && GetGame()->GetScene() != Game::EQuit)
-	{
-		Data.mRDamage = 0;
-	}
-
-	if (GetGame()->GetScene() == Game::EStageClear)
+	if (GetGame()->GetActorManager()->GetEnemies().empty() && !GetGame()->GetEHome())
 	{
 		while (!mItemComponents.empty())
 		{
 			delete mItemComponents.back();
 		}
+		Data.mRDamage = 0;
 		mState->ChangeState("Wait");
 	}
 
-	for (auto enemy : GetGame()->GetEnemies())
+	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
 		if (enemy->GetHp() > 0 && mState->GetName() != "Generate")
 		{
@@ -272,7 +229,7 @@ void Cannon::UpdateActor()
 		}
 	}
 
-	for (auto pSide : GetGame()->GetCannons())
+	for (auto pSide : GetGame()->GetActorManager()->GetCannons())
 	{
 		if (pSide != this && mState->GetName() != "Generate" && pSide->GetStateCompoState()->GetName() != "Generate")
 		{
@@ -425,35 +382,22 @@ void Cannon::Damage(int damage)
 
 void Cannon::DamageOption()
 {
-	if (this == GetGame()->GetCannon())
+	if (GetDamageInterval() > 0)
 	{
-		if (GetDamageInterval() > 0)
-		{
-			if (Data.mRDamage != 0)
-			{
-				//GetGame()->SetDisplayColor(GetDamageColor());
-				setVolume(Data.mDamageSound, GetGame()->GetEffectVolume());
-				playSound(Data.mDamageSound);
-			}
-			else
-			{
-				//GetGame()->SetDisplayColor(Data.mGurdColor);
-				setVolume(Data.mGurdSound, GetGame()->GetEffectVolume());
-				playSound(Data.mGurdSound);
-			}
-		}
-		else
-		{
-			GetGame()->SetDisplayColor(Data.mDisplayColor);
-		}
-	}
-	else
-	{
-		if (GetDamageInterval() > 0)
+		if (Data.mRDamage != 0)
 		{
 			setVolume(Data.mDamageSound, GetGame()->GetEffectVolume());
 			playSound(Data.mDamageSound);
 		}
+		else
+		{
+			setVolume(Data.mGurdSound, GetGame()->GetEffectVolume());
+			playSound(Data.mGurdSound);
+		}
+	}
+	else
+	{
+		GetGame()->SetDisplayColor(Data.mDisplayColor);
 	}
 }
 

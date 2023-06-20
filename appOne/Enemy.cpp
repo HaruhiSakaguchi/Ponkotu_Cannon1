@@ -6,10 +6,10 @@ Enemy::Enemy(class Game* game)
 	, mRevivalCnt(1)
 	, mRevivalLimmit(0)
 {
-	GetGame()->AddEnemies(this);
+	GetGame()->GetActorManager()->AddEnemies(this);
 }
 
 Enemy::~Enemy()
 {
-	GetGame()->RemoveEnemies(this);
+	GetGame()->GetActorManager()->RemoveEnemies(this);
 }

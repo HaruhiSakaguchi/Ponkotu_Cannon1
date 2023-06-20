@@ -15,12 +15,12 @@ Item::Item(Game* game)
 	, mTc(nullptr)
 	, mOwner(nullptr)
 {
-	GetGame()->AddItems(this);
+	GetGame()->GetActorManager()->AddItems(this);
 }
 
 Item::~Item()
 {
-	GetGame()->RemoveItems(this);
+	GetGame()->GetActorManager()->RemoveItems(this);
 }
 
 int Item::SetUp()
@@ -45,7 +45,7 @@ int Item::SetUp()
 
 void Item::UpdateActor()
 {
-	for (auto cannon : GetGame()->GetCannons())
+	for (auto cannon : GetGame()->GetActorManager()->GetCannons())
 	{
 		if (cannon->GetState() == Actor::EActive && Intersect(this, cannon, false))
 		{

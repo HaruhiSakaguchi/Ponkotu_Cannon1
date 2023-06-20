@@ -16,8 +16,11 @@ TamaWeapon::TamaWeapon(class Tama* owner, const VECTOR& pos, const VECTOR& dir)
 	iData = GetGame()->GetAllData()->tWeaponIData;
 	UnMoveComponent();
 	SetUp(Data);
-	setVolume(iData.mAttackSound, GetGame()->GetEffectVolume());
-	playSound(iData.mAttackSound);
+	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
+	{
+		setVolume(iData.mAttackSound, GetGame()->GetEffectVolume());
+		playSound(iData.mAttackSound);
+	}
 
 	BatchMeshComponent* bc = new BatchMeshComponent(this);
 	bc->SetBatch("TamaTamaSphere");
@@ -80,9 +83,9 @@ void TamaWeapon::UpdateActor()
 	//owner‚Ìhp‚ª0ˆÈã‚È‚çcannon‚Æ“–‚½‚è”»’è‚³‚¹‚é
 	bool ownerDead = GetOwner()->GetHp() > 0;
 
-	for (auto pSide : GetGame()->GetPSide())
+	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
-		if (Intersect(this,pSide,false))
+		if (Intersect(this, pSide, false))
 		{
 			pSide->Damage(1);
 		}

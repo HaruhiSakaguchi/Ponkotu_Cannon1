@@ -1,8 +1,8 @@
 #pragma once
-#include "UIState.h"
+#include "UIMainState.h"
 #include "sound.h"
 
-class AllClear : public UIState
+class AllClear : public UIMainState
 {
 public:
 	AllClear(class Game* game);
@@ -18,4 +18,5 @@ public:
 	};
 private:
 	DATA Data;
+	bool mIsChangeTitle;
 };

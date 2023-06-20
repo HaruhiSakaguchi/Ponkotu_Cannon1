@@ -1,5 +1,6 @@
 #include "UIMiniMap.h"
 #include "Game.h"
+#include "PlayerHome.h"
 
 UIMiniMap::UIMiniMap(class Game* game, Map* owner, bool scroll)
 	:UIScreen(game)
@@ -307,7 +308,7 @@ void UIMiniMap::Draw()
 
 	}
 
-	for (auto actor : mGame->GetCharacters())
+	for (auto actor : mGame->GetActorManager()->GetCharacters())
 	{
 		VECTOR2 Pos(actor->GetPosition().x * Data.m3DCoordinate2DConvertRate + Data.mOffsetX + Data.mMiniMapOffsetX, actor->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapOffsetY);
 		if (Pos.y <= Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength && Pos.y >= Data.mMiniMapCornerPos.y && Pos.x <= Data.mMiniMapCornerPos.x + Data.mMiniMapWindowLength && Pos.x >= Data.mMiniMapCornerPos.x)
@@ -341,11 +342,11 @@ void UIMiniMap::Draw()
 void UIMiniMap::Update()
 {
 	//ƒXƒNƒ[ƒ‹
-	if (mScroll && mGame->GetCannon())
+	if (mScroll && mGame->GetPHome())
 	{
-		if (mGame->GetCannon()->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapWindowHeight / 3.0f > Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f && Data.mMiniMapCornerPos.y + Data.mMiniMapWindowHeight / 3.0f > Data.mMinPosY + Data.mMiniMapOffsetY + Data.mOffsetY)
+		if (mGame->GetPHome()->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapWindowHeight / 3.0f > Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f && Data.mMiniMapCornerPos.y + Data.mMiniMapWindowHeight / 3.0f > Data.mMinPosY + Data.mMiniMapOffsetY + Data.mOffsetY)
 		{
-			Data.mMiniMapOffsetY = -(mGame->GetCannon()->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY) + (Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f);
+			Data.mMiniMapOffsetY = -(mGame->GetPHome()->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY) + (Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f);
 		}
 	}
 }

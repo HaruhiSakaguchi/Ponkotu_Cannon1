@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="ActorManager.cpp" />
     <ClCompile Include="ActorsWeapon.cpp" />
     <ClCompile Include="AllClear.cpp" />
     <ClCompile Include="Barricade.cpp" />
@@ -228,16 +229,14 @@
     <ClCompile Include="UIHelp2.cpp" />
     <ClCompile Include="UIHelp3.cpp" />
     <ClCompile Include="UIHelpBase.cpp" />
-    <ClCompile Include="UIHpGauge.cpp" />
-    <ClCompile Include="UIItemStatus.cpp" />
     <ClCompile Include="UILog.cpp" />
+    <ClCompile Include="UIMainState.cpp" />
     <ClCompile Include="UIMiniMap.cpp" />
     <ClCompile Include="UIPlayerHome.cpp" />
     <ClCompile Include="UIProgressGauge.cpp" />
     <ClCompile Include="UIPSideCharacterStatus.cpp" />
     <ClCompile Include="UIPSideCharacterStatusBase.cpp" />
     <ClCompile Include="UIPSideCharacterStatusClose.cpp" />
-    <ClCompile Include="UIScope.cpp" />
     <ClCompile Include="UIScreen.cpp" />
     <ClCompile Include="UIState.cpp" />
   </ItemGroup>
@@ -249,6 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="ActorManager.h" />
     <ClInclude Include="ActorsWeapon.h" />
     <ClInclude Include="AllClear.h" />
     <ClInclude Include="Barricade.h" />
@@ -324,16 +324,14 @@
     <ClInclude Include="UIHelp2.h" />
     <ClInclude Include="UIHelp3.h" />
     <ClInclude Include="UIHelpBase.h" />
-    <ClInclude Include="UIHpGauge.h" />
-    <ClInclude Include="UIItemStatus.h" />
     <ClInclude Include="UILog.h" />
+    <ClInclude Include="UIMainState.h" />
     <ClInclude Include="UIMiniMap.h" />
     <ClInclude Include="UIPlayerHome.h" />
     <ClInclude Include="UIProgressGauge.h" />
     <ClInclude Include="UIPSideCharacterStatus.h" />
     <ClInclude Include="UIPSideCharacterStatusBase.h" />
     <ClInclude Include="UIPSideCharacterStatusClose.h" />
-    <ClInclude Include="UIScope.h" />
     <ClInclude Include="UIScreen.h" />
     <ClInclude Include="UIState.h" />
   </ItemGroup>

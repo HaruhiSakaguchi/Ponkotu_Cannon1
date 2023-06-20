@@ -2,11 +2,11 @@
 #include "Game.h"
 
 PSideCharacterActor::PSideCharacterActor(Game* game)
-	:CharacterActor(game)
+	: CharacterActor(game)
 	, mUI(nullptr)
 {
-	GetGame()->AddPSide(this);
-	mNum = (int)(GetGame()->GetPSide().size()) - 1;
+	GetGame()->GetActorManager()->AddPSide(this);
+	mNum = (int)(GetGame()->GetActorManager()->GetPSide().size()) - 1;
 }
 
 PSideCharacterActor::~PSideCharacterActor()
@@ -16,9 +16,9 @@ PSideCharacterActor::~PSideCharacterActor()
 		mUI->CloseMe();
 	}
 
-	GetGame()->RemovePSide(this);
+	GetGame()->GetActorManager()->RemovePSide(this);
 
-	for (auto pSide : GetGame()->GetPSide())
+	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
 		if (pSide->GetNum() > GetNum())
 		{

@@ -21,44 +21,6 @@ void MoveCannon(Cannon* p)
 	if (p->GetIn()->Left()) { mDir.x = -1; }
 	if (p->GetIn()->Right()) { mDir.x = 1; }
 
-	if (p->GetIn()->Vertical() && p->GetScope())
-	{
-		if (p->GetIn()->Up())
-		{
-			p->GetScope()->SetOffsetPos(VECTOR2(p->GetScope()->GetOffset().x, sinf(p->GetGame()->GetCamera()->GetRotation().x) * 500.0f));
-		}
-		else if (p->GetIn()->Down())
-		{
-			p->GetScope()->SetOffsetPos(VECTOR2(p->GetScope()->GetOffset().x, sinf(-p->GetGame()->GetCamera()->GetRotation().x) * (height / 2.0f)));
-		}
-	}
-	else
-	{
-		p->GetScope()->SetOffsetPos(VECTOR2(p->GetScope()->GetOffset().x, 0));
-	}
-	if (p->GetIn()->Side() && p->GetScope())
-	{
-		if (p->GetGame()->GetCollisionMap()->capsule_triangles_walls(p) == 0)
-		{
-			if (p->GetIn()->Left())
-			{
-				p->GetScope()->SetOffsetPos(VECTOR2(width / 4.0f + 100.0f, p->GetScope()->GetOffset().y));
-			}
-			else if (p->GetIn()->Right())
-			{
-				p->GetScope()->SetOffsetPos(VECTOR2(-(width / 4.0f + 100.0f), p->GetScope()->GetOffset().y));
-			}
-		}
-		else
-		{
-			p->GetScope()->SetOffsetPos(VECTOR2(0.0f, p->GetScope()->GetOffset().y));
-		}
-	}
-	else
-	{
-		p->GetScope()->SetOffsetPos(VECTOR2(0, p->GetScope()->GetOffset().y));
-	}
-
 	p->SetBarrelDir(mDir);
 	if (mDir.x == 0 && mDir.z == 0)return;
 
@@ -196,12 +158,13 @@ void UpCounter(Cannon* c)
 
 void Launch(Cannon* p)
 {
-	if (p->GetGame()->GetScene() == Game::EPlay && p->GetGame()->GetState() == Game::EGameplay /* && p->GetIn()->StartLaunch()*/ && p->GetTimer() >= p->GetInterval())
+	if (p->GetGame()->GetState() == Game::EGameplay)
 	{
-		if (p->GetCnt() == 0)
+		if (p->GetCnt() == 0 && p->GetTimer() >= p->GetInterval())
 		{
+			VECTOR vec = p->GetTargetPosition() - (p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos);
 			p->SetLaunchTime(50.0f);
-			new PlayerBullet(p, p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos + p->GetCapsulOffset(), VECTOR((p->GetTargetPosition()) - (p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos)).normalize());
+			new PlayerBullet(p, p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos + p->GetCapsulOffset(), vec.normalize());
 		}
 		if (p->GetCnt() != 0)
 		{
@@ -226,7 +189,7 @@ void CannonWait::Update()
 
 	if (p->GetTimer() >= p->GetInterval())
 	{
-		for (auto enemy : p->GetGame()->GetEnemies())
+		for (auto enemy : p->GetGame()->GetActorManager()->GetEnemies())
 		{
 			if (CollisionCircle(p->GetRange(), enemy->GetRadius(), p->GetPosition(), enemy->GetPosition() + enemy->GetCapsulOffset()))
 			{
@@ -234,7 +197,7 @@ void CannonWait::Update()
 				return;
 			}
 		}
-		for (auto item : p->GetGame()->GetItems())
+		for (auto item : p->GetGame()->GetActorManager()->GetItems())
 		{
 			if (CollisionCircle(p->GetRange(), item->GetRadius(), p->GetPosition(), item->GetPosition() + item->GetCapsulOffset()))
 			{
@@ -335,7 +298,7 @@ void CannonMoveHomePatroll::Update()
 		VECTOR pos = p->GetPosition();
 		bool NextPointEmpty = true;
 
-		for (auto cannon : p->GetGame()->GetCannons())
+		for (auto cannon : p->GetGame()->GetActorManager()->GetCannons())
 		{
 			if (p != cannon && CollisionCircle(1.0f, cannon->GetRadius(), p->GetGame()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()], cannon->GetPosition()))
 			{
@@ -363,7 +326,7 @@ void CannonMoveHomePatroll::Update()
 
 		if (p->GetTimer() >= p->GetInterval())
 		{
-			for (auto enemy : p->GetGame()->GetEnemies())
+			for (auto enemy : p->GetGame()->GetActorManager()->GetEnemies())
 			{
 				if (CollisionCircle(p->GetRange(), enemy->GetRadius(), p->GetPosition(), enemy->GetPosition() + enemy->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
 				{
@@ -371,7 +334,7 @@ void CannonMoveHomePatroll::Update()
 					return;
 				}
 			}
-			for (auto item : p->GetGame()->GetItems())
+			for (auto item : p->GetGame()->GetActorManager()->GetItems())
 			{
 				if (CollisionCircle(p->GetRange(), item->GetRadius(), p->GetPosition(), item->GetPosition() + item->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
 				{
@@ -402,7 +365,7 @@ void CannonMoveFieldPatroll::Update()
 		VECTOR pos = p->GetPosition();
 		bool NextPointEmpty = true;
 
-		for (auto cannon : p->GetGame()->GetCannons())
+		for (auto cannon : p->GetGame()->GetActorManager()->GetCannons())
 		{
 			if (p != cannon && CollisionCircle(1.0f, cannon->GetRadius(), p->GetGame()->GetPHome()->GetHomeTargetPoints()[p->GetTPIndex()], cannon->GetPosition()))
 			{
@@ -430,7 +393,7 @@ void CannonMoveFieldPatroll::Update()
 
 		if (p->GetTimer() >= p->GetInterval())
 		{
-			for (auto enemy : p->GetGame()->GetEnemies())
+			for (auto enemy : p->GetGame()->GetActorManager()->GetEnemies())
 			{
 				if (CollisionCircle(p->GetRange(), enemy->GetRadius(), p->GetPosition(), enemy->GetPosition() + enemy->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
 				{
@@ -438,7 +401,7 @@ void CannonMoveFieldPatroll::Update()
 					return;
 				}
 			}
-			for (auto item : p->GetGame()->GetItems())
+			for (auto item : p->GetGame()->GetActorManager()->GetItems())
 			{
 				if (CollisionCircle(p->GetRange(), item->GetRadius(), p->GetPosition(), item->GetPosition() + item->GetCapsulOffset()) && CollisionCircle(7.0f, p->GetRadius(), p->GetGame()->GetPHome()->GetPosition(), p->GetPosition()))
 				{
@@ -456,46 +419,11 @@ void CannonMoveFieldPatroll::Update()
 	}
 }
 
-
-void CannonJump::OnEnter()
-{
-	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
-
-	p->SetJumpFlag(1);
-	p->SetJumpVel(10.0f);
-
-	//‚¿‚å‚Á‚Æ•‚‚©‚¹‚é
-	VECTOR pos = p->GetPosition();
-	pos.y += p->GetJumpVel() * delta;
-	p->SetPosition(pos);
-}
-
-void CannonJump::Update()
-{
-	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
-
-	//MoveCannon(p);
-	Launch(p);
-	CountInterval(p);
-	UpCounter(p);
-
-
-	p->GetScope()->SetOffsetPos(VECTOR2(0, 100));
-
-	if (p->GetJumpFlag() == 0)
-	{
-		mOwnerCompo->ChangeState("Wait");
-		p->GetScope()->SetOffsetPos(VECTOR2(0, 0));
-
-		return;
-	}
-}
-
 void CannonLaunch::OnEnter()
 {
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
 
-	for (auto eSide : p->GetGame()->GetEnemies())
+	for (auto eSide : p->GetGame()->GetActorManager()->GetEnemies())
 	{
 		if (eSide->GetHp() != 0)
 		{
@@ -523,7 +451,7 @@ void CannonLaunch::OnEnter()
 			}
 		}
 	}
-	for (auto item : p->GetGame()->GetItems())
+	for (auto item : p->GetGame()->GetActorManager()->GetItems())
 	{
 		VECTOR target = item->GetPosition();
 		target.y += item->GetCapsulOffset().y;
@@ -553,8 +481,9 @@ void CannonLaunch::OnEnter()
 	float tdistz = mTarget.z - p->GetPosition().z;
 	float tdist = sqrtf(tdistx * tdistx + tdisty * tdisty + tdistz * tdistz);
 
-	p->SetRange(tdist);
-	mAdv = mTarget - (p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos + p->GetCapsulOffset());
+	//p->SetRange(tdist);
+
+	//mAdv = mTarget - (p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos + p->GetCapsulOffset());
 
 }
 
@@ -579,7 +508,9 @@ void CannonRotate::OnEnter()
 {
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
 
-	for (auto eSide : p->GetGame()->GetEnemies())
+	mTarget = VECTOR(1000.0f, 1000.0f, 1000.0f);
+
+	for (auto eSide : p->GetGame()->GetActorManager()->GetEnemies())
 	{
 		if (eSide->GetHp() != 0)
 		{
@@ -595,7 +526,7 @@ void CannonRotate::OnEnter()
 			float tdistz = mTarget.z - p->GetPosition().z;
 			float tdist = sqrtf(tdistx * tdistx + tdisty * tdisty + tdistz * tdistz);
 
-			if (mTarget.x == 0.0f && mTarget.y == 0.0f && mTarget.z == 0.0f)
+			if (mTarget.x == 1000.0f && mTarget.y == 1000.0f && mTarget.z == 1000.0f)
 			{
 				mTarget = eSide->GetPosition() + eSide->GetCapsulOffset();
 			}
@@ -605,7 +536,8 @@ void CannonRotate::OnEnter()
 			}
 		}
 	}
-	for (auto item : p->GetGame()->GetItems())
+
+	for (auto item : p->GetGame()->GetActorManager()->GetItems())
 	{
 		VECTOR target = item->GetPosition();
 		target.y += item->GetCapsulOffset().y;
@@ -619,15 +551,14 @@ void CannonRotate::OnEnter()
 		float tdistz = mTarget.z - p->GetPosition().z;
 		float tdist = sqrtf(tdistx * tdistx + tdisty * tdisty + tdistz * tdistz);
 
-		if (mTarget.x == 0.0f && mTarget.y == 0.0f && mTarget.z == 0.0f)
+		if (mTarget.x == 1000.0f && mTarget.y == 1000.0f && mTarget.z == 1000.0f)
 		{
 			mTarget = item->GetPosition() + item->GetCapsulOffset();
 		}
 		else if (dist <= tdist)
 		{
-			mTarget = item->GetPosition() + item->GetCapsulOffset();
+			mTarget = item->GetPosition();
 		}
-
 	}
 
 	mAdv = mTarget - (p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos + p->GetCapsulOffset());
@@ -653,7 +584,6 @@ void CannonRotate::Update()
 void CannonRotate::OnExit()
 {
 	mAdv = VECTOR(0.0f, 0.0f, 0.0f);
-	mTarget = VECTOR(0.0f, 0.0f, 0.0f);
 }
 
 void CannonGenerate::OnEnter()

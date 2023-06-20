@@ -2,6 +2,7 @@
 #include "VECTOR.h"
 #include <vector>
 #include "COLOR.h"
+#include "ActorManager.h"
 
 class Actor
 {

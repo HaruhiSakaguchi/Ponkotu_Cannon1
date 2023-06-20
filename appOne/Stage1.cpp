@@ -32,8 +32,8 @@ int Stage1::SetUp()
 
 	class TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("background");
-	GetGame()->SetCannon(new Cannon(GetGame()));
-	GetGame()->GetCannon()->SetPosition(VECTOR(0.0f, 0.0f, 0.0f));
+	auto c = new Cannon(GetGame());
+	c->SetPosition(VECTOR(0.0f, 0.0f, 0.0f));
 	mMiniMap = new UIMiniMap(GetGame(), this);
 
 	GetGame()->SetCamera(new Camera(GetGame()));

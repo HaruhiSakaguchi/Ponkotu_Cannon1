@@ -348,7 +348,7 @@ void Cannon::Damage(Actor* actor)
 		{
 			//static_cast<class Camera*>(GetGame()->GetCamera())->SetCannonKillerPos(actor->GetPosition());
 		}
-		setVolume(mDeadSound, GetGame()->GetEffectVolume());
+		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mDeadSound);
 		GetGame()->GetStage()->AddText("CannonÇÕéÄÇÒÇ≈ÇµÇ‹Ç¡ÇΩ...ÅB");
 		SetState(Actor::EDead);
@@ -374,7 +374,7 @@ void Cannon::Damage(int damage)
 
 	if (GetHp() <= 0)
 	{
-		setVolume(mDeadSound, GetGame()->GetEffectVolume());
+		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mDeadSound);
 		GetGame()->GetStage()->AddText("CannonÇÕéÄÇÒÇ≈ÇµÇ‹Ç¡ÇΩ...ÅB");
 		SetState(Actor::EDead);
@@ -387,12 +387,12 @@ void Cannon::DamageOption()
 	{
 		if (Data.mRDamage != 0)
 		{
-			setVolume(Data.mDamageSound, GetGame()->GetEffectVolume());
+			setVolume(Data.mDamageSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 			playSound(Data.mDamageSound);
 		}
 		else
 		{
-			setVolume(Data.mGurdSound, GetGame()->GetEffectVolume());
+			setVolume(Data.mGurdSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 			playSound(Data.mGurdSound);
 		}
 	}

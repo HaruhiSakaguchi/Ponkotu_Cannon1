@@ -35,7 +35,7 @@ int Item::SetUp()
 	SetCapsulOffset(cData.mCapsulOffset);
 	SetCategory(Actor::Item);
 	cData.mLifeTime = cData.mMaxLifeTime;
-	setVolume(cData.mDropSound, GetGame()->GetEffectVolume() + cData.mDropSoundVolumeOffset);
+	setVolume(cData.mDropSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + cData.mDropSoundVolumeOffset);
 	playSound(cData.mDropSound);
 	SetScale(VECTOR(cData.mRadius, cData.mRadius, cData.mRadius) * 4.0f);
 

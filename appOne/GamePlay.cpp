@@ -52,7 +52,7 @@ GamePlay::GamePlay(Game* game) :
 	mGame->GetTransition()->inTrigger();
 	mGame->SetStage(mMap);
 
-	setVolume(mBgm, mGame->GetVolume() + mSoundOffset);
+	setVolume(mBgm, mGame->GetSoundVolumeManager()->GetVolume() + mSoundOffset);
 	playLoopSound(mBgm);
 
 }
@@ -82,9 +82,9 @@ void GamePlay::Update()
 		}
 	}
 
-	if (mGame->GetBgmFlag())
+	if (mGame->GetSoundVolumeManager()->GetBgmFlag())
 	{
-		setVolume(mBgm, mGame->GetVolume() + mSoundOffset);
+		setVolume(mBgm, mGame->GetSoundVolumeManager()->GetVolume() + mSoundOffset);
 		if (!mPlayBgmFlag)
 		{
 			playLoopSound(mBgm);

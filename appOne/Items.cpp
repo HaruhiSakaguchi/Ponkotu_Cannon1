@@ -23,7 +23,7 @@ bool Recovery::update()
 	if (c->GetHp() < c->GetMaxHp())
 	{
 		new RecoveryCompo(c);
-		setVolume(iData.mSound1, GetGame()->GetEffectVolume() + mRecoverySoundVolumeOffset);
+		setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mRecoverySoundVolumeOffset);
 		playSound(iData.mSound1);
 		std::ostringstream oss;
 		oss << GetName() << "アイテムを使用。";
@@ -32,7 +32,7 @@ bool Recovery::update()
 	else
 	{
 		c->AddItemNum(iData.mNum);
-		setVolume(iData.mSound2, GetGame()->GetEffectVolume());
+		setVolume(iData.mSound2, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(iData.mSound2);
 		std::ostringstream oss;
 		oss << GetName() << "アイテムをストック。";
@@ -91,7 +91,7 @@ bool SpeedUp::update()
 		GetGame()->GetStage()->GetLog()->AddText(oss.str());
 	}
 
-	setVolume(iData.mSound1, GetGame()->GetEffectVolume() + mSpeedUpSoundVolumeOffset);
+	setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mSpeedUpSoundVolumeOffset);
 	playSound(iData.mSound1);
 
 	return true;
@@ -167,7 +167,7 @@ bool PowerUp::update()
 		GetGame()->GetStage()->GetLog()->AddText(oss.str());
 	}
 
-	setVolume(iData.mSound1, GetGame()->GetEffectVolume() + mPowerUpSoundVolumeOffset);
+	setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mPowerUpSoundVolumeOffset);
 	playSound(iData.mSound1);
 
 	return true;
@@ -250,7 +250,7 @@ bool RapidFire::update()
 		c->GetRapid()->SetTime(c->GetRapid()->GetInterval());
 	}
 
-	setVolume(iData.mSound1, GetGame()->GetEffectVolume() + mRapidFireSoundVolumeOffset);
+	setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mRapidFireSoundVolumeOffset);
 	playSound(iData.mSound1);
 
 	return true;
@@ -334,7 +334,7 @@ bool Barrier::update()
 		c->GetBarrier()->SetTime(c->GetBarrier()->GetInterval());
 	}
 
-	setVolume(iData.mSound1, GetGame()->GetEffectVolume() + mBarrierSoundVolumeOffset);
+	setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mBarrierSoundVolumeOffset);
 	playSound(iData.mSound1);
 
 	return true;

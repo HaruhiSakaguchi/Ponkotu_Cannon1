@@ -13,13 +13,13 @@ Option::Option(class Game* game)
 	mBackImg = mGame->GetAllData()->mDialog1;
 	mBackPos = Data.mBackPos;
 	mButtonPos = Data.mButtonPos;
-	mVolume = mGame->GetVolume();
-	mEffectVolume = mGame->GetEffectVolume();
+	mVolume = mGame->GetSoundVolumeManager()->GetVolume();
+	mEffectVolume = mGame->GetSoundVolumeManager()->GetEffectVolume();
 
 	AddButton("+",
 		[this]()
 		{
-			if (mGame->GetSoundFlag())
+			if (mGame->GetSoundVolumeManager()->GetSoundFlag())
 			{
 				//0から-4500までで音量調節
 				//最小値を下回るともっと小さい値を入れて完全に音が聞こえないようにする
@@ -36,7 +36,7 @@ Option::Option(class Game* game)
 				{
 					mVolume = 0;
 				}
-				mGame->SetVolume(mVolume);
+				mGame->GetSoundVolumeManager()->SetVolume(mVolume);
 			}
 		}
 		,
@@ -50,14 +50,14 @@ Option::Option(class Game* game)
 	AddButton("-",
 		[this]()
 		{
-			if (mGame->GetSoundFlag())
+			if (mGame->GetSoundVolumeManager()->GetSoundFlag())
 			{
 				mVolume -= Data.mOneVolume;
 				if (mVolume <= Data.mMinVolume)
 				{
 					mVolume = Data.mMinVolume * 2;
 				}
-				mGame->SetVolume(mVolume);
+				mGame->GetSoundVolumeManager()->SetVolume(mVolume);
 			}
 		},
 		2,
@@ -69,7 +69,7 @@ Option::Option(class Game* game)
 	AddButton("+",
 		[this]()
 		{
-			if (mGame->GetSoundFlag())
+			if (mGame->GetSoundVolumeManager()->GetSoundFlag())
 			{
 				//0から-4500までで音量調節
 				if (mEffectVolume <= Data.mMinVolume)
@@ -85,7 +85,7 @@ Option::Option(class Game* game)
 				{
 					mEffectVolume = 0;
 				}
-				mGame->SetEffectVolume(mEffectVolume);
+				mGame->GetSoundVolumeManager()->SetEffectVolume(mEffectVolume);
 			}
 		}
 		,
@@ -99,14 +99,14 @@ Option::Option(class Game* game)
 	AddButton("-",
 		[this]()
 		{
-			if (mGame->GetSoundFlag())
+			if (mGame->GetSoundVolumeManager()->GetSoundFlag())
 			{
 				mEffectVolume -= Data.mOneVolume;
 				if (mEffectVolume <= Data.mMinVolume)
 				{
 					mEffectVolume = Data.mMinVolume * 2;
 				}
-				mGame->SetEffectVolume(mEffectVolume);
+				mGame->GetSoundVolumeManager()->SetEffectVolume(mEffectVolume);
 			}
 		},
 		2,
@@ -118,30 +118,30 @@ Option::Option(class Game* game)
 	AddButton("SOUND ON/OFF",
 		[this]()
 		{
-			if (mGame->GetSoundFlag())
+			if (mGame->GetSoundVolumeManager()->GetSoundFlag())
 			{
 				if (mVolume <= Data.mMinVolume * 2)
 				{
 					mVolume = Data.mMinVolume / 2;
 					mEffectVolume = Data.mMinVolume / 2;
-					mGame->SetVolume(mVolume);
-					mGame->SetEffectVolume(mEffectVolume);
+					mGame->GetSoundVolumeManager()->SetVolume(mVolume);
+					mGame->GetSoundVolumeManager()->SetEffectVolume(mEffectVolume);
 				}
-				mGame->SetTmpVolume(mGame->GetVolume());
-				mGame->SetTmpEffectVolume(mGame->GetEffectVolume());
+				mGame->GetSoundVolumeManager()->SetTmpVolume(mGame->GetSoundVolumeManager()->GetVolume());
+				mGame->GetSoundVolumeManager()->SetTmpEffectVolume(mGame->GetSoundVolumeManager()->GetEffectVolume());
 				mVolume = Data.mMinVolume * 2;
 				mEffectVolume = Data.mMinVolume * 2;
-				mGame->SetVolume(mVolume);
-				mGame->SetEffectVolume(mEffectVolume);
-				mGame->SetSoundFlag(false);
+				mGame->GetSoundVolumeManager()->SetVolume(mVolume);
+				mGame->GetSoundVolumeManager()->SetEffectVolume(mEffectVolume);
+				mGame->GetSoundVolumeManager()->SetSoundFlag(false);
 			}
 			else
 			{
-				mVolume = mGame->GetTmpVolume();
-				mEffectVolume = mGame->GetTmpEffectVolume();
-				mGame->SetVolume(mVolume);
-				mGame->SetEffectVolume(mEffectVolume);
-				mGame->SetSoundFlag(true);
+				mVolume = mGame->GetSoundVolumeManager()->GetTmpVolume();
+				mEffectVolume = mGame->GetSoundVolumeManager()->GetTmpEffectVolume();
+				mGame->GetSoundVolumeManager()->SetVolume(mVolume);
+				mGame->GetSoundVolumeManager()->SetEffectVolume(mEffectVolume);
+				mGame->GetSoundVolumeManager()->SetSoundFlag(true);
 			}
 
 		},
@@ -154,13 +154,13 @@ Option::Option(class Game* game)
 	AddButton("BGM ON/OFF",
 		[this]()
 		{
-			if (mGame->GetBgmFlag())
+			if (mGame->GetSoundVolumeManager()->GetBgmFlag())
 			{
-				mGame->SetBgmFlag(false);
+				mGame->GetSoundVolumeManager()->SetBgmFlag(false);
 			}
 			else
 			{
-				mGame->SetBgmFlag(true);
+				mGame->GetSoundVolumeManager()->SetBgmFlag(true);
 			}
 		},
 		1,
@@ -172,11 +172,11 @@ Option::Option(class Game* game)
 	AddButton("+",
 		[this]()
 		{
-			if (mGame->GetCameraSX() < Data.mMaxCameraS)
+			if (mGame->GetCameraManager()->GetCameraSX() < Data.mMaxCameraS)
 			{
-				float cameraX = mGame->GetCameraSX();
+				float cameraX = mGame->GetCameraManager()->GetCameraSX();
 				cameraX += Data.mOneCameraS;
-				mGame->SetCameraSX(cameraX);
+				mGame->GetCameraManager()->SetCameraSX(cameraX);
 			}
 		}
 		,
@@ -191,11 +191,11 @@ Option::Option(class Game* game)
 	AddButton("-",
 		[this]()
 		{
-			if (mGame->GetCameraSX() > Data.mOneCameraS)
+			if (mGame->GetCameraManager()->GetCameraSX() > Data.mOneCameraS)
 			{
-				float cameraX = mGame->GetCameraSX();
+				float cameraX = mGame->GetCameraManager()->GetCameraSX();
 				cameraX -= Data.mOneCameraS;
-				mGame->SetCameraSX(cameraX);
+				mGame->GetCameraManager()->SetCameraSX(cameraX);
 			}
 		},
 		2,
@@ -208,11 +208,11 @@ Option::Option(class Game* game)
 	AddButton("+",
 		[this]()
 		{
-			if (mGame->GetCameraSY() < Data.mMaxCameraS)
+			if (mGame->GetCameraManager()->GetCameraSY() < Data.mMaxCameraS)
 			{
-				float cameraY = mGame->GetCameraSY();
+				float cameraY = mGame->GetCameraManager()->GetCameraSY();
 				cameraY += Data.mOneCameraS;
-				mGame->SetCameraSY(cameraY);
+				mGame->GetCameraManager()->SetCameraSY(cameraY);
 			}
 		}
 		,
@@ -227,11 +227,11 @@ Option::Option(class Game* game)
 	AddButton("-",
 		[this]()
 		{
-			if (mGame->GetCameraSY() > Data.mOneCameraS)
+			if (mGame->GetCameraManager()->GetCameraSY() > Data.mOneCameraS)
 			{
-				float cameraY = mGame->GetCameraSY();
+				float cameraY = mGame->GetCameraManager()->GetCameraSY();
 				cameraY -= Data.mOneCameraS;
-				mGame->SetCameraSY(cameraY);
+				mGame->GetCameraManager()->SetCameraSY(cameraY);
 			}
 		},
 		2,
@@ -259,28 +259,28 @@ void Option::draw()
 	int bVol = 0;
 	int eVol = 0;
 	COLOR color = Data.mOnColor;
-	if (mGame->GetSoundFlag())
+	if (mGame->GetSoundVolumeManager()->GetSoundFlag())
 	{
-		bVol = mGame->GetVolume() / Data.mOneVolume + 10;
-		if (mGame->GetVolume() == Data.mMinVolume * 2)
+		bVol = mGame->GetSoundVolumeManager()->GetVolume() / Data.mOneVolume + 10;
+		if (mGame->GetSoundVolumeManager()->GetVolume() == Data.mMinVolume * 2)
 		{
 			bVol = 0;
 		}
-		eVol = mGame->GetEffectVolume() / Data.mOneVolume + 10;
-		if (mGame->GetEffectVolume() == Data.mMinVolume * 2)
+		eVol = mGame->GetSoundVolumeManager()->GetEffectVolume() / Data.mOneVolume + 10;
+		if (mGame->GetSoundVolumeManager()->GetEffectVolume() == Data.mMinVolume * 2)
 		{
 			eVol = 0;
 		}
 	}
 	else
 	{
-		bVol = mGame->GetTmpVolume() / Data.mOneVolume + 10;
-		if (mGame->GetTmpVolume() == Data.mMinVolume * 2)
+		bVol = mGame->GetSoundVolumeManager()->GetTmpVolume() / Data.mOneVolume + 10;
+		if (mGame->GetSoundVolumeManager()->GetTmpVolume() == Data.mMinVolume * 2)
 		{
 			bVol = 0;
 		}
-		eVol = mGame->GetTmpEffectVolume() / Data.mOneVolume + 10;
-		if (mGame->GetTmpEffectVolume() == Data.mMinVolume * 2)
+		eVol = mGame->GetSoundVolumeManager()->GetTmpEffectVolume() / Data.mOneVolume + 10;
+		if (mGame->GetSoundVolumeManager()->GetTmpEffectVolume() == Data.mMinVolume * 2)
 		{
 			eVol = 0;
 		}
@@ -317,7 +317,7 @@ void Option::draw()
 	text(eVol, eOffset + Data.mEVolTextOffsetPos.x, Data.mEVolTextOffsetPos.y);
 
 	const char* onOff;
-	if (mGame->GetSoundFlag())
+	if (mGame->GetSoundVolumeManager()->GetSoundFlag())
 	{
 		onOff = "SOUND : ON";
 	}
@@ -328,7 +328,7 @@ void Option::draw()
 
 	text(onOff, Data.mSoundOnOffTextOffsetPos.x, Data.mSoundOnOffTextOffsetPos.y);
 
-	if (mGame->GetBgmFlag())
+	if (mGame->GetSoundVolumeManager()->GetBgmFlag())
 	{
 		onOff = "BGM : ON";
 	}
@@ -345,8 +345,8 @@ void Option::draw()
 	text("Y", Data.mCameraSYTextOffsetPos.x, Data.mCameraSYTextOffsetPos.y);
 
 	//100倍して小数点以下切り捨て
-	int sx = (int)roundf(mGame->GetCameraSX() * 100.0f);
-	int sy = (int)roundf(mGame->GetCameraSY() * 100.0f);
+	int sx = (int)roundf(mGame->GetCameraManager()->GetCameraSX() * 100.0f);
+	int sy = (int)roundf(mGame->GetCameraManager()->GetCameraSY() * 100.0f);
 
 	float offsetXX = 0.0f;
 	float offsetYX = 0.0f;

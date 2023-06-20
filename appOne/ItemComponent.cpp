@@ -21,7 +21,7 @@ ItemComponent::~ItemComponent()
 
 	if (Data.mMaxHp != 0 && !mOwner->GetGame()->GetTransition()->outEndFlag())
 	{
-		setVolume(mOwner->GetGame()->GetAllData()->mCloseSound, mOwner->GetGame()->GetEffectVolume());
+		setVolume(mOwner->GetGame()->GetAllData()->mCloseSound, mOwner->GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mOwner->GetGame()->GetAllData()->mCloseSound);
 	}
 
@@ -38,7 +38,7 @@ ItemComponent::~ItemComponent()
 
 void ItemComponent::Update()
 {
-	setVolume(mOwner->GetGame()->GetAllData()->mCloseSound, mOwner->GetGame()->GetEffectVolume());
+	setVolume(mOwner->GetGame()->GetAllData()->mCloseSound, mOwner->GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 
 	Data.mTime -= delta;
 

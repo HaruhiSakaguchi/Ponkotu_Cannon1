@@ -413,6 +413,7 @@
     <ClCompile Include="UIMainState.cpp" />
     <ClCompile Include="ActorManager.cpp" />
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="SoundVolumeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -649,5 +650,6 @@
     <ClInclude Include="UIMainState.h" />
     <ClInclude Include="ActorManager.h" />
     <ClInclude Include="UIManager.h" />
+    <ClInclude Include="SoundVolumeManager.h" />
   </ItemGroup>
 </Project>

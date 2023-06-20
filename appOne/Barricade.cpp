@@ -94,7 +94,7 @@ void Barricade::Damage(int damage)
 	{
 		std::ostringstream oss;
 		oss << GetName().c_str() << "‚ª‰ó‚ê‚½";
-		setVolume(mDeadSound, GetGame()->GetEffectVolume());
+		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mDeadSound);
 		GetGame()->GetStage()->AddText(oss.str().c_str());
 		SetState(Actor::EDead);

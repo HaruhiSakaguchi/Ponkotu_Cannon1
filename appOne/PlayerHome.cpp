@@ -173,7 +173,7 @@ void PlayerHome::Damage(int damage)
 
 	if (GetHp() <= 0)
 	{
-		setVolume(mDeadSound, GetGame()->GetEffectVolume());
+		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mDeadSound);
 		GetGame()->GetStage()->AddText("PlayerHome‚ª‰ó‚ê‚½");
 		SetState(EDead);

@@ -18,7 +18,7 @@ TamaWeapon::TamaWeapon(class Tama* owner, const VECTOR& pos, const VECTOR& dir)
 	SetUp(Data);
 	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
-		setVolume(iData.mAttackSound, GetGame()->GetEffectVolume());
+		setVolume(iData.mAttackSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(iData.mAttackSound);
 	}
 
@@ -50,7 +50,7 @@ void TamaWeapon::UpdateActor()
 	SetRotationY(GetRotation().y + 0.17f);
 	SphereWeapon::UpdateActor();
 
-	setVolume(iData.mAttackSound, GetGame()->GetEffectVolume());
+	setVolume(iData.mAttackSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 
 	VECTOR pos = t->GetPosition() + Data.mOffsetPos;
 	VECTOR addPos;

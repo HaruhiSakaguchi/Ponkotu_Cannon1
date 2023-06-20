@@ -128,7 +128,7 @@ void Tama::UpdateActor()
 
 		if (mScale <= 0.0f)
 		{
-			setVolume(mDeadSound, GetGame()->GetEffectVolume());
+			setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 			playSound(mDeadSound);
 			GetGame()->GetStage()->SetClearCnt(GetGame()->GetStage()->GetClearCnt() - 1);
 			DropItems(GetPosition());

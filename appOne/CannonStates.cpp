@@ -91,12 +91,12 @@ void UpCounter(Cannon* c)
 					c->SetCnt(cnt);
 					if (c->GetItemNums().size() != 1)
 					{
-						setVolume(c->GetSlide(), c->GetGame()->GetEffectVolume());
+						setVolume(c->GetSlide(), c->GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 						playSound(c->GetSlide());
 					}
 					else
 					{
-						setVolume(c->GetOutOfBullets(), c->GetGame()->GetEffectVolume());
+						setVolume(c->GetOutOfBullets(), c->GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 						playSound(c->GetOutOfBullets());
 					}
 				}
@@ -106,12 +106,12 @@ void UpCounter(Cannon* c)
 					c->SetCnt(cnt);
 					if (c->GetItemNums().size() != 1)
 					{
-						setVolume(c->GetSlide(), c->GetGame()->GetEffectVolume());
+						setVolume(c->GetSlide(), c->GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 						playSound(c->GetSlide());
 					}
 					else
 					{
-						setVolume(c->GetOutOfBullets(), c->GetGame()->GetEffectVolume());
+						setVolume(c->GetOutOfBullets(), c->GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 						playSound(c->GetOutOfBullets());
 					}
 				}
@@ -134,12 +134,12 @@ void UpCounter(Cannon* c)
 							c->SetCnt(cnt);
 							if (c->GetItemNums().size() != 1)
 							{
-								setVolume(c->GetSlide(), c->GetGame()->GetEffectVolume());
+								setVolume(c->GetSlide(), c->GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 								playSound(c->GetSlide());
 							}
 							else
 							{
-								setVolume(c->GetOutOfBullets(), c->GetGame()->GetEffectVolume());
+								setVolume(c->GetOutOfBullets(), c->GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 								playSound(c->GetOutOfBullets());
 							}
 						}

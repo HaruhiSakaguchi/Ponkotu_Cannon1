@@ -7,12 +7,15 @@
 #include "LookPHomeCamera.h"
 
 CameraManager::CameraManager(Game* game)
-	: Actor(game)
+	: mGame(game)
 	, mCurCamera(nullptr)
 	, mPos(0.0f,0.0f,0.0f)
+	, mSensitivityX(0.0f)
+	, mSensitivityY(0.0f)
+
 {
 	SetUp();
-	GetGame()->SetCameraManager(this);
+	mGame->SetCameraManager(this);
 }
 
 CameraManager::~CameraManager()
@@ -22,30 +25,33 @@ CameraManager::~CameraManager()
 		mCameras.pop_back();
 	}
 
-	GetGame()->SetCameraManager(nullptr);
+	mGame->SetCameraManager(nullptr);
 }
 
 int CameraManager::SetUp()
 {
-	mCameras.emplace_back(new NormalCamera(GetGame()));
+	mSensitivityX = mGame->GetAllData()->cameraData.mRotSpeedX;
+	mSensitivityY = mGame->GetAllData()->cameraData.mRotSpeedY;
+
+	mCameras.emplace_back(new NormalCamera(mGame));
 	mCurCamera = mCameras.back();
-	mCameras.emplace_back(new LookFieldCenterCamera(GetGame()));
-	mCameras.emplace_back(new LookPHomeCamera(GetGame()));
+	mCameras.emplace_back(new LookFieldCenterCamera(mGame));
+	mCameras.emplace_back(new LookPHomeCamera(mGame));
 
 	return 0;
 }
 
-void CameraManager::UpdateActor()
+void CameraManager::Update()
 {
 	VECTOR prePos = mCurCamera->GetPosition();
 
-	if (GetGame()->GetPHome())
+	if (mGame->GetPHome())
 	{
-		if ((!GetGame()->GetPHome()->GetMoveCompleteFlag() || GetGame()->GetPHome()->BeginOpen()) || !GetGame()->GetPHome()->GetCloseComplete())
+		if ((!mGame->GetPHome()->GetMoveCompleteFlag() || mGame->GetPHome()->BeginOpen()) || !mGame->GetPHome()->GetCloseComplete())
 		{
 			mCurCamera = mCameras[2];
 		}
-		else if (GetGame()->GetPHome()->GetGenerateFlag())
+		else if (mGame->GetPHome()->GetGenerateFlag())
 		{
 			mCurCamera = mCameras[1];
 		}
@@ -59,11 +65,11 @@ void CameraManager::UpdateActor()
 		mCurCamera = mCameras[0];
 	}
 
-	mPos.x = prePos.x + (mPos.x - prePos.x) * GetGame()->GetAllData()->cameraData.mChangePosSpeed;
-	mPos.y = prePos.y + (mPos.y - prePos.y) * GetGame()->GetAllData()->cameraData.mChangePosSpeed;
-	mPos.z = prePos.z + (mPos.z - prePos.z) * GetGame()->GetAllData()->cameraData.mChangePosSpeed;
+	mPos.x = prePos.x + (mPos.x - prePos.x) * mGame->GetAllData()->cameraData.mChangePosSpeed;
+	mPos.y = prePos.y + (mPos.y - prePos.y) * mGame->GetAllData()->cameraData.mChangePosSpeed;
+	mPos.z = prePos.z + (mPos.z - prePos.z) * mGame->GetAllData()->cameraData.mChangePosSpeed;
 
 	MATRIX view;
-	view.camera(mPos, mCurCamera->GetLookatPos(), GetGame()->GetAllData()->cameraData.mUpVec);
-	GetGame()->GetRenderer()->SetView(view);
+	view.camera(mPos, mCurCamera->GetLookatPos(), mGame->GetAllData()->cameraData.mUpVec);
+	mGame->GetRenderer()->SetView(view);
 }

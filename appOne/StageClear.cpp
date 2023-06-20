@@ -70,17 +70,17 @@ StageClear::StageClear(Game* game)
 				);
 	}
 
-	if (mGame->GetBgmFlag())
+	if (mGame->GetSoundVolumeManager()->GetBgmFlag())
 	{
 		if (mGame->GetPhase() != Game::FOURTH)
 		{
 			playSound(Data.mSound);
-			setVolume(Data.mSound, mGame->GetVolume());
+			setVolume(Data.mSound, mGame->GetSoundVolumeManager()->GetVolume());
 		}
 		else
 		{
 			playSound(Data.mSound2);
-			setVolume(Data.mSound2, mGame->GetVolume());
+			setVolume(Data.mSound2, mGame->GetSoundVolumeManager()->GetVolume());
 		}
 	}
 }

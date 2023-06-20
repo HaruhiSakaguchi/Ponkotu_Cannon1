@@ -117,7 +117,7 @@ Title::Title(Game* game)
 	help->SetState(Button::Draw_Enable);
 
 	playLoopSound(Data.mBgm);
-	setVolume(Data.mBgm, mGame->GetVolume() + Data.mBgmSoundVolumeOffset);
+	setVolume(Data.mBgm, mGame->GetSoundVolumeManager()->GetVolume() + Data.mBgmSoundVolumeOffset);
 
 //#endif
 }
@@ -145,9 +145,9 @@ void Title::Update()
 	}
 //#endif
 
-	if (mGame->GetBgmFlag())
+	if (mGame->GetSoundVolumeManager()->GetBgmFlag())
 	{
-		setVolume(Data.mBgm, mGame->GetVolume() + Data.mBgmSoundVolumeOffset);
+		setVolume(Data.mBgm, mGame->GetSoundVolumeManager()->GetVolume() + Data.mBgmSoundVolumeOffset);
 		if (!mPlayBgmFlag)
 		{
 			playLoopSound(Data.mBgm);

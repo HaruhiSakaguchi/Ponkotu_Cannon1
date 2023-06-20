@@ -208,8 +208,8 @@ void Button::Update()
 	//ボタンの上にマウスカーソルがあったら一度だけ呼び出す。ボタンの外に出るとまた音を鳴らすことができるようになる。
 	ContainsSound();
 	mSoundFlag = true;
-	setVolume(Data.mClickSound, mGame->GetEffectVolume() + Data.mClickSoundVolumeOffset);
-	setVolume(Data.mContainsSound, mGame->GetEffectVolume() + Data.mContainsSoundVolumeOffset);
+	setVolume(Data.mClickSound, mGame->GetSoundVolumeManager()->GetEffectVolume() + Data.mClickSoundVolumeOffset);
+	setVolume(Data.mContainsSound, mGame->GetSoundVolumeManager()->GetEffectVolume() + Data.mContainsSoundVolumeOffset);
 }
 
 void Button::DrawGuide()

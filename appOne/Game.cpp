@@ -14,33 +14,24 @@
 #include "Map.h"
 #include "PlayerHome.h"
 #include "EnemyHome.h"
-#include "UIManager.h"
-#include "ActorManager.h"
 
 Game::Game()
 	: mGameState(EGameplay)
 	, mPhase(FIRST)
 	, mInitPhase(mPhase)
-	, mEffectVol(0)
-	, mSetVolume(0)
-	, mTmpVolume(0)
-	, mTmpEffectVol(0)
-	, mSensitivityX(0)
-	, mSensitivityY(0)
-	, mSoundFlag(true)
-	, mBgmFlag(true)
 	, mContinueFlag(false)
 	, mRenderer(nullptr)
 	, mTransition(nullptr)
 	, mDisplayColor(0, 0, 0, 0)
-	, mCameraManager(nullptr)
 	, mMap(nullptr)
 	, mStage(nullptr)
 	, mPHome(nullptr)
 	, mEHome(nullptr)
 	, mCurState(nullptr)
+	, mCameraManager(nullptr)
 	, mActorManager(nullptr)
 	, mUIManager(nullptr)
+	, mSoundVolumeManager(nullptr)
 {
 
 }
@@ -70,9 +61,11 @@ void Game::Shutdown()
 {
 	delete mTransition;
 	delete mActorManager;
+	delete mCameraManager;
 	delete mUIManager;
 	MapClear();
 	delete mRenderer;
+	delete mSoundVolumeManager;
 }
 
 void Game::ProcessInput()
@@ -98,15 +91,15 @@ void Game::ProcessInput()
 	{
 		mUIManager->ProcessInput();
 	}
-	
+
 }
 
 void Game::UpdateGame()
 {
 	setDeltaTime();
 
+	mCameraManager->Update();
 	mActorManager->Update();
-
 	mUIManager->Update();
 
 	//ƒQ[ƒ€I—¹
@@ -130,13 +123,8 @@ void Game::LoadData()
 	mRenderer = new Renderer(this);
 	mTransition = new TransitionFade(this);
 	mTransition->create();
-	mEffectVol = GetAllData()->mInitAllSoundVolume;
-	mSetVolume = GetAllData()->mInitEffectSoundVolume;
-	mSensitivityX = GetAllData()->cameraData.mRotSpeedX;
-	mSensitivityY = GetAllData()->cameraData.mRotSpeedY;
-
+	mSoundVolumeManager = new SoundVolumeManager(this);
 	new GamePlay(this);
-
 }
 
 void Game::MapClear()

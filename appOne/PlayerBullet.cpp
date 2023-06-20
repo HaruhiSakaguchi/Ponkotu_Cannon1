@@ -21,7 +21,7 @@ PlayerBullet::PlayerBullet(class Cannon* cannon, const VECTOR& pos, const VECTOR
 	//GamePlayStateの中でしか音を鳴らさない
 	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
-		setVolume(iData.mLaunchSound, GetGame()->GetEffectVolume() + iData.mLaunchSoundVolumeOffset);
+		setVolume(iData.mLaunchSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + iData.mLaunchSoundVolumeOffset);
 		playSound(iData.mLaunchSound);
 	}
 
@@ -56,7 +56,7 @@ void PlayerBullet::UpdateActor()
 			if (mOwner && mOwner->GetState() == CharacterActor::EActive)
 			{
 				class Cannon* c = static_cast<class Cannon*>(mOwner);
-				setVolume(iData.mItemStockSound, GetGame()->GetEffectVolume() + iData.mItemStockSoundVolumeOffset);
+				setVolume(iData.mItemStockSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + iData.mItemStockSoundVolumeOffset);
 				playSound(iData.mItemStockSound);
 				//アイテムに弾が当たるとアイテムの番号をCannonのアイテムナンバー配列に登録してストックする。
 				c->AddItemNum(static_cast<class Item*>(item)->GetNum());
@@ -94,7 +94,7 @@ void PlayerBullet::damage()
 {
 	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
-		setVolume(iData.mImpactSound, GetGame()->GetEffectVolume() + iData.mImpactSoundVolumeOffset);
+		setVolume(iData.mImpactSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + iData.mImpactSoundVolumeOffset);
 		playSound(iData.mImpactSound);
 	}
 	ActorsWeapon::damage();

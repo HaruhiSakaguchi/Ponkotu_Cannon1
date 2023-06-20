@@ -29,10 +29,10 @@ AllClear::AllClear(class Game* game)
 		}
 	);
 
-	if (mGame->GetBgmFlag())
+	if (mGame->GetSoundVolumeManager()->GetBgmFlag())
 	{
 		playLoopSound(Data.mBgm);
-		setVolume(Data.mBgm, mGame->GetVolume());
+		setVolume(Data.mBgm, mGame->GetSoundVolumeManager()->GetVolume());
 	}
 }
 
@@ -58,6 +58,6 @@ void AllClear::draw()
 
 void AllClear::Update()
 {
-	setVolume(Data.mBgm, mGame->GetVolume());
+	setVolume(Data.mBgm, mGame->GetSoundVolumeManager()->GetVolume());
 	UIState::Update();
 }

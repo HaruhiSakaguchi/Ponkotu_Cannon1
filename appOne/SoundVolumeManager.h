@@ -1,0 +1,29 @@
+#pragma once
+class SoundVolumeManager
+{
+public:
+	SoundVolumeManager(class Game*game);
+public:
+	int GetEffectVolume() { return mEffectVol; }
+	int GetTmpEffectVolume() { return mTmpEffectVol; }
+	void SetEffectVolume(int vol) { mEffectVol = vol; }
+	void SetTmpEffectVolume(int vol) { mTmpEffectVol = vol; }
+	int GetVolume() { return mSetVolume; }
+	int GetTmpVolume() { return mTmpVolume; }
+	void SetVolume(int vol) { mSetVolume = vol; }
+	void SetTmpVolume(int vol) { mTmpVolume = vol; }
+	bool GetSoundFlag() { return mSoundFlag; }
+	void SetSoundFlag(bool flag) { mSoundFlag = flag; }
+	bool GetBgmFlag() { return mBgmFlag; }
+	void SetBgmFlag(bool flag) { mBgmFlag = flag; }
+private:
+	class Game* mGame;
+private:
+	int mTmpVolume;//‰¹ºOFF‚ÉON‚Ìƒ{ƒŠƒ…[ƒ€‚ğ‚Æ‚Á‚Ä‚¨‚­
+	int mSetVolume;
+	int mEffectVol;
+	int mTmpEffectVol;
+	bool mSoundFlag;
+	bool mBgmFlag;
+};
+

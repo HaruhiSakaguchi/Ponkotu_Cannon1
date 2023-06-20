@@ -77,7 +77,7 @@ Pause::Pause(Game* game)
 
 	help->SetState(Button::Draw_Enable);
 
-	setVolume(Data.mSound, mGame->GetEffectVolume() + Data.mPauseSoundVolumeOffset);
+	setVolume(Data.mSound, mGame->GetSoundVolumeManager()->GetEffectVolume() + Data.mPauseSoundVolumeOffset);
 	playSound(Data.mSound);
 
 	for (auto ui : mGame->GetUIManager()->GetUIStack())
@@ -97,7 +97,7 @@ Pause::~Pause()
 	mGame->SetDisplayColor(mGame->GetAllData()->mNormalDisplayColor);
 	if (mGame->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
-		setVolume(Data.mSound, mGame->GetEffectVolume() + Data.mPauseSoundVolumeOffset);
+		setVolume(Data.mSound, mGame->GetSoundVolumeManager()->GetEffectVolume() + Data.mPauseSoundVolumeOffset);
 		playSound(Data.mSound);
 	}
 

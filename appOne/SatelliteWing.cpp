@@ -64,8 +64,8 @@ int SatelliteWing::SetUp()
 	}
 
 	SetHp(hp);
-	setVolume(Data.mGurdSound, GetGame()->GetEffectVolume());
-	setVolume(Data.mClashSound, GetGame()->GetEffectVolume());
+	setVolume(Data.mGurdSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
+	setVolume(Data.mClashSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 
 	return 1;
 }
@@ -235,12 +235,12 @@ void SatelliteWing::damage()
 	SetHp(GetHp() - 1);
 	if (GetHp() > 0)
 	{
-		setVolume(Data.mGurdSound, GetGame()->GetEffectVolume());
+		setVolume(Data.mGurdSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(Data.mGurdSound);
 	}
 	else
 	{
-		setVolume(Data.mClashSound, GetGame()->GetEffectVolume());
+		setVolume(Data.mClashSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(Data.mClashSound);
 		SetGravity(Data.mGravity);
 		SetJumpFlag(1);

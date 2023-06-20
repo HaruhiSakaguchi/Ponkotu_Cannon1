@@ -53,16 +53,16 @@ GameOver::GameOver(Game* game)
 			, "ƒQ[ƒ€‚ðI‚í‚è‚Ü‚·"
 			);
 
-	if (mGame->GetBgmFlag())
+	if (mGame->GetSoundVolumeManager()->GetBgmFlag())
 	{
 		playSound(Data.mSound);
-		setVolume(Data.mSound, mGame->GetVolume());
+		setVolume(Data.mSound, mGame->GetSoundVolumeManager()->GetVolume());
 	}
 }
 
 void GameOver::Update()
 {
-	setVolume(Data.mSound, mGame->GetVolume());
+	setVolume(Data.mSound, mGame->GetSoundVolumeManager()->GetVolume());
 	mTime += Data.mTitlePosAdvSpeed;
 	VECTOR2 prePos = mTitlePos;
 	VECTOR2 pos = VECTOR2(mTitlePos.x, mTitlePos.y + sinf(mTime) * Data.mMaxOffsetPosY);

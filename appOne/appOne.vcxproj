@@ -205,6 +205,7 @@
     <ClCompile Include="SatelliteBullet.cpp" />
     <ClCompile Include="SatelliteStates.cpp" />
     <ClCompile Include="SatelliteWing.cpp" />
+    <ClCompile Include="SoundVolumeManager.cpp" />
     <ClCompile Include="SphereWeapon.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="Stage1.cpp" />
@@ -300,6 +301,7 @@
     <ClInclude Include="SatelliteBullet.h" />
     <ClInclude Include="SatelliteStates.h" />
     <ClInclude Include="SatelliteWing.h" />
+    <ClInclude Include="SoundVolumeManager.h" />
     <ClInclude Include="SphereWeapon.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Stage1.h" />

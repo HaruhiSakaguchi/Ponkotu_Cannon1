@@ -18,7 +18,7 @@ SatelliteBullet::SatelliteBullet(class Satellite* satellite, const VECTOR& pos, 
 
 	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
-		setVolume(iData.mLaunchSound, GetGame()->GetEffectVolume());
+		setVolume(iData.mLaunchSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(iData.mLaunchSound);
 	}
 }
@@ -82,7 +82,7 @@ void SatelliteBullet::UpdateActor()
 			SetState(Actor::EDead);
 			if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 			{
-				setVolume(iData.mImpactSound, GetGame()->GetEffectVolume());
+				setVolume(iData.mImpactSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 				playSound(iData.mImpactSound);
 			}
 			pSide->Damage(1);

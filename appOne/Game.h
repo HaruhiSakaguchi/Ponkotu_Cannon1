@@ -2,6 +2,10 @@
 #include "Container.h"
 #include <vector>
 #include "CharacterActor.h"
+#include "UIManager.h"
+#include "ActorManager.h"
+#include "CameraManager.h"
+#include "SoundVolumeManager.h"
 
 class Game
 {
@@ -10,7 +14,11 @@ public:
 	bool Initialize();
 	void RunLoop();
 	void Shutdown();
-
+private:
+	void ProcessInput();
+	void UpdateGame();
+	void GenerateOutput();
+	void LoadData();
 public:
 	//ステート系
 
@@ -48,7 +56,7 @@ private:
 public:
 	void MapClear();
 public:
-	
+
 	struct Container* GetAllData() { return &mContainer; }
 	void SetDisplayColor(const COLOR& color) { mDisplayColor = color; }
 	const COLOR& GetDisplayColor() { return mDisplayColor; }
@@ -72,11 +80,7 @@ public:
 
 	class ActorManager* GetActorManager() { return mActorManager; }
 	class UIManager* GetUIManager() { return mUIManager; }
-private:
-	void ProcessInput();
-	void UpdateGame();
-	void GenerateOutput();
-	void LoadData();
+	class SoundVolumeManager* GetSoundVolumeManager() { return mSoundVolumeManager; }
 private:
 	struct Container mContainer;
 	class Renderer* mRenderer;
@@ -87,42 +91,11 @@ private:
 	class UIMainState* mCurState;
 	class ActorManager* mActorManager;
 	class UIManager* mUIManager;
+	class SoundVolumeManager* mSoundVolumeManager;
 	//続けて最後までプレイするか否か
 	bool mContinueFlag;
 	COLOR mDisplayColor;
 	class PlayerHome* mPHome;
 	class EnemyHome* mEHome;
-	//音関係
-private:
-	int mTmpVolume;//音声OFF時にON時のボリュームをとっておく
-	int mSetVolume;
-	int mEffectVol;
-	int mTmpEffectVol;
-	bool mSoundFlag;
-	bool mBgmFlag;
-public:
-	int GetEffectVolume() { return mEffectVol; }
-	int GetTmpEffectVolume() { return mTmpEffectVol; }
-	void SetEffectVolume(int vol) { mEffectVol = vol; }
-	void SetTmpEffectVolume(int vol) { mTmpEffectVol = vol; }
-	int GetVolume() { return mSetVolume; }
-	int GetTmpVolume() { return mTmpVolume; }
-	void SetVolume(int vol) { mSetVolume = vol; }
-	void SetTmpVolume(int vol) { mTmpVolume = vol; }
-	bool GetSoundFlag() { return mSoundFlag; }
-	void SetSoundFlag(bool flag) { mSoundFlag = flag; }
-	bool GetBgmFlag() { return mBgmFlag; }
-	void SetBgmFlag(bool flag) { mBgmFlag = flag; }
-	//カメラ関係
-private:
-	//カメラ感度
-	float mSensitivityX;
-	float mSensitivityY;
-public:
-	void SetCameraSX(float sx) { mSensitivityX = sx; }
-	void SetCameraSY(float sy) { mSensitivityY = sy; }
-	float GetCameraSX() { return mSensitivityX; }
-	float GetCameraSY() { return mSensitivityY; }
-
 };
 

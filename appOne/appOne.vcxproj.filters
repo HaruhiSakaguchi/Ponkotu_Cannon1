@@ -412,6 +412,7 @@
     <ClCompile Include="UIGenerate.cpp" />
     <ClCompile Include="UIMainState.cpp" />
     <ClCompile Include="ActorManager.cpp" />
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -647,5 +648,6 @@
     <ClInclude Include="UIGenerate.h" />
     <ClInclude Include="UIMainState.h" />
     <ClInclude Include="ActorManager.h" />
+    <ClInclude Include="UIManager.h" />
   </ItemGroup>
 </Project>

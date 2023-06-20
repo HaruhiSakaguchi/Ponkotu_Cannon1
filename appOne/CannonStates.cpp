@@ -9,6 +9,7 @@
 #include "UIScope.h"
 #include "COLLISION_MAP.h"
 #include "PlayerHome.h"
+#include "CameraManager.h"
 
 void MoveCannon(Cannon* p)
 {
@@ -50,7 +51,7 @@ void MoveCannon(Cannon* p)
 	//s—ñ‚ðƒJƒƒ‰‚ÌŠp“x‚É‡‚í‚¹‚ÄYŽ²‰ñ“]‚³‚¹‚é
 	MATRIX m;
 	m.identity();
-	m.mulRotateY(p->GetGame()->GetCamera()->GetRotation().y);
+	m.mulRotateY(p->GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().y);
 	mDir = m * mDir;
 	mDir.normalize();
 
@@ -557,7 +558,7 @@ void CannonRotate::OnEnter()
 		}
 		else if (dist <= tdist)
 		{
-			mTarget = item->GetPosition();
+			mTarget = item->GetPosition() + item->GetCapsulOffset();
 		}
 	}
 

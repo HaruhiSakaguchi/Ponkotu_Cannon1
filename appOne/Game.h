@@ -46,19 +46,9 @@ private:
 	StagePhase mPhase;
 	StagePhase mInitPhase;
 public:
-	
-	void AddUIPSide(class UIPSideCharacterStatusBase* ui);
-	void RemoveUIPSide(class UIPSideCharacterStatusBase* ui);
-
-	// UI
-	void PushUI(class UIScreen* uiScreen);
-	void PullUI(class UIScreen* uiScreen);
-public:
-	void UIClear();
 	void MapClear();
 public:
 	
-	const class std::vector<class UIScreen*>& GetUIStack() { return mUIStack; }
 	struct Container* GetAllData() { return &mContainer; }
 	void SetDisplayColor(const COLOR& color) { mDisplayColor = color; }
 	const COLOR& GetDisplayColor() { return mDisplayColor; }
@@ -67,8 +57,8 @@ public:
 	bool GetContinueFlag() { return mContinueFlag; }
 	void SetContinueFlag(bool flag) { mContinueFlag = flag; }
 
-	class Actor* GetCamera() { return mCamera; }
-	void SetCamera(class Camera* camera) { mCamera = camera; }
+	class CameraManager* GetCameraManager() { return mCameraManager; }
+	void SetCameraManager(class CameraManager* manager) { mCameraManager = manager; }
 
 	void SetCollisionMap(class COLLISION_MAP* map) { mMap = map; }
 
@@ -80,9 +70,8 @@ public:
 	void SetPHome(class PlayerHome* home) { mPHome = home; }
 	void SetEHome(class EnemyHome* home) { mEHome = home; }
 
-	const std::vector<class UIPSideCharacterStatusBase*>& GetUIPSideStatus() { return mUIStatus; }
-
 	class ActorManager* GetActorManager() { return mActorManager; }
+	class UIManager* GetUIManager() { return mUIManager; }
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -92,16 +81,12 @@ private:
 	struct Container mContainer;
 	class Renderer* mRenderer;
 	class TransitionFade* mTransition;
-	class Actor* mCamera;
+	class CameraManager* mCameraManager;
 	class COLLISION_MAP* mMap;
 	class Map* mStage;
 	class UIMainState* mCurState;
 	class ActorManager* mActorManager;
-	std::vector<class UIPSideCharacterStatusBase*>mUIStatus;
-	// Update中フラッグ
-	bool mUpdatingActors;
-	std::vector<class Actor*> mPendingActors;
-	std::vector<class UIScreen*>mUIStack;
+	class UIManager* mUIManager;
 	//続けて最後までプレイするか否か
 	bool mContinueFlag;
 	COLOR mDisplayColor;

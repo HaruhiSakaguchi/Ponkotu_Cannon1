@@ -14,7 +14,7 @@ Camera::Camera(Game* game)
 
 Camera::~Camera()
 {
-	GetGame()->SetCamera(nullptr);
+	//GetGame()->SetCamera(nullptr);
 }
 
 void Camera::UpdateActor()

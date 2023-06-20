@@ -24,7 +24,7 @@ Pause::Pause(Game* game)
 		[this]() {
 			mGame->SetState(Game::EGameplay);
 			CloseMe();
-			for (auto ui : mGame->GetUIStack())
+			for (auto ui : mGame->GetUIManager()->GetUIStack())
 			{
 				if (ui != this)
 				{
@@ -80,7 +80,7 @@ Pause::Pause(Game* game)
 	setVolume(Data.mSound, mGame->GetEffectVolume() + Data.mPauseSoundVolumeOffset);
 	playSound(Data.mSound);
 
-	for (auto ui : mGame->GetUIStack())
+	for (auto ui : mGame->GetUIManager()->GetUIStack())
 	{
 		if (ui != this)
 		{
@@ -111,7 +111,7 @@ void Pause::ProcessInput()
 	{
 		mGame->SetState(Game::EGameplay);
 		CloseMe();
-		for (auto ui : mGame->GetUIStack())
+		for (auto ui : mGame->GetUIManager()->GetUIStack())
 		{
 			if (ui != this)
 			{

@@ -5,7 +5,6 @@
 #include "input.h"
 
 #include "Renderer.h"
-#include "UIScreen.h"
 #include "TransitionFade.h"
 #include "Title.h"
 #include "Pause.h"
@@ -15,7 +14,7 @@
 #include "Map.h"
 #include "PlayerHome.h"
 #include "EnemyHome.h"
-#include "UIPSideCharacterStatusBase.h"
+#include "UIManager.h"
 #include "ActorManager.h"
 
 Game::Game()
@@ -34,12 +33,14 @@ Game::Game()
 	, mRenderer(nullptr)
 	, mTransition(nullptr)
 	, mDisplayColor(0, 0, 0, 0)
-	, mCamera(nullptr)
+	, mCameraManager(nullptr)
 	, mMap(nullptr)
 	, mStage(nullptr)
 	, mPHome(nullptr)
 	, mEHome(nullptr)
 	, mCurState(nullptr)
+	, mActorManager(nullptr)
+	, mUIManager(nullptr)
 {
 
 }
@@ -69,8 +70,8 @@ void Game::Shutdown()
 {
 	delete mTransition;
 	delete mActorManager;
+	delete mUIManager;
 	MapClear();
-	UIClear();
 	delete mRenderer;
 }
 
@@ -84,11 +85,7 @@ void Game::ProcessInput()
 		}
 
 		mActorManager->ProcessInput();
-
-		for (auto ui : mUIStack)
-		{
-			ui->ProcessInput();
-		}
+		mUIManager->ProcessInput();
 
 		//Pause
 		if (isTrigger(KEY_ENTER))
@@ -97,10 +94,11 @@ void Game::ProcessInput()
 		}
 
 	}
-	else if (!mUIStack.empty())
+	else
 	{
-		mUIStack.back()->ProcessInput();
+		mUIManager->ProcessInput();
 	}
+	
 }
 
 void Game::UpdateGame()
@@ -109,29 +107,7 @@ void Game::UpdateGame()
 
 	mActorManager->Update();
 
-	//ui‚Ìupdate
-	for (auto ui : mUIStack)
-	{
-		if (ui->GetState() == UIScreen::EActive)
-		{
-			ui->Update();
-		}
-	}
-
-	// UI‚Ìdelete
-	std::vector<UIScreen*> deadUis;
-	for (auto ui : mUIStack)
-	{
-		if (ui->GetState() == UIScreen::EClosing)
-		{
-			deadUis.emplace_back(ui);
-		}
-	}
-
-	for (auto ui : deadUis)
-	{
-		delete ui;
-	}
+	mUIManager->Update();
 
 	//ƒQ[ƒ€I—¹
 	if (mGameState == EQuit)
@@ -150,6 +126,7 @@ void Game::GenerateOutput()
 void Game::LoadData()
 {
 	mActorManager = new ActorManager(this);
+	mUIManager = new UIManager(this);
 	mRenderer = new Renderer(this);
 	mTransition = new TransitionFade(this);
 	mTransition->create();
@@ -162,50 +139,11 @@ void Game::LoadData()
 
 }
 
-
-void Game::PushUI(UIScreen* uiScreen)
-{
-	mUIStack.emplace_back(uiScreen);
-}
-
-void Game::PullUI(UIScreen* uiScreen)
-{
-	auto iter = std::find(mUIStack.begin(), mUIStack.end(), uiScreen);
-	if (iter != mUIStack.end())
-	{
-		std::iter_swap(iter, mUIStack.end() - 1);
-		mUIStack.pop_back();
-	}
-}
-
-void Game::UIClear()
-{
-	while (!mUIStack.empty())
-	{
-		delete mUIStack.back();
-	}
-}
-
 void Game::MapClear()
 {
 	if (mMap)
 	{
 		delete mMap;
-	}
-}
-
-void Game::AddUIPSide(UIPSideCharacterStatusBase* uiScreen)
-{
-	mUIStatus.emplace_back(uiScreen);
-}
-
-void Game::RemoveUIPSide(UIPSideCharacterStatusBase* uiScreen)
-{
-	auto iter = std::find(mUIStatus.begin(), mUIStatus.end(), uiScreen);
-	if (iter != mUIStatus.end())
-	{
-		std::iter_swap(iter, mUIStatus.end() - 1);
-		mUIStatus.pop_back();
 	}
 }
 

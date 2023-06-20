@@ -7,9 +7,12 @@
 #include "LookPHomeCamera.h"
 
 CameraManager::CameraManager(Game* game)
-	:Actor(game)
+	: Actor(game)
+	, mCurCamera(nullptr)
+	, mPos(0.0f,0.0f,0.0f)
 {
 	SetUp();
+	GetGame()->SetCameraManager(this);
 }
 
 CameraManager::~CameraManager()
@@ -18,12 +21,14 @@ CameraManager::~CameraManager()
 	{
 		mCameras.pop_back();
 	}
+
+	GetGame()->SetCameraManager(nullptr);
 }
 
 int CameraManager::SetUp()
 {
 	mCameras.emplace_back(new NormalCamera(GetGame()));
-	GetGame()->SetCamera(mCameras.back());
+	mCurCamera = mCameras.back();
 	mCameras.emplace_back(new LookFieldCenterCamera(GetGame()));
 	mCameras.emplace_back(new LookPHomeCamera(GetGame()));
 
@@ -32,26 +37,26 @@ int CameraManager::SetUp()
 
 void CameraManager::UpdateActor()
 {
-	VECTOR prePos = GetGame()->GetCamera()->GetPosition();
+	VECTOR prePos = mCurCamera->GetPosition();
 
 	if (GetGame()->GetPHome())
 	{
 		if ((!GetGame()->GetPHome()->GetMoveCompleteFlag() || GetGame()->GetPHome()->BeginOpen()) || !GetGame()->GetPHome()->GetCloseComplete())
 		{
-			GetGame()->SetCamera(mCameras[2]);
+			mCurCamera = mCameras[2];
 		}
 		else if (GetGame()->GetPHome()->GetGenerateFlag())
 		{
-			GetGame()->SetCamera(mCameras[1]);
+			mCurCamera = mCameras[1];
 		}
 		else
 		{
-			GetGame()->SetCamera(mCameras[0]);
+			mCurCamera = mCameras[0];
 		}
 	}
 	else
 	{
-		GetGame()->SetCamera(mCameras[0]);
+		mCurCamera = mCameras[0];
 	}
 
 	mPos.x = prePos.x + (mPos.x - prePos.x) * GetGame()->GetAllData()->cameraData.mChangePosSpeed;
@@ -59,6 +64,6 @@ void CameraManager::UpdateActor()
 	mPos.z = prePos.z + (mPos.z - prePos.z) * GetGame()->GetAllData()->cameraData.mChangePosSpeed;
 
 	MATRIX view;
-	view.camera(mPos, static_cast<Camera*>(GetGame()->GetCamera())->GetLookatPos(), GetGame()->GetAllData()->cameraData.mUpVec);
+	view.camera(mPos, mCurCamera->GetLookatPos(), GetGame()->GetAllData()->cameraData.mUpVec);
 	GetGame()->GetRenderer()->SetView(view);
 }

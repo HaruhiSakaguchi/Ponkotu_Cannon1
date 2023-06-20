@@ -29,7 +29,7 @@ int Stage2::SetUp()
 
 	mMiniMap = new UIMiniMap(GetGame(), this);
 
-	GetGame()->SetCamera(new Camera(GetGame()));
+	/*GetGame()->SetCamera(new Camera(GetGame()));*/
 
 	SetCaracterCapa(5);
 	SetClearCnt(30);

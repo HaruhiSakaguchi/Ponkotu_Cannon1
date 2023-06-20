@@ -3,7 +3,7 @@
 class ActorManager
 {
 public:
-	ActorManager(class Game* game) :mGame(game){};
+	ActorManager(class Game* game) :mGame(game),mUpdatingActors(false){};
 	~ActorManager();
 	void Update();
 	void ProcessInput();

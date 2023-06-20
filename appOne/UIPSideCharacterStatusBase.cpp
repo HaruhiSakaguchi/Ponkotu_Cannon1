@@ -7,12 +7,12 @@ UIPSideCharacterStatusBase::UIPSideCharacterStatusBase(PSideCharacterActor* owne
 	, mOffset(0.0f, 0.0f)
 	, mLvUpButton(nullptr)
 {
-	mGame->AddUIPSide(this);
+	mGame->GetUIManager()->AddUIPSide(this);
 	mOwner->SetUI(this);
 }
 
 UIPSideCharacterStatusBase::~UIPSideCharacterStatusBase()
 {
-	mGame->RemoveUIPSide(this);
+	mGame->GetUIManager()->RemoveUIPSide(this);
 
 }

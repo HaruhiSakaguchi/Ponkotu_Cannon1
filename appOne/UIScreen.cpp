@@ -19,7 +19,7 @@ UIScreen::UIScreen(Game* game)
 {
 	Data = mGame->GetAllData()->uiScreenData;
 	//Game‚ÌUIStack‚É’Ç‰Á
-	mGame->PushUI(this);
+	mGame->GetUIManager()->PushUI(this);
 	//ƒ{ƒ^ƒ“‰æ‘œ
 	Button::SetButtonOnImg(Data.mOnButton1);
 	Button::SetButtonOffImg(Data.mOffButton1);
@@ -34,7 +34,7 @@ UIScreen::~UIScreen()
 		delete b;
 	}
 	mButtons.clear();
-	mGame->PullUI(this);
+	mGame->GetUIManager()->PullUI(this);
 }
 
 void UIScreen::ProcessInput()

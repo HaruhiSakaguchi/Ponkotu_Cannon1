@@ -5,6 +5,7 @@
 #include "COLOR.h"
 #include <string>
 #include "graphic.h"
+#include "UIManager.h"
 
 class Button
 {

@@ -30,7 +30,7 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 			{
 				button->SetState(Button::Enable);
 			}
-			for (auto uiStatus : mGame->GetUIPSideStatus())
+			for (auto uiStatus : mGame->GetUIManager()->GetUIPSideStatus())
 			{
 				for (auto button : uiStatus->GetButtons())
 				{
@@ -45,7 +45,7 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 		button->SetState(Button::Disable);
 	}
 
-	for (auto uiStatus : mGame->GetUIPSideStatus())
+	for (auto uiStatus : mGame->GetUIManager()->GetUIPSideStatus())
 	{
 		for (auto button : uiStatus->GetButtons())
 		{
@@ -162,7 +162,7 @@ void UIGenerate::Update()
 				{
 					button->SetState(Button::Enable);
 				}
-				for (auto uiStatus : mGame->GetUIPSideStatus())
+				for (auto uiStatus : mGame->GetUIManager()->GetUIPSideStatus())
 				{
 					for (auto button : uiStatus->GetButtons())
 					{

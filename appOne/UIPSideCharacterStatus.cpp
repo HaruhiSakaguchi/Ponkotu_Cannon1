@@ -29,7 +29,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::Stay);
-			for (auto ui : mGame->GetUIPSideStatus())
+			for (auto ui : mGame->GetUIManager()->GetUIPSideStatus())
 			{
 				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
 				{
@@ -52,7 +52,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::Return);
-			for (auto ui : mGame->GetUIPSideStatus())
+			for (auto ui : mGame->GetUIManager()->GetUIPSideStatus())
 			{
 				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
 				{
@@ -74,7 +74,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::HomePatroll);
-			for (auto ui : mGame->GetUIPSideStatus())
+			for (auto ui : mGame->GetUIManager()->GetUIPSideStatus())
 			{
 				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
 				{
@@ -95,7 +95,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::FieldPatroll);
-			for (auto ui : mGame->GetUIPSideStatus())
+			for (auto ui : mGame->GetUIManager()->GetUIPSideStatus())
 			{
 				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
 				{
@@ -115,7 +115,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 
 	mCloseButton = AddButton("¢",
 		[this]() {
-			for (auto ui : mGame->GetUIPSideStatus())
+			for (auto ui : mGame->GetUIManager()->GetUIPSideStatus())
 			{
 				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
 				{

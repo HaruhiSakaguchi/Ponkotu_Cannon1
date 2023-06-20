@@ -74,7 +74,7 @@ void Renderer::Draw()
 		DrawDisplay();
 	}
 
-	for (auto ui : mGame->GetUIStack())
+	for (auto ui : mGame->GetUIManager()->GetUIStack())
 	{
 		if (ui->GetState() == UIScreen::EActive)
 		{

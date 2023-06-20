@@ -18,6 +18,7 @@
 #include <iostream>
 #include <sstream>
 #include "UIPSideCharacterStatusClose.h"
+#include "CameraManager.h"
 
 Cannon::Cannon(Game* game) :
 	PSideCharacterActor(game)
@@ -271,13 +272,13 @@ void Cannon::UpdateActor()
 	float r = height - 520.0f;
 	float indispMapz = 60.0f;
 	float h = (cPosz - GetPosition().z) / (indispMapz / 2.0f);
-	float camx = (cPosx - GetGame()->GetCamera()->GetPosition().x) / 9.0f * 340.0 - 340.0f / (cPosx - GetGame()->GetCamera()->GetPosition().x);
-	float camz = (cPosz - GetGame()->GetCamera()->GetPosition().z) / indispMapz / 2 * height + height / (cPosz - GetGame()->GetCamera()->GetPosition().z);
-	float camy = GetGame()->GetCamera()->GetPosition().y / 90.0f;
+	float camx = (cPosx - GetGame()->GetCameraManager()->GetCurCamera()->GetPosition().x) / 9.0f * 340.0 - 340.0f / (cPosx - GetGame()->GetCameraManager()->GetCurCamera()->GetPosition().x);
+	float camz = (cPosz - GetGame()->GetCameraManager()->GetCurCamera()->GetPosition().z) / indispMapz / 2 * height + height / (cPosz - GetGame()->GetCameraManager()->GetCurCamera()->GetPosition().z);
+	float camy = GetGame()->GetCameraManager()->GetCurCamera()->GetPosition().y / 90.0f;
 	//  print("p(" + (let)p + ") h(" + (let)h + ")");x
 	float x = p * (1.0f - h);
-	float px = (s * p + 790.0f) - tSize / 2.0f * 3.0f - camx + 200.0f * (p + h) * cos(GetGame()->GetCamera()->GetRotation().y) - 50.0f * (p)-150.0f * (1 - h);
-	float py = height - (h * r) - tSize / 2.0f - camz + height + 600.0f * (p + h) * sin(GetGame()->GetCamera()->GetRotation().x) - 150.0f * p + (1 - h) * 250.0f;
+	float px = (s * p + 790.0f) - tSize / 2.0f * 3.0f - camx + 200.0f * (p + h) * cos(GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().y) - 50.0f * (p)-150.0f * (1 - h);
+	float py = height - (h * r) - tSize / 2.0f - camz + height + 600.0f * (p + h) * sin(GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().x) - 150.0f * p + (1 - h) * 250.0f;
 	s = 340.0f / 2.0f;
 	r = height / 2.0f;
 
@@ -292,15 +293,15 @@ void Cannon::UpdateActor()
 		r = 320.0f;
 	}
 
-	py = -(h * r) + tSize / 2.0f + camz + ((1 - h) * sin(GetGame()->GetCamera()->GetRotation().x) * r);
+	py = -(h * r) + tSize / 2.0f + camz + ((1 - h) * sin(GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().x) * r);
 
 	//	py = height / 2 - tSize / 2.0f;
 
 	MATRIX mat;
 	mat.identity();
 	mat.mulTranslate(defx, 0.0f, height);
-	mat.mulRotateX(-GetGame()->GetCamera()->GetRotation().x);
-	mat.mulRotateY(-GetGame()->GetCamera()->GetRotation().y);
+	mat.mulRotateX(-GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().x);
+	mat.mulRotateY(-GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().y);
 	mat.mulTranslate(px, 0.0f, py);
 
 	px = mat._14;

@@ -1,5 +1,6 @@
 #include "HpGaugeSpriteComponent.h"
 #include "Game.h"
+#include "CameraManager.h"
 
 HpGaugeSpriteComponent::HpGaugeSpriteComponent(Actor* owner, const VECTOR& offset)
 	: MeshComponent(owner)
@@ -44,9 +45,9 @@ void HpGaugeSpriteComponent::Update()
 	Master.identity();
 
 	Master.mulTranslate(pos.x, pos.y + owner->GetHeight() + 0.5f, pos.z);
-	Master.mulTranslate(cosf(mOwner->GetGame()->GetCamera()->GetRotation().y) / owner->GetMaxHp(), 0.0f, sinf(mOwner->GetGame()->GetCamera()->GetRotation().y) / owner->GetMaxHp());
+	Master.mulTranslate(cosf(mOwner->GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().y) / owner->GetMaxHp(), 0.0f, sinf(mOwner->GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().y) / owner->GetMaxHp());
 	Master.mulScaling(1.0f, 0.1f, 1.0f);
-	Master.mulRotateY(mOwner->GetGame()->GetCamera()->GetRotation().y);
+	Master.mulRotateY(mOwner->GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().y);
 	Master.mulRotateX(3.141592f / 2);
 
 	Master.mulTranslate(mGaugePosX, 0, 1.5f);

@@ -30,7 +30,7 @@ int Stage3::SetUp()
 
 	mMiniMap = new UIMiniMap(GetGame(), this);
 
-	GetGame()->SetCamera(new Camera(GetGame()));
+	/*GetGame()->SetCamera(new Camera(GetGame()));*/
 
 	SetPosition(VECTOR(0, 0, 0));
 

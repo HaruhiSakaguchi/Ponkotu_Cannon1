@@ -140,7 +140,7 @@ void UIGenerate::Update()
 						c = new class Cannon(mGame);
 						c->SetUp();
 						c->SetPosition(mGame->GetActorManager()->GetPHome()->GetPosition());
-						c->GetGame()->GetActorManager()->GetPHome()->Open();
+						c->GetGame()->GetActorManager()->GetPHome()->GetDore()->Open();
 						c->SetLevel(c->GetGame()->GetActorManager()->GetPHome()->GetGenerateCannonLv());
 					}
 					else if (mId == GenerateActor_Id::Barricade)

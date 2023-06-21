@@ -47,7 +47,7 @@ void CameraManager::Update()
 
 	if (mGame->GetActorManager()->GetPHome())
 	{
-		if ((!mGame->GetActorManager()->GetPHome()->GetMoveCompleteFlag() || mGame->GetActorManager()->GetPHome()->BeginOpen()) || !mGame->GetActorManager()->GetPHome()->GetCloseComplete())
+		if ((!mGame->GetActorManager()->GetPHome()->GetMoveCompleteFlag() || mGame->GetActorManager()->GetPHome()->GetDore()->GetBeginOpen()) || !mGame->GetActorManager()->GetPHome()->GetDore()->GetCloseComplete())
 		{
 			mCurCamera = mCameras[2];
 		}

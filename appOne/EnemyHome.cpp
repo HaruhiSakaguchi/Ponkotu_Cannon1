@@ -1,6 +1,5 @@
 #include "EnemyHome.h"
 #include "TreeMeshComponent.h"
-#include "Dore.h"
 #include "EnemyFlag.h"
 #include "HpGaugeSpriteComponent.h"
 #include "Game.h"
@@ -10,7 +9,7 @@
 
 
 EnemyHome::EnemyHome(class Game* game)
-	:CharacterActor(game)
+	: CharacterActor(game)
 	, mFlag1(nullptr)
 	, mFlag2(nullptr)
 	, mDore(nullptr)
@@ -21,11 +20,6 @@ EnemyHome::EnemyHome(class Game* game)
 	, mInterval(0.0f)
 	, mElapsedTime(0.0f)
 	, mCnt(0)
-	, mCloseComplete(true)
-	, mOpenComplete(false)
-	, mBeginCloseFlag(false)
-	, mBeginOpenFlag(false)
-	, mGenerateFlag(false)
 {
 	SetUp();
 	GetGame()->GetActorManager()->SetEHome(this);
@@ -44,7 +38,6 @@ int EnemyHome::SetUp()
 	TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("Home");
 	mDore = new Dore(GetGame());
-	mDore->SetRotationY(3.1415926f);
 	mFlag1 = new EnemyFlag(GetGame());
 	mFlag1->SetRotationY(3.1415926f);
 	mFlag2 = new EnemyFlag(GetGame());
@@ -102,7 +95,7 @@ void EnemyHome::UpdateActor()
 				mElapsedTime = 0.0f;
 			}
 		}
-		else if ((int)(GetGame()->GetActorManager()->GetEnemies().size()) < (GetLevel() + 1) && (int)(GetGame()->GetActorManager()->GetEnemies().size()) < GetMaxLevel() && mCloseComplete)
+		else if ((int)(GetGame()->GetActorManager()->GetEnemies().size()) < (GetLevel() + 1) && (int)(GetGame()->GetActorManager()->GetEnemies().size()) < GetMaxLevel() && mDore->GetCloseComplete())
 		{
 			VECTOR pos = VECTOR(random(GetGame()->GetActorManager()->GetStage()->GetStageMinX(), GetGame()->GetActorManager()->GetStage()->GetStageMaxX()), random(4.0f, 7.5f), random(GetGame()->GetActorManager()->GetStage()->GetStageMinZ(), GetGame()->GetActorManager()->GetStage()->GetCenterPos().z));
 			int num = random();
@@ -120,7 +113,7 @@ void EnemyHome::UpdateActor()
 					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("が出現。");
 					mElapsedTime = 0.0f;
 					mGenerateFlag = true;
-					Open();
+					mDore->Open();
 				}
 				else
 				{
@@ -159,7 +152,7 @@ void EnemyHome::UpdateActor()
 						GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteBが出現。");
 					}
 					mGenerateFlag = true;
-					Open();
+					mDore->Open();
 				}
 				else
 				{
@@ -208,17 +201,11 @@ void EnemyHome::UpdateActor()
 
 	if (mGenerateFlag)
 	{
-		if (mBeginOpenFlag && mCloseComplete)
-		{
-			OpenDore();
-		}
-		if (mBeginCloseFlag && mOpenComplete)
-		{
-			CloseDore();
-		}
+		mDore->SetIsRotate(true);
 	}
 
 	int cnt = 0;
+
 	for (auto Actor : GetGame()->GetActorManager()->GetEnemies())
 	{
 		if (CollisionCircle(GetRadius(), Actor->GetRadius(), GetPosition(), Actor->GetPosition()))
@@ -229,10 +216,9 @@ void EnemyHome::UpdateActor()
 
 	if (mGenerateFlag && cnt == 0)
 	{
-		Close();
+		mDore->Close();
+		mGenerateFlag = false;
 	}
-
-	print(mOpenComplete);
 
 }
 
@@ -265,35 +251,3 @@ bool EnemyHome::InEnemyArea(const VECTOR& pos)
 	return in;
 }
 
-bool EnemyHome::OpenDore()
-{
-	if (mDore->GetRotation().x <= 3.1415926f / 2)
-	{
-		mDore->SetRotationX(mDore->GetRotation().x + 0.017f);
-		return false;
-	}
-	else
-	{
-		mBeginOpenFlag = false;
-		mOpenComplete = true;
-		mCloseComplete = false;
-		return true;
-	}
-}
-
-bool EnemyHome::CloseDore()
-{
-	if (mDore->GetRotation().x >= 0.0f)
-	{
-		mDore->SetRotationX(mDore->GetRotation().x - 0.017f);
-		return false;
-	}
-	else
-	{
-		mBeginCloseFlag = false;
-		mCloseComplete = true;
-		mOpenComplete = false;
-		mGenerateFlag = false;
-		return true;
-	}
-}

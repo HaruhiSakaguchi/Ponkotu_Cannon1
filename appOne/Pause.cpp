@@ -127,6 +127,7 @@ void Pause::ProcessInput()
 void Pause::Draw()
 {
 	mGame->GetRenderer()->SetDisplayColor(mGame->GetAllData()->mPauseDisplayColor);
+	mGame->GetRenderer()->DrawDisplay();
 	UIScreen::Draw();
 }
 

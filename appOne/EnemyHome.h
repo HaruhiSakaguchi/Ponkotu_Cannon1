@@ -1,5 +1,7 @@
 #pragma once
 #include "CharacterActor.h"
+#include "Dore.h"
+
 class EnemyHome :
 	public CharacterActor
 {
@@ -18,18 +20,10 @@ public:
 	int GetBattlePoints() { return mBattlePoints; }
 	void SetBattlePoints(int pt) { mBattlePoints = pt; }
 
-	bool BeginOpen() { return mBeginOpenFlag; }
-	bool BeginClose() { return mBeginCloseFlag; }
-	bool GetCloseComplete() { return mCloseComplete; }
-	bool GetOpenComplete() { return mOpenComplete; }
-	bool OpenDore();
-	bool CloseDore();
-
-	void Open() { mBeginOpenFlag = true; }
-	void Close() { mBeginCloseFlag = true; }
-
 	void SetGenerateFlag(bool flag) { mGenerateFlag = flag; }
 	bool GetGenerateFlag() { return mGenerateFlag; }
+
+	class Dore* GetDore() { return mDore; }
 
 	struct DATA
 	{
@@ -55,12 +49,6 @@ private:
 	float mInterval;
 	float mElapsedTime;
 	int mCnt;
-
-	bool mCloseComplete;
-	bool mOpenComplete;
-	bool mBeginCloseFlag;
-	bool mBeginOpenFlag;
-
 	bool mGenerateFlag;
 };
 

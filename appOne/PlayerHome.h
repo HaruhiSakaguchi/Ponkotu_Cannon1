@@ -1,5 +1,7 @@
 #pragma once
 #include "PSideCharacterActor.h"
+#include "Dore.h"
+
 class PlayerHome :
 	public PSideCharacterActor
 {
@@ -25,22 +27,14 @@ public:
 	int GetTargetPosIdx() { return mCurMyTpIdx; }
 	void SetTargetPosIdx(int idx) { mCurMyTpIdx = idx; }
 
-	bool BeginOpen() { return mBeginOpenFlag; }
-	bool BeginClose() { return mBeginCloseFlag; }
-	bool GetCloseComplete() { return mCloseComplete; }
-	bool GetOpenComplete() { return mOpenComplete; }
-	bool OpenDore();
-	bool CloseDore();
-
-	void Open() { mBeginOpenFlag = true; }
-	void Close() { mBeginCloseFlag = true; }
-
 	void SetGenerateFlag(bool flag) { mGenerateFlag = flag; }
 	bool GetGenerateFlag() { return mGenerateFlag; }
 
 	int GetBattlePoints() { return mBattlePoints; }
 	int GetMaxBattlePoints() { return mMaxBattlePoints; }
 	void SetBattlePoints(int point) { mBattlePoints = point; }
+
+	class Dore* GetDore() { return mDore; }
 	struct DATA
 	{
 		VECTOR mFlag1Offset = VECTOR(-2.0f, 2.0f, -3.0f + 0.25f);
@@ -67,10 +61,6 @@ private:
 	int mCurMyTpIdx;
 	bool mMoveCompleteFlag;
 	VECTOR mHomeTargetPoint;
-	bool mCloseComplete;
-	bool mOpenComplete;
-	bool mBeginCloseFlag;
-	bool mBeginOpenFlag;
 
 	bool mGenerateFlag;
 

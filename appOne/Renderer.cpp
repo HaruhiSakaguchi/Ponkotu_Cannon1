@@ -76,10 +76,6 @@ void Renderer::Draw()
 		mGame->GetActorManager()->GetStage()->Draw();
 	}
 
-	if (mGame->GetState() == Game::EPaused)
-	{
-		DrawDisplay();
-	}
 
 	for (auto ui : mGame->GetUIManager()->GetUIStack())
 	{
@@ -92,13 +88,6 @@ void Renderer::Draw()
 	if (mTransition)
 	{
 		mTransition->Draw();
-	}
-
-	if (mGame->GetCurState() && mGame->GetState() != Game::EQuit)
-	{
-		textSize(30);
-		fill(0, 0, 0);
-		print((int)mGame->GetCurState()->GetState());
 	}
 
 }

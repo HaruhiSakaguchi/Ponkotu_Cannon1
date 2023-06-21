@@ -339,7 +339,7 @@ void TamaGenerate::Update()
 		{
 			if (!mFirstTargetCompleteFlag)
 			{
-				if (t->GetGame()->GetActorManager()->GetEHome()->GetOpenComplete())
+				if (t->GetGame()->GetActorManager()->GetEHome()->GetDore()->GetOpenComplete())
 				{
 					t->SetPosition(t->GetPosition() + vec * t->GetAdvSpeed());
 				}

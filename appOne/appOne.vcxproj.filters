@@ -161,11 +161,14 @@
     <Filter Include="Actor\Character\EHome">
       <UniqueIdentifier>{36437e9c-ce68-45d2-83b5-153765b20d9b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Dore">
-      <UniqueIdentifier>{32c44187-b4ec-4136-8b94-efb6a13ed4f3}</UniqueIdentifier>
+    <Filter Include="Actor\Camera\base">
+      <UniqueIdentifier>{92caa046-7101-4526-bf0c-f11517e121f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Barricade">
+    <Filter Include="Actor\Character\Barricade">
       <UniqueIdentifier>{6f4e18dd-f9a4-47be-98ae-1a7fff13da91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Character\Dore">
+      <UniqueIdentifier>{32c44187-b4ec-4136-8b94-efb6a13ed4f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -256,9 +259,6 @@
     </ClCompile>
     <ClCompile Include="Cannon.cpp">
       <Filter>Actor\Character\Cannon</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Actor\Camera</Filter>
     </ClCompile>
     <ClCompile Include="TamaStates.cpp">
       <Filter>Actor\Character\Enemy\Tama</Filter>
@@ -390,10 +390,10 @@
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="Dore.cpp">
-      <Filter>Actor\Dore</Filter>
+      <Filter>Actor\Character\Dore</Filter>
     </ClCompile>
     <ClCompile Include="Barricade.cpp">
-      <Filter>Actor\Barricade</Filter>
+      <Filter>Actor\Character\Barricade</Filter>
     </ClCompile>
     <ClCompile Include="PlayerFlag.cpp">
       <Filter>Actor\Character\PHome</Filter>
@@ -422,14 +422,8 @@
     <ClCompile Include="UIPlayerHome.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="UIGenerate.cpp">
-      <Filter>UI\State</Filter>
-    </ClCompile>
     <ClCompile Include="UIMainState.cpp">
       <Filter>UI\State</Filter>
-    </ClCompile>
-    <ClCompile Include="PSideCharacterActor.cpp">
-      <Filter>Actor</Filter>
     </ClCompile>
     <ClCompile Include="TamaPointer.cpp">
       <Filter>Actor\Character\Weapons\Tama</Filter>
@@ -445,6 +439,15 @@
     </ClCompile>
     <ClCompile Include="DebugStage.cpp">
       <Filter>Actor\MapActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Actor\Camera\base</Filter>
+    </ClCompile>
+    <ClCompile Include="PSideCharacterActor.cpp">
+      <Filter>Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGenerate.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,9 +528,6 @@
     </ClInclude>
     <ClInclude Include="Cannon.h">
       <Filter>Actor\Character\Cannon</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Actor\Camera</Filter>
     </ClInclude>
     <ClInclude Include="TamaStates.h">
       <Filter>Actor\Character\Enemy\Tama</Filter>
@@ -662,10 +662,10 @@
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="Dore.h">
-      <Filter>Actor\Dore</Filter>
+      <Filter>Actor\Character\Dore</Filter>
     </ClInclude>
     <ClInclude Include="Barricade.h">
-      <Filter>Actor\Barricade</Filter>
+      <Filter>Actor\Character\Barricade</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>GameManager</Filter>
@@ -697,9 +697,6 @@
     <ClInclude Include="UIMainState.h">
       <Filter>UI\State</Filter>
     </ClInclude>
-    <ClInclude Include="PSideCharacterActor.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
     <ClInclude Include="TamaPointer.h">
       <Filter>Actor\Character\Weapons\Tama</Filter>
     </ClInclude>
@@ -714,6 +711,12 @@
     </ClInclude>
     <ClInclude Include="DebugStage.h">
       <Filter>Actor\MapActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Actor\Camera\base</Filter>
+    </ClInclude>
+    <ClInclude Include="PSideCharacterActor.h">
+      <Filter>Actor\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

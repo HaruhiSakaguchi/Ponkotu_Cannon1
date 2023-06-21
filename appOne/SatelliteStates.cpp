@@ -275,7 +275,7 @@ void SatelliteGenerate::Update()
 		{
 			if (!mFirstTargetCompleteFlag)
 			{
-				if (s->GetGame()->GetActorManager()->GetEHome()->GetOpenComplete())
+				if (s->GetGame()->GetActorManager()->GetEHome()->GetDore()->GetOpenComplete())
 				{
 					s->SetPosition(s->GetPosition() + vec * s->GetAdvSpeed() * 10.0f);
 					SatelliteRotation(s);

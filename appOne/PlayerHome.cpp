@@ -1,6 +1,5 @@
 #include "PlayerHome.h"
 #include "TreeMeshComponent.h"
-#include "Dore.h"
 #include "PlayerFlag.h"
 #include "HpGaugeSpriteComponent.h"
 #include "Collision_Capsul.h"
@@ -19,10 +18,6 @@ PlayerHome::PlayerHome(class Game* game, const VECTOR& pos)
 	, mGenerateCannonLevel(0)
 	, mGenerateBarricadeLevel(0)
 	, mCurMyTpIdx(0)
-	, mCloseComplete(true)
-	, mOpenComplete(false)
-	, mBeginCloseFlag(false)
-	, mBeginOpenFlag(true)
 	, mGenerateFlag(true)
 	, mBattlePoints(0)
 	, mMaxBattlePoints(0)
@@ -57,6 +52,9 @@ int PlayerHome::SetUp()
 	SetInitMaxHp(Data.mMaxHp);
 
 	mDore->SetRotationX(0.0f);
+	mDore->SetRotationY(-3.1415926f);
+	mDore->SetIsRotate(true);
+	mDore->Open();
 	SetRadius(Data.mRadius);
 	SetHeight(Data.mHeight);
 	SetName("PlayerHome");
@@ -102,7 +100,7 @@ void PlayerHome::UpdateActor()
 
 	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
-		if (enemy->GetTag() != CharacterActor::Satellite)
+		if (enemy->GetTag() != CharacterActor::Satellite && enemy->GetHp() > 0)
 		{
 			if (Intersect(this, enemy) && !mMoveCompleteFlag)
 			{
@@ -111,32 +109,17 @@ void PlayerHome::UpdateActor()
 		}
 	}
 
-	//if (mMoveCompleteFlag == false)
+	mMoveCompleteFlag = GoToTargetPoint(mHomeTargetPoint);
+
+	if (mMoveCompleteFlag && mGenerateFlag)
 	{
-		mMoveCompleteFlag = GoToTargetPoint(mHomeTargetPoint);
-
-
-		if (mMoveCompleteFlag && mGenerateFlag)
-		{
-			if (mBeginOpenFlag && mCloseComplete)
-			{
-				OpenDore();
-			}
-			if (mBeginCloseFlag && mOpenComplete)
-			{
-				CloseDore();
-			}
-		}
-		//mCloseComplete = CloseDore();
-
+		mDore->SetIsRotate(true);
 	}
-
-	//OpenDore();
 
 	int cnt = 0;
 	for (auto Actor : GetGame()->GetActorManager()->GetPSide())
 	{
-		if (CollisionCircle(GetRadius(), Actor->GetRadius(), GetPosition(), Actor->GetPosition()))
+		if (Actor != this && CollisionCircle(GetRadius(), Actor->GetRadius(), GetPosition(), Actor->GetPosition()))
 		{
 			cnt++;
 		}
@@ -144,7 +127,8 @@ void PlayerHome::UpdateActor()
 
 	if (mGenerateFlag && cnt == 0)
 	{
-		Close();
+		mDore->Close();
+		mGenerateFlag = false;
 	}
 
 	mMaxBattlePoints = 500 * (GetLevel() + 1);
@@ -157,6 +141,7 @@ void PlayerHome::UpdateActor()
 	{
 		mBattlePoints = 0;
 	}
+
 }
 
 void PlayerHome::Damage(int damage)
@@ -196,36 +181,3 @@ bool PlayerHome::GoToTargetPoint(const VECTOR& pos)
 	}
 }
 
-bool PlayerHome::OpenDore()
-{
-	if (mDore->GetRotation().x <= 3.1415926f / 2)
-	{
-		mDore->SetRotationX(mDore->GetRotation().x + 0.017f);
-		return false;
-	}
-	else
-	{
-		mBeginOpenFlag = false;
-		mOpenComplete = true;
-		mCloseComplete = false;
-		Close();
-		return true;
-	}
-}
-
-bool PlayerHome::CloseDore()
-{
-	if (mDore->GetRotation().x >= 0.0f)
-	{
-		mDore->SetRotationX(mDore->GetRotation().x - 0.017f);
-		return false;
-	}
-	else
-	{
-		mBeginCloseFlag = false;
-		mCloseComplete = true;
-		mOpenComplete = false;
-		mGenerateFlag = false;
-		return true;
-	}
-}

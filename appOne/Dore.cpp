@@ -15,8 +15,8 @@ Dore::Dore(class Game* game)
 
 int Dore::SetUp()
 {
-	TreeMeshComponent* tc = new TreeMeshComponent(this);
-	tc->SetTree("Dore");
+	mTc = new TreeMeshComponent(this);
+	mTc->SetTree("Dore");
 	return 1;
 }
 

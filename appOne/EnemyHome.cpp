@@ -10,6 +10,7 @@
 
 EnemyHome::EnemyHome(class Game* game)
 	: CharacterActor(game)
+	, mTc(nullptr)
 	, mFlag1(nullptr)
 	, mFlag2(nullptr)
 	, mDore(nullptr)
@@ -35,8 +36,8 @@ EnemyHome::~EnemyHome()
 
 int EnemyHome::SetUp()
 {
-	TreeMeshComponent* tc = new TreeMeshComponent(this);
-	tc->SetTree("Home");
+	mTc = new TreeMeshComponent(this);
+	mTc->SetTree("Home");
 	mDore = new Dore(GetGame());
 	mFlag1 = new EnemyFlag(GetGame());
 	mFlag1->SetRotationY(3.1415926f);
@@ -218,6 +219,17 @@ void EnemyHome::UpdateActor()
 	{
 		mDore->Close();
 		mGenerateFlag = false;
+	}
+
+	if (GetDamageInterval() > 0)
+	{
+		mTc->SetDrawFlag(false);
+		mDore->GetMesh()->SetDrawFlag(false);
+	}
+	else
+	{
+		mTc->SetDrawFlag(true);
+		mDore->GetMesh()->SetDrawFlag(true);
 	}
 
 }

@@ -62,6 +62,7 @@ private:
 	bool mMoveCompleteFlag;
 	VECTOR mHomeTargetPoint;
 
+	class TreeMeshComponent*mTc;
 	bool mGenerateFlag;
 
 	int mBattlePoints;

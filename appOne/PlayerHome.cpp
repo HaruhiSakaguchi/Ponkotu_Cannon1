@@ -11,6 +11,7 @@
 
 PlayerHome::PlayerHome(class Game* game, const VECTOR& pos)
 	: PSideCharacterActor(game)
+	, mTc(nullptr)
 	, mFlag1(nullptr)
 	, mFlag2(nullptr)
 	, mDore(nullptr)
@@ -41,8 +42,8 @@ PlayerHome::~PlayerHome()
 
 int PlayerHome::SetUp()
 {
-	TreeMeshComponent* tc = new TreeMeshComponent(this);
-	tc->SetTree("Home");
+	mTc = new TreeMeshComponent(this);
+	mTc->SetTree("Home");
 	mDore = new Dore(GetGame());
 	mFlag1 = new PlayerFlag(GetGame());
 	mFlag2 = new PlayerFlag(GetGame());
@@ -142,6 +143,16 @@ void PlayerHome::UpdateActor()
 		mBattlePoints = 0;
 	}
 
+	if (GetDamageInterval() > 0)
+	{
+		mTc->SetDrawFlag(false);
+		mDore->GetMesh()->SetDrawFlag(false);
+	}
+	else
+	{
+		mTc->SetDrawFlag(true);
+		mDore->GetMesh()->SetDrawFlag(true);
+	}
 }
 
 void PlayerHome::Damage(int damage)

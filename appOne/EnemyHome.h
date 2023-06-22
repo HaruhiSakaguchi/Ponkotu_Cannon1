@@ -39,6 +39,7 @@ public:
 	};
 private:
 	DATA Data;
+	class TreeMeshComponent* mTc;
 	class EnemyFlag* mFlag1;
 	class EnemyFlag* mFlag2;
 	class Dore* mDore;

@@ -14,11 +14,13 @@ public:
 	bool GetCloseComplete() { return mCloseComplete; }
 	bool GetOpenComplete() { return mOpenComplete; }
 	bool GetBeginOpen() { return mBeginOpenFlag; }
+	class TreeMeshComponent* GetMesh() { return mTc; }
 private:
 	bool mBeginOpenFlag;
 	bool mBeginCloseFlag;
 	bool mOpenComplete;
 	bool mCloseComplete;
 	bool mIsRotate;
+	class TreeMeshComponent* mTc;
 };
 

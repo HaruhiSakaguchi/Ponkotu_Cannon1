@@ -6,7 +6,7 @@
 #include "CONTAINER/BATCH.h"
 
 BatchMeshComponent::BatchMeshComponent(Actor* owner)
-	:MeshComponent(owner)
+	: MeshComponent(owner)
 	, mBatch(nullptr)
 {
 }
@@ -28,6 +28,16 @@ void BatchMeshComponent::Draw()
 	mWorld.mulRotateY(mOwner->GetRotation().x + mOffsetAngle.x);
 	mWorld.mulRotateX(mOwner->GetRotation().y + mOffsetAngle.y);
 	mWorld.mulRotateZ(mOwner->GetRotation().z + mOffsetAngle.z);
+	mWorld.mulRotateY(mOffsetAngle.y);
+	mWorld.mulRotateX(mOffsetAngle.x);
+	mWorld.mulRotateZ(mOffsetAngle.z);
 	mWorld.mulScaling(mOwner->GetScale());
-	mBatch->draw(mOwner->GetGame()->GetRenderer()->GetShader(), mWorld);
+}
+
+void BatchMeshComponent::Update()
+{
+	if (mDrawFlag && mBatch)
+	{
+		mBatch->draw(mOwner->GetGame()->GetRenderer()->GetShader(), mWorld);
+	}
 }

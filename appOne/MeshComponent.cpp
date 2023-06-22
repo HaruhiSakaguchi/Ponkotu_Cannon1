@@ -7,6 +7,8 @@ MeshComponent::MeshComponent(Actor* owner)
 	: Component(owner)
 	, mOffsetPos(0.0f, 0.0f, 0.0f)
 	, mOffsetAngle(0.0f,0.0f,0.0f)
+	, mDrawFlag(true)
+
 {
 	mOwner->GetGame()->GetRenderer()->AddMesh(this);
 }

@@ -8,12 +8,10 @@
 #include "CONTAINER/ANIMATION.h"
 
 TreeMeshComponent::TreeMeshComponent(Actor* owner)
-	:MeshComponent(owner)
+	: MeshComponent(owner)
 	, mTree(nullptr)
 	, mNormalTree(nullptr)
 	, mDamageTree(nullptr)
-	, mDrawFlag(true)
-	, mPos(0.0f,0.0f,0.0f)
 {
 }
 
@@ -54,15 +52,13 @@ void TreeMeshComponent::SetNextAnimId(int id, float morphFrame, float startFrame
 
 void TreeMeshComponent::Update()
 {
-	mPos = mOwner->GetPosition();
+	VECTOR pos = mOwner->GetPosition() + mOffsetPos;
+	VECTOR angle = mOwner->GetRotation() + mOffsetAngle;
 	mWorld.identity();
-	mWorld.mulTranslate(mPos + mOffsetPos);
-	mWorld.mulRotateY(mOwner->GetRotation().y);
-	mWorld.mulRotateX(mOwner->GetRotation().x);
-	mWorld.mulRotateZ(mOwner->GetRotation().z);
-	mWorld.mulRotateY(mOffsetAngle.y);
-	mWorld.mulRotateX(mOffsetAngle.x);
-	mWorld.mulRotateZ(mOffsetAngle.z);
+	mWorld.mulTranslate(pos);
+	mWorld.mulRotateY(angle.y);
+	mWorld.mulRotateX(angle.x);
+	mWorld.mulRotateZ(angle.z);
 	mWorld.mulScaling(mOwner->GetScale());
 
 	if (static_cast<CharacterActor*>(mOwner)->GetDamageInterval() > 0.0f && mDamageTree != nullptr)

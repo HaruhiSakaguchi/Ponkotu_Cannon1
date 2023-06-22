@@ -10,11 +10,11 @@ public:
     void Update()override;
     enum GenerateActor_Id
     {
-        Cannon,
-        Barricade,
-        Empty
+        ECannon,
+        EBarricade,
+        EEmpty
     };
-    UIGenerate(class UIPlayerHome*owner,Game*game, GenerateActor_Id id = Empty);
+    UIGenerate(class UIPlayerHome*owner,Game*game, GenerateActor_Id id = EEmpty);
     ~UIGenerate();
 private:
     GenerateActor_Id mId;

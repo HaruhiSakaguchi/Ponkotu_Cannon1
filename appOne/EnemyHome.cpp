@@ -225,11 +225,15 @@ void EnemyHome::UpdateActor()
 	{
 		mTc->SetDrawFlag(false);
 		mDore->GetMesh()->SetDrawFlag(false);
+		mFlag1->GetMesh()->SetDrawFlag(false);
+		mFlag2->GetMesh()->SetDrawFlag(false);
 	}
 	else
 	{
 		mTc->SetDrawFlag(true);
 		mDore->GetMesh()->SetDrawFlag(true);
+		mFlag1->GetMesh()->SetDrawFlag(true);
+		mFlag2->GetMesh()->SetDrawFlag(true);
 	}
 
 }

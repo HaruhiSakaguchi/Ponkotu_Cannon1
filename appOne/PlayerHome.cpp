@@ -56,6 +56,8 @@ int PlayerHome::SetUp()
 	mDore->SetRotationY(-3.1415926f);
 	mDore->SetIsRotate(true);
 	mDore->Open();
+	mDore->SetCloseEvent([this]() { SetGenerateFlag(false); });
+
 	SetRadius(Data.mRadius);
 	SetHeight(Data.mHeight);
 	SetName("PlayerHome");
@@ -63,7 +65,6 @@ int PlayerHome::SetUp()
 	mUI = new UIPlayerHome(this);
 	mMaxBattlePoints = 500;
 	mHomeTargetPoint = GetInitPosition();
-	//new UIPSideCharacterStatusClose(this);
 	return 1;
 }
 
@@ -129,7 +130,6 @@ void PlayerHome::UpdateActor()
 	if (mGenerateFlag && cnt == 0)
 	{
 		mDore->Close();
-		mGenerateFlag = false;
 	}
 
 	mMaxBattlePoints = 500 * (GetLevel() + 1);
@@ -147,11 +147,15 @@ void PlayerHome::UpdateActor()
 	{
 		mTc->SetDrawFlag(false);
 		mDore->GetMesh()->SetDrawFlag(false);
+		mFlag1->GetMesh()->SetDrawFlag(false);
+		mFlag2->GetMesh()->SetDrawFlag(false);
 	}
 	else
 	{
 		mTc->SetDrawFlag(true);
 		mDore->GetMesh()->SetDrawFlag(true);
+		mFlag1->GetMesh()->SetDrawFlag(true);
+		mFlag2->GetMesh()->SetDrawFlag(true);
 	}
 }
 

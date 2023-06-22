@@ -26,5 +26,6 @@ public:
 private:
     DATA Data;
     int mNum;
+    class TreeMeshComponent* mTc;
 };
 

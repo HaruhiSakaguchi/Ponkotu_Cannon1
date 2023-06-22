@@ -55,14 +55,14 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 
 	mGenerateActor = new CharacterActor(mGame);
 	auto tree = new TreeMeshComponent(mGenerateActor);
-	if (mId == GenerateActor_Id::Cannon)
+	if (mId == GenerateActor_Id::ECannon)
 	{
 		tree->SetTree("CannonBarrel");
 		new CannonWheelL(static_cast<class Cannon*>(mGenerateActor));
 		new CannonWheelR(static_cast<class Cannon*>(mGenerateActor));
 		mGenerateActor->SetRotationY(3.1415926f);
 	}
-	else if (mId == GenerateActor_Id::Barricade)
+	else if (mId == GenerateActor_Id::EBarricade)
 	{
 		tree->SetTree("Barricade");
 	}
@@ -84,11 +84,11 @@ void UIGenerate::draw()
 	textSize(30);
 	fill(0, 0, 0);
 	text((let)mGame->GetActorManager()->GetPHome()->GetBattlePoints() + " / " + (let)mGame->GetActorManager()->GetPHome()->GetMaxBattlePoints(), width / 2, height / 2 + 150.0f);
-	if (mId == GenerateActor_Id::Cannon)
+	if (mId == GenerateActor_Id::ECannon)
 	{
 		text("Cannonをどこに出撃させますか？ " + (let)mGenerateUsingPoints + "ポイント消費", width / 2, height / 2 + 200.0f);
 	}
-	else if (mId == GenerateActor_Id::Barricade)
+	else if (mId == GenerateActor_Id::EBarricade)
 	{
 		text("Barricadeをどこに設置しますか？ " + (let)mGenerateUsingPoints + "ポイント消費", width / 2, height / 2 + 200.0f);
 	}
@@ -111,13 +111,13 @@ void UIGenerate::Update()
 	{
 
 
-		if (mId != GenerateActor_Id::Empty)
+		if (mId != GenerateActor_Id::EEmpty)
 		{
-			if (mId == GenerateActor_Id::Cannon)
+			if (mId == GenerateActor_Id::ECannon)
 			{
 				mGenerateUsingPoints = mGame->GetActorManager()->GetPHome()->GetGenerateCannonLv() * 100 + 300;
 			}
-			else if (mId == GenerateActor_Id::Barricade)
+			else if (mId == GenerateActor_Id::EBarricade)
 			{
 				mGenerateUsingPoints = mGame->GetActorManager()->GetPHome()->GetGenerateBarricadeLv() * 50 + 100;
 			}
@@ -132,10 +132,10 @@ void UIGenerate::Update()
 		{
 			if (mGenerateUsingPoints <= mGame->GetActorManager()->GetPHome()->GetBattlePoints())
 			{
-				if (mId != GenerateActor_Id::Empty)
+				if (mId != GenerateActor_Id::EEmpty)
 				{
 					CharacterActor* c = nullptr;
-					if (mId == GenerateActor_Id::Cannon)
+					if (mId == GenerateActor_Id::ECannon)
 					{
 						c = new class Cannon(mGame);
 						c->SetUp();
@@ -143,7 +143,7 @@ void UIGenerate::Update()
 						c->GetGame()->GetActorManager()->GetPHome()->GetDore()->Open();
 						c->SetLevel(c->GetGame()->GetActorManager()->GetPHome()->GetGenerateCannonLv());
 					}
-					else if (mId == GenerateActor_Id::Barricade)
+					else if (mId == GenerateActor_Id::EBarricade)
 					{
 						c = new class Barricade(mGame);
 						c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));

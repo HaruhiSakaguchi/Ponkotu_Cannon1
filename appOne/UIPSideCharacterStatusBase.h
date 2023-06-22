@@ -13,6 +13,7 @@ public:
 	const VECTOR2& GetOffset() { return mOffset; }
 	void SetOffset(const VECTOR2& pos) { mOffset = pos; }
 protected:
+	float mHpGaugeWidth;
 	PSideCharacterActor* mOwner;
 	VECTOR2 mPosition;
 	VECTOR2 mOffset;

@@ -14,7 +14,8 @@ public:
         EStageClear,
         EGameOver,
         EAllClear,
-        EQuit
+        EQuit,
+        EEmpry
     };
 
     State GetState() { return mState; }

@@ -9,8 +9,7 @@
 
 
 UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
-	:UIPSideCharacterStatusBase(static_cast<PSideCharacterActor*>(owner))
-	, mHpGaugeWidth(0.0f)
+	: UIPSideCharacterStatusBase(static_cast<PSideCharacterActor*>(owner))
 	, mCylinderAngle(0.0f)
 	, mBarrierHpWidth(0.0f)
 	, mStateCursorPos(width, 0.0f)
@@ -42,9 +41,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		}
 		, 2
 			, nullptr
-			//, mPos + VECTOR2( - 500.0f + 0.0f, 0.0f)
 			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 50.0f, 215.0f)
-
 			);
 
 
@@ -66,7 +63,6 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		, 2
 			, nullptr
 			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 100.0f, 215.0f - 69.0f)
-
 			);
 
 
@@ -88,7 +84,6 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		, 2
 			, nullptr
 			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 150.0f, 215.0f - 69.0f * 2)
-
 			);
 
 	mFieldPatrollButton = AddButton("F",
@@ -248,16 +243,13 @@ void UIPSideCharacterStatus::Update()
 
 		mStateCursorPos = preCursorPos + (cursorPos - preCursorPos) * 0.5f;
 
-		//if (mOwner->GetState() == Actor::EActive)
-		{
-			mStayButton->SetPosition(mPosition + VECTOR2(50.0f, 195.0f - 25.0f / 2) + mOffset);
-			mReturnButton->SetPosition(mPosition + VECTOR2(50.0f + 50.0f, 195.0f - 25.0f / 2) + mOffset);
-			mHomePatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 100.0f, 195.0f - 25.0f / 2) + mOffset);
-			mFieldPatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 150.0f, 195.0f - 25.0f / 2) + mOffset);
-			mCloseButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f - 50.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
-			mLvUpButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
+		mStayButton->SetPosition(mPosition + VECTOR2(50.0f, 195.0f - 25.0f / 2) + mOffset);
+		mReturnButton->SetPosition(mPosition + VECTOR2(50.0f + 50.0f, 195.0f - 25.0f / 2) + mOffset);
+		mHomePatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 100.0f, 195.0f - 25.0f / 2) + mOffset);
+		mFieldPatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 150.0f, 195.0f - 25.0f / 2) + mOffset);
+		mCloseButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f - 50.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
+		mLvUpButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
 
-		}
 	}
 
 	if (!mGame->GetActorManager()->GetPHome())

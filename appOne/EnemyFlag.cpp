@@ -2,18 +2,17 @@
 #include "TreeMeshComponent.h"
 
 EnemyFlag::EnemyFlag(Game* game)
-	:Actor(game)
+	: Actor(game)
 {
 	SetUp();
 }
 int EnemyFlag::SetUp()
 {
-	TreeMeshComponent* tc = new TreeMeshComponent(this);
-	tc->SetTree("EnemyFlag");
+	mTc = new TreeMeshComponent(this);
+	mTc->SetTree("EnemyFlag");
 	return 1;
 }
 
 void EnemyFlag::UpdateActor()
 {
-
 }

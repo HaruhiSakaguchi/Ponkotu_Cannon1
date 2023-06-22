@@ -12,9 +12,6 @@ public:
 	void draw()override;
 	void Update()override;
 private:
-	float mHpGaugeWidth;
 	Button* mOpenButtun;
-	Button* mLvUpButton;
-
 };
 

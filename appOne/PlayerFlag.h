@@ -6,6 +6,9 @@ class PlayerFlag :
 public:
     PlayerFlag(Game* game);
     int SetUp();
-    void UpdateActor();
+    void UpdateActor()override;
+    class TreeMeshComponent* GetMesh() { return mTc; }
+private:
+    class TreeMeshComponent* mTc;
 };
 

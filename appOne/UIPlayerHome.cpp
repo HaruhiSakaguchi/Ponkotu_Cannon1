@@ -69,12 +69,12 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				h->SetGenerateFlag(true);
 				if (!mGenerate)
 				{
-					mGenerate = new UIGenerate(this, mGame, UIGenerate::Cannon);
+					mGenerate = new UIGenerate(this, mGame, UIGenerate::ECannon);
 				}
 				else
 				{
 					mGenerate->CloseMe();
-					mGenerate = new UIGenerate(this, mGame, UIGenerate::Cannon);
+					mGenerate = new UIGenerate(this, mGame, UIGenerate::ECannon);
 				}
 			}
 		}
@@ -92,21 +92,21 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel() && !h->GetGenerateFlag() && (int)(mGame->GetActorManager()->GetPSide().size()) - 1 != mOwner->GetMaxLevel())
 			{
 				h->SetGenerateFlag(true);
-				//h->Open();
 				if (!mGenerate)
 				{
-					mGenerate = new UIGenerate(this, mGame, UIGenerate::Barricade);
+					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarricade);
 				}
 				else
 				{
 					mGenerate->CloseMe();
-					mGenerate = new UIGenerate(this, mGame, UIGenerate::Barricade);
+					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarricade);
 				}
 			}
 		}
 		, nullptr
 			, VECTOR2(100.0f, 100.0f)
 			);
+
 	mGenerateBarricadeButton->SetNameOffsetPos(VECTOR2(0.0f, -30.0f));
 
 	mGenerateCannonLvUpButton = AddButton("Lv+"

@@ -45,8 +45,8 @@ int Barricade::SetUp()
 	SetTag(CharacterActor::Barricade);
 
 
-	TreeMeshComponent* tc = new TreeMeshComponent(this);
-	tc->SetTree("Barricade");
+	mTc = new TreeMeshComponent(this);
+	mTc->SetTree("Barricade");
 	new HpGaugeSpriteComponent(this, VECTOR(0.0f, 0.75f, 0.0f));
 	new CollisionMapComponent(this);
 
@@ -75,6 +75,11 @@ void Barricade::UpdateActor()
 	if (GetDamageInterval() > 0.0f)
 	{
 		SetDamageInterval(GetDamageInterval() - delta);
+		mTc->SetDrawFlag(false);
+	}
+	else
+	{
+		mTc->SetDrawFlag(true);
 	}
 }
 

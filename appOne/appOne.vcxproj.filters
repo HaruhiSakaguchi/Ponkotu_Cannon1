@@ -170,6 +170,21 @@
     <Filter Include="Actor\Character\Dore">
       <UniqueIdentifier>{32c44187-b4ec-4136-8b94-efb6a13ed4f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameManager\Cameara">
+      <UniqueIdentifier>{00db261e-7e0d-4b33-aec1-87da644cc6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameManager\Actor">
+      <UniqueIdentifier>{e4c04757-11f5-4806-bcab-64657b857aa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameManager\UI">
+      <UniqueIdentifier>{736948f6-c015-4b5b-9a3f-dffa9e81efdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameManager\Sound">
+      <UniqueIdentifier>{3741ee4a-2881-4bf1-a59d-de86715cd4d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameManager\All">
+      <UniqueIdentifier>{d55a7812-9323-4c70-8037-7c778ffd6e0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
@@ -268,12 +283,6 @@
     </ClCompile>
     <ClCompile Include="Items.cpp">
       <Filter>Actor\Character\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="gmain.cpp">
-      <Filter>GameManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>GameManager</Filter>
     </ClCompile>
     <ClCompile Include="Stage3.cpp">
       <Filter>Actor\MapActor</Filter>
@@ -398,18 +407,6 @@
     <ClCompile Include="PlayerFlag.cpp">
       <Filter>Actor\Character\PHome</Filter>
     </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>GameManager</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundVolumeManager.cpp">
-      <Filter>GameManager</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraManager.cpp">
-      <Filter>GameManager</Filter>
-    </ClCompile>
-    <ClCompile Include="ActorManager.cpp">
-      <Filter>GameManager</Filter>
-    </ClCompile>
     <ClCompile Include="UIPSideCharacterStatusClose.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -448,6 +445,24 @@
     </ClCompile>
     <ClCompile Include="UIGenerate.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>GameManager\Cameara</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorManager.cpp">
+      <Filter>GameManager\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>GameManager\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundVolumeManager.cpp">
+      <Filter>GameManager\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>GameManager\All</Filter>
+    </ClCompile>
+    <ClCompile Include="gmain.cpp">
+      <Filter>GameManager\All</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -537,9 +552,6 @@
     </ClInclude>
     <ClInclude Include="Items.h">
       <Filter>Actor\Character\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>GameManager</Filter>
     </ClInclude>
     <ClInclude Include="Stage3.h">
       <Filter>Actor\MapActor</Filter>
@@ -667,18 +679,6 @@
     <ClInclude Include="Barricade.h">
       <Filter>Actor\Character\Barricade</Filter>
     </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>GameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundVolumeManager.h">
-      <Filter>GameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraManager.h">
-      <Filter>GameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="ActorManager.h">
-      <Filter>GameManager</Filter>
-    </ClInclude>
     <ClInclude Include="UIPSideCharacterStatusClose.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -717,6 +717,21 @@
     </ClInclude>
     <ClInclude Include="PSideCharacterActor.h">
       <Filter>Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>GameManager\Cameara</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorManager.h">
+      <Filter>GameManager\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>GameManager\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundVolumeManager.h">
+      <Filter>GameManager\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>GameManager\All</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

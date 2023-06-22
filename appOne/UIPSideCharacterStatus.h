@@ -47,7 +47,6 @@ public:
 		COLOR mItemNameTextColor;
 	};
 private:
-	float mHpGaugeWidth;
 	DATA Data;
     COLOR mNoItemColor = COLOR(128, 128, 128);
 	float mCylinderAngle;

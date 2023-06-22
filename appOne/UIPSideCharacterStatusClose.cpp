@@ -7,7 +7,6 @@
 
 UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* owner)
 	: UIPSideCharacterStatusBase(static_cast<PSideCharacterActor*>(owner))
-	, mHpGaugeWidth(0.0f)
 	, mOpenButtun(nullptr)
 {
 	mPosition = VECTOR2(0.0f, (mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f)) +

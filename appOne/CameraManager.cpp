@@ -72,4 +72,5 @@ void CameraManager::Update()
 	MATRIX view;
 	view.camera(mPos, mCurCamera->GetLookatPos(), mGame->GetAllData()->cameraData.mUpVec);
 	mGame->GetRenderer()->SetView(view);
+
 }

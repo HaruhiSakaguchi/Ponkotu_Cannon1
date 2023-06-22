@@ -6,6 +6,7 @@ UIPSideCharacterStatusBase::UIPSideCharacterStatusBase(PSideCharacterActor* owne
 	, mPosition(0.0f, 0.0f)
 	, mOffset(0.0f, 0.0f)
 	, mLvUpButton(nullptr)
+	, mHpGaugeWidth(0.0f)
 {
 	mGame->GetUIManager()->AddUIPSide(this);
 	mOwner->SetUI(this);

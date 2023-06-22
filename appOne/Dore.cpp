@@ -9,6 +9,8 @@ Dore::Dore(class Game* game)
 	, mBeginCloseFlag(false)
 	, mBeginOpenFlag(false)
 	, mIsRotate(false)
+	, mClosing(false)
+	, mOpening(false)
 {
 	SetUp();
 }
@@ -26,11 +28,11 @@ void Dore::UpdateActor()
 	{
 		if (mBeginOpenFlag && mCloseComplete)
 		{
-			OpenDore();
+			mOpening = !OpenDore();
 		}
 		if (mBeginCloseFlag && mOpenComplete)
 		{
-			CloseDore();
+			mClosing = !CloseDore();
 		}
 	}
 }
@@ -66,6 +68,12 @@ bool Dore::CloseDore()
 		mCloseComplete = true;
 		mOpenComplete = false;
 		mIsRotate = false;
+
+		if (mOnClose)
+		{
+			mOnClose();
+		}
+
 		return true;
 	}
 }

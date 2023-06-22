@@ -8,8 +8,8 @@ PlayerFlag::PlayerFlag(Game* game)
 }
 int PlayerFlag::SetUp()
 {
-	TreeMeshComponent*tc = new TreeMeshComponent(this);
-	tc->SetTree("PlayerFlag");
+	mTc = new TreeMeshComponent(this);
+	mTc->SetTree("PlayerFlag");
 	return 1;
 }
 

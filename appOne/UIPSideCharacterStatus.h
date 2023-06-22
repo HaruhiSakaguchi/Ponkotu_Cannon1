@@ -17,37 +17,7 @@ public:
 	void DrawNameandLevel();
 	void DrawStateCursor();
 	void DrawAfterButton()override;
-
-	struct DATA
-	{
-		float mWidth;
-		float mHeight;
-		float mRadius;
-		float mDiamiter;
-		float mAngleOffset;
-		float mAngle;//リングのアングルの一時保存用
-		float mRectWidth;//バリア―のHpゲージ表示用
-		float mTriangleWidth;
-		float mTriangleHeight;
-		float mTriangleAngle120;
-		float mTriangleAngle30;
-		float mChangeTimeSpeed;
-		float mChangeWidthSpeed;
-		float mItemNameTextSize;
-		float mBarrierHpGaugeWidth;
-		float mBarrierHpGaugeOffsetPosY;
-		float mBarrierHpGaugeHeight;
-		float mWhiteTriangleOffsetPosX;
-		float mLineSw;
-		COLOR mTriangleColor;
-		COLOR mWhiteTriangleColor;
-		COLOR mTimeGaugeColor;
-		COLOR mBarrierHpGaugeColor;
-		COLOR mRingOnLineColor;
-		COLOR mItemNameTextColor;
-	};
 private:
-	DATA Data;
     COLOR mNoItemColor = COLOR(128, 128, 128);
 	float mCylinderAngle;
 	float mBarrierHpWidth;

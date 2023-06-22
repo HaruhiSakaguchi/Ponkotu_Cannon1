@@ -16,13 +16,8 @@ UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* o
 	{
 		mOpenButtun = AddButton("¤",
 			[this]() {
-				for (auto ui : mGame->GetUIManager()->GetUIPSideStatus())
-				{
-					if (ui->GetOwner()->GetNum() > mOwner->GetNum())
-					{
-						ui->SetOffset(ui->GetOffset() + VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
-					}
-				}
+
+				OtherPSideUIsTranslate(VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 				CloseMe();
 				UIPSideCharacterStatus* ui = new UIPSideCharacterStatus(mOwner);
 				ui->SetOffset(this->GetOffset());

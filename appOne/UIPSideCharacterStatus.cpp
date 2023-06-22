@@ -21,20 +21,13 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 {
 	mPosition = VECTOR2(0.0f, (mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f)) +
 		mGame->GetAllData()->itemCompoData.mUIInitPos;
-	Data = mGame->GetAllData()->psData;
-
 
 	mStayButton = AddButton("S",
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::Stay);
-			for (auto ui : mGame->GetUIManager()->GetUIPSideStatus())
-			{
-				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
-				{
-					ui->SetOffset(ui->GetOffset() - VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
-				}
-			}
+
+			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
@@ -49,13 +42,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::Return);
-			for (auto ui : mGame->GetUIManager()->GetUIPSideStatus())
-			{
-				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
-				{
-					ui->SetOffset(ui->GetOffset() - VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
-				}
-			}
+			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
@@ -70,13 +57,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::HomePatroll);
-			for (auto ui : mGame->GetUIManager()->GetUIPSideStatus())
-			{
-				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
-				{
-					ui->SetOffset(ui->GetOffset() - VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
-				}
-			}
+			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
@@ -90,13 +71,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::FieldPatroll);
-			for (auto ui : mGame->GetUIManager()->GetUIPSideStatus())
-			{
-				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
-				{
-					ui->SetOffset(ui->GetOffset() - VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
-				}
-			}
+			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
@@ -110,13 +85,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 
 	mCloseButton = AddButton("¢",
 		[this]() {
-			for (auto ui : mGame->GetUIManager()->GetUIPSideStatus())
-			{
-				if (ui->GetOwner()->GetNum() > mOwner->GetNum())
-				{
-					ui->SetOffset(ui->GetOffset() - VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
-				}
-			}
+			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
@@ -420,7 +389,7 @@ void UIPSideCharacterStatus::DrawStateCursor()
 	strokeWeight(5);
 	fill(0, 0, 0, 0);
 	rectMode(CENTER);
-	rect(mStateCursorPos.x + mOffset.x, mStateCursorPos.y + mOffset.y, 69.0f, 69.0f);
+	rect(mStateCursorPos.x + mOffset.x, mStateCursorPos.y, 69.0f, 69.0f);
 	rectMode(CORNER);
 	fill(0, 0, 0);
 

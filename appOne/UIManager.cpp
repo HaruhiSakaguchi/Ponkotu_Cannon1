@@ -3,6 +3,12 @@
 #include "UIPSideCharacterStatusBase.h"
 #include "Game.h"
 
+UIManager::UIManager(class Game* game)
+	: Manager(game)
+	, mUpdatingUIs(false)
+{
+}
+
 UIManager::~UIManager()
 {
 	UIClear();

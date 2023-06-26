@@ -15,6 +15,6 @@ public:
     int GetNum() { return mNum; }
 private:
     int mNum;
-    UIPSideCharacterStatusBase* mUI;
+    class UIPSideCharacterStatusBase* mUI;
 };
 

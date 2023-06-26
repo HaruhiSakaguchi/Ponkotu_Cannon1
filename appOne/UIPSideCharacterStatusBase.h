@@ -12,6 +12,14 @@ public:
 	const VECTOR2& GetOffset() { return mOffset; }
 	void SetOffset(const VECTOR2& pos) { mOffset = pos; }
 	void OtherPSideUIsTranslate(const VECTOR2&offset);
+	void Update()override;
+	virtual void update() {};
+	void DrawHpGauge(const VECTOR2&pos);
+	void DrawBarrierHpGauge(const VECTOR2&pos);
+	void OwnerLvUp();
+	const VECTOR2& GetNextOffset() { return mNextPSideStatusOffset; }
+	void UIOpenNexrOffsetPlus();
+
 	struct DATA
 	{
 		float mWidth;
@@ -44,9 +52,11 @@ protected:
 	DATA Data;
 protected:
 	float mHpGaugeWidth;
-	PSideCharacterActor* mOwner;
+	float mBarrierHpGaugeWidth;
+	class PSideCharacterActor* mOwner;
 	VECTOR2 mPosition;
 	VECTOR2 mOffset;
 	Button* mLvUpButton;
+	VECTOR2 mNextPSideStatusOffset;
 };
 

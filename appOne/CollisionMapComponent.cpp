@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "COLLISION_MAP.h"
 #include "window.h"
+#include "UIMainState.h"
 
 CollisionMapComponent::CollisionMapComponent(Actor* owner)
 	:Component(owner)
@@ -21,7 +22,7 @@ void CollisionMapComponent::Update()
 
 	if (mIsMapCollision)
 	{
-		if (mOwner->GetGame()->GetActorManager()->GetStage()->GetCollisionMap())
+		if (mOwner->GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay && mOwner->GetGame()->GetActorManager()->GetStage()->GetCollisionMap())
 		{
 			mOwner->GetGame()->GetActorManager()->GetStage()->GetCollisionMap()->capsule_triangles
 			(&pos, &jumpVel, &jumpFlag, owner->GetAdvSpeed(), owner->GetRadius(), owner->GetOffsetY(), owner->GetSlant(), &floorY

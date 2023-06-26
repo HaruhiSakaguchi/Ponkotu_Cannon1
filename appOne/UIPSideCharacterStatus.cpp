@@ -11,7 +11,6 @@
 UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 	: UIPSideCharacterStatusBase(static_cast<PSideCharacterActor*>(owner))
 	, mCylinderAngle(0.0f)
-	, mBarrierHpWidth(0.0f)
 	, mStateCursorPos(width, 0.0f)
 	, mStayButton(nullptr)
 	, mReturnButton(nullptr)
@@ -26,7 +25,6 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::Stay);
-
 			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
@@ -59,7 +57,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 			c->SetMoveState(Cannon::HomePatroll);
 			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
-			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
+			auto ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
 		}
 		, 2
@@ -73,13 +71,12 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 			c->SetMoveState(Cannon::FieldPatroll);
 			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
-			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
+			auto ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
 		}
 		, 2
 			, nullptr
 			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 200.0f, 215.0f - 69.0f * 3)
-
 			);
 
 
@@ -87,7 +84,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		[this]() {
 			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
-			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
+			auto ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
 		}
 		, 2
@@ -98,14 +95,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 
 	mLvUpButton = AddButton("+LV",
 		[this]() {
-			if (mOwner->GetLevel() < mGame->GetActorManager()->GetPHome()->GetLevel() && (100 + mOwner->GetLevel() * 50) <= mGame->GetActorManager()->GetPHome()->GetBattlePoints())
-			{
-				int curMaxHp = mOwner->GetMaxHp();
-				mOwner->GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(mOwner->GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() - (100 + mOwner->GetLevel() * 50));
-				mOwner->SetLevel(mOwner->GetLevel() + 1);
-				mOwner->SetMaxHp((int)(mOwner->GetInitMaxHp() * ((mOwner->GetLevel() + mOwner->GetMaxLevel()) / 10.0f)));
-				mOwner->SetHp((int)(round(mOwner->GetMaxHp() * (float)mOwner->GetHp() / (float)curMaxHp)));
-			}
+			OwnerLvUp();
 		}
 		, 2
 			);
@@ -140,94 +130,56 @@ void UIPSideCharacterStatus::draw()
 
 		DrawLaunchIntervalGauge();
 
-		DrawHpGauge();
+		DrawHpGauge(mPosition + mOffset + VECTOR2(0.0f, 105.0f));
 
 		DrawNameandLevel();
 	}
 
 }
 
-void UIPSideCharacterStatus::Update()
+void UIPSideCharacterStatus::update()
 {
-	if (!mOwner)
+	if (mOwner->GetState() == Actor::EActive)
 	{
-		CloseMe();
+		Cannon* c = static_cast<Cannon*>(mOwner);
+		float preAngle = mCylinderAngle;
+		mCylinderAngle = preAngle + (3.1415926f * 2.0f / mGame->GetAllData()->scopeData.mMaxItenNum * (-static_cast<Cannon*>(mOwner)->GetCnt()) - preAngle) * mGame->GetAllData()->scopeData.mChangeAngleSpeed;
 	}
-	else
+
+	class Cannon* c = static_cast<Cannon*>(mOwner);
+	VECTOR2 preCursorPos = mStateCursorPos;
+	VECTOR2 cursorPos;
+
+	if (c->GetMoveState() == Cannon::Stay)
 	{
-		if (mPosition.x > mGame->GetAllData()->itemCompoData.mUIMinPosX)
-		{
-			mPosition.x += mGame->GetAllData()->itemCompoData.mUIPosAdvSpeed;
-		}
+		cursorPos = mStayButton->GetPosition();
+	}
+	else if (c->GetMoveState() == Cannon::Return)
+	{
+		cursorPos = mReturnButton->GetPosition();
 
-		int num = static_cast<PSideCharacterActor*>(mOwner)->GetNum();
+	}
+	else if (c->GetMoveState() == Cannon::HomePatroll)
+	{
+		cursorPos = mHomePatrollButton->GetPosition();
 
-		if (mGame->GetActorManager()->GetPHome() && num > mGame->GetActorManager()->GetPHome()->GetNum())
-		{
-			num--;
-		}
-
-		mPosition.y = (mGame->GetAllData()->itemCompoData.mUIOffsetPosY / 2.0f) * num + mGame->GetAllData()->itemCompoData.mUIInitPos.y;
-
-		if (mOwner->GetState() == Actor::EActive)
-		{
-			Cannon* c = static_cast<Cannon*>(mOwner);
-			float preWidth = mHpGaugeWidth;
-			float wid = 100.0f * mOwner->GetHp() / mOwner->GetMaxHp();
-			mHpGaugeWidth = preWidth + (wid - preWidth) * 0.05f;
-			float preAngle = mCylinderAngle;
-			mCylinderAngle = preAngle + (3.1415926f * 2.0f / mGame->GetAllData()->scopeData.mMaxItenNum * (-static_cast<Cannon*>(mOwner)->GetCnt()) - preAngle) * mGame->GetAllData()->scopeData.mChangeAngleSpeed;
-
-			if (c->GetBarrier())
-			{
-				float preBWidth = mBarrierHpWidth;
-				float Bwid = 50.0f * c->GetBarrier()->GetHp() / c->GetBarrier()->GetMaxHp();
-				mBarrierHpWidth = preBWidth + (Bwid - preBWidth) * 0.05f;
-			}
-		}
-
-		class Cannon* c = static_cast<Cannon*>(mOwner);
-		VECTOR2 preCursorPos = mStateCursorPos;
-		VECTOR2 cursorPos;
-
-		if (c->GetMoveState() == Cannon::Stay)
-		{
-			cursorPos = mStayButton->GetPosition();
-		}
-		else if (c->GetMoveState() == Cannon::Return)
-		{
-			cursorPos = mReturnButton->GetPosition();
-
-		}
-		else if (c->GetMoveState() == Cannon::HomePatroll)
-		{
-			cursorPos = mHomePatrollButton->GetPosition();
-
-		}
-		else if (c->GetMoveState() == Cannon::FieldPatroll)
-		{
-			cursorPos = mFieldPatrollButton->GetPosition();
-
-		}
-
-		mStateCursorPos = preCursorPos + (cursorPos - preCursorPos) * 0.5f;
-
-		mStayButton->SetPosition(mPosition + VECTOR2(50.0f, 195.0f - 25.0f / 2) + mOffset);
-		mReturnButton->SetPosition(mPosition + VECTOR2(50.0f + 50.0f, 195.0f - 25.0f / 2) + mOffset);
-		mHomePatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 100.0f, 195.0f - 25.0f / 2) + mOffset);
-		mFieldPatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 150.0f, 195.0f - 25.0f / 2) + mOffset);
-		mCloseButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f - 50.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
-		mLvUpButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
+	}
+	else if (c->GetMoveState() == Cannon::FieldPatroll)
+	{
+		cursorPos = mFieldPatrollButton->GetPosition();
 
 	}
 
-	if (!mGame->GetActorManager()->GetPHome())
-	{
-		for (auto button : GetButtons())
-		{
-			button->SetState(Button::Draw_Enable);
-		}
-	}
+	mStateCursorPos = preCursorPos + (cursorPos - preCursorPos) * 0.5f;
+
+	mStayButton->SetPosition(mPosition + VECTOR2(50.0f, 195.0f - 25.0f / 2) + mOffset);
+	mReturnButton->SetPosition(mPosition + VECTOR2(50.0f + 50.0f, 195.0f - 25.0f / 2) + mOffset);
+	mHomePatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 100.0f, 195.0f - 25.0f / 2) + mOffset);
+	mFieldPatrollButton->SetPosition(mPosition + VECTOR2(50.0f + 150.0f, 195.0f - 25.0f / 2) + mOffset);
+	mCloseButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f - 50.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
+	mLvUpButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
+
+	mNextPSideStatusOffset = VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f);
 }
 
 void UIPSideCharacterStatus::DrawRing(const VECTOR2& pos, float radius, float sw, const COLOR& color)
@@ -271,38 +223,6 @@ void UIPSideCharacterStatus::DrawRing(const VECTOR2& pos, float radius, float sw
 	}
 }
 
-void UIPSideCharacterStatus::DrawHpGauge()
-{
-	COLOR color;
-	if (mOwner->GetHp() >= mOwner->GetMaxHp() * mGame->GetAllData()->hpGaugeUIData.mNormalHpRate)
-	{
-		color = mGame->GetAllData()->hpGaugeUIData.mNormalColor;
-	}
-	else if (mOwner->GetHp() >= mOwner->GetMaxHp() * mGame->GetAllData()->hpGaugeUIData.mDangerHpRate)
-	{
-		color = mGame->GetAllData()->hpGaugeUIData.mDangarColor;
-	}
-	else
-	{
-		color = mGame->GetAllData()->hpGaugeUIData.mDyingColor;
-	}
-
-	noStroke();
-	rect(mPosition.x + mOffset.x + 25.0f, mPosition.y + mOffset.y + 125.0f, 100.0f, 10.0f);
-	fill(color);
-	rect(mPosition.x + mOffset.x + 25.0f, mPosition.y + mOffset.y + 125.0f, mHpGaugeWidth, 10.0f);
-	fill(0, 0, 0);
-	textSize(15.0f);
-	text("Hp :" + (let)mOwner->GetHp() + "/" + (let)mOwner->GetMaxHp(), mPosition.x + mOffset.x + 4.5f * 15.0f / 2.0f, mPosition.y + mOffset.y + 140.0f - 2.5f);
-
-	if (static_cast<Cannon*>(mOwner)->GetBarrier())
-	{
-		noStroke();
-		fill(COLOR(0, 0, 255));
-		rect(mPosition.x + mOffset.x + 25.0f - mBarrierHpWidth + 100.0f, mPosition.y + mOffset.x + 125.0f - 10.0f, mBarrierHpWidth, 5.0f);
-	}
-}
-
 void UIPSideCharacterStatus::DrawLaunchIntervalGauge()
 {
 	class Cannon* c = static_cast<Cannon*>(mOwner);
@@ -324,9 +244,6 @@ void UIPSideCharacterStatus::DrawLaunchIntervalGauge()
 		stroke(mGame->GetAllData()->scopeData.mColors[c->GetItemNums()[i]]);
 		point(mPosition.x + mOffset.x + cosf(3.1415926f * 2.0f / mGame->GetAllData()->scopeData.mMaxItenNum * i + mCylinderAngle) * mGame->GetAllData()->scopeData.mItemCylinderRadius / 2 + 75.0f, mPosition.y + mOffset.y + -sinf(3.1415926f * 2.0f / mGame->GetAllData()->scopeData.mMaxItenNum * i + mCylinderAngle) * mGame->GetAllData()->scopeData.mItemCylinderRadius / 2 + 75.0f);
 	}
-
-
-
 
 }
 

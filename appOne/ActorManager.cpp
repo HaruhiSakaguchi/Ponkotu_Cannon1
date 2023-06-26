@@ -9,8 +9,8 @@
 #include "Actor.h"
 #include "Camera.h"
 
-ActorManager::ActorManager(class Game* game) :
-	mGame(game)
+ActorManager::ActorManager(class Game* game)
+	: Manager(game)
 	, mUpdatingActors(false)
 	, mStage(nullptr)
     , mPHome(nullptr)

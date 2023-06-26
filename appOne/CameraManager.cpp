@@ -7,7 +7,7 @@
 #include "LookPHomeCamera.h"
 
 CameraManager::CameraManager(Game* game)
-	: mGame(game)
+	: Manager(game)
 	, mCurCamera(nullptr)
 	, mPos(0.0f,0.0f,0.0f)
 	, mSensitivityX(0.0f)

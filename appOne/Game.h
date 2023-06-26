@@ -6,6 +6,7 @@
 #include "ActorManager.h"
 #include "CameraManager.h"
 #include "SoundVolumeManager.h"
+#include "Manager.h"
 
 class Game
 {
@@ -66,6 +67,10 @@ public:
 	class ActorManager* GetActorManager() { return mActorManager; }
 	class UIManager* GetUIManager() { return mUIManager; }
 	class SoundVolumeManager* GetSoundVolumeManager() { return mSoundVolumeManager; }
+
+	void AddManager(class Manager* manager);
+	void RemoveManager(class Manager* manager);
+
 private:
 	struct Container mContainer;
 	class Renderer* mRenderer;
@@ -74,7 +79,10 @@ private:
 	class ActorManager* mActorManager;
 	class UIManager* mUIManager;
 	class SoundVolumeManager* mSoundVolumeManager;
+	class std::vector<class Manager*>mManagers;
 	//‘±‚¯‚ÄÅŒã‚Ü‚ÅƒvƒŒƒC‚·‚é‚©”Û‚©
 	bool mContinueFlag;
+	bool mUpdatingManagers;
+	class std::vector<class Manager*> mPendingManagers;
 };
 

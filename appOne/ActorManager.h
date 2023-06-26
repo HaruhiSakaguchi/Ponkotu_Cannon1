@@ -1,12 +1,15 @@
 #pragma once
 #include <vector>
+#include "Manager.h"
+
 class ActorManager
+	: public Manager
 {
 public:
 	ActorManager(class Game* game);
 	~ActorManager();
-	void Update();
-	void ProcessInput();
+	void Update()override;
+	void ProcessInput()override;
 	//getter&setter
 	const class std::vector<class Actor*>& GetActors() { return mActors; }
 	const class std::vector<class CharacterActor*>& GetCharacters() { return mCharacters; }
@@ -42,7 +45,6 @@ public:
 	void SetEHome(class EnemyHome* home) { mEHome = home; }
 
 private:
-	Game* mGame;
 	std::vector<class Actor*>mActors;
 	std::vector<class CharacterActor*>mCharacters;
 	std::vector<class Enemy*>mEnemies;

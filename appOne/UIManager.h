@@ -1,15 +1,16 @@
 #pragma once
 #include <vector>
+#include "Manager.h"
 
 class UIManager
+	:public Manager
 {
 
 public:
-
-	UIManager(class Game* game) :mGame(game), mUpdatingUIs(false) {};
+	UIManager(class Game* game) ;
 	~UIManager();
-	void Update();
-	void ProcessInput();
+	void Update()override;
+	void ProcessInput()override;
 	void PushUI(class UIScreen* uiScreen);
 	void PullUI(class UIScreen* uiScreen);
 
@@ -22,7 +23,6 @@ public:
 private:
 	std::vector<class UIScreen*>mUIStack;
 	std::vector<class UIPSideCharacterStatusBase*>mUIStatus;
-	class Game* mGame;
 	bool mUpdatingUIs;
 	std::vector<class UIScreen*> mPendingUIs;
 

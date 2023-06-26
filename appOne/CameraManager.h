@@ -1,8 +1,10 @@
 #pragma once
 #include "Actor.h"
 #include "Camera.h"
+#include "Manager.h"
 
 class CameraManager
+	: public Manager
 {
 public:
 	CameraManager(class Game* game);
@@ -14,7 +16,6 @@ private:
 	std::vector<Camera*>mCameras;
 	VECTOR mPos;
 	class Camera* mCurCamera;
-	class Game* mGame;
 private:
 	//ƒJƒƒ‰Š´“x
 	float mSensitivityX;

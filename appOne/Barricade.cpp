@@ -50,7 +50,8 @@ int Barricade::SetUp()
 	new HpGaugeSpriteComponent(this, VECTOR(0.0f, 0.75f, 0.0f));
 	new CollisionMapComponent(this);
 
-	new UIPSideCharacterStatusClose(this);
+	auto ui = new UIPSideCharacterStatusClose(this);
+	ui->UIOpenNexrOffsetPlus();
 
 	int num = 0;
 	for (auto chara : GetGame()->GetActorManager()->GetPSide())

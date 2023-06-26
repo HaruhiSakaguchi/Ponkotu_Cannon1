@@ -82,6 +82,17 @@ StageClear::StageClear(Game* game)
 			setVolume(Data.mSound2, mGame->GetSoundVolumeManager()->GetVolume());
 		}
 	}
+
+	for (auto ui : mGame->GetUIManager()->GetUIStack())
+	{
+		if (ui != this)
+		{
+			for (auto button : ui->GetButtons())
+			{
+				button->SetState(Button::Draw_Enable);
+			}
+		}
+	}
 }
 
 StageClear::~StageClear()
@@ -98,8 +109,9 @@ StageClear::~StageClear()
 
 void StageClear::ChangeOption()
 {
-	mGame->GetActorManager()->ActorClear();
 	mGame->GetActorManager()->GetStage()->MapClear();
+	mGame->GetActorManager()->ActorClear();
+	mGame->SetState(Game::EPaused);
 
 	if (mIsChangeTitle)
 	{

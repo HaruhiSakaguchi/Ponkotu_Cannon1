@@ -106,7 +106,8 @@ int Cannon::SetUp()
 
 
 	new HpGaugeSpriteComponent(this, GetCapsulOffset());
-	new UIPSideCharacterStatusClose(this);
+	auto ui = new UIPSideCharacterStatusClose(this);
+	ui->UIOpenNexrOffsetPlus();
 
 	mIn = new InputComponent(this);
 

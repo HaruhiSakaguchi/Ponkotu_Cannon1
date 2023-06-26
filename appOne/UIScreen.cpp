@@ -13,9 +13,9 @@ UIScreen::UIScreen(Game* game)
 	, mTextSize(40.0f)
 	, mTitlePos(width / 2.0f, 100.0f)
 	, mButtonPos(width / 2.0f, 170.0f)
-	, mBackPos(0.0f,0.0f)
-	, mTitleColor(0,0,0)
-	, mButtonTextcolor(0,0,0)
+	, mBackPos(0.0f, 0.0f)
+	, mTitleColor(0, 0, 0)
+	, mButtonTextcolor(0, 0, 0)
 {
 	Data = mGame->GetAllData()->uiScreenData;
 	//GameのUIStackに追加
@@ -103,7 +103,10 @@ void UIScreen::Draw()
 
 void UIScreen::CloseMe()
 {
-	mState = EClosing;
+	if (this)
+	{
+		mState = EClosing;
+	}
 }
 
 //ボタンは縦に並んで配置される

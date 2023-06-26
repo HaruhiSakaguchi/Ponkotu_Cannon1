@@ -1,5 +1,8 @@
 #pragma once
+#include "Manager.h"
+
 class SoundVolumeManager
+	:public Manager
 {
 public:
 	SoundVolumeManager(class Game*game);
@@ -16,8 +19,6 @@ public:
 	void SetSoundFlag(bool flag) { mSoundFlag = flag; }
 	bool GetBgmFlag() { return mBgmFlag; }
 	void SetBgmFlag(bool flag) { mBgmFlag = flag; }
-private:
-	class Game* mGame;
 private:
 	int mTmpVolume;//‰¹ºOFF‚ÉON‚Ìƒ{ƒŠƒ…[ƒ€‚ğ‚Æ‚Á‚Ä‚¨‚­
 	int mSetVolume;

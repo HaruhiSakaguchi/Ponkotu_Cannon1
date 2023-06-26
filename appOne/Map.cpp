@@ -22,7 +22,7 @@ Map::Map(class Game* game)
 	, mMunite(0)
 	, mInitItemDropFlag(false)
 	, mClearFlag(false)
-	, mCenterPos(0.0f,0.0f,0.0f)
+	, mCenterPos(0.0f, 0.0f, 0.0f)
 	, mMap(nullptr)
 {
 	Data = GetGame()->GetAllData()->mapData;
@@ -34,10 +34,15 @@ Map::Map(class Game* game)
 Map::~Map()
 {
 	MapClear();
-	delete mMiniMap;
-	delete mProgress;
-	delete mLog;
+
+	mMiniMap->CloseMe();
+
+	mProgress->CloseMe();
+
+	mLog->CloseMe();
+
 	GetGame()->GetActorManager()->SetStage(nullptr);
+
 	while (!mTexts.empty())
 	{
 		mTexts.pop_back();
@@ -236,7 +241,7 @@ void Map::MapClear()
 {
 	if (mMap)
 	{
-		delete mMap;
 		SetCollisionMap(nullptr);
+		delete mMap;
 	}
 }

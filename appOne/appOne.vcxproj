@@ -186,6 +186,7 @@
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="LookFieldCenterCamera.cpp" />
     <ClCompile Include="LookPHomeCamera.cpp" />
+    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="MODEL_COLLISION.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="Items.h" />
     <ClInclude Include="LookFieldCenterCamera.h" />
     <ClInclude Include="LookPHomeCamera.h" />
+    <ClInclude Include="Manager.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="MODEL_COLLISION.h" />

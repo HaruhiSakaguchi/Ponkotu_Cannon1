@@ -47,11 +47,12 @@ void Game::RunLoop()
 
 void Game::Shutdown()
 {
-	delete mActorManager;
-	delete mCameraManager;
-	delete mUIManager;
+	while (!mManagers.empty())
+	{
+		delete mManagers.back();
+	}
+
 	delete mRenderer;
-	delete mSoundVolumeManager;
 }
 
 void Game::ProcessInput()
@@ -63,17 +64,22 @@ void Game::ProcessInput()
 			mGameState = Game::EQuit;
 		}
 
-		mActorManager->ProcessInput();
-		mUIManager->ProcessInput();
-
-		//Pause
-		if (isTrigger(KEY_ENTER))
+		if (mGameState == EGameplay)
 		{
-			new Pause(this);
+			for (auto manager : mManagers)
+			{
+				manager->ProcessInput();
+			}
+
+			//Pause
+			if (isTrigger(KEY_ENTER))
+			{
+				new Pause(this);
+			}
 		}
 
 	}
-	else
+	else if (mGameState == EPaused)
 	{
 		mUIManager->ProcessInput();
 	}
@@ -84,9 +90,20 @@ void Game::UpdateGame()
 {
 	setDeltaTime();
 
-	mCameraManager->Update();
-	mActorManager->Update();
-	mUIManager->Update();
+	mUpdatingManagers = true;
+
+	for (auto manager : mManagers)
+	{
+		manager->Update();
+	}
+	mUpdatingManagers = false;
+
+	for (auto pending : mPendingManagers)
+	{
+		mManagers.emplace_back(pending);
+	}
+
+	mPendingManagers.clear();
 
 	//ゲーム終了
 	if (mGameState == EQuit)
@@ -102,10 +119,34 @@ void Game::GenerateOutput()
 
 void Game::LoadData()
 {
-	mActorManager = new ActorManager(this);
 	mUIManager = new UIManager(this);
+	mActorManager = new ActorManager(this);
 	mRenderer = new Renderer(this);
 	mSoundVolumeManager = new SoundVolumeManager(this);
-	new GamePlay(this);
+	new Title(this);
+}
+
+void Game::AddManager(Manager* manager)
+{
+	if (mUpdatingManagers)
+	{
+		mPendingManagers.emplace_back(manager);
+	}
+	else
+	{
+		mManagers.emplace_back(manager);
+	}
+}
+
+void Game::RemoveManager(Manager* manager)
+{
+	//このactorがmActorsにあるか探す
+	auto iter = std::find(mManagers.begin(), mManagers.end(), manager);
+	if (iter != mManagers.end())
+	{
+		//このActorとケツのActorを入れ替える(消去後コピー処理を避けるため)
+		std::iter_swap(iter, mManagers.end() - 1);
+		mManagers.pop_back();
+	}
 }
 

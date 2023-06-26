@@ -464,6 +464,9 @@
     <ClCompile Include="gmain.cpp">
       <Filter>GameManager\All</Filter>
     </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>GameManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -732,6 +735,9 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>GameManager\All</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>GameManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

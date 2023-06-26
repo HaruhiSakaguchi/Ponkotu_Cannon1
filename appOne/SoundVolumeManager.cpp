@@ -2,7 +2,7 @@
 #include "Game.h"
 
 SoundVolumeManager::SoundVolumeManager(class Game* game)
-	: mGame(game)
+	: Manager(game)
 	, mEffectVol(0)
 	, mSetVolume(0)
 	, mTmpEffectVol(0)

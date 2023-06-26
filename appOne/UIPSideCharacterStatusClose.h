@@ -7,10 +7,9 @@ class UIPSideCharacterStatusClose
 {
 public:
 	UIPSideCharacterStatusClose(class CharacterActor*owner);
-	void DrawHpGauge();
 	void DrawNameandLevel();
 	void draw()override;
-	void Update()override;
+	void update()override;
 private:
 	Button* mOpenButtun;
 };

@@ -109,7 +109,6 @@ StageClear::~StageClear()
 
 void StageClear::ChangeOption()
 {
-	mGame->GetActorManager()->GetStage()->MapClear();
 	mGame->GetActorManager()->ActorClear();
 	mGame->SetState(Game::EPaused);
 

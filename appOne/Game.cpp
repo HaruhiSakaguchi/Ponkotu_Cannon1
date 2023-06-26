@@ -20,6 +20,7 @@ Game::Game()
 	, mActorManager(nullptr)
 	, mUIManager(nullptr)
 	, mSoundVolumeManager(nullptr)
+	, mUpdatingManagers(false)
 {
 
 }

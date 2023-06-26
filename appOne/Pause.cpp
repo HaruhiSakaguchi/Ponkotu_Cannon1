@@ -136,7 +136,6 @@ void Pause::ChangeOption()
 	if (!mQuitFlag)
 	{
 		mGame->GetActorManager()->ActorClear();
-		mGame->GetActorManager()->GetStage()->MapClear();
 		new Title(mGame);
 		mGame->SetState(Game::EGameplay);
 	}

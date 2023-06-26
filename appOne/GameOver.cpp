@@ -75,14 +75,12 @@ void GameOver::ChangeOption()
 	if (mIsRetryFlag && !mIsChangeTitleFlag)
 	{
 		mGame->GetActorManager()->ActorClear();
-		mGame->GetActorManager()->GetStage()->MapClear();
 		new GamePlay(mGame);
 		mGame->SetState(Game::EGameplay);
 	}
 	else if (!mIsRetryFlag && mIsChangeTitleFlag)
 	{
 		mGame->GetActorManager()->ActorClear();
-		mGame->GetActorManager()->GetStage()->MapClear();
 		new Title(mGame);
 		mGame->SetState(Game::EGameplay);
 	}

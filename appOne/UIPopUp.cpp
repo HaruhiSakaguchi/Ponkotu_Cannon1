@@ -11,6 +11,7 @@ UIPopUp::UIPopUp(Game* game, const char* text, const VECTOR2& pos, int lifeSpan,
 	, mTextColor(0, 0, 0)
 	, mRectColor(0, 0, 0)
 	, mTime(0)
+	, mIsStrokeRect(true)
 {
 	mTitle = text;
 	mStart = std::chrono::system_clock::now();
@@ -40,9 +41,14 @@ void UIPopUp::Draw()
 {
 	textSize(mTextSize);
 	rectMode(CENTER);
-	stroke(mRectColor);
-	fill(0, 0, 0, 0);
-	rect(mPos.x, mPos.y, mTextSize * mTitle.length() / 2.0f, mTextSize);
+
+	if (mIsStrokeRect)
+	{
+		stroke(mRectColor);
+		fill(0, 0, 0, 0);
+		rect(mPos.x, mPos.y, mTextSize * mTitle.length() / 2.0f, mTextSize);
+	}
+
 	fill(mTextColor);
 	text(mTitle.c_str(), mPos.x - (mTextSize * mTitle.length() / 2.0f) / 2.0f, mPos.y + mTextSize / 2.0f);
 }

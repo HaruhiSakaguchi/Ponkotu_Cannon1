@@ -1,7 +1,6 @@
 #include "UIPSideCharacterStatusClose.h"
 #include "Game.h"
 #include "graphic.h"
-#include <sstream>
 #include "UIPSideCharacterStatus.h"
 #include "PlayerHome.h"
 

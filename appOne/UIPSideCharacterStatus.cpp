@@ -4,9 +4,7 @@
 #include "Game.h"
 #include "graphic.h"
 #include "UIPSideCharacterStatusClose.h"
-#include <sstream>
 #include "PlayerHome.h"
-
 
 UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 	: UIPSideCharacterStatusBase(static_cast<PSideCharacterActor*>(owner))

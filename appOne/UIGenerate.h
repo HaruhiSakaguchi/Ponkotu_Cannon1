@@ -24,5 +24,7 @@ private:
     UIPlayerHome *mOwner;
     int mGenerateUsingPoints;
     class CharacterActor* mGenerateActor;
+    class Button* mChangeButton;
+    class Button* mCancellButton;
 };
 

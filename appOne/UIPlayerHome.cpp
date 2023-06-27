@@ -4,6 +4,8 @@
 #include "PlayerHome.h"
 #include "UIGenerate.h"
 #include <sstream>
+#include "UIPopUp.h"
+#include "window.h"
 
 UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 	:UIScreen(owner->GetGame())
@@ -55,6 +57,17 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				mOwner->SetMaxHp((int)(mOwner->GetInitMaxHp() * ((mOwner->GetLevel() + mOwner->GetMaxLevel()) / 10.0f)));
 				mOwner->SetHp((int)(round(mOwner->GetMaxHp() * (float)mOwner->GetHp() / (float)curMaxHp)));
 				static_cast<PlayerHome*>(mOwner)->SetBattlePoints(static_cast<PlayerHome*>(mOwner)->GetBattlePoints() - 300);
+				auto pop = new UIPopUp(mGame, "HomeのLvが上がった！！", mHomeLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(255, 255, 128));
+				pop->NoStrokeRect();
+			}
+			else
+			{
+				auto pop = new UIPopUp(mGame, "ポイントが足りない", mHomeLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
 			}
 		}
 		, 2
@@ -76,6 +89,13 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 					mGenerate->CloseMe();
 					mGenerate = new UIGenerate(this, mGame, UIGenerate::ECannon);
 				}
+			}
+			else
+			{
+				auto pop = new UIPopUp(mGame, "ユニットがいっぱいです", mGenerateCannonButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
 			}
 		}
 		, nullptr
@@ -102,6 +122,13 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarricade);
 				}
 			}
+			else
+			{
+				auto pop = new UIPopUp(mGame, "ユニットがいっぱいです", mGenerateBarricadeButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
 		}
 		, nullptr
 			, VECTOR2(100.0f, 100.0f)
@@ -117,7 +144,33 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 			{
 				h->SetGenerateCannonLv(h->GetGenerateCannonLv() + 1);
 				h->SetBattlePoints(h->GetBattlePoints() - 150);
+				auto pop = new UIPopUp(mGame, "次に出すCannonのLvが上がります", mGenerateCannonLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(255, 255, 128));
+				pop->NoStrokeRect();
 			}
+			else if (h->GetGenerateCannonLv() == mGame->GetActorManager()->GetPHome()->GetMaxLevel())
+			{
+				auto pop = new UIPopUp(mGame, "Lvはこれ以上上がらない！！", mGenerateCannonLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(255, 255, 128));
+				pop->NoStrokeRect();
+			}
+			else if (h->GetGenerateCannonLv() >= mOwner->GetLevel())
+			{
+				auto pop = new UIPopUp(mGame, "HomeのLvを超えることはできない", mGenerateCannonLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
+			else if(h->GetBattlePoints() < 150)
+			{
+				auto pop = new UIPopUp(mGame, "ポイントが足りない", mGenerateCannonLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
+			
 		}
 		, 2
 			);
@@ -130,6 +183,31 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 			{
 				h->SetGenerateBarricadeLv(h->GetGenerateBarricadeLv() + 1);
 				h->SetBattlePoints(h->GetBattlePoints() - 100);
+				auto pop = new UIPopUp(mGame, "次に出すBarricadeのLvが上がります", mGenerateBarricadeLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(255, 255, 128));
+				pop->NoStrokeRect();
+			}
+			else if (h->GetGenerateBarricadeLv() == mGame->GetActorManager()->GetPHome()->GetMaxLevel())
+			{
+				auto pop = new UIPopUp(mGame, "Lvはこれ以上上がらない！！", mGenerateCannonLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(255, 255, 128));
+				pop->NoStrokeRect();
+			}
+			else if (h->GetGenerateBarricadeLv() >= mOwner->GetLevel())
+			{
+				auto pop = new UIPopUp(mGame, "HomeのLvを超えることはできない", mGenerateBarricadeLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
+			else if (h->GetBattlePoints() < 100)
+			{
+				auto pop = new UIPopUp(mGame, "ポイントが足りない", mGenerateBarricadeLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
 			}
 		}
 		, 2

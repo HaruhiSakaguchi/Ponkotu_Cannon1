@@ -1,5 +1,7 @@
 #pragma once
 #include "UIScreen.h"
+#include <sstream>
+
 class UIPSideCharacterStatusBase :
 	public UIScreen
 {

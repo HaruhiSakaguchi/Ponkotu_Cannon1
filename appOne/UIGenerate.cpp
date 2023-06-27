@@ -20,8 +20,10 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 	, mId(id)
 	, mGenerateUsingPoints(0)
 	, mGenerateActor(nullptr)
+	, mChangeButton(nullptr)
+	, mCancellButton(nullptr)
 {
-	AddRectButton("キャンセル",
+	mCancellButton = AddRectButton("キャンセル",
 		[this]()
 		{
 			mGame->GetActorManager()->GetPHome()->SetGenerateFlag(false);
@@ -40,6 +42,40 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 			}
 		}
 	);
+
+	mCancellButton->SetPosition(mCancellButton->GetPosition() + VECTOR2(300.0f, 0.0f));
+
+	const char* text = nullptr;
+
+	if (mId == GenerateActor_Id::ECannon)
+	{
+		text = "Barricadeに切り替え";
+	}
+	else if (mId == GenerateActor_Id::EBarricade)
+	{
+		text = "Cannonに切り替え";
+	}
+
+	mChangeButton =AddRectButton(text,
+		[this]()
+		{
+			if (mId == GenerateActor_Id::ECannon)
+			{
+				auto ui = new UIGenerate(mOwner, mGame,UIGenerate::GenerateActor_Id::EBarricade);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			}
+			else if (mId == GenerateActor_Id::EBarricade)
+			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ECannon);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+
+			}
+		}
+	);
+
+	mChangeButton->SetPosition(mChangeButton->GetPosition() + VECTOR2(300.0f, 100.0f));
 
 	for (auto button : mOwner->GetButtons())
 	{
@@ -104,14 +140,14 @@ void UIGenerate::Update()
 	mGenePos.x = mMouseXPerWidth * 4.0f * mGame->GetActorManager()->GetStage()->GetStageMaxX();
 	mGenePos.z = mMouseYPerHeight * 4.0f * -(mGame->GetActorManager()->GetStage()->GetStageMinZ() + -mGame->GetActorManager()->GetStage()->GetStageMaxZ()) / 2.0f + mGame->GetActorManager()->GetStage()->GetCenterPos().z;
 
+	VECTOR2 mousePos = VECTOR2(mouseX, mouseY);
+
 	if (!mGame->GetActorManager()->GetPHome())
 	{
 		CloseMe();
 	}
 	else
 	{
-
-
 		if (mId != GenerateActor_Id::EEmpty)
 		{
 			if (mId == GenerateActor_Id::ECannon)
@@ -129,7 +165,7 @@ void UIGenerate::Update()
 			mGenerateActor->SetPosition(mGenePos);
 		}
 
-		if (isTrigger(MOUSE_RBUTTON) && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel())
+		if (isTrigger(MOUSE_LBUTTON) && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel() && !mCancellButton->ContainsPoint(mousePos) && !mChangeButton->ContainsPoint(mousePos))
 		{
 			if (mGenerateUsingPoints <= mGame->GetActorManager()->GetPHome()->GetBattlePoints())
 			{
@@ -172,10 +208,17 @@ void UIGenerate::Update()
 				}
 				CloseMe();
 				mOwner->SetGenerate(nullptr);
+				auto pop = new UIPopUp(mGame, "Generate！！", mousePos, 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(255, 255, 128));
+				pop->NoStrokeRect();
 			}
 			else
 			{
-				new UIPopUp(mGame, "ポイントが足りない", VECTOR2(mouseX,mouseY), 1, VECTOR2(0.0f, -1.0f));
+				auto pop = new UIPopUp(mGame, "ポイントが足りない", mousePos, 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
 			}
 		}
 	}

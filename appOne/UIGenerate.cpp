@@ -8,6 +8,7 @@
 #include "TreeMeshComponent.h"
 #include "CannonWheelL.h"
 #include "CannonWheelR.h"
+#include "UIPopUp.h"
 
 
 UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id id)
@@ -174,7 +175,7 @@ void UIGenerate::Update()
 			}
 			else
 			{
-				text("ポイントが足りない", width / 2, height / 2 + 250.0);
+				new UIPopUp(mGame, "ポイントが足りない", VECTOR2(mouseX,mouseY), 1, VECTOR2(0.0f, -1.0f));
 			}
 		}
 	}

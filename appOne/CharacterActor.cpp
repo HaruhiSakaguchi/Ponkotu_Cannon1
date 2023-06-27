@@ -32,6 +32,7 @@ CharacterActor::CharacterActor(Game* game)
 	, mName("Chara")
 	, mTag(Others)
 	, mMaxLevel(10)
+	, mInitMaxHp(1)
 {
 	SetCategory(Character);
 	GetGame()->GetActorManager()->AddCharacter(this);
@@ -51,6 +52,7 @@ CharacterActor::~CharacterActor()
 void CharacterActor::Update()
 {
 	Actor::Update();
+
 	if (GetState() == EActive)
 	{
 		if (GetSeg())

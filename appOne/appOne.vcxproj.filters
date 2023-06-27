@@ -467,6 +467,7 @@
     <ClCompile Include="Manager.cpp">
       <Filter>GameManager</Filter>
     </ClCompile>
+    <ClCompile Include="UIPopUp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -739,5 +740,6 @@
     <ClInclude Include="Manager.h">
       <Filter>GameManager</Filter>
     </ClInclude>
+    <ClInclude Include="UIPopUp.h" />
   </ItemGroup>
 </Project>

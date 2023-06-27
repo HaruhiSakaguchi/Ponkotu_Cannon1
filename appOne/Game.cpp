@@ -97,6 +97,7 @@ void Game::UpdateGame()
 	{
 		manager->Update();
 	}
+
 	mUpdatingManagers = false;
 
 	for (auto pending : mPendingManagers)

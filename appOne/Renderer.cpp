@@ -72,10 +72,10 @@ void Renderer::Draw()
 		}
 	}
 
-	if (mGame->GetActorManager()->GetStage())
+	/*if (mGame->GetActorManager()->GetStage())
 	{
 		mGame->GetActorManager()->GetStage()->Draw();
-	}
+	}*/
 
 
 	for (auto ui : mGame->GetUIManager()->GetUIStack())

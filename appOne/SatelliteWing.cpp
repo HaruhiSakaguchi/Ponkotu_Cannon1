@@ -40,18 +40,21 @@ int SatelliteWing::SetUp()
 	SetImageColor(Data.mImageColor);
 
 	mTc = new TreeMeshComponent(this);
+	auto dTree = new TreeMeshComponent(this);
 	if (s->GetId() == 0)
 	{
 		mTc->SetTree("SatelliteWing0");
-		mTc->SetDamageTree("SatelliteWing0Damage");
+		dTree->SetTree("SatelliteWing0Damage");
 	}
 	else
 	{
 		mTc->SetTree("SatelliteWing1");
-		mTc->SetDamageTree("SatelliteWing1Damage");
+		dTree->SetTree("SatelliteWing1Damage");
 	}
 
-	mTc->SetOffsetPos(VECTOR(0.0f, 0.0f, 0.0f));
+	SetNormalMesh(mTc);
+	SetDamageMesh(dTree);
+
 
 	int hp = 0;
 	if (Data.mId % 2 == 0)

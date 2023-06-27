@@ -64,6 +64,29 @@ void CharacterActor::Update()
 			FallOption();
 		}
 
+		if (GetDamageInterval() > 0.0f)
+		{
+			if (mNormalMesh)
+			{
+				mNormalMesh->SetDrawFlag(false);
+			}
+			if (mDamageMesh)
+			{
+				mDamageMesh->SetDrawFlag(true);
+			}
+		}
+		else
+		{
+			if (mNormalMesh)
+			{
+				mNormalMesh->SetDrawFlag(true);
+			}
+			if (mDamageMesh)
+			{
+				mDamageMesh->SetDrawFlag(false);
+			}
+		}
+
 		//今、マップエリア内にいるか
 		mOnMapFlag = PositionOnMap(GetPosition(), GetRadius());
 	}

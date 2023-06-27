@@ -2,7 +2,7 @@
 #include "Game.h"
 
 CannonWheelL::CannonWheelL(class Cannon* owner)
-	:CharacterActor(owner->GetGame())
+	: CharacterActor(owner->GetGame())
 	, mOwner(owner)
 	, mTc(nullptr)
 {
@@ -13,7 +13,13 @@ int CannonWheelL::SetUp()
 {
 	mTc = new TreeMeshComponent(this);
 	mTc->SetTree("CannonWheel");
-	mTc->SetDamageTree("CannonWheelDamage");
+
+	SetNormalMesh(mTc);
+	mTc = new TreeMeshComponent(this);
+
+	mTc->SetTree("CannonWheelDamage");
+	SetDamageMesh(mTc);
+
 	SetCategory(Actor::Object);
 	return 0;
 }

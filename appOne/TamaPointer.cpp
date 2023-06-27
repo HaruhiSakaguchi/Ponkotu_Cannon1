@@ -16,7 +16,10 @@ int TamaPointer::SetUp()
 {
 	TreeMeshComponent*tc = new TreeMeshComponent(this);
 	tc->SetTree("Tama");
-	tc->SetDamageTree("TamaDamage");
+	SetNormalMesh(tc);
+	tc = new TreeMeshComponent(this);
+	tc->SetTree("TamaDamage");
+	SetDamageMesh(tc);
 	SetCategory(CharacterActor::Object);
 	SetRadius(0.4f);
 	return 1;

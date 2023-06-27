@@ -17,7 +17,10 @@ int TamaBlackEye::SetUp()
 	TreeMeshComponent* tc = new TreeMeshComponent(this);
 	mOffsetPos = GetGame()->GetAllData()->tamaData.mBlackEyeOffsetPos;
 	tc->SetTree("TamaBlackEye");
-	tc->SetDamageTree("TamaBlackEyeDamage");
+	SetNormalMesh(tc);
+	tc = new TreeMeshComponent(this);
+	tc->SetTree("TamaBlackEyeDamage");
+	SetDamageMesh(tc);
 	SetCategory(Actor::Object);
 	return 0;
 }

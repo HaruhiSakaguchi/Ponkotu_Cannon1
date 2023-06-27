@@ -13,7 +13,12 @@ int CannonWheelR::SetUp()
 {
 	mTc = new TreeMeshComponent(this);
 	mTc->SetTree("CannonWheel");
-	mTc->SetDamageTree("CannonWheelDamage");
+
+	SetNormalMesh(mTc);
+	mTc = new TreeMeshComponent(this);
+
+	mTc->SetTree("CannonWheelDamage");
+	SetDamageMesh(mTc);
 	SetCategory(Actor::Object);
 	return 0;
 }

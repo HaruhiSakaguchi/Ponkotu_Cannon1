@@ -111,11 +111,17 @@ int Cannon::SetUp()
 
 	mIn = new InputComponent(this);
 
-	class TreeMeshComponent* bc = new TreeMeshComponent(this);
+	auto bc = new TreeMeshComponent(this);
 	bc->SetTree("CannonBarrel");
-	bc->SetDamageTree("CannonBarrelDamage");
 	bc->SetOffsetAngle(VECTOR(0.0f, 3.141592f, 0.0f));
 	bc->SetOffsetPos(Data.mBodyOffsetPos + GetCapsulOffset());
+	SetNormalMesh(bc);
+
+	bc = new TreeMeshComponent(this);
+	bc->SetTree("CannonBarrelDamage");
+	bc->SetOffsetAngle(VECTOR(0.0f, 3.141592f, 0.0f));
+	bc->SetOffsetPos(Data.mBodyOffsetPos + GetCapsulOffset());
+	SetDamageMesh(bc);
 
 	mWheelL = new CannonWheelL(this);
 	mWheelR = new CannonWheelR(this);

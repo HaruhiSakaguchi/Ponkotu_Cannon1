@@ -78,14 +78,19 @@ int Tama::SetUp()
 
 	new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
 
+	
 	mTc = new TreeMeshComponent(this);
 	mTc->SetTree("Tama");
-	mTc->SetDamageTree("TamaDamage");
+	mTc->SetOffsetPos(GetCapsulOffset());
+	SetNormalMesh(mTc);
+	mTc = new TreeMeshComponent(this);
+	mTc->SetTree("TamaDamage");
+	mTc->SetOffsetPos(GetCapsulOffset());
+	SetDamageMesh(mTc);
 
 	mEye = new TamaBlackEye(this);
 	new CollisionMapComponent(this);
 
-	mTc->SetOffsetPos(GetCapsulOffset());
 	mTp = new TamaPointer(this);
 	return 0;
 }

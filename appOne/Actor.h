@@ -55,6 +55,9 @@ public:
 	bool PositionOnMap(const VECTOR& pos, float radius = 0);
 	bool PositionOnMapArea0(const VECTOR& pos, float radius = 0);
 
+	void SetDamageMesh(class MeshComponent* mesh) { mDamageMesh = mesh; }
+	void SetNormalMesh(class MeshComponent* mesh) { mNormalMesh = mesh; }
+
 public:
 	enum ActorsCategory
 	{
@@ -75,6 +78,9 @@ private:
 	VECTOR mInitPosition;
 	VECTOR mScale;
 	ActorsCategory mCategory;
+protected:
+	class MeshComponent* mNormalMesh;
+	class MeshComponent* mDamageMesh;
 protected:
 	float mMaxPosY;
 	float mMinPosY;

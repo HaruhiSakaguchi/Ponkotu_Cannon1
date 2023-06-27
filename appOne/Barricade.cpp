@@ -47,6 +47,8 @@ int Barricade::SetUp()
 
 	mTc = new TreeMeshComponent(this);
 	mTc->SetTree("Barricade");
+	SetNormalMesh(mTc);
+
 	new HpGaugeSpriteComponent(this, VECTOR(0.0f, 0.75f, 0.0f));
 	new CollisionMapComponent(this);
 

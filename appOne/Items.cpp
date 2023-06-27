@@ -13,7 +13,13 @@ Recovery::Recovery(class Game* game)
 	mTc = new TreeMeshComponent(this);
 	mTc->SetOffsetPos(GetCapsulOffset());
 	mTc->SetTree("Recover");
-	mTc->SetDamageTree("RecoverTran");
+	SetNormalMesh(mTc);
+	mTc = new TreeMeshComponent(this);
+	mTc->SetTree("RecoverTran");
+	mTc->SetOffsetPos(GetCapsulOffset());
+	SetDamageMesh(mTc);
+
+
 }
 
 bool Recovery::update()
@@ -62,7 +68,13 @@ SpeedUp::SpeedUp(class Game* game)
 	mTc = new TreeMeshComponent(this);
 	mTc->SetOffsetPos(GetCapsulOffset());
 	mTc->SetTree("Speed");
-	mTc->SetDamageTree("SpeedTran");
+	SetNormalMesh(mTc);
+
+	mTc = new TreeMeshComponent(this);
+	mTc->SetTree("SpeedTran");
+	mTc->SetOffsetPos(GetCapsulOffset());
+	SetDamageMesh(mTc);
+
 }
 
 bool SpeedUp::update()
@@ -139,7 +151,12 @@ PowerUp::PowerUp(class Game* game)
 	mTc = new TreeMeshComponent(this);
 	mTc->SetOffsetPos(GetCapsulOffset());
 	mTc->SetTree("Power");
-	mTc->SetDamageTree("PowerTran");
+	SetNormalMesh(mTc);
+	mTc = new TreeMeshComponent(this);
+	mTc->SetOffsetPos(GetCapsulOffset());
+	mTc->SetTree("PowerTran");
+	SetDamageMesh(mTc);
+
 }
 
 bool PowerUp::update()
@@ -215,7 +232,12 @@ RapidFire::RapidFire(class Game* game)
 	mTc = new TreeMeshComponent(this);
 	mTc->SetOffsetPos(GetCapsulOffset());
 	mTc->SetTree("Rapid");
-	mTc->SetDamageTree("RapidTran");
+	SetNormalMesh(mTc);
+	mTc = new TreeMeshComponent(this);
+	mTc->SetOffsetPos(GetCapsulOffset());
+	mTc->SetTree("RapidTran");
+	SetDamageMesh(mTc);
+
 }
 
 bool RapidFire::update()
@@ -301,7 +323,12 @@ Barrier::Barrier(class Game* game)
 	mTc = new TreeMeshComponent(this);
 	mTc->SetOffsetPos(GetCapsulOffset());
 	mTc->SetTree("Barrier");
-	mTc->SetDamageTree("BarrierTran");
+	SetNormalMesh(mTc);
+	mTc = new TreeMeshComponent(this);
+	mTc->SetOffsetPos(GetCapsulOffset());
+	mTc->SetTree("BarrierTran");
+	SetDamageMesh(mTc);
+
 }
 
 bool Barrier::update()

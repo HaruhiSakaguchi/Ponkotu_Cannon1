@@ -17,6 +17,8 @@ Actor::Actor(Game* game)
 	, mCategory(Object)
 	, mMinPosY(-45.0f)
 	, mMaxPosY(15.0f)
+	, mNormalMesh(nullptr)
+	, mDamageMesh(nullptr)
 {
 	mGame->GetActorManager()->AddActor(this);
 }

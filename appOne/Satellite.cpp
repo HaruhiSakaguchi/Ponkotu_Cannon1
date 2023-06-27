@@ -69,21 +69,28 @@ int Satellite::SetUp()
 
 	Data.mId = Num % 2;
 	int maxHp = 0;
-	class TreeMeshComponent* tc = new TreeMeshComponent(this);
+	class TreeMeshComponent* ntc = new TreeMeshComponent(this);
+	class TreeMeshComponent* dtc = new TreeMeshComponent(this);
+
 	if (Data.mId == 0)
 	{
 		maxHp = Data.mMaxHp;
-		tc->SetTree("SatelliteBody0");
-		tc->SetDamageTree("SatelliteBody0Damage");
+		ntc->SetTree("SatelliteBody0");
+		dtc->SetTree("SatelliteBody0Damage");
 	}
 	else
 	{
 		maxHp = Data.mMaxHp2;
 		SetCapsulOffset(Data.mCapsulOffset);
-		tc->SetOffsetPos(VECTOR(0.0f, 0.75f, 0.0f));
-		tc->SetTree("SatelliteBody1");
-		tc->SetDamageTree("SatelliteBody1Damage");
+		ntc->SetOffsetPos(VECTOR(0.0f, 0.75f, 0.0f));
+		ntc->SetTree("SatelliteBody1");
+		dtc->SetTree("SatelliteBody1Damage");
+		dtc->SetOffsetPos(VECTOR(0.0f, 0.75f, 0.0f));
+
 	}
+
+	SetNormalMesh(ntc);
+	SetDamageMesh(dtc);
 
 
 	SetHp(maxHp);

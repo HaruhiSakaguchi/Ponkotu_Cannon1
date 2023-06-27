@@ -44,6 +44,7 @@ int PlayerHome::SetUp()
 {
 	mTc = new TreeMeshComponent(this);
 	mTc->SetTree("Home");
+	SetNormalMesh(mTc);
 	mDore = new Dore(GetGame());
 	mFlag1 = new PlayerFlag(GetGame());
 	mFlag2 = new PlayerFlag(GetGame());
@@ -145,14 +146,12 @@ void PlayerHome::UpdateActor()
 
 	if (GetDamageInterval() > 0)
 	{
-		mTc->SetDrawFlag(false);
 		mDore->GetMesh()->SetDrawFlag(false);
 		mFlag1->GetMesh()->SetDrawFlag(false);
 		mFlag2->GetMesh()->SetDrawFlag(false);
 	}
 	else
 	{
-		mTc->SetDrawFlag(true);
 		mDore->GetMesh()->SetDrawFlag(true);
 		mFlag1->GetMesh()->SetDrawFlag(true);
 		mFlag2->GetMesh()->SetDrawFlag(true);

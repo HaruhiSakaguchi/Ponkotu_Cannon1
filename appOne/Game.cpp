@@ -127,7 +127,7 @@ void Game::LoadData()
 	new Title(this);
 }
 
-void Game::AddManager(Manager* manager)
+void Game::AddManager(class Manager* manager)
 {
 	if (mUpdatingManagers)
 	{
@@ -139,7 +139,7 @@ void Game::AddManager(Manager* manager)
 	}
 }
 
-void Game::RemoveManager(Manager* manager)
+void Game::RemoveManager(class Manager* manager)
 {
 	//‚±‚Ìactor‚ªmActors‚É‚ ‚é‚©’T‚·
 	auto iter = std::find(mManagers.begin(), mManagers.end(), manager);

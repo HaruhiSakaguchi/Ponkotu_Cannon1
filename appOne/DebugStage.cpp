@@ -25,7 +25,7 @@ int DebugStage::SetUp()
 
 	CreateCollisions(Maptext1);
 	SetCollisionMap(new COLLISION_MAP(0.5f, Maptext1));
-
+	
 	class TreeMeshComponent* tc = new TreeMeshComponent(this);
 	tc->SetTree("background");
 	mMiniMap = new UIMiniMap(GetGame(), this);

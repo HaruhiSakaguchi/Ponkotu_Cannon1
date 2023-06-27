@@ -43,7 +43,6 @@ public:
 	class EnemyHome* GetEHome() { return mEHome; }
 	void SetPHome(class PlayerHome* home) { mPHome = home; }
 	void SetEHome(class EnemyHome* home) { mEHome = home; }
-
 private:
 	std::vector<class Actor*>mActors;
 	std::vector<class CharacterActor*>mCharacters;

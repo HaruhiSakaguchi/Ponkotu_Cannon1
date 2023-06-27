@@ -5,6 +5,7 @@
 #include "UIProgressGauge.h"
 #include <chrono>
 #include <string>
+#include "graphic.h"
 
 class Map :
 	public Actor
@@ -15,7 +16,7 @@ public:
 	void UpdateActor()override;
 	void AddCollisions(class MODEL_COLLISION* model);
 	void RemoveCollisions(class MODEL_COLLISION* model);
-	void Draw() {};
+	void Draw() { print("â¥ÇÕê∂Ç´ÇƒÇÈ"); };
 	float* GetMaxX() { return mMaxX; }
 	float* GetMaxZ() { return mMaxZ; }
 	float* GetMinX() { return mMinX; }

@@ -9,7 +9,7 @@
 
 
 Map::Map(class Game* game)
-	:Actor(game)
+	: Actor(game)
 	, mMiniMap(nullptr)
 	, mProgress(nullptr)
 	, mLog(nullptr)
@@ -239,9 +239,5 @@ void Map::RemoveText(int num)
 
 void Map::MapClear()
 {
-	if (mMap)
-	{
-		SetCollisionMap(nullptr);
-		delete mMap;
-	}
+	delete mMap;
 }

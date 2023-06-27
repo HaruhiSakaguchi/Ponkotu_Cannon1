@@ -15,6 +15,7 @@ ActorManager::ActorManager(class Game* game)
 	, mStage(nullptr)
     , mPHome(nullptr)
     , mEHome(nullptr)
+	, mMap(nullptr)
 {
 };
 
@@ -56,6 +57,7 @@ void ActorManager::Update()
 		{
 			delete actor;
 		}
+
 	}
 }
 

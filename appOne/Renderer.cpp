@@ -8,6 +8,7 @@
 #include "SHADER/LAMBERT.h"
 #include "CONTAINER/CONTAINER.h"
 #include "MeshComponent.h"
+#include "COLLISION_MAP.h"
 
 Renderer::Renderer(class Game* game)
 	: mGame(game)
@@ -29,7 +30,7 @@ bool Renderer::Initialize()
 
 	mShader = new LAMBERT;
 	setRasterizerCullBack();
-	
+
 	mProj.pers(Data.mPerspectiveAngle, Data.mPerspectiveAspect, Data.mPerspectiveNear, Data.mPerspectiveFar);
 
 	mTransition = new TransitionFade(mGame);
@@ -89,7 +90,6 @@ void Renderer::Draw()
 	{
 		mTransition->Draw();
 	}
-
 }
 
 void Renderer::AddSprite(SpriteComponent* sprite)

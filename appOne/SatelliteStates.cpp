@@ -104,7 +104,7 @@ void SatelliteMove::Update()
 	vec.normalize();
 
 	VECTOR angle = s->GetRotation();
-	s->rotate(&angle, vec, 0.05f, 1);
+	s->rotate(&angle, vec, 0.05f);
 	s->SetRotationY(angle.y);
 
 	pos.x += vec.x * s->GetAdvSpeed() * delta * 60.0f;

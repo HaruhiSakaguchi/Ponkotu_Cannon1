@@ -7,8 +7,8 @@
 #include "CONTAINER/TREE.h"
 #include "CONTAINER/ANIMATION.h"
 
-TreeMeshComponent::TreeMeshComponent(Actor* owner)
-	: MeshComponent(owner)
+TreeMeshComponent::TreeMeshComponent(Actor* owner,bool isDraw)
+	: MeshComponent(owner,isDraw)
 	, mTree(nullptr)
 {
 }

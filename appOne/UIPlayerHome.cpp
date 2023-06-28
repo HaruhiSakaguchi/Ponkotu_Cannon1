@@ -29,6 +29,20 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				h->SetTargetPoint(h->GetHomeMoveTargetPoints()[h->GetTargetPosIdx() + 1]);
 				h->SetTargetPosIdx(h->GetTargetPosIdx() + 1);
 			}
+			else if (h->GetTargetPosIdx() == 2)
+			{
+				auto pop = new UIPopUp(mGame, "これ以上進めない！！", mGoButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
+			else if (h->GetGenerateFlag())
+			{
+				auto pop = new UIPopUp(mGame, "ユニットの追加中に移動することはできません", mGoButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
 		}
 		, nullptr
 			, VECTOR2(50.0f, 100.0f)
@@ -41,6 +55,20 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 			{
 				h->SetTargetPoint(h->GetHomeMoveTargetPoints()[h->GetTargetPosIdx() - 1]);
 				h->SetTargetPosIdx(h->GetTargetPosIdx() - 1);
+			}
+			else if (h->GetTargetPosIdx() == 0)
+			{
+				auto pop = new UIPopUp(mGame, "これ以上下がれない！！", mReturnButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
+			else if (h->GetGenerateFlag())
+			{
+				auto pop = new UIPopUp(mGame, "ユニットの追加中に移動することはできません", mReturnButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
 			}
 		}
 		, nullptr
@@ -58,6 +86,13 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				mOwner->SetHp((int)(round(mOwner->GetMaxHp() * (float)mOwner->GetHp() / (float)curMaxHp)));
 				static_cast<PlayerHome*>(mOwner)->SetBattlePoints(static_cast<PlayerHome*>(mOwner)->GetBattlePoints() - 300);
 				auto pop = new UIPopUp(mGame, "HomeのLvが上がった！！", mHomeLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(255, 255, 128));
+				pop->NoStrokeRect();
+			}
+			else if (mOwner->GetLevel() == mOwner->GetMaxLevel())
+			{
+				auto pop = new UIPopUp(mGame, "HomeのLvはこれ以上上がらない！！", mHomeLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
 				pop->SetTextSize(30);
 				pop->SetTextColor(COLOR(255, 255, 128));
 				pop->NoStrokeRect();
@@ -90,6 +125,20 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 					mGenerate = new UIGenerate(this, mGame, UIGenerate::ECannon);
 				}
 			}
+			else if (!h->GetMoveCompleteFlag())
+			{
+				auto pop = new UIPopUp(mGame, "移動中はユニットの追加ができません", mGenerateCannonButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
+			else if (h->GetGenerateFlag())
+			{
+				auto pop = new UIPopUp(mGame, "ユニットの追加中に新たにユニットを追加することはできません", mGenerateCannonButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
 			else
 			{
 				auto pop = new UIPopUp(mGame, "ユニットがいっぱいです", mGenerateCannonButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
@@ -121,6 +170,20 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 					mGenerate->CloseMe();
 					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarricade);
 				}
+			}
+			else if (!h->GetMoveCompleteFlag())
+			{
+				auto pop = new UIPopUp(mGame, "移動中はユニットの追加ができません", mGenerateCannonButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
+			else if (h->GetGenerateFlag())
+			{
+				auto pop = new UIPopUp(mGame, "ユニットの追加中に新たにユニットを追加することはできません", mGenerateCannonButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
 			}
 			else
 			{

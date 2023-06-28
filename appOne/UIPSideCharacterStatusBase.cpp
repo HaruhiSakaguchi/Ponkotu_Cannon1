@@ -136,28 +136,28 @@ void UIPSideCharacterStatusBase::OwnerLvUp()
 		std::ostringstream oss;
 		oss << mOwner->GetName() << "のLvが上がった！！";
 
-		auto pop = new UIPopUp(mGame, oss.str().c_str(), mLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+		auto pop = new UIPopUp(mGame, oss.str().c_str(), mPosition, 1, VECTOR2(0.0f, -1.0f));
 		pop->SetTextSize(30);
 		pop->SetTextColor(COLOR(255, 255, 128));
 		pop->NoStrokeRect();
 	}
 	else if (mOwner->GetLevel() == mGame->GetActorManager()->GetPHome()->GetMaxLevel())
 	{
-		auto pop = new UIPopUp(mGame, "Lvはこれ以上上がらない！！", mLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+		auto pop = new UIPopUp(mGame, "Lvはこれ以上上がらない！！", mPosition, 1, VECTOR2(0.0f, -1.0f));
 		pop->SetTextSize(30);
 		pop->SetTextColor(COLOR(255, 255, 128));
 		pop->NoStrokeRect();
 	}
 	else if (mOwner->GetLevel() >= mGame->GetActorManager()->GetPHome()->GetLevel())
 	{
-		auto pop = new UIPopUp(mGame, "HomeのLvを超えることはできない", mLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+		auto pop = new UIPopUp(mGame, "HomeのLvを超えることはできない", mPosition, 1, VECTOR2(0.0f, -1.0f));
 		pop->SetTextSize(30);
 		pop->SetTextColor(COLOR(50, 50, 255));
 		pop->NoStrokeRect();
 	}
 	else if((100 + mOwner->GetLevel() * 50) > mGame->GetActorManager()->GetPHome()->GetBattlePoints())
 	{
-		auto pop = new UIPopUp(mGame, "ポイントが足りない", mLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+		auto pop = new UIPopUp(mGame, "ポイントが足りない", mPosition, 1, VECTOR2(0.0f, -1.0f));
 		pop->SetTextSize(30);
 		pop->SetTextColor(COLOR(50, 50, 255));
 		pop->NoStrokeRect();

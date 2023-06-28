@@ -19,6 +19,7 @@
 #include <sstream>
 #include "UIPSideCharacterStatusClose.h"
 #include "CameraManager.h"
+#include "Particle.h"
 
 Cannon::Cannon(Game* game) :
 	PSideCharacterActor(game)
@@ -111,13 +112,13 @@ int Cannon::SetUp()
 
 	mIn = new InputComponent(this);
 
-	auto bc = new TreeMeshComponent(this);
+	auto bc = new TreeMeshComponent(this, false);
 	bc->SetTree("CannonBarrel");
 	bc->SetOffsetAngle(VECTOR(0.0f, 3.141592f, 0.0f));
 	bc->SetOffsetPos(Data.mBodyOffsetPos + GetCapsulOffset());
 	SetNormalMesh(bc);
 
-	bc = new TreeMeshComponent(this);
+	bc = new TreeMeshComponent(this, false);
 	bc->SetTree("CannonBarrelDamage");
 	bc->SetOffsetAngle(VECTOR(0.0f, 3.141592f, 0.0f));
 	bc->SetOffsetPos(Data.mBodyOffsetPos + GetCapsulOffset());
@@ -165,6 +166,7 @@ void Cannon::UpdateActor()
 	{
 		mScale = Data.mNormalBodyScale;
 	}
+
 
 	////‹ó’†‚É‚¢‚é‚Æ‚«‚Ìˆ—
 	//if (GetJumpFlag() == 1)
@@ -379,9 +381,6 @@ void Cannon::Damage(int damage)
 
 	if (GetHp() <= 0)
 	{
-		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
-		playSound(mDeadSound);
-		GetGame()->GetActorManager()->GetStage()->AddText("Cannon‚Í€‚ñ‚Å‚µ‚Ü‚Á‚½...B");
 		SetState(Actor::EDead);
 	}
 }
@@ -406,6 +405,15 @@ void Cannon::DamageOption()
 void Cannon::FallOption()
 {
 	SetJumpVel(0.0f);
+}
+
+void Cannon::Dead()
+{
+	SpawnParticle(GetPosition(), "CannonBarrelBarrel", 10);
+	SpawnParticle(GetPosition(), "CannonWheelCylinder", 20);
+	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
+	playSound(mDeadSound);
+	GetGame()->GetActorManager()->GetStage()->AddText("Cannon‚Í€‚ñ‚Å‚µ‚Ü‚Á‚½...B");
 }
 
 

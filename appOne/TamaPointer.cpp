@@ -14,10 +14,10 @@ TamaPointer::TamaPointer(class Tama* owner)
 
 int TamaPointer::SetUp()
 {
-	TreeMeshComponent*tc = new TreeMeshComponent(this);
+	TreeMeshComponent*tc = new TreeMeshComponent(this,false);
 	tc->SetTree("Tama");
 	SetNormalMesh(tc);
-	tc = new TreeMeshComponent(this);
+	tc = new TreeMeshComponent(this,false);
 	tc->SetTree("TamaDamage");
 	SetDamageMesh(tc);
 	SetCategory(CharacterActor::Object);

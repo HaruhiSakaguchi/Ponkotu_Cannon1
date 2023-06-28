@@ -83,7 +83,7 @@ int Tama::SetUp()
 	mTc->SetTree("Tama");
 	mTc->SetOffsetPos(GetCapsulOffset());
 	SetNormalMesh(mTc);
-	mTc = new TreeMeshComponent(this);
+	mTc = new TreeMeshComponent(this,false);
 	mTc->SetTree("TamaDamage");
 	mTc->SetOffsetPos(GetCapsulOffset());
 	SetDamageMesh(mTc);

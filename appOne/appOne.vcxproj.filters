@@ -468,6 +468,7 @@
       <Filter>GameManager</Filter>
     </ClCompile>
     <ClCompile Include="UIPopUp.cpp" />
+    <ClCompile Include="Particle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -741,5 +742,6 @@
       <Filter>GameManager</Filter>
     </ClInclude>
     <ClInclude Include="UIPopUp.h" />
+    <ClInclude Include="Particle.h" />
   </ItemGroup>
 </Project>

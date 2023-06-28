@@ -39,8 +39,8 @@ int SatelliteWing::SetUp()
 	SetPosition(s->GetPosition());
 	SetImageColor(Data.mImageColor);
 
-	mTc = new TreeMeshComponent(this);
-	auto dTree = new TreeMeshComponent(this);
+	mTc = new TreeMeshComponent(this,false);
+	auto dTree = new TreeMeshComponent(this,false);
 	if (s->GetId() == 0)
 	{
 		mTc->SetTree("SatelliteWing0");

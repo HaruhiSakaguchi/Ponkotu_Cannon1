@@ -5,7 +5,7 @@ class TreeMeshComponent :
 	public MeshComponent
 {
 public:
-	TreeMeshComponent(class Actor* owner);
+	TreeMeshComponent(class Actor* owner,bool isDraw = true);
 	~TreeMeshComponent();
 	void SetTree(const char* name);
 	void SetAnim(const char* name);

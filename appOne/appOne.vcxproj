@@ -193,6 +193,7 @@
     <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="NormalCamera.cpp" />
     <ClCompile Include="Option.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
@@ -291,6 +292,7 @@
     <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="NormalCamera.h" />
     <ClInclude Include="Option.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="Pause.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="PlayerBullet.h" />

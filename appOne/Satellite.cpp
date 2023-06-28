@@ -69,8 +69,8 @@ int Satellite::SetUp()
 
 	Data.mId = Num % 2;
 	int maxHp = 0;
-	class TreeMeshComponent* ntc = new TreeMeshComponent(this);
-	class TreeMeshComponent* dtc = new TreeMeshComponent(this);
+	class TreeMeshComponent* ntc = new TreeMeshComponent(this,false);
+	class TreeMeshComponent* dtc = new TreeMeshComponent(this,false);
 
 	if (Data.mId == 0)
 	{

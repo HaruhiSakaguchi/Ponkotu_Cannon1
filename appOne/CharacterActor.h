@@ -2,6 +2,7 @@
 #include "Actor.h"
 #include "MATRIX.h"
 #include <string>
+#include "Particle.h"
 
 class CharacterActor :public Actor
 {
@@ -36,7 +37,7 @@ public:
 	float GetSlant() const { return mSlant; }
 
 	//モデル回転関数
-	int rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed, int endOfRotation = 0);
+	int rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed);
 
 	float GetDamageInterval() { return mDamageInterval; }
 	void SetDamageInterval(float interval) { mDamageInterval = interval; }
@@ -60,6 +61,7 @@ public:
 	int GetInitMaxHp() { return mInitMaxHp; }
 	void SetInitMaxHp(int hp) { mInitMaxHp = hp; }
 
+	void SpawnParticle(const VECTOR& pos, const char* name,int num = 1, float maxLifeSpan = 1.0f, Particle::MeshType type = Particle::MeshType::EBatch);
 
 	enum CharactersTag
 	{
@@ -76,10 +78,6 @@ public:
 	CharactersTag GetTag() { return mTag; }
 	void SetTag(CharactersTag tag) { mTag = tag; }
 
-private:
-	//rotate()用データ
-	//回転用フラッグ
-	static int mEndOfStateFlags;
 private:
 	VECTOR mCapsulOffset;
 	float mHeight;

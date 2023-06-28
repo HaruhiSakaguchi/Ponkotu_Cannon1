@@ -8,6 +8,7 @@
 #include "Items.h"
 #include "COLLISION_MAP.h"
 #include "Container.h"
+#include "rand.h"
 
 CharacterActor::CharacterActor(Game* game)
 	: Actor(game)
@@ -95,7 +96,7 @@ void CharacterActor::Update()
 
 }
 
-int CharacterActor::rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed, int endOfRotationFlag)
+int CharacterActor::rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed)
 {
 	VECTOR b = dir;
 	float angleBetweenX = -(acosf(-b.y) - 1.57f) - angle->x;
@@ -109,10 +110,31 @@ int CharacterActor::rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed, int
 	//âÒì]èIóπ
 	if (-0.017f < angleBetweenY && angleBetweenY < 0.017f)
 	{
-		mEndOfStateFlags |= endOfRotationFlag;
 		return 1;
 	}
 	return 0;
 }
 
-int CharacterActor::mEndOfStateFlags = 0;
+void CharacterActor::SpawnParticle(const VECTOR& pos, const char* name, int num, float maxLifeSpan, Particle::MeshType type)
+{
+	for (int i = 0; i < num; i++)
+	{
+		VECTOR Pos = pos;
+		int offsetX = random(-1.5f, 1.5f);
+		int offsetY = random(-1.0f, 1.0f);
+		int offsetZ = random(-1.5f, 1.5f);
+
+		Pos.x += offsetX;
+		Pos.y += offsetY;
+		Pos.z += offsetZ;
+
+		float advSpeed = random(0.1f, 10.0f);
+		float lifeSpan = random(0.1f,maxLifeSpan);
+		auto particle = new Particle(GetGame(), Pos, lifeSpan);
+		particle->SetMeshType(type);
+		particle->SetMesh(name);
+		particle->SetAdvSpeed(advSpeed);
+		particle->SetRotation(VECTOR(0.17f * (int)random(0.0f,20.0f), 0.17f * (int)random(0.0f, 20.0f), 0.17f * (int)random(0.0f, 20.0f)));
+	}
+}
+

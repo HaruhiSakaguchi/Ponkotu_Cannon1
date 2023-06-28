@@ -1,0 +1,52 @@
+#include "Particle.h"
+#include "TreeMeshComponent.h"
+#include "BatchMeshComponent.h"
+#include "rand.h"
+#include <window.h>
+
+Particle::Particle(Game* game, const VECTOR& pos, float lifeSpan)
+	: Actor(game)
+	, mLifeSpan(lifeSpan)
+	, mMeshType(MeshType::ETree)
+	, mTime(0.0f)
+	, mVec(0.0f,1.0f,0.0f)
+	, mAdvSpeed(1.0f)
+{
+	SetPosition(pos);
+	float scale = random(0.1f, 0.5f);
+	SetScale(VECTOR(scale,scale,scale));
+	mStart = std::chrono::system_clock::now();
+}
+
+void Particle::UpdateActor()
+{
+	SetPosition(GetPosition() + mVec * delta * mAdvSpeed);
+	SetRotationY(GetRotation().y + 0.017f * delta * mAdvSpeed);
+
+	if (mTime < mLifeSpan)
+	{
+		auto end = std::chrono::system_clock::now();
+		auto dur = end - mStart;
+		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+		float time = msec / 1000.0f;
+		mTime = time;
+	}
+	else
+	{
+		SetState(EDead);
+	}
+}
+
+void Particle::SetMesh(const char* name)
+{
+	if (mMeshType == MeshType::EBatch)
+	{
+		auto batch = new BatchMeshComponent(this);
+		batch->SetBatch(name);
+	}
+	else if (mMeshType == MeshType::ETree)
+	{
+		auto tree = new TreeMeshComponent(this);
+		tree->SetTree(name);
+	}
+}

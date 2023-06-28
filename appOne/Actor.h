@@ -23,6 +23,9 @@ public:
 
 	virtual int SetUp() { return 0; }
 
+	//State‚ªEDead‚É‚È‚Á‚Ä‚©‚ç€‚Ê‚Ü‚Å‚Éˆê‰ñ‚¾‚¯ŒÄ‚Ño‚³‚ê‚é
+	virtual void Dead() {};
+
 	//Getters,Setters
 	State GetState() const { return mState; }
 	void SetState(State state) { mState = state; }

@@ -16,6 +16,7 @@ public:
 	void Damage(Actor* actor = nullptr);
 	void Damage(int damage = 1)override;
 	void FallOption()override;
+	void Dead()override;
 
 	//setter,getter
 	void SetBarrelDir(const VECTOR& dir) { Data.mBarrelDir = dir; }

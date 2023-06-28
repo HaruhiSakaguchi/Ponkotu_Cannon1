@@ -6,7 +6,7 @@ class MeshComponent :
 	public Component
 {
 public:
-	MeshComponent(class Actor*);
+	MeshComponent(class Actor*,bool isDraw = true);
 	virtual ~MeshComponent();
 	virtual void Update() {};
 	virtual void Draw() {};

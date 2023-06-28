@@ -54,6 +54,7 @@ void ActorManager::Update()
 		// deadActors‚ðÁ‹Ž‚·‚é(mActors‚©‚ç‚àŽæ‚èœ‚©‚ê‚é)
 		for (auto actor : deadActors)
 		{
+			actor->Dead();
 			delete actor;
 		}
 

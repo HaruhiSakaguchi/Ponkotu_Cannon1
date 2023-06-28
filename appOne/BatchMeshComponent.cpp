@@ -5,8 +5,8 @@
 #include "CONTAINER/CONTAINER.h"
 #include "CONTAINER/BATCH.h"
 
-BatchMeshComponent::BatchMeshComponent(Actor* owner)
-	: MeshComponent(owner)
+BatchMeshComponent::BatchMeshComponent(Actor* owner,bool isDraw)
+	: MeshComponent(owner,isDraw)
 	, mBatch(nullptr)
 {
 }

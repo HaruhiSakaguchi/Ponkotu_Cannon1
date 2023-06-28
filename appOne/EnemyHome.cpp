@@ -112,7 +112,8 @@ void EnemyHome::UpdateActor()
 					tama->SetMaxHp((int)(tama->GetInitMaxHp() * ((tama->GetLevel() + tama->GetMaxLevel()) / 10.0f)));
 					tama->SetHp(tama->GetMaxHp());
 					mBattlePoints -= (150 + mGenerateTamaLevel * 50);
-					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("が出現。");
+
+					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("tamaが出現。");
 					mElapsedTime = 0.0f;
 					mGenerateFlag = true;
 					mDore->Open();
@@ -145,6 +146,7 @@ void EnemyHome::UpdateActor()
 					satellite->SetPosition(EPos);
 					mBattlePoints -= (200 + mGenerateSatelliteLevel * 50);
 					mElapsedTime = 0.0f;
+
 					if (satellite->GetId() == 0)
 					{
 						GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteAが出現。");
@@ -253,6 +255,73 @@ void EnemyHome::Damage(int damage)
 	{
 		SetState(EDead);
 	}
+}
+
+void EnemyHome::Dead()
+{
+	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
+	playSound(mDeadSound);
+
+	while (mBattlePoints > 150 + mGenerateTamaLevel * 50 || mBattlePoints > 200 + mGenerateSatelliteLevel * 50)
+	{
+		VECTOR pos = VECTOR(random(GetGame()->GetActorManager()->GetStage()->GetStageMinX(), GetGame()->GetActorManager()->GetStage()->GetStageMaxX()), random(4.0f, 7.5f), random(GetGame()->GetActorManager()->GetStage()->GetStageMinZ(), GetGame()->GetActorManager()->GetStage()->GetCenterPos().z));
+		int num = random();
+		if (num % 4 == 0 || num % 4 == 2 || num % 4 == 3)
+		{
+			if (PositionOnMap(pos, GetGame()->GetAllData()->tamaData.mRadius) && InEnemyArea(pos) && mBattlePoints >= (150 + mGenerateTamaLevel * 50) && pos.z >= GetPosition().z)
+			{
+				pos.y = 0.0f;
+				class Tama* tama = new class Tama(GetGame(), pos);
+				tama->SetPosition(GetPosition());
+				tama->SetLevel(mGenerateTamaLevel);
+				tama->SetMaxHp((int)(tama->GetInitMaxHp() * ((tama->GetLevel() + tama->GetMaxLevel()) / 10.0f)));
+				tama->SetHp(tama->GetMaxHp());
+				mBattlePoints -= (150 + mGenerateTamaLevel * 50);
+				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("が出現。");
+				mElapsedTime = 0.0f;
+				mGenerateFlag = true;
+				mDore->Open();
+			}
+		}
+		else
+		{
+			if (PositionOnMap(pos, GetGame()->GetAllData()->satelliteData.mHeight) && InEnemyArea(pos) && mBattlePoints >= (200 + mGenerateSatelliteLevel * 50))
+			{
+				class Satellite* satellite = new class Satellite(GetGame(), pos);
+				CharacterActor::SEGMENT* seg = new CharacterActor::SEGMENT(satellite);
+				satellite->SetSeg(seg);
+				satellite->SetLevel(mGenerateSatelliteLevel);
+				satellite->SetMaxHp((int)(satellite->GetInitMaxHp() * ((satellite->GetLevel() + satellite->GetMaxLevel()) / 10.0f)));
+				satellite->SetHp(satellite->GetMaxHp());
+				VECTOR EPos = GetPosition();
+				if (satellite->GetId() == 0)
+				{
+					EPos.y = 0.5f;
+				}
+				else
+				{
+					EPos.y = 0.5f;
+				}
+
+				satellite->SetPosition(EPos);
+				mBattlePoints -= (200 + mGenerateSatelliteLevel * 50);
+				mElapsedTime = 0.0f;
+				if (satellite->GetId() == 0)
+				{
+					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteAが出現。");
+				}
+				else
+				{
+					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteBが出現。");
+				}
+			}
+		}
+	}
+	GetGame()->GetActorManager()->GetStage()->AddText("敵の基地を破壊した！！");
+	SpawnParticle(GetPosition(), "HomeHouse", 20);
+	SpawnParticle(GetPosition(), "DoreDore", 20);
+	SpawnParticle(GetPosition(), "EnemyFlagFlag", 40);
+
 }
 
 bool EnemyHome::InEnemyArea(const VECTOR& pos)

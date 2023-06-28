@@ -13,6 +13,7 @@ public:
 	void UpdateActor() override;
 	void Damage(int damage = 1)override;
 	void FallOption()override;
+	void Dead()override;
 	//getter,setter
 	float GetMoveInterval() { return Data.mInterval; }
 	float GetElapsedtime() { return Data.mElapsedTime; }

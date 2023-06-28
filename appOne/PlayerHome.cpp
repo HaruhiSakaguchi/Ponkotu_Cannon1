@@ -172,11 +172,18 @@ void PlayerHome::Damage(int damage)
 
 	if (GetHp() <= 0)
 	{
-		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
-		playSound(mDeadSound);
-		GetGame()->GetActorManager()->GetStage()->AddText("PlayerHome‚ª‰ó‚ê‚½");
 		SetState(EDead);
 	}
+}
+
+void PlayerHome::Dead()
+{
+	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
+	playSound(mDeadSound);
+	GetGame()->GetActorManager()->GetStage()->AddText("PlayerHome‚ª‰ó‚ê‚½");
+	SpawnParticle(GetPosition(), "HomeHouse", 20);
+	SpawnParticle(GetPosition(), "DoreDore", 20);
+	SpawnParticle(GetPosition(), "PlayerFlagFlag", 40);
 }
 
 bool PlayerHome::GoToTargetPoint(const VECTOR& pos)

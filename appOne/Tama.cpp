@@ -101,15 +101,7 @@ void Tama::UpdateActor()
 
 	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
-		if (enemy != this && enemy->GetTag() == CharacterActor::Satellite)
-		{
-			auto satellite = static_cast<class Satellite*>(enemy);
-			if (satellite->GetStateCompoState()->GetName() != "Generate" && mState->GetName() != "Generate")
-			{
-				Intersect(this, satellite);
-			}
-		}
-		else if (enemy->GetTag() == CharacterActor::Tama)
+		if (enemy->GetTag() == CharacterActor::Tama)
 		{
 			auto tama = static_cast<class Tama*>(enemy);
 			if (tama->GetStateCompoState()->GetName() != "Generate" && mState->GetName() != "Generate")
@@ -133,29 +125,7 @@ void Tama::UpdateActor()
 
 		if (mScale <= 0.0f)
 		{
-			setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
-			playSound(mDeadSound);
-			GetGame()->GetActorManager()->GetStage()->SetClearCnt(GetGame()->GetActorManager()->GetStage()->GetClearCnt() - 1);
-			DropItems(GetPosition());
-			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("Tamaを倒した！！");
 			SetState(Actor::EDead);
-			if (GetGame()->GetActorManager()->GetPHome())
-			{
-				GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() + 100 + GetLevel() * 50);
-				if (GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints() < GetGame()->GetActorManager()->GetPHome()->GetBattlePoints())
-				{
-					GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints());
-				}
-			}
-
-			if (GetGame()->GetActorManager()->GetEHome())
-			{
-				if (GetGame()->GetActorManager()->GetEHome()->GetLevel() > GetGame()->GetActorManager()->GetEHome()->GetTamaGenerateLevel() && GetGame()->GetActorManager()->GetEHome()->GetBattlePoints() >= 100)
-				{
-					GetGame()->GetActorManager()->GetEHome()->SetBattlePoints(GetGame()->GetActorManager()->GetEHome()->GetBattlePoints() - 100);
-					GetGame()->GetActorManager()->GetEHome()->SetTamaGenerateLevel(GetGame()->GetActorManager()->GetEHome()->GetTamaGenerateLevel() + 1);
-				}
-			}
 		}
 	}
 }
@@ -170,5 +140,34 @@ void Tama::FallOption()
 {
 	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("Tamaが奈落に落ちた。");
 	SetState(EDead);
+}
+
+void Tama::Dead()
+{
+	SpawnParticle(GetPosition(), "TamaTamaSphere", 10);
+	SpawnParticle(GetPosition(), "TamaBlackEyeCylinder", 10);
+
+	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
+	playSound(mDeadSound);
+	GetGame()->GetActorManager()->GetStage()->SetClearCnt(GetGame()->GetActorManager()->GetStage()->GetClearCnt() - 1);
+	DropItems(GetPosition());
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("Tamaを倒した！！");
+	if (GetGame()->GetActorManager()->GetPHome())
+	{
+		GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() + 100 + GetLevel() * 50);
+		if (GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints() < GetGame()->GetActorManager()->GetPHome()->GetBattlePoints())
+		{
+			GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints());
+		}
+	}
+
+	if (GetGame()->GetActorManager()->GetEHome())
+	{
+		if (GetGame()->GetActorManager()->GetEHome()->GetLevel() > GetGame()->GetActorManager()->GetEHome()->GetTamaGenerateLevel() && GetGame()->GetActorManager()->GetEHome()->GetBattlePoints() >= 100)
+		{
+			GetGame()->GetActorManager()->GetEHome()->SetBattlePoints(GetGame()->GetActorManager()->GetEHome()->GetBattlePoints() - 100);
+			GetGame()->GetActorManager()->GetEHome()->SetTamaGenerateLevel(GetGame()->GetActorManager()->GetEHome()->GetTamaGenerateLevel() + 1);
+		}
+	}
 }
 

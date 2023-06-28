@@ -11,6 +11,7 @@ public:
 	int SetUp()override;
 	void UpdateActor()override;
 	void Damage(int damage = 1);
+	void Dead()override;
 
 	const int GetGenerateCannonLv() { return mGenerateCannonLevel; }
 	const int GetGenerateBarricadeLv() { return mGenerateBarricadeLevel; }

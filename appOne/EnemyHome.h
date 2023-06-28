@@ -11,6 +11,7 @@ public:
 	int SetUp()override;
 	void UpdateActor()override;
 	void Damage(int damage = 1);
+	void Dead()override;
 	bool InEnemyArea(const VECTOR& pos);
 
 	void SetTamaGenerateLevel(int lv) { mGenerateTamaLevel = lv; }

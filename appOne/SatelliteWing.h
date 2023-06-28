@@ -12,6 +12,7 @@ public:
 	int SetUp()override;
 	void damage()override;
 	void SetAttackFlag(bool flag) { mAttackFlag = flag; }
+	void Dead()override;
 	struct DATA
 	{
 		int mGurdSound;

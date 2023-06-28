@@ -11,7 +11,7 @@
 
 Barricade::Barricade(Game* game)
 	:PSideCharacterActor(game)
-	,mNum(0)
+	, mNum(0)
 {
 	SetUp();
 }
@@ -78,11 +78,29 @@ void Barricade::UpdateActor()
 	if (GetDamageInterval() > 0.0f)
 	{
 		SetDamageInterval(GetDamageInterval() - delta);
-		mTc->SetDrawFlag(false);
 	}
-	else
+
+	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
-		mTc->SetDrawFlag(true);
+		if (enemy->GetTag() != CharacterActor::CharactersTag::Satellite)
+		{
+			Intersect(this, enemy);
+		}
+	}
+
+	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
+	{
+		if (pSide != this && pSide != GetGame()->GetActorManager()->GetPHome())
+		{
+			if (pSide->GetTag() != CharacterActor::Cannon)
+			{
+				Intersect(this, pSide);
+			}
+			else if (static_cast<class Cannon*>(pSide)->GetStateCompoState()->GetName() != "Generate")
+			{
+				Intersect(this, pSide);
+			}
+		}
 	}
 }
 
@@ -100,31 +118,16 @@ void Barricade::Damage(int damage)
 
 	if (GetHp() <= 0)
 	{
-		std::ostringstream oss;
-		oss << GetName().c_str() << "‚ª‰ó‚ê‚½";
-		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
-		playSound(mDeadSound);
-		GetGame()->GetActorManager()->GetStage()->AddText(oss.str().c_str());
 		SetState(Actor::EDead);
 	}
+}
 
-	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
-	{
-		Intersect(this, enemy);
-	}
-
-	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
-	{
-		if (pSide != this && pSide != GetGame()->GetActorManager()->GetPHome())
-		{
-			if (pSide->GetTag() != CharacterActor::Cannon)
-			{
-				Intersect(this, pSide);
-			}
-			else if (static_cast<class Cannon*>(pSide)->GetStateCompoState()->GetName() != "Generate")
-			{
-				Intersect(this, pSide);
-			}
-		}
-	}
+void Barricade::Dead()
+{
+	std::ostringstream oss;
+	oss << GetName().c_str() << "‚ª‰ó‚ê‚½";
+	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
+	playSound(mDeadSound);
+	GetGame()->GetActorManager()->GetStage()->AddText(oss.str().c_str());
+	SpawnParticle(GetPosition(), "BarricadeBarricade", 10);
 }

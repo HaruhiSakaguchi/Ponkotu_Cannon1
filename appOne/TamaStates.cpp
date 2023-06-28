@@ -333,34 +333,30 @@ void TamaGenerate::Update()
 	int endOfRotate = t->rotate(&angle, vec, 0.05f);
 	t->SetRotation(angle);
 
-	if (t->GetGame()->GetActorManager()->GetEHome())
+	if (endOfRotate == 1)
 	{
-		if (endOfRotate == 1)
+		if (!mFirstTargetCompleteFlag)
 		{
-			if (!mFirstTargetCompleteFlag)
+			if (t->GetGame()->GetActorManager()->GetEHome() && t->GetGame()->GetActorManager()->GetEHome()->GetDore()->GetOpenComplete())
 			{
-				if (t->GetGame()->GetActorManager()->GetEHome()->GetDore()->GetOpenComplete())
-				{
-					t->SetPosition(t->GetPosition() + vec * t->GetAdvSpeed());
-				}
+				t->SetPosition(t->GetPosition() + vec * t->GetAdvSpeed());
 			}
-			else
+			else if(!t->GetGame()->GetActorManager()->GetEHome())
 			{
 				t->SetPosition(t->GetPosition() + vec * t->GetAdvSpeed());
 			}
 		}
-
-		if (CollisionCircle(t->GetRadius(), 0.5f, t->GetPosition(), mFirstTarget))
+		else
 		{
-			mFirstTargetCompleteFlag = true;
-		}
-		if (CollisionCircle(t->GetRadius(), 0.5f, t->GetPosition(), t->GetInitPosition()))
-		{
-			mOwnerCompo->ChangeState("Wait");
-			return;
+			t->SetPosition(t->GetPosition() + vec * t->GetAdvSpeed());
 		}
 	}
-	else
+
+	if (CollisionCircle(t->GetRadius(), 0.5f, t->GetPosition(), mFirstTarget))
+	{
+		mFirstTargetCompleteFlag = true;
+	}
+	if (CollisionCircle(t->GetRadius(), 0.5f, t->GetPosition(), t->GetInitPosition()))
 	{
 		mOwnerCompo->ChangeState("Wait");
 		return;

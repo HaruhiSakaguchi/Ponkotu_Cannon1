@@ -15,6 +15,7 @@ public:
 	int SetUp()override;
 	void UpdateActor()override;
 	void Damage(int damage = 1)override;
+	void Dead()override;
 	//getter,setter
 	const VECTOR& GetTargetPosition();
 	void SetInterval(float interval) { Data.mInterval = interval; }

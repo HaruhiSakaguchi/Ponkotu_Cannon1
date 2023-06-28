@@ -269,23 +269,21 @@ void SatelliteGenerate::Update()
 		mSwitch = true;
 	}
 
-	if (s->GetGame()->GetActorManager()->GetEHome())
+
+	if (mRotateFlag)
 	{
-		if (mRotateFlag)
+		if (!mFirstTargetCompleteFlag)
 		{
-			if (!mFirstTargetCompleteFlag)
+			if (s->GetGame()->GetActorManager()->GetEHome() && s->GetGame()->GetActorManager()->GetEHome()->GetDore()->GetOpenComplete())
 			{
-				if (s->GetGame()->GetActorManager()->GetEHome()->GetDore()->GetOpenComplete())
+				s->SetPosition(s->GetPosition() + vec * s->GetAdvSpeed() * 10.0f);
+				SatelliteRotation(s);
+				if (s->GetId() == 1)
 				{
-					s->SetPosition(s->GetPosition() + vec * s->GetAdvSpeed() * 10.0f);
-					SatelliteRotation(s);
-					if (s->GetId() == 1)
-					{
-						s->SetRotationY(s->GetRotation().y + 0.17f);
-					}
+					s->SetRotationY(s->GetRotation().y + 0.17f);
 				}
 			}
-			else
+			else if(!s->GetGame()->GetActorManager()->GetEHome())
 			{
 				s->SetPosition(s->GetPosition() + vec * s->GetAdvSpeed() * 10.0f);
 				SatelliteRotation(s);
@@ -295,22 +293,27 @@ void SatelliteGenerate::Update()
 				}
 			}
 		}
-
-		if (CollisionCircle(s->GetRadius(), 0.5f, s->GetPosition(), mFirstTarget))
+		else
 		{
-			mFirstTargetCompleteFlag = true;
-			mSwitch = false;
-			mRotateFlag = false;
-		}
-		if (CollisionCircle(s->GetRadius(), 0.5f, s->GetPosition(), s->GetInitPosition()))
-		{
-			mOwnerCompo->ChangeState("Normal");
-			return;
+			s->SetPosition(s->GetPosition() + vec * s->GetAdvSpeed() * 10.0f);
+			SatelliteRotation(s);
+			if (s->GetId() == 1)
+			{
+				s->SetRotationY(s->GetRotation().y + 0.17f);
+			}
 		}
 	}
-	else
+
+	if (CollisionCircle(s->GetRadius(), 0.5f, s->GetPosition(), mFirstTarget))
+	{
+		mFirstTargetCompleteFlag = true;
+		mSwitch = false;
+		mRotateFlag = false;
+	}
+	if (CollisionCircle(s->GetRadius(), 0.5f, s->GetPosition(), s->GetInitPosition()))
 	{
 		mOwnerCompo->ChangeState("Normal");
 		return;
 	}
+
 }

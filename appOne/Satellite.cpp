@@ -51,10 +51,10 @@ Satellite::Satellite(class Game* game, const VECTOR& pos)
 
 Satellite::~Satellite()
 {
-	while (!mWings.empty())
+	/*while (!mWings.empty())
 	{
 		delete mWings.back();
-	}
+	}*/
 }
 
 int Satellite::SetUp()
@@ -111,7 +111,7 @@ int Satellite::SetUp()
 
 void Satellite::UpdateActor()
 {
-	if (GetPosition().y > 10.0f)
+	if (GetPosition().y >= 10.0f)
 	{
 		SetHp(0);
 	}
@@ -121,6 +121,9 @@ void Satellite::UpdateActor()
 		mDeadFlag = true;
 		auto Collision = new CollisionMapComponent(this);
 		Collision->NoCollisionMap();
+		SetJumpFlag(1);
+		SetGravity(Data.mGravity);
+		Data.mDeadPoint = GetPosition();
 	}
 
 	Master.identity();
@@ -148,45 +151,7 @@ void Satellite::UpdateActor()
 		mState->ChangeState("Normal");
 		if (GetPosition().y <= 0.0f)
 		{
-			setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
-			playSound(mDeadSound);
-			GetGame()->GetActorManager()->GetStage()->SetClearCnt(GetGame()->GetActorManager()->GetStage()->GetClearCnt() - 1);
-			DropItems(Data.mDeadPoint);
-			if (Data.mId == 0)
-			{
-				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteA‚ð“|‚µ‚½II");
-				if (GetGame()->GetActorManager()->GetPHome())
-				{
-					GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() + 150 + GetLevel() * 50);
-					if (GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints() < GetGame()->GetActorManager()->GetPHome()->GetBattlePoints())
-					{
-						GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints());
-					}
-				}
-			}
-			else
-			{
-				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteB‚ð“|‚µ‚½II");
-				if (GetGame()->GetActorManager()->GetPHome())
-				{
-					GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() + 100 + GetLevel() * 50);
-					if (GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints() < GetGame()->GetActorManager()->GetPHome()->GetBattlePoints())
-					{
-						GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints());
-					}
-				}
-			}
 			SetState(Actor::EDead);
-
-			if (GetGame()->GetActorManager()->GetEHome())
-			{
-				if (GetGame()->GetActorManager()->GetEHome()->GetLevel() > GetGame()->GetActorManager()->GetEHome()->GetSatelliteGenerateLevel() && GetGame()->GetActorManager()->GetEHome()->GetBattlePoints() >= 150)
-				{
-					GetGame()->GetActorManager()->GetEHome()->SetBattlePoints(GetGame()->GetActorManager()->GetEHome()->GetBattlePoints() - 150);
-					GetGame()->GetActorManager()->GetEHome()->SetSatelliteGenerateLevel(GetGame()->GetActorManager()->GetEHome()->GetSatelliteGenerateLevel() + 1);
-				}
-			}
-
 		}
 	}
 
@@ -221,19 +186,54 @@ const VECTOR& Satellite::GetTargetPosition()
 void Satellite::Damage(int damage)
 {
 	SetHp(GetHp() - damage);
-	if (GetHp() <= 0)
-	{
-		Data.mDeadPoint = GetPosition();
-		SetJumpFlag(1);
-		SetGravity(Data.mGravity);
-	}
-
 	SetDamageInterval(Data.mMaxDamageInterval);
 
 	if (mState->GetName() == "Attack")
 	{
 		mState->ChangeState("Normal");
 		return;
+	}
+}
+
+void Satellite::Dead()
+{
+	SpawnParticle(GetPosition(), "SatelliteBody0Cylinder", 10);
+	SpawnParticle(GetPosition(), "SatelliteWing0Square", 40);
+
+	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
+	playSound(mDeadSound);
+	DropItems(Data.mDeadPoint);
+	if (Data.mId == 0)
+	{
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteA‚ð“|‚µ‚½II");
+		if (GetGame()->GetActorManager()->GetPHome())
+		{
+			GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() + 150 + GetLevel() * 50);
+			if (GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints() < GetGame()->GetActorManager()->GetPHome()->GetBattlePoints())
+			{
+				GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints());
+			}
+		}
+	}
+	else
+	{
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteB‚ð“|‚µ‚½II");
+		if (GetGame()->GetActorManager()->GetPHome())
+		{
+			GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() + 100 + GetLevel() * 50);
+			if (GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints() < GetGame()->GetActorManager()->GetPHome()->GetBattlePoints())
+			{
+				GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetMaxBattlePoints());
+			}
+		}
+	}
+	if (GetGame()->GetActorManager()->GetEHome())
+	{
+		if (GetGame()->GetActorManager()->GetEHome()->GetLevel() > GetGame()->GetActorManager()->GetEHome()->GetSatelliteGenerateLevel() && GetGame()->GetActorManager()->GetEHome()->GetBattlePoints() >= 150)
+		{
+			GetGame()->GetActorManager()->GetEHome()->SetBattlePoints(GetGame()->GetActorManager()->GetEHome()->GetBattlePoints() - 150);
+			GetGame()->GetActorManager()->GetEHome()->SetSatelliteGenerateLevel(GetGame()->GetActorManager()->GetEHome()->GetSatelliteGenerateLevel() + 1);
+		}
 	}
 }
 

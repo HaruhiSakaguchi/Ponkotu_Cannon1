@@ -124,6 +124,18 @@ void PlayerHome::UpdateActor()
 	{
 		if (Actor != this && CollisionCircle(GetRadius(), Actor->GetRadius(), GetPosition(), Actor->GetPosition()))
 		{
+			if (Actor->GetTag() == CharacterActor::CharactersTag::Cannon)
+			{
+				if (static_cast<class Cannon*>(Actor)->GetStateCompoState()->GetName() == "Generate")
+				{
+					continue;
+				}
+			}
+			else
+			{
+				continue;
+			}
+
 			cnt++;
 		}
 	}

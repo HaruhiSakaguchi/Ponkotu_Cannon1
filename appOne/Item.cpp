@@ -71,11 +71,11 @@ void Item::UpdateActor()
 		mBeforeTime = (int)mTime;
 	}
 
-	for (auto cannon : GetGame()->GetActorManager()->GetCannons())
+	for (auto pSide : GetGame()->GetActorManager()->GetCannons())
 	{
-		if (cannon->GetState() == Actor::EActive && Intersect(this, cannon, false))
+		if (pSide->GetState() == Actor::EActive && Intersect(this, pSide, false))
 		{
-			mOwner = cannon;
+			mOwner = pSide;
 			if (update() && mOwner != nullptr)
 			{
 				SetHp(GetHp() - 1);
@@ -86,8 +86,6 @@ void Item::UpdateActor()
 			}
 		}
 	}
-
-	//cData.mLifeTime -= delta;
 
 	if (mTime > cData.mMaxLifeTime * 0.3f)
 	{

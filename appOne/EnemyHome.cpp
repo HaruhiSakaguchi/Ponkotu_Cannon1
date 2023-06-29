@@ -214,6 +214,20 @@ void EnemyHome::UpdateActor()
 	{
 		if (CollisionCircle(GetRadius(), Actor->GetRadius(), GetPosition(), Actor->GetPosition()))
 		{
+			if (Actor->GetTag() == CharacterActor::CharactersTag::Tama)
+			{
+				if (static_cast<class Tama*>(Actor)->GetStateCompoState()->GetName() == "Generate")
+				{
+					continue;
+				}
+			}
+			else if (Actor->GetTag() == CharacterActor::CharactersTag::Satellite)
+			{
+				if (static_cast<class Satellite*>(Actor)->GetStateCompoState()->GetName() == "Generate")
+				{
+					continue;
+				}
+			}
 			cnt++;
 		}
 	}

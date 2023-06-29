@@ -10,6 +10,7 @@
 #include "COLLISION_MAP.h"
 #include "PlayerHome.h"
 #include "CameraManager.h"
+#include "EnemyHome.h"
 
 void MoveCannon(Cannon* p)
 {
@@ -184,7 +185,6 @@ void CannonWait::Update()
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
 
 	CountInterval(p);
-	//Launch(p);
 	UpCounter(p);
 	p->SetWheelRotateX(0.0f);
 
@@ -205,6 +205,11 @@ void CannonWait::Update()
 				mOwnerCompo->ChangeState("Rotate");
 				return;
 			}
+		}
+		if (p->GetGame()->GetActorManager()->GetEHome() && CollisionCircle(p->GetRange(), p->GetGame()->GetActorManager()->GetEHome()->GetRadius(), p->GetPosition(), p->GetGame()->GetActorManager()->GetEHome()->GetPosition() + p->GetGame()->GetActorManager()->GetEHome()->GetCapsulOffset()))
+		{
+			mOwnerCompo->ChangeState("Rotate");
+			return;
 		}
 
 		p->SetTimer(0.0f);
@@ -477,6 +482,11 @@ void CannonLaunch::OnEnter()
 
 	}
 
+	if (mTarget.x == 1000.0f && mTarget.y == 1000.0f && mTarget.z == 1000.0f && p->GetGame()->GetActorManager()->GetEHome())
+	{
+		mTarget = p->GetGame()->GetActorManager()->GetEHome()->GetPosition() + p->GetGame()->GetActorManager()->GetEHome()->GetCapsulOffset();
+	}
+
 	float tdistx = mTarget.x - p->GetPosition().x;
 	float tdisty = mTarget.y - (p->GetPosition().y + p->GetCapsulOffset().y + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos.y);
 	float tdistz = mTarget.z - p->GetPosition().z;
@@ -560,6 +570,11 @@ void CannonRotate::OnEnter()
 		{
 			mTarget = item->GetPosition() + item->GetCapsulOffset();
 		}
+	}
+
+	if (mTarget.x == 1000.0f && mTarget.y == 1000.0f && mTarget.z == 1000.0f && p->GetGame()->GetActorManager()->GetEHome())
+	{
+		mTarget = p->GetGame()->GetActorManager()->GetEHome()->GetPosition() + p->GetGame()->GetActorManager()->GetEHome()->GetCapsulOffset();
 	}
 
 	mAdv = mTarget - (p->GetPosition() + p->GetGame()->GetAllData()->cannonData.mBodyOffsetPos + p->GetCapsulOffset());

@@ -46,7 +46,7 @@ public:
 	const VECTOR& GetTmpRotation() { return mTmpRotation; }
 	const VECTOR& GetType1TargetVec() { return mTargetVec; }
 
-	StateComponent* GetStateCompoState() { return mState; }
+	class StateComponent* GetStateCompoState() { return mState; }
 
 
 	//data

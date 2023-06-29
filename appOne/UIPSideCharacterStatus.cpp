@@ -274,7 +274,7 @@ void UIPSideCharacterStatus::DrawItemCompoLifeSpanGauge(class ItemComponent* ite
 
 		item->SetKeepTime(Time);
 
-		DrawRing(mPosition + pos, 22.5f, 5, (3.1415926f / 180.0) * item->GetKeepTime() / item->GetInterval(), item->GetColor(), 90);
+		DrawRing(mPosition + pos, 22.5f, 5, (3.1415926f / 180.0f) * item->GetKeepTime() / item->GetInterval(), item->GetColor(), 90);
 		fill(0, 0, 0);
 		textSize(30);
 		text(item->GetLevel(), mPosition.x + pos.x - 30.0f / 4.0f, mPosition.y + pos.y + 30.0f / 2.0f);

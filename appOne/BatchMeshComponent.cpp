@@ -19,6 +19,7 @@ void BatchMeshComponent::SetBatch(const char* name)
 {
 	CONTAINER* c = mOwner->GetGame()->GetRenderer()->GetContainer();
 	mBatch = c->batch(name);
+	mMeshName = name;
 }
 
 void BatchMeshComponent::Draw()
@@ -32,6 +33,7 @@ void BatchMeshComponent::Draw()
 	mWorld.mulRotateX(mOffsetAngle.x);
 	mWorld.mulRotateZ(mOffsetAngle.z);
 	mWorld.mulScaling(mOwner->GetScale());
+
 }
 
 void BatchMeshComponent::Update()

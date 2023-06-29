@@ -467,8 +467,12 @@
     <ClCompile Include="Manager.cpp">
       <Filter>GameManager</Filter>
     </ClCompile>
-    <ClCompile Include="UIPopUp.cpp" />
-    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="UIPopUp.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -741,7 +745,11 @@
     <ClInclude Include="Manager.h">
       <Filter>GameManager</Filter>
     </ClInclude>
-    <ClInclude Include="UIPopUp.h" />
-    <ClInclude Include="Particle.h" />
+    <ClInclude Include="UIPopUp.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

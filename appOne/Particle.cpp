@@ -11,6 +11,7 @@ Particle::Particle(Game* game, const VECTOR& pos, float lifeSpan)
 	, mTime(0.0f)
 	, mVec(0.0f,1.0f,0.0f)
 	, mAdvSpeed(1.0f)
+	, mMesh(nullptr)
 {
 	SetPosition(pos);
 	float scale = random(0.1f, 0.5f);
@@ -22,6 +23,8 @@ void Particle::UpdateActor()
 {
 	SetPosition(GetPosition() + mVec * delta * mAdvSpeed);
 	SetRotationY(GetRotation().y + 0.017f * delta * mAdvSpeed);
+
+	mMesh->SetDrawFlag(true);
 
 	if (mTime < mLifeSpan)
 	{
@@ -41,12 +44,14 @@ void Particle::SetMesh(const char* name)
 {
 	if (mMeshType == MeshType::EBatch)
 	{
-		auto batch = new BatchMeshComponent(this);
+		auto batch = new BatchMeshComponent(this,false);
 		batch->SetBatch(name);
+		mMesh = batch;
 	}
 	else if (mMeshType == MeshType::ETree)
 	{
-		auto tree = new TreeMeshComponent(this);
+		auto tree = new TreeMeshComponent(this,false);
 		tree->SetTree(name);
+		mMesh = tree;
 	}
 }

@@ -14,8 +14,13 @@ Item::Item(Game* game)
 	: CharacterActor(game)
 	, mTc(nullptr)
 	, mOwner(nullptr)
+	, mTime(0.0f)
+	, mIsSpawnParticle(false)
+	, mBeforeTime(0)
 {
 	GetGame()->GetActorManager()->AddItems(this);
+	mStart = std::chrono::system_clock::now();
+
 }
 
 Item::~Item()
@@ -45,6 +50,27 @@ int Item::SetUp()
 
 void Item::UpdateActor()
 {
+	if (mTime < cData.mMaxLifeTime)
+	{
+		auto end = std::chrono::system_clock::now();
+		auto dur = end - mStart;
+		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+		float time = msec / 1000.0f;
+		mTime = time;
+	}
+
+	if ((int)mTime % 3 == 0 && (int)mTime != mBeforeTime)
+	{
+		mIsSpawnParticle = true;
+	}
+
+	if (mIsSpawnParticle)
+	{
+		SpawnParticle(GetPosition(), mNormalMesh->GetMeshName(), 10, 1.0f, Particle::MeshType::ETree);
+		mIsSpawnParticle = false;
+		mBeforeTime = (int)mTime;
+	}
+
 	for (auto cannon : GetGame()->GetActorManager()->GetCannons())
 	{
 		if (cannon->GetState() == Actor::EActive && Intersect(this, cannon, false))
@@ -61,10 +87,11 @@ void Item::UpdateActor()
 		}
 	}
 
-	cData.mLifeTime -= delta;
-	if (cData.mLifeTime <= cData.mMaxLifeTime * 0.3f)
+	//cData.mLifeTime -= delta;
+
+	if (mTime > cData.mMaxLifeTime * 0.3f)
 	{
-		if ((int)cData.mLifeTime % 2 == 0)
+		if ((int)mTime % 2 == 0)
 		{
 			SetImageColor(iData.mColor);
 			SetDamageInterval(0.0f);
@@ -76,7 +103,7 @@ void Item::UpdateActor()
 		}
 	}
 
-	if (cData.mLifeTime <= 0.0f || GetPosition().y < -5.0f)
+	if (mTime >= cData.mMaxLifeTime || GetPosition().y < -5.0f)
 	{
 		SetState(Actor::EDead);
 		std::ostringstream oss;

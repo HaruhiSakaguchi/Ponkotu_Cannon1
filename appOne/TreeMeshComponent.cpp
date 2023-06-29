@@ -23,6 +23,7 @@ void TreeMeshComponent::SetTree(const char* name)
 {
 	CONTAINER* c = mOwner->GetGame()->GetRenderer()->GetContainer();
 	mTree = new TREE(c->treeOrigin(name));
+	mMeshName = name;
 }
 
 void TreeMeshComponent::SetAnim(const char* name)

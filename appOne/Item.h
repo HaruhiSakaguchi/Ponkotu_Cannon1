@@ -1,5 +1,6 @@
 #pragma once
 #include "CharacterActor.h"
+#include <chrono>
 
 class Item : public CharacterActor
 {
@@ -47,4 +48,8 @@ protected:
 protected:
 	class TreeMeshComponent* mTc;
 	class CharacterActor* mOwner;
+	std::chrono::system_clock::time_point mStart;
+	float mTime;
+	bool mIsSpawnParticle;
+	int mBeforeTime;
 };

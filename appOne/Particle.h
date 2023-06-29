@@ -1,6 +1,7 @@
 #pragma once
 #include "Actor.h"
 #include <chrono>
+
 class Particle :
 	public Actor
 {
@@ -10,6 +11,7 @@ public:
 	void SetMesh(const char* name);
 	void SetVector(const VECTOR& vec) { mVec = vec; }
 	void SetAdvSpeed(float speed) { mAdvSpeed = speed; }
+	void SetMeshComponent(class MeshComponent* mesh) { mMesh = mesh; }
 	enum class MeshType
 	{
 		EBatch,
@@ -23,5 +25,6 @@ private:
 	float mTime;
 	VECTOR mVec;
 	float mAdvSpeed;
+	class MeshComponent* mMesh;
 };
 

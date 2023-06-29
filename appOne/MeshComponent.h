@@ -13,10 +13,12 @@ public:
 	void SetOffsetPos(const VECTOR& pos) { mOffsetPos = pos; }
 	void SetOffsetAngle(const VECTOR& angle) { mOffsetPos = angle; }
 	void SetDrawFlag(bool flag) { mDrawFlag = flag; }
+	const char* GetMeshName() { return mMeshName; }
 protected:
 	MATRIX mWorld;
 	VECTOR mOffsetPos;
 	VECTOR mOffsetAngle;
 	bool mDrawFlag;
+	const char* mMeshName;
 };
 

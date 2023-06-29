@@ -115,14 +115,19 @@ int CharacterActor::rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed)
 	return 0;
 }
 
-void CharacterActor::SpawnParticle(const VECTOR& pos, const char* name, int num, float maxLifeSpan, Particle::MeshType type)
+void CharacterActor::SpawnParticle(const VECTOR& pos, const char* name, int num, float maxLifeSpan, Particle::MeshType type, float spawnRadius)
 {
 	for (int i = 0; i < num; i++)
 	{
 		VECTOR Pos = pos;
-		int offsetX = random(-1.5f, 1.5f);
-		int offsetY = random(-1.0f, 1.0f);
-		int offsetZ = random(-1.5f, 1.5f);
+		if (spawnRadius == 0.0f)
+		{
+			spawnRadius = GetRadius();
+		}
+
+		float offsetX = random(-spawnRadius * 2.0f, spawnRadius * 2.0f);
+		float offsetY = random(-1.0f, 1.0f);
+		float offsetZ = random(-spawnRadius * 2.0f, spawnRadius * 2.0f);
 
 		Pos.x += offsetX;
 		Pos.y += offsetY;
@@ -137,4 +142,3 @@ void CharacterActor::SpawnParticle(const VECTOR& pos, const char* name, int num,
 		particle->SetRotation(VECTOR(0.17f * (int)random(0.0f,20.0f), 0.17f * (int)random(0.0f, 20.0f), 0.17f * (int)random(0.0f, 20.0f)));
 	}
 }
-

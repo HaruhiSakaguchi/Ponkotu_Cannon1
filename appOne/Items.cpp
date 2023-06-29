@@ -18,8 +18,6 @@ Recovery::Recovery(class Game* game)
 	mTc->SetTree("RecoverTran");
 	mTc->SetOffsetPos(GetCapsulOffset());
 	SetDamageMesh(mTc);
-
-
 }
 
 bool Recovery::update()
@@ -37,12 +35,15 @@ bool Recovery::update()
 	}
 	else
 	{
-		c->AddItemNum(iData.mNum);
-		setVolume(iData.mSound2, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
-		playSound(iData.mSound2);
-		std::ostringstream oss;
-		oss << GetName() << "アイテムをストック。";
-		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+		if (mOwner->GetTag() == CharacterActor::CharactersTag::Cannon)
+		{
+			c->AddItemNum(iData.mNum);
+			setVolume(iData.mSound2, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
+			playSound(iData.mSound2);
+			std::ostringstream oss;
+			oss << GetName() << "アイテムをストック。";
+			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+		}
 	}
 
 	return true;

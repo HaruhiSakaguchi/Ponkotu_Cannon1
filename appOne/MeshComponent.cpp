@@ -8,6 +8,7 @@ MeshComponent::MeshComponent(Actor* owner,bool isDraw)
 	, mOffsetPos(0.0f, 0.0f, 0.0f)
 	, mOffsetAngle(0.0f,0.0f,0.0f)
 	, mDrawFlag(isDraw)
+	, mMeshName(nullptr)
 {
 	mOwner->GetGame()->GetRenderer()->AddMesh(this);
 }

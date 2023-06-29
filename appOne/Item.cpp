@@ -66,7 +66,7 @@ void Item::UpdateActor()
 
 	if (mIsSpawnParticle)
 	{
-		SpawnParticle(GetPosition(), mNormalMesh->GetMeshName(), 10, 1.0f, Particle::MeshType::ETree);
+		SpawnParticle(GetPosition(), mNormalMesh->GetMeshName(), 5, 1.0f, Particle::MeshType::ETree);
 		mIsSpawnParticle = false;
 		mBeforeTime = (int)mTime;
 	}

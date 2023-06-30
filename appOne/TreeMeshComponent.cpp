@@ -7,15 +7,18 @@
 #include "CONTAINER/TREE.h"
 #include "CONTAINER/ANIMATION.h"
 
-TreeMeshComponent::TreeMeshComponent(Actor* owner,bool isDraw)
-	: MeshComponent(owner,isDraw)
+TreeMeshComponent::TreeMeshComponent(Actor* owner, bool isDraw)
+	: MeshComponent(owner, isDraw)
 	, mTree(nullptr)
 {
 }
 
 TreeMeshComponent::~TreeMeshComponent()
 {
-	delete mTree;
+	if (mTree)
+	{
+		delete mTree;
+	}
 	mAnims.clear();
 }
 
@@ -52,14 +55,13 @@ void TreeMeshComponent::Update()
 	mWorld.mulRotateX(angle.x);
 	mWorld.mulRotateZ(angle.z);
 	mWorld.mulScaling(mOwner->GetScale());
-
-	mTree->update(mWorld);
 }
 
 void TreeMeshComponent::Draw()
 {
-	if (mDrawFlag && mTree != nullptr)
+	if (mDrawFlag && mTree)
 	{
+		mTree->update(mWorld);
 		mTree->draw(mOwner->GetGame()->GetRenderer()->GetShader());
 	}
 }

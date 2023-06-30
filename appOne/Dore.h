@@ -1,6 +1,7 @@
 #pragma once
 #include "Actor.h"
 #include <functional>
+
 class Dore : public Actor
 {
 public:

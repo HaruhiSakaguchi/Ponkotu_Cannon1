@@ -4,31 +4,22 @@
 #include "window.h"
 #include "Collision_Capsul.h"
 #include "InputComponent.h"
-#include "Items.h"
 #include "UIItemStatus.h"
-#include "input.h"
 #include "TreeMeshComponent.h"
 #include "CannonWheelL.h"
 #include "CannonWheelR.h"
 #include "UILog.h"
 #include "Map.h"
 #include "CollisionMapComponent.h"
-#include "PlayerHome.h"
 #include "HpGaugeSpriteComponent.h"
-#include <iostream>
 #include <sstream>
 #include "UIPSideCharacterStatusClose.h"
 #include "CameraManager.h"
-#include "Particle.h"
 
-Cannon::Cannon(Game* game) :
-	PSideCharacterActor(game)
+Cannon::Cannon(class Game* game)
+	: PSideCharacterActor(game)
 	, mIn(nullptr)
 	, mState(nullptr)
-	, mPower(nullptr)
-	, mSpeed(nullptr)
-	, mBarrier(nullptr)
-	, mRapid(nullptr)
 	, mJumpSoundFlag(false)
 	, mCnt(0)
 	, mSlideCnt(0)
@@ -103,6 +94,7 @@ int Cannon::SetUp()
 	SetImageColor(Data.mImageColor);
 	SetRange(Data.mRange);
 	SetRDamage(1);
+	SetDamage(1);
 	SetInitMaxHp(GetMaxHp());
 
 
@@ -221,9 +213,9 @@ void Cannon::UpdateActor()
 
 	if (GetGame()->GetActorManager()->GetEnemies().empty() && !GetGame()->GetActorManager()->GetEHome())
 	{
-		while (!mItemComponents.empty())
+		for (auto item : mItemComponents)
 		{
-			delete mItemComponents.back();
+			item->SetState(CharacterActor::EDead);
 		}
 		Data.mRDamage = 0;
 		mState->ChangeState("Wait");
@@ -335,7 +327,7 @@ void Cannon::Damage(Actor* actor)
 {
 	if (GetDamageInterval() <= 0.0f)
 	{
-		SetHp(GetHp() - Data.mRDamage);
+		SetHp(GetHp() - GetRDamage());
 
 		if (GetBarrier())
 		{
@@ -351,10 +343,6 @@ void Cannon::Damage(Actor* actor)
 
 	if (GetHp() <= 0)
 	{
-		if (actor)
-		{
-			//static_cast<class Camera*>(GetGame()->GetCamera())->SetCannonKillerPos(actor->GetPosition());
-		}
 		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mDeadSound);
 		GetGame()->GetActorManager()->GetStage()->AddText("Cannon‚ÍŽ€‚ñ‚Å‚µ‚Ü‚Á‚½...B");
@@ -371,7 +359,7 @@ void Cannon::Damage(int damage)
 			GetBarrier()->SetHp(GetBarrier()->GetHp() - 1);
 		}
 
-		SetHp(GetHp() - Data.mRDamage);
+		SetHp(GetHp() - GetRDamage());
 		SetDamageInterval(Data.mMaxDamageInterval);
 	}
 	else
@@ -389,7 +377,7 @@ void Cannon::DamageOption()
 {
 	if (GetDamageInterval() > 0)
 	{
-		if (Data.mRDamage != 0)
+		if (GetRDamage() != 0)
 		{
 			setVolume(Data.mDamageSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 			playSound(Data.mDamageSound);
@@ -444,24 +432,8 @@ void Cannon::RemoveItemNum(int num)
 	}
 }
 
-void Cannon::AddItemComponent(ItemComponent* component)
-{
-	mItemComponents.emplace_back(component);
-}
-
-void Cannon::RemoveItemComponent(ItemComponent* component)
-{
-	auto iter = std::find(mItemComponents.begin(), mItemComponents.end(), component);
-	if (iter != mItemComponents.end())
-	{
-		mItemComponents.erase(iter);
-	}
-}
-
 int Cannon::GetNextTpIndex()
 {
 	int idx = (mTPIndex + 1) % 4;
 	return idx;
 }
-
-

@@ -103,7 +103,7 @@ void SatelliteWing::UpdateActor()
 	else
 	{
 		SetHp(0);
-		if (GetOwner())
+		if (GetOwner()->GetHp() > 0)
 		{
 			class Satellite* s = static_cast<class Satellite*>(mOwner);
 			s->RemoveWings(this);

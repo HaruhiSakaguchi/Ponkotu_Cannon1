@@ -630,7 +630,7 @@ void CannonGenerate::Update()
 		{
 			if (!mFirstTargetCompleteFlag)
 			{
-				if (p->GetGame()->GetActorManager()->GetPHome()->GetDore()->GetOpenComplete())
+				if (p->GetGame()->GetActorManager()->GetPHome()->GetDore()->GetOpenComplete() == true)
 				{
 					p->SetPosition(p->GetPosition() + vec * p->GetAdvSpeed());
 				}

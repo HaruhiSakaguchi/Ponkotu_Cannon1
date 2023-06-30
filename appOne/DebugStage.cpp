@@ -1,7 +1,6 @@
 #include "DebugStage.h"
 #include "Game.h"
 #include "StageClear.h"
-//#include "UIProgressGauge.h"
 #include "Items.h"
 #include "COLLISION_MAP.h"
 #include "Cannon.h"

@@ -32,7 +32,7 @@ Tama::Tama(Game* game)
 	mState->ChangeState("Wait");
 }
 
-Tama::Tama(Game* game,const VECTOR&pos)
+Tama::Tama(Game* game, const VECTOR& pos)
 	: Enemy(game)
 	, mState(nullptr)
 	, mScale(1.0f)
@@ -78,12 +78,12 @@ int Tama::SetUp()
 
 	new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
 
-	
+
 	mTc = new TreeMeshComponent(this);
 	mTc->SetTree("Tama");
 	mTc->SetOffsetPos(GetCapsulOffset());
 	SetNormalMesh(mTc);
-	mTc = new TreeMeshComponent(this,false);
+	mTc = new TreeMeshComponent(this, false);
 	mTc->SetTree("TamaDamage");
 	mTc->SetOffsetPos(GetCapsulOffset());
 	SetDamageMesh(mTc);
@@ -132,8 +132,15 @@ void Tama::UpdateActor()
 
 void Tama::Damage(int damage)
 {
-	SetHp(GetHp() - damage);
-	SetDamageInterval(Data.mMaxDamageInterval);
+	if (GetDamageInterval() <= 0.0f)
+	{
+		SetHp(GetHp() - damage);
+		SetDamageInterval(Data.mMaxDamageInterval);
+	}
+	else
+	{
+		return;
+	}
 }
 
 void Tama::FallOption()

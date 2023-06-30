@@ -12,6 +12,11 @@ public:
     {
         ECannon,
         EBarricade,
+        EPower,
+        EBarrier,
+        ESpeed,
+        ERapid,
+        ERecover,
         EEmpty
     };
     UIGenerate(class UIPlayerHome*owner,Game*game, GenerateActor_Id id = EEmpty);
@@ -26,5 +31,6 @@ private:
     class CharacterActor* mGenerateActor;
     class Button* mChangeButton;
     class Button* mCancellButton;
+    int mItemGeneratePoint;
 };
 

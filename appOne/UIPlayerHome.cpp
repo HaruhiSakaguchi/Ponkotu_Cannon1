@@ -13,7 +13,9 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 	, mGoButton(nullptr)
 	, mReturnButton(nullptr)
 	, mGenerate(nullptr)
+	, mGenerateItemButton(nullptr)
 	, mHpGaugeWidth(0.0f)
+	, mBarrierHpGaugeWidth(0.0f)
 {
 	float Width = (float)(mHeight * mOwner->GetMaxHp());
 	mPos = VECTOR2(width / 2.0f, height - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight * 2.0f);
@@ -24,7 +26,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetTargetPosIdx() < 2 && !h->GetGenerateFlag())
+			if (h->GetTargetPosIdx() < 2 && h->GetGenerateFlag() == 0)
 			{
 				h->SetTargetPoint(h->GetHomeMoveTargetPoints()[h->GetTargetPosIdx() + 1]);
 				h->SetTargetPosIdx(h->GetTargetPosIdx() + 1);
@@ -36,7 +38,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				pop->SetTextColor(COLOR(50, 50, 255));
 				pop->NoStrokeRect();
 			}
-			else if (h->GetGenerateFlag())
+			else if (h->GetGenerateFlag() == 1)
 			{
 				auto pop = new UIPopUp(mGame, "ユニットの追加中に移動することはできません", mGoButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
 				pop->SetTextSize(30);
@@ -51,7 +53,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetTargetPosIdx() > 0 && !h->GetGenerateFlag())
+			if (h->GetTargetPosIdx() > 0 && h->GetGenerateFlag() == 0)
 			{
 				h->SetTargetPoint(h->GetHomeMoveTargetPoints()[h->GetTargetPosIdx() - 1]);
 				h->SetTargetPosIdx(h->GetTargetPosIdx() - 1);
@@ -63,7 +65,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				pop->SetTextColor(COLOR(50, 50, 255));
 				pop->NoStrokeRect();
 			}
-			else if (h->GetGenerateFlag())
+			else if (h->GetGenerateFlag() == 1)
 			{
 				auto pop = new UIPopUp(mGame, "ユニットの追加中に移動することはできません", mReturnButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
 				pop->SetTextSize(30);
@@ -112,9 +114,9 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel() && !h->GetGenerateFlag() && (int)(mGame->GetActorManager()->GetPSide().size()) - 1 != mOwner->GetMaxLevel())
+			if (h->GetMoveCompleteFlag() == 1 && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel() && h->GetGenerateFlag() == 0 && (int)(mGame->GetActorManager()->GetPSide().size()) - 1 != mOwner->GetMaxLevel())
 			{
-				h->SetGenerateFlag(true);
+				h->SetGenerateFlag(1);
 				if (!mGenerate)
 				{
 					mGenerate = new UIGenerate(this, mGame, UIGenerate::ECannon);
@@ -125,14 +127,14 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 					mGenerate = new UIGenerate(this, mGame, UIGenerate::ECannon);
 				}
 			}
-			else if (!h->GetMoveCompleteFlag())
+			else if (h->GetMoveCompleteFlag() == 0)
 			{
 				auto pop = new UIPopUp(mGame, "移動中はユニットの追加ができません", mGenerateCannonButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
 				pop->SetTextSize(30);
 				pop->SetTextColor(COLOR(50, 50, 255));
 				pop->NoStrokeRect();
 			}
-			else if (h->GetGenerateFlag())
+			else if (h->GetGenerateFlag() == 1)
 			{
 				auto pop = new UIPopUp(mGame, "ユニットの追加中に新たにユニットを追加することはできません", mGenerateCannonButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
 				pop->SetTextSize(30);
@@ -158,9 +160,9 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetMoveCompleteFlag() && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel() && !h->GetGenerateFlag() && (int)(mGame->GetActorManager()->GetPSide().size()) - 1 != mOwner->GetMaxLevel())
+			if (h->GetMoveCompleteFlag() == 1 && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel() && h->GetGenerateFlag() == 0 && (int)(mGame->GetActorManager()->GetPSide().size()) - 1 != mOwner->GetMaxLevel())
 			{
-				h->SetGenerateFlag(true);
+				h->SetGenerateFlag(1);
 				if (!mGenerate)
 				{
 					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarricade);
@@ -171,14 +173,14 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarricade);
 				}
 			}
-			else if (!h->GetMoveCompleteFlag())
+			else if (h->GetMoveCompleteFlag() == 0)
 			{
 				auto pop = new UIPopUp(mGame, "移動中はユニットの追加ができません", mGenerateBarricadeButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
 				pop->SetTextSize(30);
 				pop->SetTextColor(COLOR(50, 50, 255));
 				pop->NoStrokeRect();
 			}
-			else if (h->GetGenerateFlag())
+			else if (h->GetGenerateFlag() == 1)
 			{
 				auto pop = new UIPopUp(mGame, "ユニットの追加中に新たにユニットを追加することはできません", mGenerateBarricadeButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
 				pop->SetTextSize(30);
@@ -275,6 +277,40 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		}
 		, 2
 			);
+
+	mGenerateItemButton = AddRectButton("アイテムを追加",
+		[this]()
+		{
+			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
+			if (h->GetMoveCompleteFlag() == 1 && h->GetGenerateFlag() == 0)
+			{
+				h->SetGenerateFlag(1);
+				if (!mGenerate)
+				{
+					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarrier);
+				}
+				else
+				{
+					mGenerate->CloseMe();
+					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarrier);
+				}
+			}
+			else if (h->GetMoveCompleteFlag() == 0)
+			{
+				auto pop = new UIPopUp(mGame, "移動中はユニットの追加ができません", mGenerateItemButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
+			else if (h->GetGenerateFlag() == 1)
+			{
+				auto pop = new UIPopUp(mGame, "ユニットの追加中に新たにユニットを追加することはできません", mGenerateItemButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
+		}
+	);
 }
 
 void UIPlayerHome::draw()
@@ -307,7 +343,7 @@ void UIPlayerHome::draw()
 	fill(color);
 	stroke(color);
 
-	rect(mPos.x - 1.0f, mPos.y - 1.0f, mHpGaugeWidth, mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight + 2.0f);
+	rect(mPos.x - 1.0f, mPos.y - 1.0f, mHpGaugeWidth - 25.0f, mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight + 2.0f);
 
 	if (mOwner->GetHp() <= mOwner->GetMaxHp())
 	{
@@ -321,15 +357,28 @@ void UIPlayerHome::draw()
 	textSize(mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHpTextSize);
 	text((let)"Lv :" + (let)mOwner->GetLevel() + " Hp :" + mOwner->GetHp() + (let)" / " + mOwner->GetMaxHp(), width / 2.0f - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHpTextSize * 7.0f, mPos.y + mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHpTextSize);
 
-
+	if (mOwner->GetBarrier())
+	{
+		noStroke();
+		fill(50, 50, 255,128);
+		rect(mPos.x + 1000.0f - mBarrierHpGaugeWidth - 25.0f + 12.5f, mPos.y + 25.0f, mBarrierHpGaugeWidth, 25.0f);
+	}
 
 }
 
 void UIPlayerHome::Update()
 {
 	float preWidth = mHpGaugeWidth;
-	float wid = ((float)mOwner->GetHp() / (float)mOwner->GetMaxHp()) * (mOwner->GetInitMaxHp() * mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight + 0.1f);
+	float wid = ((float)mOwner->GetHp() / (float)mOwner->GetMaxHp()) * (mOwner->GetInitMaxHp() * mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight);
 	mHpGaugeWidth = preWidth + (wid - preWidth) * 0.05f;
+
+	if (mOwner->GetBarrier())
+	{
+		float preBWidth = mBarrierHpGaugeWidth;
+		float Bwid = 500.0f * ((float)mOwner->GetBarrier()->GetHp() / (float)mOwner->GetBarrier()->GetMaxHp());
+		mBarrierHpGaugeWidth = preBWidth + (Bwid - preBWidth) * 0.05f;
+	}
+
 	mGoButton->SetPosition(VECTOR2(mPos.x, mPos.y - 100.0f));
 	mReturnButton->SetPosition(VECTOR2(mPos.x + 100.0f, mPos.y - 100.0f));
 	mHomeLvUpButton->SetPosition(VECTOR2(mPos.x + 100.0f + 100.0f, mPos.y - 100.0f));
@@ -337,7 +386,7 @@ void UIPlayerHome::Update()
 	mGenerateCannonLvUpButton->SetPosition(VECTOR2(mPos.x + 300.0f + 100.0f, mPos.y - 100.0f + 25.0f));
 	mGenerateBarricadeButton->SetPosition(VECTOR2(mPos.x + 300.0f + 200.0f, mPos.y - 100.0f));
 	mGenerateBarricadeLvUpButton->SetPosition(VECTOR2(mPos.x + 300.0f + 200.0f + 100.0f, mPos.y - 100.0f + 25.0f));
-	
+	mGenerateItemButton->SetPosition(VECTOR2(mPos.x + 300.0f + 200.0f + 100.0f + 100.0f + 50.0f, mPos.y - 100.0f + 25.0f));
 }
 
 void UIPlayerHome::DrawAfterButton()

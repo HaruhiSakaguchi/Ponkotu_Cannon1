@@ -1,9 +1,14 @@
 #include "PSideCharacterActor.h"
 #include "Game.h"
 
-PSideCharacterActor::PSideCharacterActor(Game* game)
+PSideCharacterActor::PSideCharacterActor(class Game* game)
 	: CharacterActor(game)
 	, mUI(nullptr)
+	, mNum(0)
+	, mPower(nullptr)
+	, mSpeed(nullptr)
+	, mBarrier(nullptr)
+	, mRapid(nullptr)
 {
 	GetGame()->GetActorManager()->AddPSide(this);
 	mNum = (int)(GetGame()->GetActorManager()->GetPSide().size()) - 1;
@@ -24,5 +29,19 @@ PSideCharacterActor::~PSideCharacterActor()
 		{
 			pSide->SetNum(pSide->GetNum() - 1);
 		}
+	}
+}
+
+void PSideCharacterActor::AddItemComponent(class ItemComponent* component)
+{
+	mItemComponents.emplace_back(component);
+}
+
+void PSideCharacterActor::RemoveItemComponent(class ItemComponent* component)
+{
+	auto iter = std::find(mItemComponents.begin(), mItemComponents.end(), component);
+	if (iter != mItemComponents.end())
+	{
+		mItemComponents.erase(iter);
 	}
 }

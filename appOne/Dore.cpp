@@ -35,6 +35,9 @@ void Dore::UpdateActor()
 			mClosing = !CloseDore();
 		}
 	}
+
+	print("begO" + (let)mBeginOpenFlag);
+	print("CloseCom" + (let)mCloseComplete);
 }
 
 bool Dore::OpenDore()        

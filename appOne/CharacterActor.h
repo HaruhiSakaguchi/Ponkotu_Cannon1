@@ -1,8 +1,8 @@
 #pragma once
 #include "Actor.h"
 #include "MATRIX.h"
-#include <string>
 #include "Particle.h"
+#include <string>
 
 class CharacterActor :public Actor
 {
@@ -61,6 +61,11 @@ public:
 	int GetInitMaxHp() { return mInitMaxHp; }
 	void SetInitMaxHp(int hp) { mInitMaxHp = hp; }
 
+	int GetDamage() { return mDamage; }
+	int GetRDamage() { return mRDamage; }
+	void SetDamage(int damage) { mDamage = damage; }
+	void SetRDamage(int damage) { mRDamage = damage; }
+
 	//メッシュの名前からパーティクルをスポーン
 	
 	void SpawnParticle(const VECTOR& pos, const char* name,int num = 1, float maxLifeSpan = 1.0f, Particle::MeshType type = Particle::MeshType::EBatch,float spawnRadius = 0.0f);
@@ -93,6 +98,10 @@ private:
 	float mOffsetY;
 	int mLevel;
 	int mMaxLevel;
+	//与えるダメージ
+	int mDamage;
+	//受けるダメージ
+	int mRDamage;
 	COLOR mDamageColor;
 	//ミニマップ用カラー　アクターごとに持たせる
 	COLOR mImageColor;

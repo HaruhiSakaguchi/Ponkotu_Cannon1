@@ -15,7 +15,7 @@ private:
 class RecoveryCompo : public ItemComponent
 {
 public:
-	RecoveryCompo(class Cannon* owner);
+	RecoveryCompo(class PSideCharacterActor* owner);
 private:
 	int mRecoveryHp = 3;
 };
@@ -32,9 +32,9 @@ private:
 class SpeedUpCompo : public ItemComponent
 {
 public:
-	SpeedUpCompo(class Cannon* owner);
+	SpeedUpCompo(class PSideCharacterActor* owner);
 	~SpeedUpCompo();
-	void Update()override;
+	void UpdateActor()override;
 private:
 	float mSpeedUpRate = 0.1f;
 };
@@ -51,9 +51,9 @@ private:
 class PowerUpCompo : public ItemComponent
 {
 public:
-	PowerUpCompo(class Cannon* owner);
+	PowerUpCompo(class PSideCharacterActor* owner);
 	~PowerUpCompo();
-	void Update()override;
+	void UpdateActor()override;
 };
 
 class RapidFire : public Item
@@ -68,9 +68,9 @@ private:
 class RapidFireCompo : public ItemComponent
 {
 public:
-	RapidFireCompo(class Cannon* owner);
+	RapidFireCompo(class PSideCharacterActor* owner);
 	~RapidFireCompo();
-	void Update()override;
+	void UpdateActor()override;
 private:
 	float mLaunchIntervalDecreaseRate = 0.1f;
 };
@@ -87,7 +87,7 @@ private:
 class BarrierCompo : public ItemComponent
 {
 public:
-	BarrierCompo(class Cannon* owner);
+	BarrierCompo(class PSideCharacterActor* owner);
 	~BarrierCompo();
-	void Update()override;
+	void UpdateActor()override;
 };

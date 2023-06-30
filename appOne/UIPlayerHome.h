@@ -11,7 +11,8 @@ public:
     void DrawAfterButton()override;
     void SetGenerate(class UIGenerate*gene) { mGenerate = gene; }
 private:
-    int mHpGaugeWidth;
+    float mHpGaugeWidth;
+    float mBarrierHpGaugeWidth;
     class PSideCharacterActor* mOwner;
     VECTOR2 mPos;
     float mHeight = 50.0f;
@@ -22,6 +23,7 @@ private:
     Button* mGenerateBarricadeButton;
     Button* mGenerateCannonLvUpButton;
     Button* mGenerateBarricadeLvUpButton;
+    Button* mGenerateItemButton;
     class UIGenerate* mGenerate;
 };
 

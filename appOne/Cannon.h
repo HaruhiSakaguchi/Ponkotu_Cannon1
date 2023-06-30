@@ -1,8 +1,6 @@
 #pragma once
 #include "PSideCharacterActor.h"
 #include "StateComponent.h"
-#include "sound.h"
-#include "ItemComponent.h"
 
 class Cannon :
 	public PSideCharacterActor
@@ -30,10 +28,6 @@ public:
 	float GetWheelRotateX() { return Data.mWheelAngleX; }
 	void DamageOption()override;
 	void SetDir(const VECTOR& dir) { Data.mDir = dir; }
-	void SetDamage(int damage) { Data.mDamage = damage; }
-	int GetDamage() { return Data.mDamage; }
-	void SetRDamage(int damage) { Data.mRDamage = damage; }
-	int GetRDamage() { return Data.mRDamage; }
 	int GetMaxHp() { return Data.mMaxHp; }
 
 	int GetNextTpIndex();
@@ -45,14 +39,6 @@ public:
 	StateComponent* GetStateCompoState() { return mState; }
 
 	class InputComponent* GetIn() { return mIn; }
-	class PowerUpCompo* GetPower() { return mPower; }
-	class SpeedUpCompo* GetSpeed() { return mSpeed; }
-	class BarrierCompo* GetBarrier() { return mBarrier; }
-	class RapidFireCompo* GetRapid() { return mRapid; }
-	void SetPower(class PowerUpCompo* power) { mPower = power; }
-	void SetSpeed(class SpeedUpCompo* speed) { mSpeed = speed; }
-	void SetBarrier(class BarrierCompo* barrier) { mBarrier = barrier; }
-	void SetRapid(class RapidFireCompo* rapid) { mRapid = rapid; }
 
 	void AddItemNum(int num);
 	void RemoveItemNum(int num);
@@ -65,9 +51,6 @@ public:
 	int GetSlideCnt() { return mSlideCnt; }
 	void SetSlideCnt(int cnt) { mSlideCnt = cnt; }
 
-	void AddItemComponent(class ItemComponent*);
-	void RemoveItemComponent(class ItemComponent*);
-	std::vector<class ItemComponent*>GetItemComponents() { return mItemComponents; }
 	void PlayFallSound() { playSound(Data.mFallSound); }
 	void SetLaunchTime(float time) { mLaunchTime = time; }
 	void StopFallSound() { stopSound(Data.mFallSound); }
@@ -147,18 +130,11 @@ private:
 	class InputComponent* mIn;
 	class StateComponent* mState;
 
-	//アイテムの分類
-	class PowerUpCompo* mPower;
-	class SpeedUpCompo* mSpeed;
-	class BarrierCompo* mBarrier;
-	class RapidFireCompo* mRapid;
-
 	MoveState mMoveState;
 	//Hierarchy Matrix
 	MATRIX Master, Body, Target;
 
 	std::vector<int>mItemNums;
-	std::vector<class ItemComponent*> mItemComponents;
 
 	//サウンド関連
 	bool mJumpSoundFlag;

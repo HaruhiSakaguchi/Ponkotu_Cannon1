@@ -17,7 +17,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 	, mCloseButton(nullptr)
 {
 	mPosition = VECTOR2(0.0f, (mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f)) +
-		mGame->GetAllData()->itemCompoData.mUIInitPos;
+		VECTOR2(2600.0f,100.0f);
 
 	mStayButton = AddButton("S",
 		[this]() {

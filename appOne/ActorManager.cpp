@@ -6,7 +6,6 @@
 #include "ActorsWeapon.h"
 #include "PlayerHome.h"
 #include "EnemyHome.h"
-#include "Actor.h"
 #include "Camera.h"
 
 ActorManager::ActorManager(class Game* game)
@@ -73,7 +72,7 @@ void ActorManager::ProcessInput()
 	mUpdatingActors = false;
 }
 
-void ActorManager::AddActor(Actor* actor)
+void ActorManager::AddActor(class Actor* actor)
 {
 	if (mUpdatingActors)
 	{
@@ -85,7 +84,7 @@ void ActorManager::AddActor(Actor* actor)
 	}
 }
 
-void ActorManager::RemoveActor(Actor* actor)
+void ActorManager::RemoveActor(class Actor* actor)
 {
 	//‚±‚Ìactor‚ªmActors‚É‚ ‚é‚©’T‚·
 	auto iter = std::find(mActors.begin(), mActors.end(), actor);
@@ -97,12 +96,12 @@ void ActorManager::RemoveActor(Actor* actor)
 	}
 }
 
-void ActorManager::AddCharacter(CharacterActor* actor)
+void ActorManager::AddCharacter(class CharacterActor* actor)
 {
 	mCharacters.emplace_back(actor);
 }
 
-void ActorManager::RemoveCharacter(CharacterActor* actor)
+void ActorManager::RemoveCharacter(class CharacterActor* actor)
 {
 	//‚±‚Ìactor‚ªmActors‚É‚ ‚é‚©’T‚·
 	auto iter = std::find(mCharacters.begin(), mCharacters.end(), actor);
@@ -130,12 +129,12 @@ void ActorManager::RemovePSide(class PSideCharacterActor* actor)
 	}
 }
 
-void ActorManager::AddWeapons(ActorsWeapon* weapon)
+void ActorManager::AddWeapons(class ActorsWeapon* weapon)
 {
 	mWeapons.emplace_back(weapon);
 }
 
-void ActorManager::RemoveWeapons(ActorsWeapon* weapon)
+void ActorManager::RemoveWeapons(class ActorsWeapon* weapon)
 {
 	//‚±‚Ìactor‚ªmActors‚É‚ ‚é‚©’T‚·
 	auto iter = std::find(mWeapons.begin(), mWeapons.end(), weapon);
@@ -147,12 +146,12 @@ void ActorManager::RemoveWeapons(ActorsWeapon* weapon)
 	}
 }
 
-void ActorManager::AddEnemies(Enemy* enemy)
+void ActorManager::AddEnemies(class Enemy* enemy)
 {
 	mEnemies.emplace_back(enemy);
 }
 
-void ActorManager::RemoveEnemies(Enemy* enemy)
+void ActorManager::RemoveEnemies(class Enemy* enemy)
 {
 	//‚±‚Ìactor‚ªmActors‚É‚ ‚é‚©’T‚·
 	auto iter = std::find(mEnemies.begin(), mEnemies.end(), enemy);
@@ -164,12 +163,12 @@ void ActorManager::RemoveEnemies(Enemy* enemy)
 	}
 }
 
-void ActorManager::AddItems(Item* item)
+void ActorManager::AddItems(class Item* item)
 {
 	mItems.emplace_back(item);
 }
 
-void ActorManager::RemoveItems(Item* item)
+void ActorManager::RemoveItems(class Item* item)
 {
 	//‚±‚Ìactor‚ªmActors‚É‚ ‚é‚©’T‚·
 	auto iter = std::find(mItems.begin(), mItems.end(), item);

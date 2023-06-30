@@ -69,8 +69,8 @@ int Satellite::SetUp()
 
 	Data.mId = Num % 2;
 	int maxHp = 0;
-	class TreeMeshComponent* ntc = new TreeMeshComponent(this,false);
-	class TreeMeshComponent* dtc = new TreeMeshComponent(this,false);
+	class TreeMeshComponent* ntc = new TreeMeshComponent(this, false);
+	class TreeMeshComponent* dtc = new TreeMeshComponent(this, false);
 
 	if (Data.mId == 0)
 	{
@@ -185,8 +185,15 @@ const VECTOR& Satellite::GetTargetPosition()
 
 void Satellite::Damage(int damage)
 {
-	SetHp(GetHp() - damage);
-	SetDamageInterval(Data.mMaxDamageInterval);
+	if (GetDamageInterval() <= 0)
+	{
+		SetHp(GetHp() - damage);
+		SetDamageInterval(Data.mMaxDamageInterval);
+	}
+	else
+	{
+		return;
+	}
 
 	if (mState->GetName() == "Attack")
 	{

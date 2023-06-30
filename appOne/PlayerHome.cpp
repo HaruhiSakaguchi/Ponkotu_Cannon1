@@ -19,7 +19,7 @@ PlayerHome::PlayerHome(class Game* game, const VECTOR& pos)
 	, mGenerateCannonLevel(0)
 	, mGenerateBarricadeLevel(0)
 	, mCurMyTpIdx(0)
-	, mGenerateFlag(true)
+	, mGenerateFlag(1)
 	, mBattlePoints(0)
 	, mMaxBattlePoints(0)
 
@@ -57,7 +57,7 @@ int PlayerHome::SetUp()
 	mDore->SetRotationY(-3.1415926f);
 	mDore->SetIsRotate(true);
 	mDore->Open();
-	mDore->SetCloseEvent([this]() { SetGenerateFlag(false); });
+	mDore->SetCloseEvent([this]() { mGenerateFlag = 0; });
 
 	SetRadius(Data.mRadius);
 	SetHeight(Data.mHeight);
@@ -114,7 +114,7 @@ void PlayerHome::UpdateActor()
 
 	mMoveCompleteFlag = GoToTargetPoint(mHomeTargetPoint);
 
-	if (mMoveCompleteFlag && mGenerateFlag)
+	if (mMoveCompleteFlag == 1 && mGenerateFlag == 1)
 	{
 		mDore->SetIsRotate(true);
 	}
@@ -140,7 +140,7 @@ void PlayerHome::UpdateActor()
 		}
 	}
 
-	if (mGenerateFlag && cnt == 0)
+	if (mGenerateFlag == 1 && cnt == 0)
 	{
 		mDore->Close();
 	}
@@ -168,13 +168,23 @@ void PlayerHome::UpdateActor()
 		mFlag1->GetMesh()->SetDrawFlag(true);
 		mFlag2->GetMesh()->SetDrawFlag(true);
 	}
+
+	print("Generate" + (let)GetGenerateFlag());
+	print("Move" + (let)GetMoveCompleteFlag());
 }
 
 void PlayerHome::Damage(int damage)
 {
 	if (GetDamageInterval() <= 0.0f)
 	{
-		SetHp(GetHp() - damage);
+		if (GetBarrier())
+		{
+			GetBarrier()->SetHp(GetBarrier()->GetHp() - 1);
+		}
+		else
+		{
+			SetHp(GetHp() - damage);
+		}
 		SetDamageInterval(Data.mMaxDamageInterval);
 	}
 	else
@@ -198,19 +208,19 @@ void PlayerHome::Dead()
 	SpawnParticle(GetPosition(), "PlayerFlagFlag", 40);
 }
 
-bool PlayerHome::GoToTargetPoint(const VECTOR& pos)
+int PlayerHome::GoToTargetPoint(const VECTOR& pos)
 {
 	VECTOR dir = pos - GetPosition();
 	dir.normalize();
 
 	if (CollisionCircle(0.5f, 0.5f, GetPosition(), pos))
 	{
-		return true;
+		return 1;
 	}
 	else
 	{
 		SetPosition(GetPosition() + dir * delta * 6.0f);
-		return false;
+		return 0;
 	}
 }
 

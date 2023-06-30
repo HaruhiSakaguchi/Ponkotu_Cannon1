@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Manager.h"
+#include "Actor.h"
 
 class ActorManager
 	: public Manager
@@ -54,6 +55,7 @@ private:
 
 	bool mUpdatingActors;
 	std::vector<class Actor*> mPendingActors;
+
 	class Map* mStage;
 	class PlayerHome* mPHome;
 	class EnemyHome* mEHome;

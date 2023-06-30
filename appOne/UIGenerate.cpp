@@ -9,7 +9,7 @@
 #include "CannonWheelL.h"
 #include "CannonWheelR.h"
 #include "UIPopUp.h"
-
+#include "Items.h"
 
 UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id id)
 	: UIScreen(game)
@@ -22,6 +22,7 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 	, mGenerateActor(nullptr)
 	, mChangeButton(nullptr)
 	, mCancellButton(nullptr)
+	, mItemGeneratePoint(150)
 {
 	mCancellButton = AddRectButton("キャンセル",
 		[this]()
@@ -53,10 +54,34 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 	}
 	else if (mId == GenerateActor_Id::EBarricade)
 	{
+		text = "Barrierに切り替え";
+	}
+	else if (mId == GenerateActor_Id::EBarrier)
+	{
+		text = "Powerに切り替え";
+
+	}
+	else if (mId == GenerateActor_Id::EPower)
+	{
+		text = "Speedに切り替え";
+
+	}
+	else if (mId == GenerateActor_Id::ESpeed)
+	{
+		text = "Rapidに切り替え";
+
+	}
+	else if (mId == GenerateActor_Id::ERapid)
+	{
+		text = "Recoverに切り替え";
+
+	}
+	else if (mId == GenerateActor_Id::ERecover)
+	{
 		text = "Cannonに切り替え";
 	}
 
-	mChangeButton =AddRectButton(text,
+	mChangeButton = AddRectButton(text,
 		[this]()
 		{
 			if (mId == GenerateActor_Id::ECannon)
@@ -67,10 +92,39 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 			}
 			else if (mId == GenerateActor_Id::EBarricade)
 			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::EBarrier);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			}
+			else if (mId == GenerateActor_Id::EBarrier)
+			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::EPower);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			}
+			else if (mId == GenerateActor_Id::EPower)
+			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ESpeed);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			}
+			else if (mId == GenerateActor_Id::ESpeed)
+			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ERapid);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			}
+			else if (mId == GenerateActor_Id::ERapid)
+			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ERecover);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			}
+			else if (mId == GenerateActor_Id::ERecover)
+			{
 				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ECannon);
 				CloseMe();
 				mOwner->SetGenerate(ui);
-
 			}
 		}
 	);
@@ -103,6 +157,29 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 	{
 		tree->SetTree("Barricade");
 	}
+	else if (mId == GenerateActor_Id::EBarrier)
+	{
+		tree->SetTree("Barrier");
+	}
+	else if (mId == GenerateActor_Id::EPower)
+	{
+		tree->SetTree("Power");
+
+	}
+	else if (mId == GenerateActor_Id::ESpeed)
+	{
+		tree->SetTree("Speed");
+
+	}
+	else if (mId == GenerateActor_Id::ERapid)
+	{
+		tree->SetTree("Rapid");
+
+	}
+	else if (mId == GenerateActor_Id::ERecover)
+	{
+		tree->SetTree("Recover");
+	}
 	else
 	{
 		mGenerateActor->SetState(CharacterActor::EDead);
@@ -129,6 +206,27 @@ void UIGenerate::draw()
 	{
 		text("Barricadeをどこに設置しますか？ " + (let)mGenerateUsingPoints + "ポイント消費", width / 2, height / 2 + 200.0f);
 	}
+	else if (mId == GenerateActor_Id::EBarrier)
+	{
+		text("BarrierItemをどこに設置しますか？ " + (let)mGenerateUsingPoints + "ポイント消費", width / 2, height / 2 + 200.0f);
+	}
+	else if (mId == GenerateActor_Id::EPower)
+	{
+		text("PowerItemをどこに設置しますか？ " + (let)mGenerateUsingPoints + "ポイント消費", width / 2, height / 2 + 200.0f);
+	}
+	else if (mId == GenerateActor_Id::ESpeed)
+	{
+		text("SpeedItemをどこに設置しますか？ " + (let)mGenerateUsingPoints + "ポイント消費", width / 2, height / 2 + 200.0f);
+	}
+	else if (mId == GenerateActor_Id::ERapid)
+	{
+		text("RapidItemをどこに設置しますか？ " + (let)mGenerateUsingPoints + "ポイント消費", width / 2, height / 2 + 200.0f);
+	}
+	else if (mId == GenerateActor_Id::ERecover)
+	{
+		text("RecoverItemをどこに設置しますか？ " + (let)mGenerateUsingPoints + "ポイント消費", width / 2, height / 2 + 200.0f);
+	}
+
 }
 
 void UIGenerate::Update()
@@ -158,6 +256,10 @@ void UIGenerate::Update()
 			{
 				mGenerateUsingPoints = mGame->GetActorManager()->GetPHome()->GetGenerateBarricadeLv() * 50 + 100;
 			}
+			else if (mId != GenerateActor_Id::EEmpty)
+			{
+				mGenerateUsingPoints = mItemGeneratePoint;
+			}
 		}
 
 		if (mGenerateActor)
@@ -165,14 +267,14 @@ void UIGenerate::Update()
 			mGenerateActor->SetPosition(mGenePos);
 		}
 
-		if (isTrigger(MOUSE_LBUTTON) && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel() && !mCancellButton->ContainsPoint(mousePos) && !mChangeButton->ContainsPoint(mousePos))
+		if (isTrigger(MOUSE_LBUTTON) && !mCancellButton->ContainsPoint(mousePos) && !mChangeButton->ContainsPoint(mousePos))
 		{
 			if (mGenerateUsingPoints <= mGame->GetActorManager()->GetPHome()->GetBattlePoints())
 			{
 				if (mId != GenerateActor_Id::EEmpty)
 				{
 					CharacterActor* c = nullptr;
-					if (mId == GenerateActor_Id::ECannon)
+					if (mId == GenerateActor_Id::ECannon && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel())
 					{
 						c = new class Cannon(mGame);
 						c->SetUp();
@@ -180,13 +282,44 @@ void UIGenerate::Update()
 						c->GetGame()->GetActorManager()->GetPHome()->GetDore()->Open();
 						c->SetLevel(c->GetGame()->GetActorManager()->GetPHome()->GetGenerateCannonLv());
 					}
-					else if (mId == GenerateActor_Id::EBarricade)
+					else if (mId == GenerateActor_Id::EBarricade && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel())
 					{
 						c = new class Barricade(mGame);
 						c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));
 						mGame->GetActorManager()->GetPHome()->SetGenerateFlag(false);
 						c->SetLevel(c->GetGame()->GetActorManager()->GetPHome()->GetGenerateBarricadeLv());
 					}
+					else if (mId == GenerateActor_Id::EBarrier)
+					{
+						c = new class Barrier(mGame);
+						c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));
+						mGame->GetActorManager()->GetPHome()->SetGenerateFlag(false);
+					}
+					else if (mId == GenerateActor_Id::EPower)
+					{
+						c = new class PowerUp(mGame);
+						c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));
+						mGame->GetActorManager()->GetPHome()->SetGenerateFlag(false);
+					}
+					else if (mId == GenerateActor_Id::ESpeed)
+					{
+						c = new class SpeedUp(mGame);
+						c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));
+						mGame->GetActorManager()->GetPHome()->SetGenerateFlag(false);
+					}
+					else if (mId == GenerateActor_Id::ERapid)
+					{
+						c = new class RapidFire(mGame);
+						c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));
+						mGame->GetActorManager()->GetPHome()->SetGenerateFlag(false);
+					}
+					else if (mId == GenerateActor_Id::ERecover)
+					{
+						c = new class Recovery(mGame);
+						c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));
+						mGame->GetActorManager()->GetPHome()->SetGenerateFlag(false);
+					}
+
 
 					c->SetInitPosition(mGenePos);
 					c->SetMaxHp((int)(c->GetInitMaxHp() * ((c->GetLevel() + c->GetMaxLevel()) / 10.0f)));

@@ -57,21 +57,18 @@ void UIPSideCharacterStatusBase::Update()
 			num--;
 		}
 
-		mPosition.y = (mGame->GetAllData()->itemCompoData.mUIOffsetPosY / 2.0f) * num + mGame->GetAllData()->itemCompoData.mUIInitPos.y;
+		mPosition.y = (mGame->GetAllData()->itemCompoData.mUIOffsetPosY / 2.0f) * num + 100.0f;
 
 		float preWidth = mHpGaugeWidth;
 		float wid = 100.0f * mOwner->GetHp() / mOwner->GetMaxHp();
 		mHpGaugeWidth = preWidth + (wid - preWidth) * 0.05f;
 
-		if (mOwner->GetTag() == CharacterActor::Cannon)
+
+		if (mOwner->GetBarrier())
 		{
-			auto c = static_cast<class Cannon*>(mOwner);
-			if (c->GetBarrier())
-			{
-				float preBWidth = mBarrierHpGaugeWidth;
-				float Bwid = 50.0f * c->GetBarrier()->GetHp() / c->GetBarrier()->GetMaxHp();
-				mBarrierHpGaugeWidth = preBWidth + (Bwid - preBWidth) * 0.05f;
-			}
+			float preBWidth = mBarrierHpGaugeWidth;
+			float Bwid = 50.0f * mOwner->GetBarrier()->GetHp() / mOwner->GetBarrier()->GetMaxHp();
+			mBarrierHpGaugeWidth = preBWidth + (Bwid - preBWidth) * 0.05f;
 		}
 
 		update();
@@ -111,7 +108,7 @@ void UIPSideCharacterStatusBase::DrawHpGauge(const VECTOR2& pos)
 	textSize(15.0f);
 	text("Hp :" + (let)mOwner->GetHp() + "/" + (let)mOwner->GetMaxHp(), pos.x + 4.5f * 15.0f / 2.0f, pos.y + 20.0f + 15.0f - 2.5f);
 
-	if (mOwner->GetTag() == CharacterActor::Cannon && static_cast<class Cannon*>(mOwner)->GetBarrier())
+	if (mOwner->GetBarrier())
 	{
 		DrawBarrierHpGauge(pos);
 	}
@@ -155,7 +152,7 @@ void UIPSideCharacterStatusBase::OwnerLvUp()
 		pop->SetTextColor(COLOR(50, 50, 255));
 		pop->NoStrokeRect();
 	}
-	else if((100 + mOwner->GetLevel() * 50) > mGame->GetActorManager()->GetPHome()->GetBattlePoints())
+	else if ((100 + mOwner->GetLevel() * 50) > mGame->GetActorManager()->GetPHome()->GetBattlePoints())
 	{
 		auto pop = new UIPopUp(mGame, "ƒ|ƒCƒ“ƒg‚ª‘«‚è‚È‚¢", mPosition, 1, VECTOR2(0.0f, -1.0f));
 		pop->SetTextSize(30);

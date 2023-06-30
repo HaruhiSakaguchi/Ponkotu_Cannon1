@@ -1,16 +1,16 @@
 #pragma once
-#include "Component.h"
+#include "Actor.h"
 #include "COLOR.h"
 #include <string>
 #include "sound.h"
-#include "VECTOR2.h"
 
-class ItemComponent : public Component
+class ItemComponent : public Actor
 {
 public:
-	ItemComponent(class Actor* cannon);
+	ItemComponent(class CharacterActor* owner);
 	virtual ~ItemComponent();
-	void Update()override;
+	void UpdateActor()override;
+	void Dead()override;
 	int GetLevel() { return Data.mLevel; }
 	void SetLevel(int level) { Data.mLevel = level; }
 	int GetMaxLevel() { return Data.mMaxLevel; }
@@ -27,7 +27,6 @@ public:
 	int GetMaxHp() { return Data.mMaxHp; }
 	int GetNumber() { return cData.mNumber; }
 	void SetNumber(int num) { cData.mNumber = num; }
-	const VECTOR2& GetPosition() { return cData.mPosition; }
 	float GetKeepTime() { return cData.mKeepTime; }
 	void SetKeepTime(float time) { cData.mKeepTime = time; }
 	struct IDATA
@@ -49,11 +48,10 @@ public:
 		float mUIPosChangeSpeed;
 		int mNumber;
 		float mKeepTime;
-		VECTOR2 mUIInitPos;
-		VECTOR2 mPosition;
 	};
 private:
 	CDATA cData;
 protected:
 	IDATA Data;
+	class CharacterActor* mOwner;
 };

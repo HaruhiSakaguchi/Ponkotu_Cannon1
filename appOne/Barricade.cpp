@@ -86,6 +86,11 @@ void Barricade::UpdateActor()
 		{
 			Intersect(this, enemy);
 		}
+
+		if (GetPosition().y > GetRadius() && Intersect(this,enemy,false))
+		{
+			enemy->Damage();
+		}
 	}
 
 	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
@@ -108,7 +113,15 @@ void Barricade::Damage(int damage)
 {
 	if (GetDamageInterval() <= 0.0f)
 	{
-		SetHp(GetHp() - damage);
+		if (GetBarrier())
+		{
+			GetBarrier()->SetHp(GetBarrier()->GetHp() - 1);
+		}
+		else
+		{
+			SetHp(GetHp() - damage);
+		}
+
 		SetDamageInterval(Data.mMaxDamageInterval);
 	}
 	else

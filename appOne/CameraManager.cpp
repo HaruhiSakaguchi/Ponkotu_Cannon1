@@ -47,11 +47,11 @@ void CameraManager::Update()
 
 	if (mGame->GetActorManager()->GetPHome())
 	{
-		if ((!mGame->GetActorManager()->GetPHome()->GetMoveCompleteFlag() || mGame->GetActorManager()->GetPHome()->GetDore()->GetBeginOpen()) || !mGame->GetActorManager()->GetPHome()->GetDore()->GetCloseComplete())
+		if ((mGame->GetActorManager()->GetPHome()->GetMoveCompleteFlag() == 0 || mGame->GetActorManager()->GetPHome()->GetDore()->GetBeginOpen()) || !mGame->GetActorManager()->GetPHome()->GetDore()->GetCloseComplete())
 		{
 			mCurCamera = mCameras[2];
 		}
-		else if (mGame->GetActorManager()->GetPHome()->GetGenerateFlag())
+		else if (mGame->GetActorManager()->GetPHome()->GetGenerateFlag() == 1)
 		{
 			mCurCamera = mCameras[1];
 		}

@@ -22,11 +22,11 @@ Recovery::Recovery(class Game* game)
 
 bool Recovery::update()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
+	auto p = static_cast<class PSideCharacterActor*>(mOwner);
 
-	if (c->GetHp() < c->GetMaxHp())
+	if (p->GetHp() < p->GetMaxHp())
 	{
-		new RecoveryCompo(c);
+		new RecoveryCompo(p);
 		setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mRecoverySoundVolumeOffset);
 		playSound(iData.mSound1);
 		std::ostringstream oss;
@@ -37,7 +37,7 @@ bool Recovery::update()
 	{
 		if (mOwner->GetTag() == CharacterActor::CharactersTag::Cannon)
 		{
-			c->AddItemNum(iData.mNum);
+			static_cast<class Cannon*>(p)->AddItemNum(iData.mNum);
 			setVolume(iData.mSound2, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 			playSound(iData.mSound2);
 			std::ostringstream oss;
@@ -49,8 +49,8 @@ bool Recovery::update()
 	return true;
 }
 
-RecoveryCompo::RecoveryCompo(class Cannon* owner)
-	:ItemComponent(owner)
+RecoveryCompo::RecoveryCompo(class PSideCharacterActor* owner)
+	: ItemComponent(owner)
 {
 	Data = owner->GetGame()->GetAllData()->recoverCompoData;
 	Data.mHp = Data.mMaxHp;
@@ -61,7 +61,7 @@ RecoveryCompo::RecoveryCompo(class Cannon* owner)
 }
 
 SpeedUp::SpeedUp(class Game* game)
-	:Item(game)
+	: Item(game)
 {
 	iData = GetGame()->GetAllData()->speedData;
 	SetImageColor(iData.mColor);
@@ -80,30 +80,32 @@ SpeedUp::SpeedUp(class Game* game)
 
 bool SpeedUp::update()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
-	if (!c->GetSpeed())
+	auto c = static_cast<class PSideCharacterActor*>(mOwner);
+	if (c->GetTag() == CharacterActor::CharactersTag::Cannon)
 	{
-		new SpeedUpCompo(c);
-		c->GetSpeed()->SetInterval(GetGame()->GetAllData()->speedCompoData.mInterval);
-		c->GetSpeed()->SetTime(c->GetSpeed()->GetInterval());
-		c->GetSpeed()->SetColor(iData.mColor);
-		std::ostringstream oss;
-		oss << GetName() << "アイテムを使用。";
-		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
-	}
-	else
-	{
-		if (c->GetSpeed()->GetLevel() != c->GetSpeed()->GetMaxLevel())
+		if (!c->GetSpeed())
 		{
-			c->GetSpeed()->SetLevel(c->GetSpeed()->GetLevel() + 1);
+			new SpeedUpCompo(c);
+			c->GetSpeed()->SetInterval(GetGame()->GetAllData()->speedCompoData.mInterval);
+			c->GetSpeed()->SetTime(c->GetSpeed()->GetInterval());
+			c->GetSpeed()->SetColor(iData.mColor);
+			std::ostringstream oss;
+			oss << GetName() << "アイテムを使用。";
+			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 		}
-		c->GetSpeed()->SetTime(c->GetSpeed()->GetInterval());
+		else
+		{
+			if (c->GetSpeed()->GetLevel() != c->GetSpeed()->GetMaxLevel())
+			{
+				c->GetSpeed()->SetLevel(c->GetSpeed()->GetLevel() + 1);
+			}
+			c->GetSpeed()->SetTime(c->GetSpeed()->GetInterval());
 
-		std::ostringstream oss;
-		oss << c->GetSpeed()->GetName().c_str() << "がレベルアップ。";
-		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+			std::ostringstream oss;
+			oss << c->GetSpeed()->GetName().c_str() << "がレベルアップ。";
+			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+		}
 	}
-
 	setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mSpeedUpSoundVolumeOffset);
 	playSound(iData.mSound1);
 
@@ -111,8 +113,8 @@ bool SpeedUp::update()
 
 }
 
-SpeedUpCompo::SpeedUpCompo(class Cannon* owner)
-	:ItemComponent(owner)
+SpeedUpCompo::SpeedUpCompo(class PSideCharacterActor* owner)
+	: ItemComponent(owner)
 {
 	owner->SetSpeed(this);
 	Data = owner->GetGame()->GetAllData()->speedCompoData;
@@ -121,10 +123,10 @@ SpeedUpCompo::SpeedUpCompo(class Cannon* owner)
 
 SpeedUpCompo::~SpeedUpCompo()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetOwner());
-	if (c->GetState() == Actor::EActive && c->GetGame()->GetState() == Game::EGameplay)
+	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
+	if (c->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
 	{
-		c->SetAdvSpeed(mOwner->GetGame()->GetAllData()->cannonData.mAdvSpeed);
+		c->SetAdvSpeed(GetGame()->GetAllData()->cannonData.mAdvSpeed);
 		std::ostringstream oss;
 		oss << c->GetSpeed()->GetName().c_str() << "の効果が切れた。";
 		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
@@ -133,14 +135,14 @@ SpeedUpCompo::~SpeedUpCompo()
 
 }
 
-void SpeedUpCompo::Update()
+void SpeedUpCompo::UpdateActor()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
-	if (c)
+	ItemComponent::UpdateActor();
+	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
+	if (c && c->GetTag() == CharacterActor::Cannon)
 	{
-		c->SetAdvSpeed(mOwner->GetGame()->GetAllData()->cannonData.mAdvSpeed + Data.mLevel * mOwner->GetGame()->GetAllData()->cannonData.mAdvSpeed * mSpeedUpRate);
+		c->SetAdvSpeed(GetGame()->GetAllData()->cannonData.mAdvSpeed + Data.mLevel * GetGame()->GetAllData()->cannonData.mAdvSpeed * mSpeedUpRate);
 	}
-	ItemComponent::Update();
 }
 
 PowerUp::PowerUp(class Game* game)
@@ -162,36 +164,38 @@ PowerUp::PowerUp(class Game* game)
 
 bool PowerUp::update()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
-	if (!c->GetPower())
+	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
+	if (c->GetTag() == CharacterActor::CharactersTag::Cannon)
 	{
-		new PowerUpCompo(c);
-		c->GetPower()->SetInterval(GetGame()->GetAllData()->powerCompoData.mInterval);
-		c->GetPower()->SetTime(c->GetPower()->GetInterval());
-		c->GetPower()->SetColor(iData.mColor);
-		std::ostringstream oss;
-		oss << GetName() << "アイテムを使用。";
-		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
-	}
-	else
-	{
-		if (c->GetPower()->GetLevel() != c->GetPower()->GetMaxLevel())
+		if (!c->GetPower())
 		{
-			c->GetPower()->SetLevel(c->GetPower()->GetLevel() + 1);
+			new PowerUpCompo(c);
+			c->GetPower()->SetInterval(GetGame()->GetAllData()->powerCompoData.mInterval);
+			c->GetPower()->SetTime(c->GetPower()->GetInterval());
+			c->GetPower()->SetColor(iData.mColor);
+			std::ostringstream oss;
+			oss << GetName() << "アイテムを使用。";
+			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 		}
-		c->GetPower()->SetTime(c->GetPower()->GetInterval());
-		std::ostringstream oss;
-		oss << c->GetPower()->GetName().c_str() << "がレベルアップ。";
-		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+		else
+		{
+			if (c->GetPower()->GetLevel() != c->GetPower()->GetMaxLevel())
+			{
+				c->GetPower()->SetLevel(c->GetPower()->GetLevel() + 1);
+			}
+			c->GetPower()->SetTime(c->GetPower()->GetInterval());
+			std::ostringstream oss;
+			oss << c->GetPower()->GetName().c_str() << "がレベルアップ。";
+			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+		}
 	}
-
 	setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mPowerUpSoundVolumeOffset);
 	playSound(iData.mSound1);
 
 	return true;
 }
 
-PowerUpCompo::PowerUpCompo(class Cannon* owner)
+PowerUpCompo::PowerUpCompo(class PSideCharacterActor* owner)
 	:ItemComponent(owner)
 {
 	owner->SetPower(this);
@@ -201,9 +205,9 @@ PowerUpCompo::PowerUpCompo(class Cannon* owner)
 
 PowerUpCompo::~PowerUpCompo()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetOwner());
+	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
-	if (c->GetState() == Actor::EActive && c->GetGame()->GetState() == Game::EGameplay)
+	if (c->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetDamage(1);
 		std::ostringstream oss;
@@ -213,14 +217,14 @@ PowerUpCompo::~PowerUpCompo()
 	}
 }
 
-void PowerUpCompo::Update()
+void PowerUpCompo::UpdateActor()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetOwner());
+	ItemComponent::UpdateActor();
+	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 	if (c)
 	{
 		c->SetDamage(Data.mLevel + 1);
 	}
-	ItemComponent::Update();
 
 }
 
@@ -243,34 +247,37 @@ RapidFire::RapidFire(class Game* game)
 
 bool RapidFire::update()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
+	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
-	if (!c->GetRapid())
+	if (c->GetTag() == CharacterActor::CharactersTag::Cannon)
 	{
-		new RapidFireCompo(c);
-		c->GetRapid()->SetInterval(GetGame()->GetAllData()->rapidCompoData.mInterval);
-		c->GetRapid()->SetTime(c->GetRapid()->GetInterval());
-		c->GetRapid()->SetColor(iData.mColor);
-		if (c->GetGame()->GetState() == Game::EGameplay)
+		if (!c->GetRapid())
 		{
-			std::ostringstream oss;
-			oss << GetName() << "アイテムを使用。";
-			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
-		}
-	}
-	else
-	{
-		if (c->GetRapid()->GetLevel() != c->GetRapid()->GetMaxLevel())
-		{
-			c->GetRapid()->SetLevel(c->GetRapid()->GetLevel() + 1);
-			if (c->GetGame()->GetState() == Game::EGameplay)
+			new RapidFireCompo(c);
+			c->GetRapid()->SetInterval(GetGame()->GetAllData()->rapidCompoData.mInterval);
+			c->GetRapid()->SetTime(c->GetRapid()->GetInterval());
+			c->GetRapid()->SetColor(iData.mColor);
+			if (GetGame()->GetState() == Game::EGameplay)
 			{
 				std::ostringstream oss;
-				oss << c->GetRapid()->GetName().c_str() << "がレベルアップ。";
+				oss << GetName() << "アイテムを使用。";
 				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 			}
 		}
-		c->GetRapid()->SetTime(c->GetRapid()->GetInterval());
+		else
+		{
+			if (c->GetRapid()->GetLevel() != c->GetRapid()->GetMaxLevel())
+			{
+				c->GetRapid()->SetLevel(c->GetRapid()->GetLevel() + 1);
+				if (GetGame()->GetState() == Game::EGameplay)
+				{
+					std::ostringstream oss;
+					oss << c->GetRapid()->GetName().c_str() << "がレベルアップ。";
+					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+				}
+			}
+			c->GetRapid()->SetTime(c->GetRapid()->GetInterval());
+		}
 	}
 
 	setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mRapidFireSoundVolumeOffset);
@@ -280,8 +287,8 @@ bool RapidFire::update()
 
 }
 
-RapidFireCompo::RapidFireCompo(class Cannon* owner)
-	:ItemComponent(owner)
+RapidFireCompo::RapidFireCompo(class PSideCharacterActor* owner)
+	: ItemComponent(owner)
 {
 	owner->SetRapid(this);
 	Data = owner->GetGame()->GetAllData()->rapidCompoData;
@@ -290,11 +297,10 @@ RapidFireCompo::RapidFireCompo(class Cannon* owner)
 
 RapidFireCompo::~RapidFireCompo()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetOwner());
-
-	if (c->GetState() == Actor::EActive && c->GetGame()->GetState() == Game::EGameplay)
+	if (mOwner->GetTag() == CharacterActor::Cannon && mOwner->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
 	{
-		c->SetInterval(mOwner->GetGame()->GetAllData()->cannonData.mInterval);
+		auto c = static_cast<Cannon*>(mOwner);
+		c->SetInterval(GetGame()->GetAllData()->cannonData.mInterval);
 		std::ostringstream oss;
 		oss << c->GetRapid()->GetName().c_str() << "の効果が切れた。";
 		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
@@ -303,16 +309,15 @@ RapidFireCompo::~RapidFireCompo()
 
 }
 
-void RapidFireCompo::Update()
+void RapidFireCompo::UpdateActor()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetOwner());
+	ItemComponent::UpdateActor();
 
-	if (c)
+	if (mOwner->GetTag() == CharacterActor::CharactersTag::Cannon)
 	{
-		c->SetInterval(mOwner->GetGame()->GetAllData()->cannonData.mInterval - Data.mLevel * mLaunchIntervalDecreaseRate);
+		static_cast<Cannon*>(mOwner)->SetInterval(GetGame()->GetAllData()->cannonData.mInterval - Data.mLevel * mLaunchIntervalDecreaseRate);
 	}
 
-	ItemComponent::Update();
 }
 
 Barrier::Barrier(class Game* game)
@@ -334,7 +339,7 @@ Barrier::Barrier(class Game* game)
 
 bool Barrier::update()
 {
-	class Cannon* c = static_cast<class Cannon*>(mOwner);
+	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
 	if (!c->GetBarrier())
 	{
@@ -368,7 +373,7 @@ bool Barrier::update()
 	return true;
 }
 
-BarrierCompo::BarrierCompo(class Cannon* owner)
+BarrierCompo::BarrierCompo(class PSideCharacterActor* owner)
 	:ItemComponent(owner)
 {
 	owner->SetBarrier(this);
@@ -378,26 +383,26 @@ BarrierCompo::BarrierCompo(class Cannon* owner)
 
 BarrierCompo::~BarrierCompo()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetOwner());
+	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
-	if (c->GetState() == Actor::EActive && c->GetGame()->GetState() == Game::EGameplay)
+	if (c->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetRDamage(1);
 		std::ostringstream oss;
 		oss << c->GetBarrier()->GetName().c_str() << "の効果が切れた。";
-		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 		c->SetBarrier(nullptr);
 	}
 }
 
-void BarrierCompo::Update()
+void BarrierCompo::UpdateActor()
 {
-	class Cannon* c = static_cast<class Cannon*>(GetOwner());
+	ItemComponent::UpdateActor();
+	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
 	if (c)
 	{
 		c->SetRDamage(0);
 	}
 
-	ItemComponent::Update();
 }

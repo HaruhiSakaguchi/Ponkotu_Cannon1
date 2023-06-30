@@ -22,14 +22,14 @@ public:
 	VECTOR* GetFieldTargetPoints() { return mFieldTargetPoints; }
 	VECTOR* GetHomeMoveTargetPoints() { return mMyTargetPoints; }
 	void SetTargetPoint(const VECTOR& pos) { mHomeTargetPoint = pos; }
-	bool GoToTargetPoint(const VECTOR& pos);
-	bool GetMoveCompleteFlag() { return mMoveCompleteFlag; }
+	int GoToTargetPoint(const VECTOR& pos);
+	int GetMoveCompleteFlag() { return mMoveCompleteFlag; }
 
 	int GetTargetPosIdx() { return mCurMyTpIdx; }
 	void SetTargetPosIdx(int idx) { mCurMyTpIdx = idx; }
 
-	void SetGenerateFlag(bool flag) { mGenerateFlag = flag; }
-	bool GetGenerateFlag() { return mGenerateFlag; }
+	void SetGenerateFlag(int flag) { mGenerateFlag = flag; }
+	int GetGenerateFlag() { return mGenerateFlag; }
 
 	int GetBattlePoints() { return mBattlePoints; }
 	int GetMaxBattlePoints() { return mMaxBattlePoints; }
@@ -60,11 +60,11 @@ private:
 	int mGenerateCannonLevel;
 	int mGenerateBarricadeLevel;
 	int mCurMyTpIdx;
-	bool mMoveCompleteFlag;
+	int mMoveCompleteFlag;
 	VECTOR mHomeTargetPoint;
 
 	class TreeMeshComponent*mTc;
-	bool mGenerateFlag;
+	int mGenerateFlag;
 
 	int mBattlePoints;
 	int mMaxBattlePoints;

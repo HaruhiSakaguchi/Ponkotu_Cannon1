@@ -1,12 +1,6 @@
 #include "CharacterActor.h"
-#include "Actor.h"
 #include "Game.h"
-#include "Component.h"
-#include "window.h"
 #include "Map.h"
-#include "ItemComponent.h"
-#include "Items.h"
-#include "COLLISION_MAP.h"
 #include "Container.h"
 #include "rand.h"
 
@@ -34,6 +28,8 @@ CharacterActor::CharacterActor(Game* game)
 	, mTag(Others)
 	, mMaxLevel(10)
 	, mInitMaxHp(1)
+	, mDamage(1)
+	, mRDamage(1)
 {
 	SetCategory(Character);
 	GetGame()->GetActorManager()->AddCharacter(this);

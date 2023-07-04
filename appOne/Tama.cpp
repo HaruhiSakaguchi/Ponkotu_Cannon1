@@ -6,7 +6,7 @@
 #include "HpGaugeSpriteComponent.h"
 #include "TamaStates.h"
 #include "StateComponent.h"
-#include "TreeMeshComponent.h"
+#include "BatchMeshComponent.h"
 #include "TamaBlackEye.h"
 #include "CollisionMapComponent.h"
 #include "PlayerHome.h"
@@ -76,17 +76,17 @@ int Tama::SetUp()
 	SetCapsulOffset(Data.mCapsulOffset);
 	SetTag(CharacterActor::Tama);
 
-	new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
+	//new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
 
 
-	mTc = new TreeMeshComponent(this);
-	mTc->SetTree("Tama");
-	mTc->SetOffsetPos(GetCapsulOffset());
-	SetNormalMesh(mTc);
-	mTc = new TreeMeshComponent(this, false);
-	mTc->SetTree("TamaDamage");
-	mTc->SetOffsetPos(GetCapsulOffset());
-	SetDamageMesh(mTc);
+	auto nb = new BatchMeshComponent(this);
+	nb->SetBatch("TamaSphere");
+	nb->SetOffsetPos(GetCapsulOffset());
+	SetNormalMesh(nb);
+	auto db = new BatchMeshComponent(this, false);
+	db->SetBatch("TamaDamageSphere");
+	db->SetOffsetPos(GetCapsulOffset());
+	SetDamageMesh(db);
 
 	mEye = new TamaBlackEye(this);
 	new CollisionMapComponent(this);
@@ -151,8 +151,8 @@ void Tama::FallOption()
 
 void Tama::Dead()
 {
-	SpawnParticle(GetPosition(), "TamaTamaSphere", 10);
-	SpawnParticle(GetPosition(), "TamaBlackEyeCylinder", 10);
+	SpawnParticle(GetGame(),GetPosition(), "TamaSphere", 10);
+	SpawnParticle(GetGame(),GetPosition(), "TamaBlackEyeCylinder", 10);
 
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);

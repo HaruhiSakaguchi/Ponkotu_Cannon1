@@ -45,11 +45,11 @@ int Barricade::SetUp()
 	SetTag(CharacterActor::Barricade);
 
 
-	mTc = new TreeMeshComponent(this);
-	mTc->SetTree("Barricade");
-	SetNormalMesh(mTc);
+	auto tree = new TreeMeshComponent(this);
+	tree->SetTree("Barricade");
+	SetNormalMesh(tree);
 
-	new HpGaugeSpriteComponent(this, VECTOR(0.0f, 0.75f, 0.0f));
+	//new HpGaugeSpriteComponent(this, VECTOR(0.0f, 0.75f, 0.0f));
 	new CollisionMapComponent(this);
 
 	auto ui = new UIPSideCharacterStatusClose(this);
@@ -82,12 +82,18 @@ void Barricade::UpdateActor()
 
 	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
-		if (enemy->GetTag() != CharacterActor::CharactersTag::Satellite)
+		if (enemy->GetTag() != CharacterActor::CharactersTag::Satellite && enemy->GetHp() > 0)
 		{
-			Intersect(this, enemy);
+			if (Intersect(this, enemy))
+			{
+				if (enemy->GetPosition().y < 0.0f)
+				{
+					enemy->SetPosition(enemy->GetPosition().x, 0.0f, enemy->GetPosition().z);
+				}
+			}
 		}
 
-		if (GetPosition().y > GetRadius() && Intersect(this,enemy,false))
+		if (GetPosition().y > GetRadius() && Intersect(this, enemy, false) && enemy->GetHp() > 0)
 		{
 			enemy->Damage();
 		}
@@ -142,5 +148,5 @@ void Barricade::Dead()
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);
 	GetGame()->GetActorManager()->GetStage()->AddText(oss.str().c_str());
-	SpawnParticle(GetPosition(), "BarricadeBarricade", 10);
+	SpawnParticle(GetGame(), GetPosition(), "BarricadeBarricade", 10);
 }

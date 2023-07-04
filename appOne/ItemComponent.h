@@ -3,6 +3,7 @@
 #include "COLOR.h"
 #include <string>
 #include "sound.h"
+#include <chrono>
 
 class ItemComponent : public Actor
 {
@@ -29,6 +30,8 @@ public:
 	void SetNumber(int num) { cData.mNumber = num; }
 	float GetKeepTime() { return cData.mKeepTime; }
 	void SetKeepTime(float time) { cData.mKeepTime = time; }
+	void SetUpLifeTime(float time) { mUpTime = time; }
+	void TimeReset() { mStart = std::chrono::system_clock::now(); }
 	struct IDATA
 	{
 		int mLevel;
@@ -40,7 +43,7 @@ public:
 		std::string mName;
 		COLOR mColor;
 	};
-	struct CDATA{
+	struct CDATA {
 		float mUIOffsetPosY;
 		float mUIPosY;
 		float mUIPosAdvSpeed;
@@ -54,4 +57,10 @@ private:
 protected:
 	IDATA Data;
 	class CharacterActor* mOwner;
+	const char* mMeshName;
+	std::chrono::system_clock::time_point mStart;
+	float mUpTime;
+	int mNextParticleSpawnTime;
+	bool mIsSpawnParticle;
+	int mBeforeParticleSpawnTime;
 };

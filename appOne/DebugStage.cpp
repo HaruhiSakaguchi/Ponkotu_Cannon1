@@ -30,10 +30,13 @@ int DebugStage::SetUp()
 	mMiniMap = new UIMiniMap(GetGame(), this);
 
 	PlayerHome* ph = new PlayerHome(GetGame(),VECTOR(0.0f, 0.0f, -3.0f));
+	ph->CreateHomeArea();
 
 	EnemyHome* eh = new EnemyHome(GetGame());
 	eh->SetPosition(0.0f, 0.0f, -51.0f);
 	eh->SetRotationY(3.1415926f);
+
+	eh->CreateHomeArea();
 
 	new CameraManager(GetGame());
 

@@ -1,6 +1,6 @@
 #include "TamaPointer.h"
 #include "Tama.h"
-#include "TreeMeshComponent.h"
+#include "BatchMeshComponent.h"
 #include "Game.h"
 #include "PlayerHome.h"
 
@@ -14,12 +14,12 @@ TamaPointer::TamaPointer(class Tama* owner)
 
 int TamaPointer::SetUp()
 {
-	TreeMeshComponent*tc = new TreeMeshComponent(this,false);
-	tc->SetTree("Tama");
-	SetNormalMesh(tc);
-	tc = new TreeMeshComponent(this,false);
-	tc->SetTree("TamaDamage");
-	SetDamageMesh(tc);
+	auto nb = new BatchMeshComponent(this,false);
+	nb->SetBatch("TamaSphere");
+	SetNormalMesh(nb);
+	auto db = new BatchMeshComponent(this,false);
+	db->SetBatch("TamaDamageSphere");
+	SetDamageMesh(db);
 	SetCategory(CharacterActor::Object);
 	SetRadius(0.4f);
 	return 1;
@@ -81,7 +81,6 @@ void TamaPointer::UpdateActor()
 	SetScale(VECTOR(GetRadius(),GetRadius(),GetRadius()));
 	SetPosition(Master._14, Master._24,Master._34);
 
-//	CheckCollisionPSide();
 
 	if (GetCollisionPSide())
 	{

@@ -9,11 +9,13 @@ HpGaugeSpriteComponent::HpGaugeSpriteComponent(Actor* owner, const VECTOR& offse
 	, mOffset(offset)
 	, mGaugeWidth(0)
 	, mGaugePosX(0)
-	, mGauge(nullptr)
 	, Master()
 	, mNormal(nullptr)
 	, mDanger(nullptr)
 	, mDying(nullptr)
+	, mIsNormal(false)
+	, mIsDanger(false)
+	, mIsDying(false)
 {
 	CONTAINER* c = mOwner->GetGame()->GetRenderer()->GetContainer();
 	mNormal = new TREE(c->treeOrigin("HpNormal"));
@@ -23,9 +25,9 @@ HpGaugeSpriteComponent::HpGaugeSpriteComponent(Actor* owner, const VECTOR& offse
 
 HpGaugeSpriteComponent::~HpGaugeSpriteComponent()
 {
-	SAFE_DELETE(mNormal);
-	SAFE_DELETE(mDanger);
-	SAFE_DELETE(mDying);
+	delete mNormal;
+	delete mDanger;
+	delete mDying;
 }
 
 void HpGaugeSpriteComponent::Update()
@@ -53,29 +55,43 @@ void HpGaugeSpriteComponent::Update()
 	Master.mulTranslate(mGaugePosX, 0, 1.5f);
 	Master.mulScaling(mGaugeWidth, 1, 1);
 
+	mIsNormal = false;
+	mIsDanger = false;
+	mIsDying = false;
+
 	if (owner->GetHp() >= owner->GetMaxHp() * 0.66f)
 	{
-		mGauge = mNormal;
+		mIsNormal = true;
 	}
 	else if (owner->GetHp() >= owner->GetMaxHp() * 0.33f)
 	{
-		mGauge = mDanger;
+		mIsDanger = true;
 	}
-	else
+	else if (owner->GetHp() < owner->GetMaxHp() * 0.33f && owner->GetState() == CharacterActor::EActive)
 	{
-		mGauge = mDying;
+		mIsDying = true;
 	}
 
-	if (mGauge != nullptr)
-	{
-		mGauge->update(Master);
-	}
 }
 
 void HpGaugeSpriteComponent::Draw()
 {
-	if (mGauge != nullptr)
+	if (mOwner)
 	{
-		mGauge->draw(GetOwner()->GetGame()->GetRenderer()->GetShader());
+		if (mIsNormal)
+		{
+			mNormal->update(Master);
+			mNormal->draw(GetOwner()->GetGame()->GetRenderer()->GetShader());
+		}
+		else if (mIsDanger)
+		{
+			mDanger->update(Master);
+			mDanger->draw(GetOwner()->GetGame()->GetRenderer()->GetShader());
+		}
+		else if (mIsDying)
+		{
+			mDying->update(Master);
+			mDying->draw(GetOwner()->GetGame()->GetRenderer()->GetShader());
+		}
 	}
 }

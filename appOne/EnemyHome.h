@@ -21,11 +21,12 @@ public:
 	int GetBattlePoints() { return mBattlePoints; }
 	void SetBattlePoints(int pt) { mBattlePoints = pt; }
 
-	void SetGenerateFlag(bool flag) { mGenerateFlag = flag; }
-	bool GetGenerateFlag() { return mGenerateFlag; }
+	void SetGenerateFlag(int flag) { mGenerateFlag = flag; }
+	int GetGenerateFlag() { return mGenerateFlag; }
 
 	class Dore* GetDore() { return mDore; }
 
+	void CreateHomeArea();
 	struct DATA
 	{
 		VECTOR mFlag1Offset = VECTOR(-2.0f, 2.0f, 3.0f + 0.25f);
@@ -51,6 +52,7 @@ private:
 	float mInterval;
 	float mElapsedTime;
 	int mCnt;
-	bool mGenerateFlag;
+	int mGenerateFlag;
+	std::vector<Actor*>mProps;
 };
 

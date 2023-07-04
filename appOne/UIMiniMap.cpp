@@ -17,7 +17,7 @@ UIMiniMap::UIMiniMap(class Game* game, Map* owner, bool scroll)
 {
 	Data = mGame->GetAllData()->miniMapData;
 
-	switch (mGame->GetPhase())
+	/*switch (mGame->GetPhase())
 	{
 	case Game::FIRST:
 		Data.mOffsetX = Data.mStage1OffsetX;
@@ -32,7 +32,7 @@ UIMiniMap::UIMiniMap(class Game* game, Map* owner, bool scroll)
 		break;
 	default:
 		break;
-	}
+	}*/
 
 	Create();
 }
@@ -238,7 +238,7 @@ void UIMiniMap::Draw()
 	rectMode(CORNER);
 	noStroke();
 	fill(Data.mWindowColor);
-	rect(Data.mMiniMapCornerPos.x, Data.mMiniMapCornerPos.y, Data.mMiniMapWindowLength, Data.mMiniMapWindowLength);
+	rect(Data.mMiniMapCornerPos.x, Data.mMiniMapCornerPos.y, Data.mMiniMapWindowLength / 4.0f, Data.mMiniMapWindowLength);
 
 	//マップの四角形を表示するための計算
 	//ミニマップの外側にはみ出ていたら補正してミニマップウィンドウの中に収める
@@ -252,7 +252,7 @@ void UIMiniMap::Draw()
 		float posY = 0.0f;
 		float Width = 0.0f;
 		float Height = 0.0f;
-		float left = mPositions[i].x + Data.mMiniMapOffsetX + Data.mOffsetX;
+		float left = mPositions[i].x + Data.mMiniMapOffsetX + Data.mOffsetX / 2.0f;
 		float right = left + mWidths[i];
 		float head = mPositions[i].y + Data.mMiniMapOffsetY + Data.mOffsetY;
 		float bottom = head + mHeights[i];
@@ -310,14 +310,33 @@ void UIMiniMap::Draw()
 
 	for (auto actor : mGame->GetActorManager()->GetCharacters())
 	{
-		VECTOR2 Pos(actor->GetPosition().x * Data.m3DCoordinate2DConvertRate + Data.mOffsetX + Data.mMiniMapOffsetX, actor->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapOffsetY);
+		VECTOR2 Pos(actor->GetPosition().x * Data.m3DCoordinate2DConvertRate + Data.mOffsetX / 2.0f + Data.mMiniMapOffsetX, actor->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapOffsetY);
 		if (Pos.y <= Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength && Pos.y >= Data.mMiniMapCornerPos.y && Pos.x <= Data.mMiniMapCornerPos.x + Data.mMiniMapWindowLength && Pos.x >= Data.mMiniMapCornerPos.x)
 		{
 			if (actor->GetCategory() == Actor::Character)
 			{
-				if (Pos.y + Data.mItemSw <= Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength && Pos.y - Data.mItemSw >= Data.mMiniMapCornerPos.y && Pos.x + Data.mItemSw <= Data.mMiniMapCornerPos.x + Data.mMiniMapWindowLength && Pos.x - Data.mItemSw >= Data.mMiniMapCornerPos.x)
+				if (Pos.y + Data.mItemSw <= Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength && Pos.y - Data.mItemSw >= Data.mMiniMapCornerPos.y && Pos.x + Data.mItemSw <= Data.mMiniMapCornerPos.x + Data.mMiniMapWindowLength / 4.0f&& Pos.x - Data.mItemSw >= Data.mMiniMapCornerPos.x)
 				{
-					Arrow(Pos, actor->GetImageColor(), actor->GetRotation().y + 3.1415926f);
+					if (actor->GetTag() == CharacterActor::PHome)
+					{
+						fill(40, 40, 200, 128);
+						circle(Pos.x, Pos.y, 100);
+						textSize(50);
+						fill(50, 50, 255);
+						text("P", Pos.x - 12.5f, Pos.y + 25);
+					}
+					else if (actor->GetTag() == CharacterActor::EHome)
+					{
+						fill(200, 40, 40, 128);
+						circle(Pos.x, Pos.y, 100);
+						textSize(50);
+						fill(255, 50, 50);
+						text("E", Pos.x - 12.5f, Pos.y + 25);
+					}
+					else
+					{
+						Arrow(Pos, actor->GetImageColor(), actor->GetRotation().y + 3.1415926f);
+					}
 				}
 			}
 			else if (actor->GetCategory() == Actor::Item)
@@ -334,27 +353,26 @@ void UIMiniMap::Draw()
 				fill(actor->GetImageColor());
 				point(Pos.x, Pos.y);
 			}
-
 		}
 	}
 }
 
 void UIMiniMap::Update()
 {
-	//スクロール
-	if (mScroll && mGame->GetActorManager()->GetPHome())
-	{
-		if (mGame->GetActorManager()->GetPHome()->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapWindowHeight / 3.0f > Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f && Data.mMiniMapCornerPos.y + Data.mMiniMapWindowHeight / 3.0f > Data.mMinPosY + Data.mMiniMapOffsetY + Data.mOffsetY)
-		{
-			Data.mMiniMapOffsetY = -(mGame->GetActorManager()->GetPHome()->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY) + (Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f);
-		}
-	}
+	////スクロール
+	//if (mScroll && mGame->GetActorManager()->GetPHome())
+	//{
+	//	if (mGame->GetActorManager()->GetStage()->GetCenterPos().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapWindowHeight / 3.0f > Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f && Data.mMiniMapCornerPos.y + Data.mMiniMapWindowHeight / 3.0f > Data.mMinPosY + Data.mMiniMapOffsetY + Data.mOffsetY)
+	//	{
+	//		Data.mMiniMapOffsetY = -(mGame->GetActorManager()->GetStage()->GetCenterPos().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY) + (Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f);
+	//	}
+	//}
 }
 
 void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 {
 	float per = Data.m3DCoordinate2DConvertRate;
-	float sw = 0.5f;
+	float sw = 0.1f;
 	float pai = 3.1415926f;
 	float OneDeg = pai / 180.0f;
 	VECTOR2 p1, p2, p3, p4;
@@ -364,7 +382,9 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 	VECTOR2 p[6];
 	strokeWeight(3);
 	float ang[6];
-	float radius = 95.0f / per;
+
+	float baseRadius = 100.0f / 2.0f;
+	float radius = (baseRadius - (baseRadius / 20.0f)) / per;
 	ang[0] = 89.0f;
 	ang[1] = 91.0f;
 	ang[2] = 239.0f;
@@ -382,7 +402,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
 
-	radius = 90.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 2.0f) / per;
 	ang[0] = 88.0f;
 	ang[1] = 92.0f;
 	ang[2] = 238.0f;
@@ -400,7 +420,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
 
-	radius = 85.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 3.0f) / per;
 	ang[0] = 87.0f;
 	ang[1] = 93.0f;
 	ang[2] = 237.0f;
@@ -418,7 +438,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
 
-	radius = 80.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 4.0f) / per;
 	ang[0] = 86.0f;
 	ang[1] = 94.0f;
 	ang[2] = 236.0f;
@@ -436,7 +456,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
 
-	radius = 75.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 5.0f) / per;
 
 	ang[0] = 85.0f;
 	ang[1] = 95.0f;
@@ -455,7 +475,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
 
-	radius = 70.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 6.0f) / per;
 
 	ang[0] = 84;
 	ang[1] = 96;
@@ -473,7 +493,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 	{
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
-	radius = 65.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 7.0f) / per;
 
 	ang[0] = 83.0f;
 	ang[1] = 97.0f;
@@ -491,7 +511,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 	{
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
-	radius = 60.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 8.0f) / per;
 
 	ang[0] = 81.0f;
 	ang[1] = 99.0f;
@@ -510,7 +530,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
 
-	radius = 55.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 9.0f) / per;
 
 	ang[0] = 78.0f;
 	ang[1] = 102.0f;
@@ -529,7 +549,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
 
-	radius = 50.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 10.0f) / per;
 
 	ang[0] = 75.0f;
 	ang[1] = 105.0f;
@@ -547,7 +567,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 	{
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
-	radius = 45.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 11.0f) / per;
 
 	ang[0] = 72.0f;
 	ang[1] = 108.0f;
@@ -566,7 +586,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
 
-	radius = 40.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 12.0f) / per;
 
 	ang[0] = 68;
 	ang[1] = 112;
@@ -584,7 +604,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 	{
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
-	radius = 35.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 13.0f) / per;
 
 	ang[0] = 61.0f;
 	ang[1] = 119.0f;
@@ -602,7 +622,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
 
-	radius = 30.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 14.0f) / per;
 
 	ang[0] = 50.0f;
 	ang[1] = 130.0f;
@@ -621,7 +641,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
 
-	radius = 25.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 15.0f) / per;
 
 	ang[0] = 10.0f;
 	ang[1] = 170.0f;
@@ -635,7 +655,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 		Line(p[i * 2], p[i * 2 + 1]);
 	}
 
-	radius = 100.0f / per;
+	radius = baseRadius / per;
 	ang[0] = 90.0f;
 	ang[1] = 240.0f;
 	ang[2] = 300.0f;
@@ -648,7 +668,7 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 	p3 = VECTOR2(pos.x + cosf(angle + OneDeg * ang[2]) * radius
 		, pos.y - sinf(angle + OneDeg * ang[2]) * radius);
 
-	radius = 25.0f / per;
+	radius = (baseRadius - (baseRadius / 20.0f) * 15.0f) / per;
 
 	p4 = VECTOR2(pos.x + cosf(angle + OneDeg * ang[3]) * radius
 		, pos.y - sinf(angle + OneDeg * ang[3]) * radius);

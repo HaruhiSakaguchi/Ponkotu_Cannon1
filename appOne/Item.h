@@ -15,6 +15,8 @@ public:
 	float GetMaxLifeTime() { return cData.mMaxLifeTime; }
 	int GetNum() { return iData.mNum; }
 	const char* GetName() { return iData.mName; }
+	void CreateMesh(const char* normalMeshName = nullptr, const char* damageMeshName = nullptr);
+
 public:
 	//固有のデータ
 	struct individualDATA
@@ -52,4 +54,5 @@ protected:
 	float mTime;
 	bool mIsSpawnParticle;
 	int mBeforeTime;
+	const char* mBatchName;
 };

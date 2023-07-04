@@ -2,7 +2,8 @@
 #include "TreeMeshComponent.h"
 
 PlayerFlag::PlayerFlag(Game* game)
-	:Actor(game)
+	: Actor(game)
+	, mTc(nullptr)
 {
 	SetUp();
 }

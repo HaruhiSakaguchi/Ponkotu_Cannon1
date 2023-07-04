@@ -3,8 +3,9 @@
 #include "BatchMeshComponent.h"
 #include "rand.h"
 #include <window.h>
+#include "Game.h"
 
-Particle::Particle(Game* game, const VECTOR& pos, float lifeSpan)
+Particle::Particle(class Game* game, const VECTOR& pos, float lifeSpan)
 	: Actor(game)
 	, mLifeSpan(lifeSpan)
 	, mMeshType(MeshType::ETree)

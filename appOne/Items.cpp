@@ -1,6 +1,7 @@
 #include "Items.h"
 #include "Game.h"
 #include "TreeMeshComponent.h"
+#include "BatchMeshComponent.h"
 #include "UILog.h"
 #include <sstream>
 
@@ -10,14 +11,9 @@ Recovery::Recovery(class Game* game)
 	iData = GetGame()->GetAllData()->recoverData;
 	SetImageColor(iData.mColor);
 	SetUp();
-	mTc = new TreeMeshComponent(this);
-	mTc->SetOffsetPos(GetCapsulOffset());
-	mTc->SetTree("Recover");
-	SetNormalMesh(mTc);
-	mTc = new TreeMeshComponent(this);
-	mTc->SetTree("RecoverTran");
-	mTc->SetOffsetPos(GetCapsulOffset());
-	SetDamageMesh(mTc);
+	
+	mBatchName = "RecoverSphere";
+	CreateMesh(mBatchName, "RecoverTranSphere");
 }
 
 bool Recovery::update()
@@ -58,6 +54,9 @@ RecoveryCompo::RecoveryCompo(class PSideCharacterActor* owner)
 	{
 		owner->SetHp(owner->GetHp() + mRecoveryHp);
 	}
+	mMeshName = "RecoverSphere";
+
+	mOwner->SpawnParticle(GetGame(), mOwner->GetPosition() + mOwner->GetCapsulOffset(), mMeshName, 10);
 }
 
 SpeedUp::SpeedUp(class Game* game)
@@ -66,16 +65,9 @@ SpeedUp::SpeedUp(class Game* game)
 	iData = GetGame()->GetAllData()->speedData;
 	SetImageColor(iData.mColor);
 	SetUp();
-	mTc = new TreeMeshComponent(this);
-	mTc->SetOffsetPos(GetCapsulOffset());
-	mTc->SetTree("Speed");
-	SetNormalMesh(mTc);
 
-	mTc = new TreeMeshComponent(this);
-	mTc->SetTree("SpeedTran");
-	mTc->SetOffsetPos(GetCapsulOffset());
-	SetDamageMesh(mTc);
-
+	mBatchName = "SpeedSphere";
+	CreateMesh(mBatchName, "SpeedTranSphere");
 }
 
 bool SpeedUp::update()
@@ -99,7 +91,7 @@ bool SpeedUp::update()
 			{
 				c->GetSpeed()->SetLevel(c->GetSpeed()->GetLevel() + 1);
 			}
-			c->GetSpeed()->SetTime(c->GetSpeed()->GetInterval());
+			c->GetSpeed()->TimeReset();
 
 			std::ostringstream oss;
 			oss << c->GetSpeed()->GetName().c_str() << "がレベルアップ。";
@@ -119,6 +111,8 @@ SpeedUpCompo::SpeedUpCompo(class PSideCharacterActor* owner)
 	owner->SetSpeed(this);
 	Data = owner->GetGame()->GetAllData()->speedCompoData;
 	Data.mHp = Data.mMaxHp;
+	mMeshName = "SpeedSphere";
+
 }
 
 SpeedUpCompo::~SpeedUpCompo()
@@ -127,9 +121,7 @@ SpeedUpCompo::~SpeedUpCompo()
 	if (c->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetAdvSpeed(GetGame()->GetAllData()->cannonData.mAdvSpeed);
-		std::ostringstream oss;
-		oss << c->GetSpeed()->GetName().c_str() << "の効果が切れた。";
-		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("スピードアップの効果が切れた。");
 		c->SetSpeed(nullptr);
 	}
 
@@ -151,14 +143,9 @@ PowerUp::PowerUp(class Game* game)
 	iData = GetGame()->GetAllData()->powerData;
 	SetImageColor(iData.mColor);
 	SetUp();
-	mTc = new TreeMeshComponent(this);
-	mTc->SetOffsetPos(GetCapsulOffset());
-	mTc->SetTree("Power");
-	SetNormalMesh(mTc);
-	mTc = new TreeMeshComponent(this);
-	mTc->SetOffsetPos(GetCapsulOffset());
-	mTc->SetTree("PowerTran");
-	SetDamageMesh(mTc);
+	
+	mBatchName = "PowerSphere";
+	CreateMesh(mBatchName, "PowerTranSphere");
 
 }
 
@@ -183,7 +170,7 @@ bool PowerUp::update()
 			{
 				c->GetPower()->SetLevel(c->GetPower()->GetLevel() + 1);
 			}
-			c->GetPower()->SetTime(c->GetPower()->GetInterval());
+			c->GetPower()->TimeReset();
 			std::ostringstream oss;
 			oss << c->GetPower()->GetName().c_str() << "がレベルアップ。";
 			GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
@@ -201,6 +188,8 @@ PowerUpCompo::PowerUpCompo(class PSideCharacterActor* owner)
 	owner->SetPower(this);
 	Data = owner->GetGame()->GetAllData()->powerCompoData;
 	Data.mHp = Data.mMaxHp;
+	mMeshName = "PowerSphere";
+
 }
 
 PowerUpCompo::~PowerUpCompo()
@@ -210,9 +199,7 @@ PowerUpCompo::~PowerUpCompo()
 	if (c->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetDamage(1);
-		std::ostringstream oss;
-		oss << c->GetPower()->GetName().c_str() << "の効果が切れた。";
-		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("攻撃力アップの効果が切れた。");
 		c->SetPower(nullptr);
 	}
 }
@@ -234,14 +221,9 @@ RapidFire::RapidFire(class Game* game)
 	iData = GetGame()->GetAllData()->rapidData;
 	SetImageColor(iData.mColor);
 	SetUp();
-	mTc = new TreeMeshComponent(this);
-	mTc->SetOffsetPos(GetCapsulOffset());
-	mTc->SetTree("Rapid");
-	SetNormalMesh(mTc);
-	mTc = new TreeMeshComponent(this);
-	mTc->SetOffsetPos(GetCapsulOffset());
-	mTc->SetTree("RapidTran");
-	SetDamageMesh(mTc);
+	
+	mBatchName = "RapidSphere";
+	CreateMesh(mBatchName, "RapidTranSphere");
 
 }
 
@@ -276,7 +258,7 @@ bool RapidFire::update()
 					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 				}
 			}
-			c->GetRapid()->SetTime(c->GetRapid()->GetInterval());
+			c->GetRapid()->TimeReset();
 		}
 	}
 
@@ -293,6 +275,8 @@ RapidFireCompo::RapidFireCompo(class PSideCharacterActor* owner)
 	owner->SetRapid(this);
 	Data = owner->GetGame()->GetAllData()->rapidCompoData;
 	Data.mHp = Data.mMaxHp;
+	mMeshName = "RapidSphere";
+
 }
 
 RapidFireCompo::~RapidFireCompo()
@@ -301,9 +285,7 @@ RapidFireCompo::~RapidFireCompo()
 	{
 		auto c = static_cast<Cannon*>(mOwner);
 		c->SetInterval(GetGame()->GetAllData()->cannonData.mInterval);
-		std::ostringstream oss;
-		oss << c->GetRapid()->GetName().c_str() << "の効果が切れた。";
-		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("発射間隔短縮の効果が切れた。");
 		c->SetRapid(nullptr);
 	}
 
@@ -326,14 +308,9 @@ Barrier::Barrier(class Game* game)
 	iData = GetGame()->GetAllData()->barrierData;
 	SetImageColor(iData.mColor);
 	SetUp();
-	mTc = new TreeMeshComponent(this);
-	mTc->SetOffsetPos(GetCapsulOffset());
-	mTc->SetTree("Barrier");
-	SetNormalMesh(mTc);
-	mTc = new TreeMeshComponent(this);
-	mTc->SetOffsetPos(GetCapsulOffset());
-	mTc->SetTree("BarrierTran");
-	SetDamageMesh(mTc);
+	
+	mBatchName = "BarrierSphere";
+	CreateMesh(mBatchName, "BarrierTranSphere");
 
 }
 
@@ -364,7 +341,7 @@ bool Barrier::update()
 		}
 		c->GetBarrier()->SetMaxHp(c->GetBarrier()->GetLevel() * 2 + 1);
 		c->GetBarrier()->SetHp(c->GetBarrier()->GetMaxHp());
-		c->GetBarrier()->SetTime(c->GetBarrier()->GetInterval());
+		c->GetBarrier()->TimeReset();
 	}
 
 	setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mBarrierSoundVolumeOffset);
@@ -379,6 +356,9 @@ BarrierCompo::BarrierCompo(class PSideCharacterActor* owner)
 	owner->SetBarrier(this);
 	Data = owner->GetGame()->GetAllData()->barrierCompoData;
 	Data.mHp = Data.mMaxHp;
+
+	mMeshName = "BarrierSphere";
+
 }
 
 BarrierCompo::~BarrierCompo()

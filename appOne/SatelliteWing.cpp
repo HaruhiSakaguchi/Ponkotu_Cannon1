@@ -3,6 +3,7 @@
 #include "Container.h"
 #include "window.h"
 #include "TreeMeshComponent.h"
+#include "BatchMeshComponent.h"
 #include "UILog.h"
 
 int SatelliteWing::mNum;
@@ -37,20 +38,23 @@ int SatelliteWing::SetUp()
 	SetPosition(s->GetPosition());
 	SetImageColor(Data.mImageColor);
 
-	mTc = new TreeMeshComponent(this, false);
-	auto dTree = new TreeMeshComponent(this, false);
+	//mTc = new TreeMeshComponent(this, false);
+	//auto dTree = new TreeMeshComponent(this, false);
+
+	auto tc = new BatchMeshComponent(this, false);
+	auto dTree = new BatchMeshComponent(this, false);
 	if (s->GetId() == 0)
 	{
-		mTc->SetTree("SatelliteWing0");
-		dTree->SetTree("SatelliteWing0Damage");
+		tc->SetBatch("SatelliteWing0Square");
+		dTree->SetBatch("SatelliteWing0DamageSquare");
 	}
 	else
 	{
-		mTc->SetTree("SatelliteWing1");
-		dTree->SetTree("SatelliteWing1Damage");
+		tc->SetBatch("SatelliteWing1Square");
+		dTree->SetBatch("SatelliteWing1DamageSquare");
 	}
 
-	SetNormalMesh(mTc);
+	SetNormalMesh(tc);
 	SetDamageMesh(dTree);
 
 
@@ -265,5 +269,18 @@ void SatelliteWing::damage()
 
 void SatelliteWing::Dead()
 {
-	SpawnParticle(GetPosition(), "SatelliteWing0Square", 10);
+	for (int i = 0; i < 10; i++)
+	{
+		int num = rand();
+		if (num % 2 == 0)
+		{
+			SpawnParticle(GetGame(),GetPosition(), "SatelliteWing0Square", 1);
+		}
+		else
+		{
+			SpawnParticle(GetGame(),GetPosition(), "SatelliteWing1Square", 1);
+		}
+	}
+
+
 }

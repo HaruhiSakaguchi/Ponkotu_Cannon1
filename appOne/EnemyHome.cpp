@@ -21,6 +21,7 @@ EnemyHome::EnemyHome(class Game* game)
 	, mInterval(0.0f)
 	, mElapsedTime(0.0f)
 	, mCnt(0)
+	, mGenerateFlag(0)
 {
 	SetUp();
 	GetGame()->GetActorManager()->SetEHome(this);
@@ -28,9 +29,10 @@ EnemyHome::EnemyHome(class Game* game)
 
 EnemyHome::~EnemyHome()
 {
-	mDore->SetState(EDead);
-	mFlag1->SetState(EDead);
-	mFlag2->SetState(EDead);
+	for (auto prop : mProps)
+	{
+		prop->SetState(EDead);
+	}
 	GetGame()->GetActorManager()->SetEHome(nullptr);
 }
 
@@ -40,10 +42,16 @@ int EnemyHome::SetUp()
 	mTc->SetTree("Home");
 	SetNormalMesh(mTc);
 	mDore = new Dore(GetGame());
+	mDore->SetCloseEvent([this]() {mGenerateFlag = 0; });
 	mFlag1 = new EnemyFlag(GetGame());
 	mFlag1->SetRotationY(3.1415926f);
 	mFlag2 = new EnemyFlag(GetGame());
 	mFlag2->SetRotationY(3.1415926f);
+
+	mProps.emplace_back(mDore);
+	mProps.emplace_back(mFlag1);
+	mProps.emplace_back(mFlag2);
+
 	SetTag(EHome);
 	SetHp(Data.mMaxHp);
 	SetMaxHp(Data.mMaxHp);
@@ -115,7 +123,7 @@ void EnemyHome::UpdateActor()
 
 					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("tamaが出現。");
 					mElapsedTime = 0.0f;
-					mGenerateFlag = true;
+					mGenerateFlag = 1;
 					mDore->Open();
 				}
 				else
@@ -155,7 +163,7 @@ void EnemyHome::UpdateActor()
 					{
 						GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteBが出現。");
 					}
-					mGenerateFlag = true;
+					mGenerateFlag = 1;
 					mDore->Open();
 				}
 				else
@@ -203,7 +211,7 @@ void EnemyHome::UpdateActor()
 		mBattlePoints = 0;
 	}
 
-	if (mGenerateFlag)
+	if (mGenerateFlag == 1)
 	{
 		mDore->SetIsRotate(true);
 	}
@@ -232,10 +240,9 @@ void EnemyHome::UpdateActor()
 		}
 	}
 
-	if (mGenerateFlag && cnt == 0)
+	if (mGenerateFlag == 1 && cnt == 0)
 	{
 		mDore->Close();
-		mGenerateFlag = false;
 	}
 
 	if (GetDamageInterval() > 0)
@@ -332,9 +339,9 @@ void EnemyHome::Dead()
 		}
 	}
 	GetGame()->GetActorManager()->GetStage()->AddText("敵の基地を破壊した！！");
-	SpawnParticle(GetPosition(), "HomeHouse", 20);
-	SpawnParticle(GetPosition(), "DoreDore", 20);
-	SpawnParticle(GetPosition(), "EnemyFlagFlag", 40);
+	SpawnParticle(GetGame(), GetPosition(), "HomeHouse", 20);
+	SpawnParticle(GetGame(), GetPosition(), "DoreDore", 20);
+	SpawnParticle(GetGame(), GetPosition(), "EnemyFlagFlag", 40);
 
 }
 
@@ -347,5 +354,16 @@ bool EnemyHome::InEnemyArea(const VECTOR& pos)
 
 	bool in = (dist <= 7.0f);
 	return in;
+}
+
+void EnemyHome::CreateHomeArea()
+{
+	for (int i = 0; i < 36; i++)
+	{
+		auto flag = new EnemyFlag(GetGame());
+		flag->SetPosition(GetPosition().x + sinf(i * 3.1415926f * 2 / 36.0f) * 7.0f, 0.0f, GetPosition().z + cosf(i * 3.1415926f * 2 / 36.0f) * 7.0f);
+		flag->SetScale(VECTOR(0.5f, 0.5f, 0.5f));
+		mProps.emplace_back(flag);
+	}
 }
 

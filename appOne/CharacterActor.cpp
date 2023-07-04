@@ -111,7 +111,7 @@ int CharacterActor::rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed)
 	return 0;
 }
 
-void CharacterActor::SpawnParticle(const VECTOR& pos, const char* name, int num, float maxLifeSpan, Particle::MeshType type, float spawnRadius)
+void CharacterActor::SpawnParticle(class Game* game, const VECTOR& pos, const char* name, int num, float maxLifeSpan, Particle::MeshType type, float spawnRadius)
 {
 	for (int i = 0; i < num; i++)
 	{
@@ -131,7 +131,7 @@ void CharacterActor::SpawnParticle(const VECTOR& pos, const char* name, int num,
 
 		float advSpeed = random(0.1f, 10.0f);
 		float lifeSpan = random(0.1f,maxLifeSpan);
-		auto particle = new Particle(GetGame(), Pos, lifeSpan);
+		auto particle = new Particle(game, Pos, lifeSpan);
 		particle->SetMeshType(type);
 		particle->SetMesh(name);
 		particle->SetAdvSpeed(advSpeed);

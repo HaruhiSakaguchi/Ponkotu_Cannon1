@@ -4,7 +4,7 @@
 #include "Cannon.h"
 #include "COLLISION_MAP.h"
 #include "Collision_Capsul.h"
-#include "TreeMeshComponent.h"
+#include "BatchMeshComponent.h"
 #include <sstream>
 #include "UILog.h"
 #include "CollisionMapComponent.h"
@@ -17,10 +17,10 @@ Item::Item(Game* game)
 	, mTime(0.0f)
 	, mIsSpawnParticle(false)
 	, mBeforeTime(0)
+	, mBatchName(nullptr)
 {
 	GetGame()->GetActorManager()->AddItems(this);
 	mStart = std::chrono::system_clock::now();
-
 }
 
 Item::~Item()
@@ -45,6 +45,7 @@ int Item::SetUp()
 	SetScale(VECTOR(cData.mRadius, cData.mRadius, cData.mRadius) * 4.0f);
 
 	new CollisionMapComponent(this);
+
 	return 0;
 }
 
@@ -66,7 +67,7 @@ void Item::UpdateActor()
 
 	if (mIsSpawnParticle)
 	{
-		SpawnParticle(GetPosition(), mNormalMesh->GetMeshName(), 5, 1.0f, Particle::MeshType::ETree);
+		SpawnParticle(GetGame(), GetPosition() + GetCapsulOffset(), mBatchName, 5, 1.0f);
 		mIsSpawnParticle = false;
 		mBeforeTime = (int)mTime;
 	}
@@ -109,3 +110,22 @@ void Item::UpdateActor()
 		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	}
 }
+
+void Item::CreateMesh(const char* normalMeshName, const char* damageMeshName)
+{
+	if (normalMeshName)
+	{
+		auto nm = new BatchMeshComponent(this, false);
+		nm->SetOffsetPos(GetCapsulOffset());
+		nm->SetBatch(normalMeshName);
+		SetNormalMesh(nm);
+	}
+	if (damageMeshName)
+	{
+		auto dm = new BatchMeshComponent(this, false);
+		dm->SetBatch(damageMeshName);
+		dm->SetOffsetPos(GetCapsulOffset());
+		SetDamageMesh(dm);
+	}
+}
+

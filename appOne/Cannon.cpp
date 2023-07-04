@@ -98,7 +98,7 @@ int Cannon::SetUp()
 	SetInitMaxHp(GetMaxHp());
 
 
-	new HpGaugeSpriteComponent(this, GetCapsulOffset());
+	//new HpGaugeSpriteComponent(this, GetCapsulOffset());
 	auto ui = new UIPSideCharacterStatusClose(this);
 	ui->UIOpenNexrOffsetPlus();
 
@@ -397,8 +397,8 @@ void Cannon::FallOption()
 
 void Cannon::Dead()
 {
-	SpawnParticle(GetPosition(), "CannonBarrelBarrel", 10);
-	SpawnParticle(GetPosition(), "CannonWheelCylinder", 20);
+	SpawnParticle(GetGame(),GetPosition(), "CannonBarrelBarrel", 10);
+	SpawnParticle(GetGame(),GetPosition(), "CannonWheelCylinder", 20);
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);
 	GetGame()->GetActorManager()->GetStage()->AddText("Cannon‚Í€‚ñ‚Å‚µ‚Ü‚Á‚½...B");

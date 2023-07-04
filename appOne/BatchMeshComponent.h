@@ -8,7 +8,6 @@ public:
     ~BatchMeshComponent();
     void SetBatch(const char* name);
     void Draw()override;
-    void Update()override;
 private:
     class BATCH* mBatch;
 };

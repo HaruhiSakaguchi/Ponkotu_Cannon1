@@ -5,8 +5,8 @@
 #include "CONTAINER/CONTAINER.h"
 #include "CONTAINER/BATCH.h"
 
-BatchMeshComponent::BatchMeshComponent(Actor* owner,bool isDraw)
-	: MeshComponent(owner,isDraw)
+BatchMeshComponent::BatchMeshComponent(Actor* owner, bool isDraw)
+	: MeshComponent(owner, isDraw)
 	, mBatch(nullptr)
 {
 }
@@ -24,21 +24,16 @@ void BatchMeshComponent::SetBatch(const char* name)
 
 void BatchMeshComponent::Draw()
 {
+	VECTOR pos = mOwner->GetPosition() + mOffsetPos;
+	VECTOR angle = mOwner->GetRotation() + mOffsetAngle;
 	mWorld.identity();
-	mWorld.mulTranslate(mOwner->GetPosition() + mOffsetPos);
-	mWorld.mulRotateY(mOwner->GetRotation().x + mOffsetAngle.x);
-	mWorld.mulRotateX(mOwner->GetRotation().y + mOffsetAngle.y);
-	mWorld.mulRotateZ(mOwner->GetRotation().z + mOffsetAngle.z);
-	mWorld.mulRotateY(mOffsetAngle.y);
-	mWorld.mulRotateX(mOffsetAngle.x);
-	mWorld.mulRotateZ(mOffsetAngle.z);
+	mWorld.mulTranslate(pos);
+	mWorld.mulRotateY(angle.y);
+	mWorld.mulRotateX(angle.x);
+	mWorld.mulRotateZ(angle.z);
 	mWorld.mulScaling(mOwner->GetScale());
 
-}
-
-void BatchMeshComponent::Update()
-{
-	if (mDrawFlag && mBatch)
+	if (mDrawFlag)
 	{
 		mBatch->draw(mOwner->GetGame()->GetRenderer()->GetShader(), mWorld);
 	}

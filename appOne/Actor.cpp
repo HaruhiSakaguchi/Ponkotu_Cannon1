@@ -2,7 +2,6 @@
 #include "Game.h"
 #include "Component.h"
 #include "Map.h"
-#include "ItemComponent.h"
 #include "Items.h"
 #include "Container.h"
 #include <sstream>

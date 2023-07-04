@@ -34,6 +34,9 @@ public:
 	int GetBattlePoints() { return mBattlePoints; }
 	int GetMaxBattlePoints() { return mMaxBattlePoints; }
 	void SetBattlePoints(int point) { mBattlePoints = point; }
+	bool InPlayerArea(const VECTOR& pos);
+
+	void CreateHomeArea();
 
 	class Dore* GetDore() { return mDore; }
 	struct DATA
@@ -65,6 +68,7 @@ private:
 
 	class TreeMeshComponent*mTc;
 	int mGenerateFlag;
+	std::vector<Actor*>mProps;
 
 	int mBattlePoints;
 	int mMaxBattlePoints;

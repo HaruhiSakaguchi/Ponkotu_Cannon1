@@ -15,10 +15,7 @@ TreeMeshComponent::TreeMeshComponent(Actor* owner, bool isDraw)
 
 TreeMeshComponent::~TreeMeshComponent()
 {
-	if (mTree)
-	{
-		delete mTree;
-	}
+	delete mTree;
 	mAnims.clear();
 }
 
@@ -55,13 +52,13 @@ void TreeMeshComponent::Update()
 	mWorld.mulRotateX(angle.x);
 	mWorld.mulRotateZ(angle.z);
 	mWorld.mulScaling(mOwner->GetScale());
+	mTree->update(mWorld);
 }
 
 void TreeMeshComponent::Draw()
 {
-	if (mDrawFlag && mTree)
+	if (mDrawFlag)
 	{
-		mTree->update(mWorld);
 		mTree->draw(mOwner->GetGame()->GetRenderer()->GetShader());
 	}
 }

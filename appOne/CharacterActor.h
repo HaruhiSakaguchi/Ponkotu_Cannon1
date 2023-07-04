@@ -68,7 +68,7 @@ public:
 
 	//メッシュの名前からパーティクルをスポーン
 	
-	void SpawnParticle(const VECTOR& pos, const char* name,int num = 1, float maxLifeSpan = 1.0f, Particle::MeshType type = Particle::MeshType::EBatch,float spawnRadius = 0.0f);
+	void SpawnParticle(class Game*game,const VECTOR& pos, const char* name,int num = 1, float maxLifeSpan = 1.0f, Particle::MeshType type = Particle::MeshType::EBatch,float spawnRadius = 0.0f);
 
 	enum CharactersTag
 	{

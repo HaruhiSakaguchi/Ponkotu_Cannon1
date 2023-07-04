@@ -33,11 +33,12 @@ PlayerHome::PlayerHome(class Game* game, const VECTOR& pos)
 
 PlayerHome::~PlayerHome()
 {
-	mDore->SetState(EDead);
-	mFlag1->SetState(EDead);
-	mFlag2->SetState(EDead);
 	GetGame()->GetActorManager()->SetPHome(nullptr);
 	mUI->CloseMe();
+	for (auto prop : mProps)
+	{
+		prop->SetState(EDead);
+	}
 }
 
 int PlayerHome::SetUp()
@@ -58,6 +59,13 @@ int PlayerHome::SetUp()
 	mDore->SetIsRotate(true);
 	mDore->Open();
 	mDore->SetCloseEvent([this]() { mGenerateFlag = 0; });
+	mDore->SetPosition(GetPosition() + Data.mDoreOffset);
+	mFlag1->SetPosition(GetPosition() + Data.mFlag1Offset);
+	mFlag2->SetPosition(GetPosition() + Data.mFlag2Offset);
+
+	mProps.emplace_back(mDore);
+	mProps.emplace_back(mFlag1);
+	mProps.emplace_back(mFlag2);
 
 	SetRadius(Data.mRadius);
 	SetHeight(Data.mHeight);
@@ -71,9 +79,6 @@ int PlayerHome::SetUp()
 
 void PlayerHome::UpdateActor()
 {
-	mDore->SetPosition(GetPosition() + Data.mDoreOffset);
-	mFlag1->SetPosition(GetPosition() + Data.mFlag1Offset);
-	mFlag2->SetPosition(GetPosition() + Data.mFlag2Offset);
 
 	mHomeTargetPoints[0] = GetPosition() + VECTOR(-7.0f, 0.0f, -7.0f);
 	mHomeTargetPoints[1] = GetPosition() + VECTOR(7.0f, 0.0f, -7.0f);
@@ -168,9 +173,6 @@ void PlayerHome::UpdateActor()
 		mFlag1->GetMesh()->SetDrawFlag(true);
 		mFlag2->GetMesh()->SetDrawFlag(true);
 	}
-
-	print("Generate" + (let)GetGenerateFlag());
-	print("Move" + (let)GetMoveCompleteFlag());
 }
 
 void PlayerHome::Damage(int damage)
@@ -203,9 +205,9 @@ void PlayerHome::Dead()
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);
 	GetGame()->GetActorManager()->GetStage()->AddText("PlayerHome‚ª‰ó‚ê‚½");
-	SpawnParticle(GetPosition(), "HomeHouse", 20);
-	SpawnParticle(GetPosition(), "DoreDore", 20);
-	SpawnParticle(GetPosition(), "PlayerFlagFlag", 40);
+	SpawnParticle(GetGame(), GetPosition(), "HomeHouse", 20);
+	SpawnParticle(GetGame(), GetPosition(), "DoreDore", 20);
+	SpawnParticle(GetGame(), GetPosition(), "PlayerFlagFlag", 40);
 }
 
 int PlayerHome::GoToTargetPoint(const VECTOR& pos)
@@ -220,7 +222,57 @@ int PlayerHome::GoToTargetPoint(const VECTOR& pos)
 	else
 	{
 		SetPosition(GetPosition() + dir * delta * 6.0f);
+		for (auto prop : mProps)
+		{
+			prop->SetPosition(prop->GetPosition() + dir * delta * 6.0f);
+		}
+
+		if (dir.z < 0.0f)
+		{
+			for (auto pSide : GetGame()->GetActorManager()->GetPSide())
+			{
+				if (InPlayerArea(pSide->GetPosition()))
+				{
+					bool moveFlag = false;
+					if (pSide->GetTag() == CharacterActor::CharactersTag::Cannon && static_cast<class Cannon*>(pSide)->GetStateCompoState()->GetName() != "Generate")
+					{
+						moveFlag = true;
+					}
+					else if (pSide->GetTag() == CharacterActor::CharactersTag::Barricade && pSide->GetPosition().y <= 0.0f)
+					{
+						moveFlag = true;
+					}
+
+
+					if (moveFlag)
+					{
+						pSide->SetPosition(pSide->GetPosition() + dir * delta * 6.0f);
+					}
+				}
+			}
+		}
 		return 0;
 	}
 }
 
+void PlayerHome::CreateHomeArea()
+{
+	for (int i = 0; i < 36; i++)
+	{
+		auto flag = new PlayerFlag(GetGame());
+		flag->SetPosition(GetPosition().x + sinf(i * 3.1415926f * 2 / 36.0f) * 7.0f, 0.0f, GetPosition().z + cosf(i * 3.1415926f * 2 / 36.0f) * 7.0f);
+		flag->SetScale(VECTOR(0.5f, 0.5f, 0.5f));
+		mProps.emplace_back(flag);
+	}
+}
+
+bool PlayerHome::InPlayerArea(const VECTOR& pos)
+{
+	float distX = pos.x - GetPosition().x;
+	float distZ = pos.z - GetPosition().z;
+
+	float dist = sqrtf(distX * distX + distZ * distZ);
+
+	bool in = (dist <= 7.0f);
+	return in;
+}

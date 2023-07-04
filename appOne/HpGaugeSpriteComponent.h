@@ -29,6 +29,8 @@ private:
     class TREE* mNormal;
     class TREE* mDanger; 
     class TREE* mDying;
-    class TREE* mGauge;
+    bool mIsNormal;
+    bool mIsDanger;
+    bool mIsDying;
 };
 

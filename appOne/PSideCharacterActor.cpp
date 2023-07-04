@@ -42,6 +42,8 @@ void PSideCharacterActor::RemoveItemComponent(class ItemComponent* component)
 	auto iter = std::find(mItemComponents.begin(), mItemComponents.end(), component);
 	if (iter != mItemComponents.end())
 	{
-		mItemComponents.erase(iter);
+		//このActorとケツのActorを入れ替える(消去後コピー処理を避けるため)
+		std::iter_swap(iter, mItemComponents.end() - 1);
+		mItemComponents.pop_back();
 	}
 }

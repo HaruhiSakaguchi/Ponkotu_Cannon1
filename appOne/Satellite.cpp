@@ -69,14 +69,14 @@ int Satellite::SetUp()
 
 	Data.mId = Num % 2;
 	int maxHp = 0;
-	class TreeMeshComponent* ntc = new TreeMeshComponent(this, false);
-	class TreeMeshComponent* dtc = new TreeMeshComponent(this, false);
+	auto ntc = new TreeMeshComponent(this, false);
+	//auto dtc = new TreeMeshComponent(this, false);
 
 	if (Data.mId == 0)
 	{
 		maxHp = Data.mMaxHp;
 		ntc->SetTree("SatelliteBody0");
-		dtc->SetTree("SatelliteBody0Damage");
+		//dtc->SetTree("SatelliteBody0Damage");
 	}
 	else
 	{
@@ -84,13 +84,13 @@ int Satellite::SetUp()
 		SetCapsulOffset(Data.mCapsulOffset);
 		ntc->SetOffsetPos(VECTOR(0.0f, 0.75f, 0.0f));
 		ntc->SetTree("SatelliteBody1");
-		dtc->SetTree("SatelliteBody1Damage");
-		dtc->SetOffsetPos(VECTOR(0.0f, 0.75f, 0.0f));
+		//dtc->SetTree("SatelliteBody1Damage");
+		//dtc->SetOffsetPos(VECTOR(0.0f, 0.75f, 0.0f));
 
 	}
 
 	SetNormalMesh(ntc);
-	SetDamageMesh(dtc);
+	//SetDamageMesh(dtc);
 
 
 	SetHp(maxHp);
@@ -98,7 +98,7 @@ int Satellite::SetUp()
 	SetInitMaxHp(GetMaxHp());
 
 	Num++;
-	mHpGauge = new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
+	//mHpGauge = new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
 
 	new SatelliteWing(this);
 	new SatelliteWing(this);
@@ -204,12 +204,22 @@ void Satellite::Damage(int damage)
 
 void Satellite::Dead()
 {
-	SpawnParticle(GetPosition(), "SatelliteBody0Cylinder", 10);
-	SpawnParticle(GetPosition(), "SatelliteWing0Square", 40);
+	if (Data.mId == 0)
+	{
+		SpawnParticle(GetGame(),GetPosition(), "SatelliteBody0Cylinder", 10);
+		SpawnParticle(GetGame(),GetPosition(), "SatelliteWing0Square", 40);
+	}
+	else
+	{
+		SpawnParticle(GetGame(),GetPosition(), "SatelliteBody1Cylinder", 10);
+		SpawnParticle(GetGame(),GetPosition(), "SatelliteWing1Square", 40);
+	}
+
 
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);
 	DropItems(Data.mDeadPoint);
+
 	if (Data.mId == 0)
 	{
 		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteA‚ğ“|‚µ‚½II");

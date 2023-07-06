@@ -55,7 +55,7 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 	}
 	else if (mId == GenerateActor_Id::EBarricade)
 	{
-		text = "Barrier‚ÉØ‚è‘Ö‚¦";
+		text = "Cannon‚ÉØ‚è‘Ö‚¦";
 	}
 	else if (mId == GenerateActor_Id::EBarrier)
 	{
@@ -79,7 +79,7 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 	}
 	else if (mId == GenerateActor_Id::ERecover)
 	{
-		text = "Cannon‚ÉØ‚è‘Ö‚¦";
+		text = "Barrier‚ÉØ‚è‘Ö‚¦";
 	}
 
 	mChangeButton = AddRectButton(text,
@@ -93,7 +93,7 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 			}
 			else if (mId == GenerateActor_Id::EBarricade)
 			{
-				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::EBarrier);
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ECannon);
 				CloseMe();
 				mOwner->SetGenerate(ui);
 			}
@@ -123,7 +123,7 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 			}
 			else if (mId == GenerateActor_Id::ERecover)
 			{
-				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ECannon);
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::EBarrier);
 				CloseMe();
 				mOwner->SetGenerate(ui);
 			}

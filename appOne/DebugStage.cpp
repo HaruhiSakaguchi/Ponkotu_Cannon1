@@ -46,6 +46,12 @@ int DebugStage::SetUp()
 	c->SetPosition(GetGame()->GetActorManager()->GetPHome()->GetPosition());
 	c->SetRotationY(3.1415926f);
 
+	auto a = new CharacterActor(GetGame());
+	auto tmc = new TreeMeshComponent(a);
+	tmc->SetTree("PlayerFlag");
+	a->SetCategory(Actor::Character);
+
+
 	/*class Cannon* c = new Cannon(GetGame());
 	c->SetUp();
 	c->SetInitPosition(VECTOR(5.0f, 0.0f, -30.0f));

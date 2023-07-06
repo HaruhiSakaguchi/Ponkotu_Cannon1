@@ -25,5 +25,6 @@ private:
     Button* mGenerateBarricadeLvUpButton;
     Button* mGenerateItemButton;
     class UIGenerate* mGenerate;
+    int mUnitMaxNum;
 };
 

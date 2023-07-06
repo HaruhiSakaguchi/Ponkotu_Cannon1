@@ -16,6 +16,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 	, mGenerateItemButton(nullptr)
 	, mHpGaugeWidth(0.0f)
 	, mBarrierHpGaugeWidth(0.0f)
+	, mUnitMaxNum(1)
 {
 	float Width = (float)(mHeight * mOwner->GetMaxHp());
 	mPos = VECTOR2(width / 2.0f, height - mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight * 2.0f);
@@ -91,6 +92,19 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				pop->SetTextSize(30);
 				pop->SetTextColor(COLOR(255, 255, 128));
 				pop->NoStrokeRect();
+				if (mUnitMaxNum < mOwner->GetMaxLevel())
+				{
+					mUnitMaxNum++;
+				}
+				if (mOwner->GetLevel() == 5)
+				{
+					mGenerateItemButton->SetState(Button::Enable);
+					auto pop = new UIPopUp(mGame, "アイテムが追加できるようになった！！", mGenerateItemButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+					pop->SetTextSize(30);
+					pop->SetTextColor(COLOR(255, 255, 128));
+					pop->NoStrokeRect();
+					mGame->GetActorManager()->GetStage()->AddText("アイテムの追加ができるようになりました。");
+				}
 			}
 			else if (mOwner->GetLevel() == mOwner->GetMaxLevel())
 			{
@@ -110,7 +124,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		, 2
 			);
 
-	mGenerateCannonButton = AddRectButton("Cannon"
+	mGenerateCannonButton = AddRectButton("キャラクターを追加"
 		, [this]()
 		{
 			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
@@ -155,52 +169,6 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 
 	mGenerateCannonButton->SetNameOffsetPos(VECTOR2(0.0f, -30.0f));
 
-
-	mGenerateBarricadeButton = AddRectButton("Barricade"
-		, [this]()
-		{
-			PlayerHome* h = static_cast<PlayerHome*>(mOwner);
-			if (h->GetMoveCompleteFlag() == 1 && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel() && h->GetGenerateFlag() == 0 && (int)(mGame->GetActorManager()->GetPSide().size()) - 1 != mOwner->GetMaxLevel())
-			{
-				h->SetGenerateFlag(1);
-				if (!mGenerate)
-				{
-					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarricade);
-				}
-				else
-				{
-					mGenerate->CloseMe();
-					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarricade);
-				}
-			}
-			else if (h->GetMoveCompleteFlag() == 0)
-			{
-				auto pop = new UIPopUp(mGame, "移動中はユニットの追加ができません", mGenerateBarricadeButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
-				pop->SetTextSize(30);
-				pop->SetTextColor(COLOR(50, 50, 255));
-				pop->NoStrokeRect();
-			}
-			else if (h->GetGenerateFlag() == 1)
-			{
-				auto pop = new UIPopUp(mGame, "ユニットの追加中に新たにユニットを追加することはできません", mGenerateBarricadeButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
-				pop->SetTextSize(30);
-				pop->SetTextColor(COLOR(50, 50, 255));
-				pop->NoStrokeRect();
-			}
-			else
-			{
-				auto pop = new UIPopUp(mGame, "ユニットがいっぱいです", mGenerateBarricadeButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
-				pop->SetTextSize(30);
-				pop->SetTextColor(COLOR(50, 50, 255));
-				pop->NoStrokeRect();
-			}
-		}
-		, nullptr
-			, VECTOR2(100.0f, 100.0f)
-			);
-
-	mGenerateBarricadeButton->SetNameOffsetPos(VECTOR2(0.0f, -30.0f));
-
 	mGenerateCannonLvUpButton = AddButton("Lv+"
 		, [this]()
 		{
@@ -228,14 +196,14 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				pop->SetTextColor(COLOR(50, 50, 255));
 				pop->NoStrokeRect();
 			}
-			else if(h->GetBattlePoints() < 150)
+			else if (h->GetBattlePoints() < 150)
 			{
 				auto pop = new UIPopUp(mGame, "ポイントが足りない", mGenerateCannonLvUpButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
 				pop->SetTextSize(30);
 				pop->SetTextColor(COLOR(50, 50, 255));
 				pop->NoStrokeRect();
 			}
-			
+
 		}
 		, 2
 			);
@@ -311,6 +279,8 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 			}
 		}
 	);
+
+	mGenerateItemButton->SetState(Button::Disable);
 }
 
 void UIPlayerHome::draw()
@@ -360,10 +330,13 @@ void UIPlayerHome::draw()
 	if (mOwner->GetBarrier())
 	{
 		noStroke();
-		fill(50, 50, 255,128);
+		fill(50, 50, 255, 128);
 		rect(mPos.x + 1000.0f - mBarrierHpGaugeWidth - 25.0f + 12.5f, mPos.y + 25.0f, mBarrierHpGaugeWidth, 25.0f);
 	}
 
+	textSize(30);
+	fill(0, 0, 0);
+	text((let)"ユニット数　" + (let)((int)mGame->GetActorManager()->GetPSide().size() - 1) + (let)" / "  + (let)mUnitMaxNum, 1600.0f, 50.0f);
 }
 
 void UIPlayerHome::Update()
@@ -382,11 +355,11 @@ void UIPlayerHome::Update()
 	mGoButton->SetPosition(VECTOR2(mPos.x, mPos.y - 100.0f));
 	mReturnButton->SetPosition(VECTOR2(mPos.x + 100.0f, mPos.y - 100.0f));
 	mHomeLvUpButton->SetPosition(VECTOR2(mPos.x + 100.0f + 100.0f, mPos.y - 100.0f));
-	mGenerateCannonButton->SetPosition(VECTOR2(mPos.x + 300.0f, mPos.y - 100.0f));
-	mGenerateCannonLvUpButton->SetPosition(VECTOR2(mPos.x + 300.0f + 100.0f, mPos.y - 100.0f + 25.0f));
-	mGenerateBarricadeButton->SetPosition(VECTOR2(mPos.x + 300.0f + 200.0f, mPos.y - 100.0f));
-	mGenerateBarricadeLvUpButton->SetPosition(VECTOR2(mPos.x + 300.0f + 200.0f + 100.0f, mPos.y - 100.0f + 25.0f));
-	mGenerateItemButton->SetPosition(VECTOR2(mPos.x + 300.0f + 200.0f + 100.0f + 100.0f + 50.0f, mPos.y - 100.0f + 25.0f));
+	mGenerateCannonButton->SetPosition(VECTOR2(mPos.x + 500.0f, mPos.y - 100.0f));
+	mGenerateCannonLvUpButton->SetPosition(VECTOR2(mPos.x + 300.0f + 400.0f, mPos.y - 100.0f + 25.0f));
+	//mGenerateBarricadeButton->SetPosition(VECTOR2(mPos.x + 300.0f + 200.0f, mPos.y - 100.0f));
+	mGenerateBarricadeLvUpButton->SetPosition(VECTOR2(mPos.x + 300.0f + 200.0f + 250.0f, mPos.y - 100.0f + 25.0f));
+	mGenerateItemButton->SetPosition(VECTOR2(mPos.x + 300.0f + 200.0f + 100.0f + 250.0f + 50.0f, mPos.y - 100.0f + 25.0f));
 }
 
 void UIPlayerHome::DrawAfterButton()
@@ -400,7 +373,7 @@ void UIPlayerHome::DrawAfterButton()
 		bLevel << "Lv : " << static_cast<PlayerHome*>(mOwner)->GetGenerateBarricadeLv();
 
 		text(cLevel.str().c_str(), mGenerateCannonButton->GetPosition().x - 15.0f * 3.0f, mGenerateCannonButton->GetPosition().y + 30.0f);
-		text(bLevel.str().c_str(), mGenerateBarricadeButton->GetPosition().x - 15.0f * 3.0f, mGenerateBarricadeButton->GetPosition().y + 30.0f);
-		text((let)static_cast<PlayerHome*>(mOwner)->GetBattlePoints() + " / " + (let)static_cast<PlayerHome*>(mOwner)->GetMaxBattlePoints(), 0.0f, 50.0f);
+		//text(bLevel.str().c_str(), mGenerateBarricadeButton->GetPosition().x - 15.0f * 3.0f, mGenerateBarricadeButton->GetPosition().y + 30.0f);
+		text((let)"ポイント　" + (let)static_cast<PlayerHome*>(mOwner)->GetBattlePoints() + " / " + (let)static_cast<PlayerHome*>(mOwner)->GetMaxBattlePoints(), 0.0f, 50.0f);
 	}
 }

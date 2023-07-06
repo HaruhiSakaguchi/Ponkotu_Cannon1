@@ -14,9 +14,9 @@ public:
 
 	void SetNum(int num) { mNum = num; }
 	int GetNum() { return mNum; }
-	void AddItemComponent(class ItemComponent*);
-	void RemoveItemComponent(class ItemComponent*);
-	const std::vector<class ItemComponent*>GetItemComponents() { return mItemComponents; }
+	//void AddItemComponent(class ItemComponent*);
+	//void RemoveItemComponent(class ItemComponent*);
+	//const std::vector<class ItemComponent*>GetItemComponents() { return mItemComponents; }
 	class PowerUpCompo* GetPower() { return mPower; }
 	class SpeedUpCompo* GetSpeed() { return mSpeed; }
 	class BarrierCompo* GetBarrier() { return mBarrier; }
@@ -32,7 +32,7 @@ protected:
 	class BarrierCompo* mBarrier;
 	class RapidFireCompo* mRapid;
 protected:
-	std::vector<class ItemComponent*> mItemComponents;
+	//std::vector<class ItemComponent*> mItemComponents;
 private:
 	int mNum;
 	class UIPSideCharacterStatusBase* mUI;

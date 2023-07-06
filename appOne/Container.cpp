@@ -362,7 +362,7 @@ void SetAllData(Container& ad)
 		ad.cannonData.mJumpFlag = 1;
 		ad.cannonData.mTimer = 0.0f;
 		ad.cannonData.mRange = 20.0f;
-		ad.cannonData.mMaxHp = 20;
+		ad.cannonData.mMaxHp = 7;
 		ad.cannonData.mDamage = 1;//ó^É_ÉÅ
 		ad.cannonData.mRDamage = 1;//îÌÉ_ÉÅ
 		ad.cannonData.mMaxDamageInterval = 0.16f;

@@ -53,6 +53,7 @@ private:
 	float* mMaxZ;
 	float* mMinX;
 	float* mMinZ;
+	float m0toMaxYDist;
 	bool mScroll;
 };
 

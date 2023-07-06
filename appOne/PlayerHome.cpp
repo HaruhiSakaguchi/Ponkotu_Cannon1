@@ -131,7 +131,7 @@ void PlayerHome::UpdateActor()
 		{
 			if (Actor->GetTag() == CharacterActor::CharactersTag::Cannon)
 			{
-				if (static_cast<class Cannon*>(Actor)->GetStateCompoState()->GetName() == "Generate")
+				if (static_cast<class Cannon*>(Actor)->GetStateCompoState()->GetName() != "Generate")
 				{
 					continue;
 				}

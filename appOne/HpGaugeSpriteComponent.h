@@ -2,9 +2,6 @@
 #include "MeshComponent.h"
 #include "MATRIX.h"
 #include "VECTOR.h"
-#include "CONTAINER/CONTAINER.h"
-#include "CONTAINER/BATCH.h"
-#include "CONTAINER/TREE.h"
 
 class HpGaugeSpriteComponent :
     public MeshComponent

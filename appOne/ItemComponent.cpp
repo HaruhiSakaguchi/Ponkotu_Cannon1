@@ -15,9 +15,9 @@ ItemComponent::ItemComponent(class CharacterActor* owner)
 	, mIsSpawnParticle(true)
 {
 	cData = GetGame()->GetAllData()->itemCompoData;
-	class PSideCharacterActor* p = static_cast<class PSideCharacterActor*>(mOwner);
-	p->AddItemComponent(this);
-	cData.mNumber = (int)p->GetItemComponents().size() - 1;
+	//class PSideCharacterActor* p = static_cast<class PSideCharacterActor*>(mOwner);
+	//p->AddItemComponent(this);
+	//cData.mNumber = (int)p->GetItemComponents().size() - 1;
 	TimeReset();
 }
 
@@ -79,7 +79,7 @@ void ItemComponent::Dead()
 
 	if (p->GetState() == CharacterActor::EActive)
 	{
-		p->RemoveItemComponent(this);
+		//p->RemoveItemComponent(this);
 
 		/*for (auto item : p->GetItemComponents())
 		{

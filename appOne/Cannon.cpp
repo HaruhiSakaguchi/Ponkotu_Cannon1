@@ -126,6 +126,13 @@ int Cannon::SetUp()
 
 	mCNum = (int)(GetGame()->GetActorManager()->GetCannons().size()) - 1;
 
+	for (auto cannon : GetGame()->GetActorManager()->GetCannons())
+	{
+		if (cannon != this && cannon->GetCNum() == mCNum)
+		{
+			mCNum++;
+		}
+	}
 	std::ostringstream oss;
 	oss << "Cannon" << mCNum;
 
@@ -213,10 +220,10 @@ void Cannon::UpdateActor()
 
 	if (GetGame()->GetActorManager()->GetEnemies().empty() && !GetGame()->GetActorManager()->GetEHome())
 	{
-		for (auto item : mItemComponents)
+		/*for (auto item : mItemComponents)
 		{
 			item->SetState(CharacterActor::EDead);
-		}
+		}*/
 		Data.mRDamage = 0;
 		mState->ChangeState("Wait");
 	}

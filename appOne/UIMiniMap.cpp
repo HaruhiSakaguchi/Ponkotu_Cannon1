@@ -14,26 +14,9 @@ UIMiniMap::UIMiniMap(class Game* game, Map* owner, bool scroll)
 	, mMinX(nullptr)
 	, mMinZ(nullptr)
 	, mAreaPoints(nullptr)
+	, m0toMaxYDist(0.0f)
 {
 	Data = mGame->GetAllData()->miniMapData;
-
-	/*switch (mGame->GetPhase())
-	{
-	case Game::FIRST:
-		Data.mOffsetX = Data.mStage1OffsetX;
-		Data.mOffsetY = Data.mStage1OffsetY;
-		break;
-	case Game::SECOND:
-		Data.mOffsetX = Data.mStage2OffsetX;
-		Data.mOffsetY = Data.mStage2OffsetY;
-		break;
-	case Game::THIRD:
-		Data.mOffsetX = Data.mStage3OffsetX;
-		break;
-	default:
-		break;
-	}*/
-
 	Create();
 }
 
@@ -186,21 +169,40 @@ void UIMiniMap::Create()
 	mMap->Sort(tmpWidths, left, right);
 	mMap->Sort(tmpHeights, left, right);
 
+
 	float minWidth = tmpWidths[left];
 	float maxWidth = tmpWidths[right];
 	float minHeight = tmpHeights[left];
 	float maxHeight = tmpHeights[right];
+
 
 	float MinX = tmpPositionX[left];
 	float MaxX = tmpPositionX[right] + maxWidth;
 	float MinY = tmpPositionY[left];
 	float MaxY = tmpPositionY[right] + maxHeight;
 
+	int minPosYRectIdx = 0;
+
+	for (int i = 0; i < floorNum; i++)
+	{
+		if (mPositions[i].y == MinY)
+		{
+			minPosYRectIdx = i;
+			break;
+		}
+	}
+
+
+
 	Data.mMinPosX = MinX;
 	Data.mMinPosY = MinY;
 
-	Data.mMiniMapWindowWidth = MaxX - MinX;
-	Data.mMiniMapWindowHeight = MaxY - MinY - 50.0f;
+	Data.mMiniMapWindowWidth = MaxX - MinX + 10.0f;
+	Data.mMiniMapWindowHeight = MaxY - MinY + 10.0f;
+
+	float maxY = (mPositions[minPosYRectIdx].y + mHeights[minPosYRectIdx]);
+
+	m0toMaxYDist = maxY + 10.0f;
 
 	delete[]tmpPositionX;
 	delete[]tmpPositionY;
@@ -238,7 +240,7 @@ void UIMiniMap::Draw()
 	rectMode(CORNER);
 	noStroke();
 	fill(Data.mWindowColor);
-	rect(Data.mMiniMapCornerPos.x, Data.mMiniMapCornerPos.y, Data.mMiniMapWindowLength / 4.0f, Data.mMiniMapWindowLength);
+	rect(Data.mMiniMapCornerPos.x - 5.0f, Data.mMiniMapCornerPos.y - 5.0f, Data.mMiniMapWindowWidth, Data.mMiniMapWindowHeight);
 
 	//マップの四角形を表示するための計算
 	//ミニマップの外側にはみ出ていたら補正してミニマップウィンドウの中に収める
@@ -252,9 +254,9 @@ void UIMiniMap::Draw()
 		float posY = 0.0f;
 		float Width = 0.0f;
 		float Height = 0.0f;
-		float left = mPositions[i].x + Data.mMiniMapOffsetX + Data.mOffsetX / 2.0f;
+		float left = mPositions[i].x + Data.mMiniMapOffsetX + Data.mMiniMapCornerPos.x + (Data.mMiniMapWindowWidth - 10.0f) / 2.0f;
 		float right = left + mWidths[i];
-		float head = mPositions[i].y + Data.mMiniMapOffsetY + Data.mOffsetY;
+		float head = mPositions[i].y + Data.mMiniMapOffsetY + Data.mMiniMapCornerPos.y + (Data.mMiniMapWindowHeight - m0toMaxYDist);
 		float bottom = head + mHeights[i];
 
 		//下だけ
@@ -310,16 +312,18 @@ void UIMiniMap::Draw()
 
 	for (auto actor : mGame->GetActorManager()->GetCharacters())
 	{
-		VECTOR2 Pos(actor->GetPosition().x * Data.m3DCoordinate2DConvertRate + Data.mOffsetX / 2.0f + Data.mMiniMapOffsetX, actor->GetPosition().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapOffsetY);
+		VECTOR2 Pos(actor->GetPosition().x * Data.m3DCoordinate2DConvertRate + Data.mMiniMapOffsetX + Data.mMiniMapCornerPos.x + Data.mMiniMapOffsetX + (Data.mMiniMapWindowWidth - 10.0f) / 2.0f, actor->GetPosition().z * Data.m3DCoordinate2DConvertRate + +Data.mMiniMapOffsetY + Data.mMiniMapCornerPos.y + (Data.mMiniMapWindowHeight - m0toMaxYDist));
 		if (Pos.y <= Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength && Pos.y >= Data.mMiniMapCornerPos.y && Pos.x <= Data.mMiniMapCornerPos.x + Data.mMiniMapWindowLength && Pos.x >= Data.mMiniMapCornerPos.x)
 		{
 			if (actor->GetCategory() == Actor::Character)
 			{
-				if (Pos.y + Data.mItemSw <= Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength && Pos.y - Data.mItemSw >= Data.mMiniMapCornerPos.y && Pos.x + Data.mItemSw <= Data.mMiniMapCornerPos.x + Data.mMiniMapWindowLength / 4.0f&& Pos.x - Data.mItemSw >= Data.mMiniMapCornerPos.x)
+				if (Pos.y + Data.mItemSw <= Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength && Pos.y - Data.mItemSw >= Data.mMiniMapCornerPos.y && Pos.x + Data.mItemSw <= Data.mMiniMapCornerPos.x + Data.mMiniMapWindowLength / 4.0f && Pos.x - Data.mItemSw >= Data.mMiniMapCornerPos.x)
 				{
 					if (actor->GetTag() == CharacterActor::PHome)
 					{
+						stroke(40, 40, 200);
 						fill(40, 40, 200, 128);
+						strokeWeight(5);
 						circle(Pos.x, Pos.y, 100);
 						textSize(50);
 						fill(50, 50, 255);
@@ -327,7 +331,9 @@ void UIMiniMap::Draw()
 					}
 					else if (actor->GetTag() == CharacterActor::EHome)
 					{
+						stroke(200, 40, 40);
 						fill(200, 40, 40, 128);
+						strokeWeight(5);
 						circle(Pos.x, Pos.y, 100);
 						textSize(50);
 						fill(255, 50, 50);
@@ -360,13 +366,13 @@ void UIMiniMap::Draw()
 void UIMiniMap::Update()
 {
 	////スクロール
-	//if (mScroll && mGame->GetActorManager()->GetPHome())
-	//{
-	//	if (mGame->GetActorManager()->GetStage()->GetCenterPos().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapWindowHeight / 3.0f > Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f && Data.mMiniMapCornerPos.y + Data.mMiniMapWindowHeight / 3.0f > Data.mMinPosY + Data.mMiniMapOffsetY + Data.mOffsetY)
-	//	{
-	//		Data.mMiniMapOffsetY = -(mGame->GetActorManager()->GetStage()->GetCenterPos().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY) + (Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f);
-	//	}
-	//}
+	if (mScroll && mGame->GetActorManager()->GetPHome())
+	{
+		if (mGame->GetActorManager()->GetStage()->GetCenterPos().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY + Data.mMiniMapWindowHeight / 3.0f > Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f && Data.mMiniMapCornerPos.y + Data.mMiniMapWindowHeight / 3.0f > Data.mMinPosY + Data.mMiniMapOffsetY + Data.mOffsetY)
+		{
+			Data.mMiniMapOffsetY = -(mGame->GetActorManager()->GetStage()->GetCenterPos().z * Data.m3DCoordinate2DConvertRate + Data.mOffsetY) + (Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength / 2.0f);
+		}
+	}
 }
 
 void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)

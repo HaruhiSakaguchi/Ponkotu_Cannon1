@@ -1,6 +1,9 @@
 #include "HpGaugeSpriteComponent.h"
 #include "Game.h"
 #include "CameraManager.h"
+#include "CONTAINER/CONTAINER.h"
+#include "CONTAINER/BATCH.h"
+#include "CONTAINER/TREE.h"
 
 HpGaugeSpriteComponent::HpGaugeSpriteComponent(Actor* owner, const VECTOR& offset)
 	: MeshComponent(owner)

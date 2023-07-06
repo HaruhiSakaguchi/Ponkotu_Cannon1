@@ -89,7 +89,7 @@ StageClear::StageClear(Game* game)
 		{
 			for (auto button : ui->GetButtons())
 			{
-				button->SetState(Button::Draw_Enable);
+				button->SetState(Button::Disable);
 			}
 		}
 	}

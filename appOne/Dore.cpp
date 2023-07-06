@@ -1,6 +1,5 @@
 #include "Dore.h"
-#include "TreeMeshComponent.h"
-#include "graphic.h"
+#include "TreeMeshComponent.h""
 
 Dore::Dore(class Game* game)
 	: Actor(game)
@@ -35,9 +34,6 @@ void Dore::UpdateActor()
 			mClosing = !CloseDore();
 		}
 	}
-
-	print("begO" + (let)mBeginOpenFlag);
-	print("CloseCom" + (let)mCloseComplete);
 }
 
 bool Dore::OpenDore()        

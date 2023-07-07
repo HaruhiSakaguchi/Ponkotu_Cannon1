@@ -19,10 +19,7 @@ private:
     Button* mGoButton;
     Button* mReturnButton;
     Button* mHomeLvUpButton;
-    Button* mGenerateCannonButton;
-    Button* mGenerateBarricadeButton;
-    Button* mGenerateCannonLvUpButton;
-    Button* mGenerateBarricadeLvUpButton;
+    Button* mGenerateUnitButton;
     Button* mGenerateItemButton;
     class UIGenerate* mGenerate;
     int mUnitMaxNum;

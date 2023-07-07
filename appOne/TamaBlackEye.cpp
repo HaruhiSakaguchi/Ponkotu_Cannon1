@@ -1,5 +1,6 @@
 #include "TamaBlackEye.h"
 #include "TreeMeshComponent.h"
+#include "BatchMeshComponent.h"
 #include "Game.h"
 
 TamaBlackEye::TamaBlackEye(class Tama* owner)
@@ -14,12 +15,12 @@ TamaBlackEye::TamaBlackEye(class Tama* owner)
 
 int TamaBlackEye::SetUp()
 {
-	TreeMeshComponent* tc = new TreeMeshComponent(this,false);
+	auto tc = new BatchMeshComponent(this,false);
 	mOffsetPos = GetGame()->GetAllData()->tamaData.mBlackEyeOffsetPos;
-	tc->SetTree("TamaBlackEye");
+	tc->SetBatch("TamaBlackEyeCylinder");
 	SetNormalMesh(tc);
-	tc = new TreeMeshComponent(this,false);
-	tc->SetTree("TamaBlackEyeDamage");
+	tc = new BatchMeshComponent(this,false);
+	tc->SetBatch("TamaBlackEyeDamageCylinder");
 	SetDamageMesh(tc);
 	SetCategory(Actor::Object);
 	return 0;

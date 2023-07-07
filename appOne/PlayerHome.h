@@ -13,11 +13,6 @@ public:
 	void Damage(int damage = 1);
 	void Dead()override;
 
-	const int GetGenerateCannonLv() { return mGenerateCannonLevel; }
-	const int GetGenerateBarricadeLv() { return mGenerateBarricadeLevel; }
-	void SetGenerateCannonLv(int lv) { mGenerateCannonLevel = lv; }
-	void SetGenerateBarricadeLv(int lv) { mGenerateBarricadeLevel = lv; }
-
 	VECTOR* GetHomeTargetPoints() { return mHomeTargetPoints; }
 	VECTOR* GetFieldTargetPoints() { return mFieldTargetPoints; }
 	VECTOR* GetHomeMoveTargetPoints() { return mMyTargetPoints; }
@@ -60,8 +55,6 @@ private:
 	VECTOR mFieldTargetPoints[4];
 	VECTOR mMyTargetPoints[3];
 	class UIPlayerHome* mUI;
-	int mGenerateCannonLevel;
-	int mGenerateBarricadeLevel;
 	int mCurMyTpIdx;
 	int mMoveCompleteFlag;
 	VECTOR mHomeTargetPoint;

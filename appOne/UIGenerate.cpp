@@ -12,6 +12,8 @@
 #include "Items.h"
 #include "EnemyHome.h"
 
+int UIGenerate::mGenerateActorLevel = 0;
+
 UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id id)
 	: UIScreen(game)
 	, mGenePos(0.0f, 0.0f, -27.0f)
@@ -20,10 +22,12 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 	, mOwner(owner)
 	, mId(id)
 	, mGenerateUsingPoints(0)
+	, mItemGeneratePoint(150)
 	, mGenerateActor(nullptr)
 	, mChangeButton(nullptr)
 	, mCancellButton(nullptr)
-	, mItemGeneratePoint(150)
+	, mGenerateActorLvPlusButton(nullptr)
+	, mGenerateActorLvMinusButton(nullptr)
 {
 	mCancellButton = AddRectButton("キャンセル",
 		[this]()
@@ -57,80 +61,59 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 	{
 		text = "Cannonに切り替え";
 	}
-	else if (mId == GenerateActor_Id::EBarrier)
+
+	if ((int)mId < 2)
 	{
-		text = "Powerに切り替え";
+		mChangeButton = AddRectButton(text,
+			[this]()
+			{
+				if (mId == GenerateActor_Id::ECannon)
+				{
+					auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::EBarricade);
+					CloseMe();
+					mOwner->SetGenerate(ui);
+				}
+				else if (mId == GenerateActor_Id::EBarricade)
+				{
+					auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ECannon);
+					CloseMe();
+					mOwner->SetGenerate(ui);
+				}
+				/*else if (mId == GenerateActor_Id::EBarrier)
+				{
+					auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::EPower);
+					CloseMe();
+					mOwner->SetGenerate(ui);
+				}
+				else if (mId == GenerateActor_Id::EPower)
+				{
+					auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ESpeed);
+					CloseMe();
+					mOwner->SetGenerate(ui);
+				}
+				else if (mId == GenerateActor_Id::ESpeed)
+				{
+					auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ERapid);
+					CloseMe();
+					mOwner->SetGenerate(ui);
+				}
+				else if (mId == GenerateActor_Id::ERapid)
+				{
+					auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ERecover);
+					CloseMe();
+					mOwner->SetGenerate(ui);
+				}
+				else if (mId == GenerateActor_Id::ERecover)
+				{
+					auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::EBarrier);
+					CloseMe();
+					mOwner->SetGenerate(ui);
+				}*/
+			}
+		);
 
+		mChangeButton->SetPosition(mChangeButton->GetPosition() + VECTOR2(300.0f, 100.0f));
 	}
-	else if (mId == GenerateActor_Id::EPower)
-	{
-		text = "Speedに切り替え";
-
-	}
-	else if (mId == GenerateActor_Id::ESpeed)
-	{
-		text = "Rapidに切り替え";
-
-	}
-	else if (mId == GenerateActor_Id::ERapid)
-	{
-		text = "Recoverに切り替え";
-
-	}
-	else if (mId == GenerateActor_Id::ERecover)
-	{
-		text = "Barrierに切り替え";
-	}
-
-	mChangeButton = AddRectButton(text,
-		[this]()
-		{
-			if (mId == GenerateActor_Id::ECannon)
-			{
-				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::EBarricade);
-				CloseMe();
-				mOwner->SetGenerate(ui);
-			}
-			else if (mId == GenerateActor_Id::EBarricade)
-			{
-				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ECannon);
-				CloseMe();
-				mOwner->SetGenerate(ui);
-			}
-			else if (mId == GenerateActor_Id::EBarrier)
-			{
-				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::EPower);
-				CloseMe();
-				mOwner->SetGenerate(ui);
-			}
-			else if (mId == GenerateActor_Id::EPower)
-			{
-				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ESpeed);
-				CloseMe();
-				mOwner->SetGenerate(ui);
-			}
-			else if (mId == GenerateActor_Id::ESpeed)
-			{
-				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ERapid);
-				CloseMe();
-				mOwner->SetGenerate(ui);
-			}
-			else if (mId == GenerateActor_Id::ERapid)
-			{
-				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ERecover);
-				CloseMe();
-				mOwner->SetGenerate(ui);
-			}
-			else if (mId == GenerateActor_Id::ERecover)
-			{
-				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::EBarrier);
-				CloseMe();
-				mOwner->SetGenerate(ui);
-			}
-		}
-	);
-
-	mChangeButton->SetPosition(mChangeButton->GetPosition() + VECTOR2(300.0f, 100.0f));
 
 	for (auto button : mOwner->GetButtons())
 	{
@@ -153,33 +136,88 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 		new CannonWheelL(static_cast<class Cannon*>(mGenerateActor));
 		new CannonWheelR(static_cast<class Cannon*>(mGenerateActor));
 		mGenerateActor->SetRotationY(3.1415926f);
+		CreateChangeItemGenerateButtons();
+
+		CreateGenerateActorLvUpandDownButtons();
+
 	}
 	else if (mId == GenerateActor_Id::EBarricade)
 	{
 		tree->SetTree("Barricade");
+		CreateChangeItemGenerateButtons();
+		CreateGenerateActorLvUpandDownButtons();
 	}
 	else if (mId == GenerateActor_Id::EBarrier)
 	{
+		CreateItemButtons();
+
 		tree->SetTree("Barrier");
+		auto ChangeItemButton = AddRectButton("キャラクターに切り替え",
+			[this]()
+			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ECannon);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			});
+		ChangeItemButton->SetPosition(mCancellButton->GetPosition() + VECTOR2(50.0f, 169.0f));
 	}
 	else if (mId == GenerateActor_Id::EPower)
 	{
+		CreateItemButtons();
+
 		tree->SetTree("Power");
+		auto ChangeItemButton = AddRectButton("キャラクターに切り替え",
+			[this]()
+			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ECannon);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			});
+		ChangeItemButton->SetPosition(mCancellButton->GetPosition() + VECTOR2(50.0f, 169.0f));
 
 	}
 	else if (mId == GenerateActor_Id::ESpeed)
 	{
+		CreateItemButtons();
+
 		tree->SetTree("Speed");
+		auto ChangeItemButton = AddRectButton("キャラクターに切り替え",
+			[this]()
+			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ECannon);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			});
+		ChangeItemButton->SetPosition(mCancellButton->GetPosition() + VECTOR2(50.0f, 169.0f));
 
 	}
 	else if (mId == GenerateActor_Id::ERapid)
 	{
+		CreateItemButtons();
+
 		tree->SetTree("Rapid");
+		auto ChangeItemButton = AddRectButton("キャラクターに切り替え",
+			[this]()
+			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ECannon);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			});
+		ChangeItemButton->SetPosition(mCancellButton->GetPosition() + VECTOR2(50.0f, 169.0f));
 
 	}
 	else if (mId == GenerateActor_Id::ERecover)
 	{
+		CreateItemButtons();
 		tree->SetTree("Recover");
+		auto ChangeItemButton = AddRectButton("キャラクターに切り替え",
+			[this]()
+			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::ECannon);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			});
+		ChangeItemButton->SetPosition(mCancellButton->GetPosition() + VECTOR2(50.0f, 169.0f));
 	}
 	else
 	{
@@ -228,6 +266,10 @@ void UIGenerate::draw()
 		text("RecoverItemをどこに設置しますか？ " + (let)mGenerateUsingPoints + "ポイント消費", width / 2, height / 2 + 200.0f);
 	}
 
+	if (mGenerateActorLvPlusButton && mGenerateActorLvMinusButton)
+	{
+		text(mGenerateActorLevel, mGenerateActorLvPlusButton->GetPosition().x + (mGenerateActorLvMinusButton->GetPosition().x - mGenerateActorLvPlusButton->GetPosition().x) / 2.0f - 7.5f, mGenerateActorLvPlusButton->GetPosition().y + 15.0f);
+	}
 }
 
 void UIGenerate::Update()
@@ -251,11 +293,11 @@ void UIGenerate::Update()
 		{
 			if (mId == GenerateActor_Id::ECannon)
 			{
-				mGenerateUsingPoints = mGame->GetActorManager()->GetPHome()->GetGenerateCannonLv() * 100 + 300;
+				mGenerateUsingPoints = mGenerateActorLevel * 100 + 300;
 			}
 			else if (mId == GenerateActor_Id::EBarricade)
 			{
-				mGenerateUsingPoints = mGame->GetActorManager()->GetPHome()->GetGenerateBarricadeLv() * 50 + 100;
+				mGenerateUsingPoints = mGenerateActorLevel * 50 + 100;
 			}
 			else if (mId != GenerateActor_Id::EEmpty)
 			{
@@ -268,9 +310,20 @@ void UIGenerate::Update()
 			mGenerateActor->SetPosition(mGenePos);
 		}
 
-		if (isTrigger(MOUSE_LBUTTON) && !mCancellButton->ContainsPoint(mousePos) && !mChangeButton->ContainsPoint(mousePos))
+		bool contains = false;
+
+		for (auto button : GetButtons())
 		{
-			if (!mGame->GetActorManager()->GetEHome()|| (mGame->GetActorManager()->GetEHome() && !mGame->GetActorManager()->GetEHome()->InEnemyArea(mGenePos)))
+			if (button->ContainsPoint(mousePos))
+			{
+				contains = true;
+				break;
+			}
+		}
+
+		if (isTrigger(MOUSE_LBUTTON) && !contains)
+		{
+			if (!mGame->GetActorManager()->GetEHome() || (mGame->GetActorManager()->GetEHome() && !mGame->GetActorManager()->GetEHome()->InEnemyArea(mGenePos)))
 			{
 				if (mGenerateUsingPoints <= mGame->GetActorManager()->GetPHome()->GetBattlePoints())
 				{
@@ -283,14 +336,14 @@ void UIGenerate::Update()
 							c->SetUp();
 							c->SetPosition(mGame->GetActorManager()->GetPHome()->GetPosition());
 							c->GetGame()->GetActorManager()->GetPHome()->GetDore()->Open();
-							c->SetLevel(c->GetGame()->GetActorManager()->GetPHome()->GetGenerateCannonLv());
+							c->SetLevel(mGenerateActorLevel);
 						}
 						else if (mId == GenerateActor_Id::EBarricade && ((int)(mGame->GetActorManager()->GetPSide().size()) - 1) <= mGame->GetActorManager()->GetPHome()->GetLevel())
 						{
 							c = new class Barricade(mGame);
 							c->SetPosition(mGenePos + VECTOR(0.0f, 10.0f, 0.0f));
 							mGame->GetActorManager()->GetPHome()->SetGenerateFlag(false);
-							c->SetLevel(c->GetGame()->GetActorManager()->GetPHome()->GetGenerateBarricadeLv());
+							c->SetLevel(mGenerateActorLevel);
 						}
 						else if (mId == GenerateActor_Id::EBarrier)
 						{
@@ -335,6 +388,7 @@ void UIGenerate::Update()
 					{
 						button->SetState(Button::Enable);
 					}
+
 					for (auto uiStatus : mGame->GetUIManager()->GetUIPSideStatus())
 					{
 						for (auto button : uiStatus->GetButtons())
@@ -367,5 +421,87 @@ void UIGenerate::Update()
 			}
 		}
 
+	}
+}
+
+void UIGenerate::CreateItemButtons()
+{
+	VECTOR2 pos = mCancellButton->GetPosition() + VECTOR2(50.0f, 169.0f);
+	int buttonNum = 0;
+	for (int i = 2; i < 7; i++)
+	{
+		buttonNum = i;
+
+		if (mId == static_cast<GenerateActor_Id>(i))
+		{
+			continue;
+		}
+
+		auto button = AddRectButton(mItemNames[i - 2],
+			[this, buttonNum]()
+			{
+				auto ui = new UIGenerate(mOwner, mGame, (static_cast<GenerateActor_Id>(buttonNum)));
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			});
+
+		pos.y += 69.0f;
+		button->SetPosition(pos);
+	}
+}
+
+void UIGenerate::CreateGenerateActorLvUpandDownButtons()
+{
+	mGenerateActorLvPlusButton = AddRectButton("Lv+",
+		[this]()
+		{
+			if (mGenerateActorLevel < mGame->GetActorManager()->GetPHome()->GetLevel())
+			{
+				mGenerateActorLevel++;
+			}
+			else
+			{
+				auto pop = new UIPopUp(mGame, "PlayerHomeのレベルを超えることはできません", mGenerateActorLvPlusButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
+		}
+	);
+
+
+
+	mGenerateActorLvMinusButton = AddRectButton("Lv-",
+		[this]()
+		{
+			if (mGenerateActorLevel > 0)
+			{
+				mGenerateActorLevel--;
+			}
+			else
+			{
+				auto pop = new UIPopUp(mGame, "レベルをこれ以上下げることはできません", mGenerateActorLvMinusButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
+				pop->SetTextSize(30);
+				pop->SetTextColor(COLOR(50, 50, 255));
+				pop->NoStrokeRect();
+			}
+		}
+	);
+
+	mGenerateActorLvMinusButton->SetPosition(mChangeButton->GetPosition() + VECTOR2(-25.0f + 69.0f * 2.0f, 69.0f * 2.0f)); mGenerateActorLvPlusButton->SetPosition(mChangeButton->GetPosition() + VECTOR2(-25.0f, 69.0f * 2.0f));
+}
+
+void UIGenerate::CreateChangeItemGenerateButtons()
+{
+	if (mGame->GetActorManager()->GetPHome()->GetLevel() >= 5)
+	{
+		auto ChangeItemButton = AddRectButton("アイテムに切り替え",
+			[this]()
+			{
+				auto ui = new UIGenerate(mOwner, mGame, UIGenerate::GenerateActor_Id::EBarrier);
+				CloseMe();
+				mOwner->SetGenerate(ui);
+			});
+		ChangeItemButton->SetPosition(mChangeButton->GetPosition() + VECTOR2(-25.0f, 69.0f));
 	}
 }

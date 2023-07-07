@@ -8,6 +8,9 @@ class UIGenerate :
 public:
     void draw()override;
     void Update()override;
+    void CreateItemButtons();
+    void CreateGenerateActorLvUpandDownButtons();
+    void CreateChangeItemGenerateButtons();
     enum GenerateActor_Id
     {
         ECannon,
@@ -31,6 +34,18 @@ private:
     class CharacterActor* mGenerateActor;
     class Button* mChangeButton;
     class Button* mCancellButton;
+    class Button* mGenerateActorLvPlusButton;
+    class Button* mGenerateActorLvMinusButton;
+
     int mItemGeneratePoint;
+    static int mGenerateActorLevel;
+    const char* mItemNames[5]
+    {
+        "Power",
+        "Barrier",
+        "Speed",
+        "Rapid",
+        "Recover"
+    };
 };
 

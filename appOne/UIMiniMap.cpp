@@ -181,18 +181,18 @@ void UIMiniMap::Create()
 	float MinY = tmpPositionY[left];
 	float MaxY = tmpPositionY[right] + maxHeight;
 
-	int minPosYRectIdx = 0;
+	int maxPosYRectIdx = 0;
+
+	float bottom = 0.0f;
 
 	for (int i = 0; i < floorNum; i++)
 	{
-		if (mPositions[i].y == MinY)
+		if (bottom < mPositions[i].y + mHeights[i])
 		{
-			minPosYRectIdx = i;
-			break;
+			bottom = mPositions[i].y + mHeights[i];
+			maxPosYRectIdx = i;
 		}
 	}
-
-
 
 	Data.mMinPosX = MinX;
 	Data.mMinPosY = MinY;
@@ -200,7 +200,7 @@ void UIMiniMap::Create()
 	Data.mMiniMapWindowWidth = MaxX - MinX + 10.0f;
 	Data.mMiniMapWindowHeight = MaxY - MinY + 10.0f;
 
-	float maxY = (mPositions[minPosYRectIdx].y + mHeights[minPosYRectIdx]);
+	float maxY = (mPositions[maxPosYRectIdx].y + mHeights[maxPosYRectIdx]);
 
 	m0toMaxYDist = maxY + 10.0f;
 
@@ -341,7 +341,12 @@ void UIMiniMap::Draw()
 					}
 					else
 					{
-						Arrow(Pos, actor->GetImageColor(), actor->GetRotation().y + 3.1415926f);
+						float angleOffset = 0.0f;
+						if (actor->GetTag() != CharacterActor::Barricade)
+						{
+							angleOffset = 3.1415926f;
+						}
+						Arrow(Pos, actor->GetImageColor(), actor->GetRotation().y + angleOffset);
 					}
 				}
 			}

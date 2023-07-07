@@ -54,7 +54,7 @@ public:
 
 	std::string GetName() { return mName; }
 	void SetName(const char* name) { mName = name; }
-	int GetLevel() { return mLevel; }
+	const int GetLevel() { return mLevel; }
 	void SetLevel(int level) { mLevel = level; }
 	int GetMaxLevel() { return mMaxLevel; }
 	bool GetOnMapFlag() { return mOnMapFlag; }

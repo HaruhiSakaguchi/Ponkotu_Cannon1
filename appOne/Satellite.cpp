@@ -98,7 +98,7 @@ int Satellite::SetUp()
 	SetInitMaxHp(GetMaxHp());
 
 	Num++;
-	mHpGauge = new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
+	//mHpGauge = new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
 
 	new SatelliteWing(this);
 	new SatelliteWing(this);

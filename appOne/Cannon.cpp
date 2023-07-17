@@ -11,10 +11,10 @@
 #include "UILog.h"
 #include "Map.h"
 #include "CollisionMapComponent.h"
-#include "HpGaugeSpriteComponent.h"
 #include <sstream>
 #include "UIPSideCharacterStatusClose.h"
 #include "CameraManager.h"
+#include "input.h"
 
 Cannon::Cannon(class Game* game)
 	: PSideCharacterActor(game)
@@ -96,9 +96,8 @@ int Cannon::SetUp()
 	SetRDamage(1);
 	SetDamage(1);
 	SetInitMaxHp(GetMaxHp());
+	//new HpGauge2DSpriteComponent(this);
 
-
-	//new HpGaugeSpriteComponent(this, GetCapsulOffset());
 	auto ui = new UIPSideCharacterStatusClose(this);
 	ui->UIOpenNexrOffsetPlus();
 
@@ -142,6 +141,11 @@ int Cannon::SetUp()
 
 void Cannon::UpdateActor()
 {
+	if (isTrigger(KEY_A)) { SetPosition(GetPosition() + VECTOR(-1.0f, 0.0f, 0.0f)); }
+	if (isTrigger(KEY_D)) { SetPosition(GetPosition() + VECTOR(1.0f, 0.0f, 0.0f)); }
+	if (isTrigger(KEY_W)) { SetPosition(GetPosition() + VECTOR(0.0f, 0.0f, -1.0f)); }
+	if (isTrigger(KEY_S)) { SetPosition(GetPosition() + VECTOR(0.0f, 0.0f, 1.0f)); }
+
 	float preScale = mScale;
 	float Scale = preScale;
 	mOnMap = GetOnMapFlag();
@@ -250,77 +254,6 @@ void Cannon::UpdateActor()
 		DamageOption();
 	}
 
-	//	print("Target(" + (let)Data.mTargetPos.x + "," + (let)Data.mTargetPos.y + "," + (let)Data.mTargetPos.z + ")");
-		//print(GetRange());
-		//print("posY :" + (let)GetPosition().y);
-		/*VECTOR2 textPos = VECTOR2((GetPosition().x / (GetGame()->GetStage()->GetStageMaxX() + -1.0f * GetGame()->GetStage()->GetStageMinX())) * 1920.0f * 100.0f, (GetPosition().z / (GetGame()->GetStage()->GetStageMaxZ() + -1.0f * GetGame()->GetStage()->GetStageMinZ())) * 1080.0f * 100.0f);
-	*/
-	//fill(0.0f, 0.0f, 0.0f);
-	float t = (GetPosition().x / (GetGame()->GetActorManager()->GetStage()->GetStageMaxX() + -1.0f * GetGame()->GetActorManager()->GetStage()->GetStageMinX())) * width;
-	float k = -1 * (GetPosition().z / (GetGame()->GetActorManager()->GetStage()->GetStageMaxZ() + -1.0f * GetGame()->GetActorManager()->GetStage()->GetStageMinZ())) * height;
-	float tt = width / t + t;
-	float kk = height / 2 - k;
-
-
-	//if (this == GetGame()->GetCannon())
-	{
-		//	text(k, width / 2, height / 2);
-
-	}
-
-	float tSize = 30.0f;
-	textSize(tSize);
-	float cPosx = (GetGame()->GetActorManager()->GetStage()->GetStageMaxX() + GetGame()->GetActorManager()->GetStage()->GetStageMinX()) / 2.0f;
-	float cPosz = (GetGame()->GetActorManager()->GetStage()->GetStageMaxZ() + GetGame()->GetActorManager()->GetStage()->GetStageMinZ()) / 2.0f;
-
-	float p = (cPosx - GetPosition().x) / 9.0f;
-	float s = 340.0f + 260.0f;
-	float r = height - 520.0f;
-	float indispMapz = 60.0f;
-	float h = (cPosz - GetPosition().z) / (indispMapz / 2.0f);
-	float camx = (cPosx - GetGame()->GetCameraManager()->GetCurCamera()->GetPosition().x) / 9.0f * 340.0 - 340.0f / (cPosx - GetGame()->GetCameraManager()->GetCurCamera()->GetPosition().x);
-	float camz = (cPosz - GetGame()->GetCameraManager()->GetCurCamera()->GetPosition().z) / indispMapz / 2 * height + height / (cPosz - GetGame()->GetCameraManager()->GetCurCamera()->GetPosition().z);
-	float camy = GetGame()->GetCameraManager()->GetCurCamera()->GetPosition().y / 90.0f;
-	//  print("p(" + (let)p + ") h(" + (let)h + ")");x
-	float x = p * (1.0f - h);
-	float px = (s * p + 790.0f) - tSize / 2.0f * 3.0f - camx + 200.0f * (p + h) * cos(GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().y) - 50.0f * (p)-150.0f * (1 - h);
-	float py = height - (h * r) - tSize / 2.0f - camz + height + 600.0f * (p + h) * sin(GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().x) - 150.0f * p + (1 - h) * 250.0f;
-	s = 340.0f / 2.0f;
-	r = height / 2.0f;
-
-	float defx = s + 790.0f - tSize / 2.0f * 3.0f;
-	px = (s * (1.0f - p)) + camx;
-	if (h < 0.0f)
-	{
-		r = 720.0f;
-	}
-	else
-	{
-		r = 320.0f;
-	}
-
-	py = -(h * r) + tSize / 2.0f + camz + ((1 - h) * sin(GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().x) * r);
-
-	//	py = height / 2 - tSize / 2.0f;
-
-	MATRIX mat;
-	mat.identity();
-	mat.mulTranslate(defx, 0.0f, height);
-	mat.mulRotateX(-GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().x);
-	mat.mulRotateY(-GetGame()->GetCameraManager()->GetCurCamera()->GetRotation().y);
-	mat.mulTranslate(px, 0.0f, py);
-
-	px = mat._14;
-	py = mat._34;
-
-	px -= 340.0f * p - 340.0f;
-	py -= 420.0f * (1.0f - h);
-
-	text(GetName().c_str(), px, py);
-
-	//print("CurTp :" + (let)mTPIndex + "NextTp :" + (let)GetNextTpIndex());
-	//print("(" + (let)px + "," + (let)py + ")");
-	//print(GetGame()->GetCamera()->GetRotation().x);
 }
 
 const VECTOR& Cannon::GetTargetPosition()
@@ -404,8 +337,8 @@ void Cannon::FallOption()
 
 void Cannon::Dead()
 {
-	SpawnParticle(GetGame(),GetPosition(), "CannonBarrelBarrel", 10);
-	SpawnParticle(GetGame(),GetPosition(), "CannonWheelCylinder", 20);
+	SpawnParticle(GetGame(), GetPosition(), "CannonBarrelBarrel", 10);
+	SpawnParticle(GetGame(), GetPosition(), "CannonWheelCylinder", 20);
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);
 	GetGame()->GetActorManager()->GetStage()->AddText("CannonÇÕéÄÇÒÇ≈ÇµÇ‹Ç¡ÇΩ...ÅB");

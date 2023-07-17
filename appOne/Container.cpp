@@ -234,6 +234,8 @@ void SetAllData(Container& ad)
 		ad.miniMapData.mStage2OffsetX = 293.5f;
 		ad.miniMapData.mStage2OffsetY = 440.0f;
 		ad.miniMapData.mStage3OffsetX = 293.5f;
+		ad.miniMapData.mMiniHpGaugeMaxWidth = 30.0f;
+		ad.miniMapData.mMiniHpGaugeHeight = 5.0f;
 		ad.miniMapData.mMiniMapCornerPos = VECTOR2(108.0f, 68.0f);
 		ad.miniMapData.mItemStrokeColor = COLOR(255, 255, 255);
 		ad.miniMapData.mArrowStrokeColor = COLOR(255, 255, 255);
@@ -634,19 +636,11 @@ void SetAllData(Container& ad)
 	}
 	//map
 	{
-		ad.mapData.mStageNum = 0;
 		ad.mapData.CollisionText = nullptr;
-		ad.mapData.mStageNumTextSize = 50.0f;
-		ad.mapData.mTextNumTextSize = 50.0f;
-		ad.mapData.mClearCnt = 0;
 		ad.mapData.mStageMaxX = 0;
 		ad.mapData.mStageMinX = 0;
 		ad.mapData.mStageMaxZ = 0;
 		ad.mapData.mStageMinZ = 0;
-		ad.mapData.mStageNumTextPos = VECTOR2(50.0f, 50.0f);
-		ad.mapData.mStageNumRectPos = VECTOR2(50.0f, 0.0f);
-		ad.mapData.mStageNumRectColor = COLOR(128, 128, 255);
-		ad.mapData.mStageNumTextColor = COLOR(255, 255, 0);
 	}
 	{
 		ad.logData.mLogWindowColor = COLOR(128, 128, 128, 128);

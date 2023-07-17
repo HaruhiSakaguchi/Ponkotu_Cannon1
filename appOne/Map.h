@@ -41,17 +41,12 @@ public:
 
 	class COLLISION_MAP* GetCollisionMap() { return mMap; }
 
-	void SetClearCnt(int cnt) { Data.mClearCnt = cnt; }
-	int GetClearCnt() { return Data.mClearCnt; }
-
 	float GetStageMinX() { return Data.mStageMinX; }
 	float GetStageMaxX() { return Data.mStageMaxX; }
 	float GetStageMinZ() { return Data.mStageMinZ; }
 	float GetStageMaxZ() { return Data.mStageMaxZ; }
 
 	const VECTOR& GetCenterPos() { return mCenterPos; }
-	void SetCaracterCapa(int num) { Data.mStageCharacterCapa = num; }
-	int GetStageCharacterCapa() { return Data.mStageCharacterCapa; }
 	int GetSecond() { return mSecond; }
 	int GetMunite() { return mMunite; }
 	std::string& GetTimeText() { return mTimeText; }
@@ -76,21 +71,11 @@ private:
 public:
 	struct DATA
 	{
-		int mStageNum;
 		const char* CollisionText;
-		float mStageNumTextSize;
-		COLOR mStageNumRectColor;
-		VECTOR2 mStageNumRectPos;
-		COLOR mStageNumTextColor;
-		float mTextNumTextSize;
-		VECTOR2 mStageNumTextPos;
-		//クリア条件のカウンター
-		int mClearCnt;
 		float mStageMaxX;
 		float mStageMinX;
 		float mStageMaxZ;
 		float mStageMinZ;
-		int mStageCharacterCapa;
 	};
 private:
 	DATA Data;
@@ -99,7 +84,6 @@ private:
 	std::chrono::system_clock::time_point mStart;
 	std::string mTimeText;
 	std::vector<std::string>mTexts;
-	bool mInitItemDropFlag;
 	bool mClearFlag;
 	VECTOR mCenterPos;
 	class COLLISION_MAP* mMap;

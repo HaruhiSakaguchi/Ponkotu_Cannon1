@@ -10,7 +10,7 @@
 LookFieldCenterCamera::LookFieldCenterCamera(Game* game)
 	: Camera(game)
 {
-	SetPosition(VECTOR(0.0f, 94.0f, -27.0f));
+	SetPosition(VECTOR(0.0f, 94.0f , -27.0f));
 	Data = GetGame()->GetAllData()->cameraData;
 	SetRotationX(3.1415926f / 2);
 }

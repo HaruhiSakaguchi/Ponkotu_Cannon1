@@ -12,8 +12,12 @@ public:
 	void Update()override;
 	void Create();
 	void Arrow(const VECTOR2& pos = VECTOR2(0, 0), const COLOR& color = COLOR(255, 255, 255), float angle = 0);
+	const VECTOR2& PosConvert2D(const VECTOR& pos);
+	bool IsMiniMapCharaOnMouseCursor(const VECTOR2&pos);
 	struct DATA
 	{
+		float mMiniHpGaugeMaxWidth;
+		float mMiniHpGaugeHeight;
 		float mMiniMapWindowWidth;
 		float mMiniMapWindowHeight;
 		int mNumModels;

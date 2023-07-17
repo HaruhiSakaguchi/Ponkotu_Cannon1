@@ -49,7 +49,7 @@ int Barricade::SetUp()
 	tree->SetTree("Barricade");
 	SetNormalMesh(tree);
 
-	new HpGaugeSpriteComponent(this, VECTOR(0.0f, 0.75f, 0.0f));
+	//new HpGaugeSpriteComponent(this, VECTOR(0.0f, 0.75f, 0.0f));
 	new CollisionMapComponent(this);
 
 	auto ui = new UIPSideCharacterStatusClose(this);

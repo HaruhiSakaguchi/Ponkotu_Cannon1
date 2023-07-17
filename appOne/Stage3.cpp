@@ -34,9 +34,6 @@ int Stage3::SetUp()
 
 	SetPosition(VECTOR(0, 0, 0));
 
-	SetClearCnt(40);
-	SetCaracterCapa(10);
-
 	mProgress = new UIProgressGauge(this, GetGame());
 
 	while (!GetModelCollisions().empty())

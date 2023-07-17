@@ -7,59 +7,22 @@
 #include "PlayerHome.h"
 #include "TreeMeshComponent.h"
 
+
 NormalCamera::NormalCamera(Game* game)
 	: Camera(game)
 {
 	SetPosition(VECTOR(0.0f, 90.0f, -27.0f));
-	//SetRotationY(-3.1415926f / 6.0f);
-	//SetRotationX(0.424f);
-	//SetRotationY(0.334f);
-	// SetRotationY(3.1415926f);
 	Data = GetGame()->GetAllData()->cameraData;
 	SetRotationX(3.1415926f / 2);
-	//SetPosition(-10.0f, 50.0f, 0);
-//	SetPosition(-10.0f, 50.0f, 20.0f);
-	//SetPosition(10.0f, 15.0f, 20.0f);
 	SetPosition(VECTOR(10.0f, 15.0f, -20.0f));
-	//ta.mLookatPos = GetPosition() + VECTOR(0.0f, -15.0f, 0.0f);
 }
 
 void NormalCamera::UpdateActor()
 {
-	//VECTOR2 vec = VECTOR2(Data.mCenterPos.x - mouseX, Data.mCenterPos.y - mouseY);
-
-	//vec.normalize();
 	float rotX = GetRotation().x;
 	float rotY = GetRotation().y;
 
-
-	//rotX = 1.57f;
-
-	/*if (GetGame()->GetScene() == Game::EPlay)
-	{
-		rotX -= vec.y * GetGame()->GetCameraSY();
-		rotY += vec.x * GetGame()->GetCameraSX();
-	}
-	else
-	{
-		rotX += 0;
-		rotY += 0;
-	}
-	*/
-	//rotX -= 0.17f;
-	//rotY += 0.17f;
-	//if (rotX > Data.mMaxRotX) { rotX = Data.mMaxRotX; }
-	//if (rotX < -Data.mMaxRotX) { rotX = -Data.mMaxRotX; }
 	if (Data.mDistanceFromLookatPos < Data.mMaxDistanceFromLookatPos) { Data.mDistanceFromLookatPos = Data.mMaxDistanceFromLookatPos; }
-
-	/*if (GetGame()->GetScene() == Game::EPlay)
-	{
-		SetCursorPos((int)Data.mCenterPos.x, (int)Data.mCenterPos.y);
-	}
-	else
-	{
-		SetCursorPos((int)mouseX, (int)mouseY);
-	}*/
 
 	VECTOR pos = GetPosition();
 	//Œ»İ‚ÌƒJƒƒ‰ˆÊ’u‚ğ‚Æ‚Á‚Ä‚¨‚­

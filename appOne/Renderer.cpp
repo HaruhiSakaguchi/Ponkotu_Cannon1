@@ -9,6 +9,7 @@
 #include "CONTAINER/CONTAINER.h"
 #include "MeshComponent.h"
 #include "COLLISION_MAP.h"
+#include "PlayerHome.h"
 
 Renderer::Renderer(class Game* game)
 	: mGame(game)
@@ -90,6 +91,29 @@ void Renderer::Draw()
 	{
 		mTransition->Draw();
 	}
+
+	/*MATRIX vp = mProj * mView;
+
+	VECTOR vpPos = VECTOR(vp._14, vp._24, vp._34);
+	print("viewPro(" + (let)vpPos.x + "," + (let)vpPos.y + "," + (let)vpPos.z + ")");
+
+
+	VECTOR hPos;
+	if (mGame->GetActorManager()->GetPHome())
+	{
+		hPos = mGame->GetActorManager()->GetPHome()->GetPosition();
+	}
+
+	MATRIX m;
+	m.identity();
+	m.mulTranslate(-hPos);
+
+	print("hPos(" + (let)m._14 + "," + (let)m._24 + "," + (let)m._34+ ")");
+
+	MATRIX M = m * mProj * mView;
+	print("hMPos(" + (let)M._14 + "," + (let)M._24 + "," + (let)M._34 + ")");*/
+
+
 }
 
 void Renderer::AddSprite(SpriteComponent* sprite)

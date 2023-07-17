@@ -1,6 +1,7 @@
 #include "UIMiniMap.h"
 #include "Game.h"
 #include "PlayerHome.h"
+#include "input.h"
 
 UIMiniMap::UIMiniMap(class Game* game, Map* owner, bool scroll)
 	:UIScreen(game)
@@ -312,7 +313,7 @@ void UIMiniMap::Draw()
 
 	for (auto actor : mGame->GetActorManager()->GetCharacters())
 	{
-		VECTOR2 Pos(actor->GetPosition().x * Data.m3DCoordinate2DConvertRate + Data.mMiniMapOffsetX + Data.mMiniMapCornerPos.x + Data.mMiniMapOffsetX + (Data.mMiniMapWindowWidth - 10.0f) / 2.0f, actor->GetPosition().z * Data.m3DCoordinate2DConvertRate + +Data.mMiniMapOffsetY + Data.mMiniMapCornerPos.y + (Data.mMiniMapWindowHeight - m0toMaxYDist));
+		VECTOR2 Pos = PosConvert2D(actor->GetPosition());
 		if (Pos.y <= Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength && Pos.y >= Data.mMiniMapCornerPos.y && Pos.x <= Data.mMiniMapCornerPos.x + Data.mMiniMapWindowLength && Pos.x >= Data.mMiniMapCornerPos.x)
 		{
 			if (actor->GetCategory() == Actor::Character)
@@ -347,6 +348,33 @@ void UIMiniMap::Draw()
 							angleOffset = 3.1415926f;
 						}
 						Arrow(Pos, actor->GetImageColor(), actor->GetRotation().y + angleOffset);
+
+						COLOR gaugeColor;
+						if (actor->GetHp() > actor->GetMaxHp() * 0.66f)
+						{
+							gaugeColor = COLOR(50, 255, 50, 128);
+						}
+						else if (actor->GetHp() > actor->GetMaxHp() * 0.33f)
+						{
+							gaugeColor = COLOR(255, 255, 50, 128);
+						}
+						else
+						{
+							gaugeColor = COLOR(255, 50, 50, 128);
+
+						}
+
+						fill(gaugeColor);
+						float hpWidth = Data.mMiniHpGaugeMaxWidth / actor->GetMaxHp() * actor->GetHp();
+						noStroke();
+						rectMode(CENTER);
+						rect(Pos.x - ((Data.mMiniHpGaugeMaxWidth - hpWidth) / 2.0f), Pos.y - Data.mMiniHpGaugeHeight * 2.0f, hpWidth, Data.mMiniHpGaugeHeight);
+					}
+					if (IsMiniMapCharaOnMouseCursor(Pos))
+					{
+						textSize(30);
+						fill(0, 0, 0);
+						text((let)actor->GetName().c_str() + " Lv." + (let)actor->GetLevel() + " " + (let)actor->GetHp() + " / " + (let)actor->GetMaxHp(), Pos.x, Pos.y);
 					}
 				}
 			}
@@ -364,6 +392,7 @@ void UIMiniMap::Draw()
 				fill(actor->GetImageColor());
 				point(Pos.x, Pos.y);
 			}
+
 		}
 	}
 }
@@ -692,4 +721,19 @@ void UIMiniMap::Arrow(const VECTOR2& pos, const COLOR& color, float angle)
 	line(p4.x, p4.y, p3.x, p3.y);
 	line(p3.x, p3.y, p1.x, p1.y);
 
+}
+
+const VECTOR2& UIMiniMap::PosConvert2D(const VECTOR& pos)
+{
+	VECTOR2 Pos(pos.x * Data.m3DCoordinate2DConvertRate + Data.mMiniMapOffsetX + Data.mMiniMapCornerPos.x + Data.mMiniMapOffsetX + (Data.mMiniMapWindowWidth - 10.0f) / 2.0f, pos.z * Data.m3DCoordinate2DConvertRate + +Data.mMiniMapOffsetY + Data.mMiniMapCornerPos.y + (Data.mMiniMapWindowHeight - m0toMaxYDist));
+	return Pos;
+}
+
+bool UIMiniMap::IsMiniMapCharaOnMouseCursor(const VECTOR2& pos)
+{
+	VECTOR2 mouse = VECTOR2(mouseX, mouseY);
+	VECTOR2 vec = mouse - pos;
+	bool isContain = sqrtf(vec.x * vec.x + vec.y * vec.y) <= 5.0f;
+
+	return isContain;
 }

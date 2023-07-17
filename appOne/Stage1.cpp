@@ -38,10 +38,6 @@ int Stage1::SetUp()
 
 	/*GetGame()->SetCamera(new Camera(GetGame()));*/
 
-	SetClearCnt(30);
-	SetCaracterCapa(5);
-
-
 	class Barricade*b = new Barricade(GetGame());
 	b->SetPosition(0, 5.0f, -5.0f);
 	b = new Barricade(GetGame());

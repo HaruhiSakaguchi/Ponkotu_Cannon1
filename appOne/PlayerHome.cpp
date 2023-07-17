@@ -9,6 +9,7 @@
 #include "UIPSideCharacterStatusClose.h"
 #include "UIPlayerHome.h"
 
+
 PlayerHome::PlayerHome(class Game* game, const VECTOR& pos)
 	: PSideCharacterActor(game)
 	, mTc(nullptr)
@@ -51,6 +52,8 @@ int PlayerHome::SetUp()
 	SetHp(Data.mMaxHp);
 	SetMaxHp(Data.mMaxHp);
 	SetInitMaxHp(Data.mMaxHp);
+	//new HpGauge2DSpriteComponent(this);
+
 
 	mDore->SetRotationX(0.0f);
 	mDore->SetRotationY(-3.1415926f);

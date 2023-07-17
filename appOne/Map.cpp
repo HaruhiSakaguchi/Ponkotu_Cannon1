@@ -20,13 +20,11 @@ Map::Map(class Game* game)
 	, mAreaNum(0)
 	, mSecond(0)
 	, mMunite(0)
-	, mInitItemDropFlag(false)
 	, mClearFlag(false)
 	, mCenterPos(0.0f, 0.0f, 0.0f)
 	, mMap(nullptr)
 {
 	Data = GetGame()->GetAllData()->mapData;
-	Data.mStageNum = (int)(GetGame()->GetPhase() + 1);
 	mStart = std::chrono::system_clock::now();
 	mLog = new UILog(GetGame());
 }
@@ -193,17 +191,6 @@ void Map::UpdateActor()
 	oss << tenMunite << mMunite << ":" << tenSecond << mSecond;
 
 	mTimeText = oss.str();
-
-	if (!mInitItemDropFlag)
-	{
-		mInitItemDropFlag = true;
-		GetLog()->AddText("MapÇê∂ê¨ÅB");
-		GetLog()->AddText("CannonÇ™èoåªÅB");
-		/*for (int i = 0; i < 3; i++)
-		{
-			DropItems(VECTOR(((float)i - 1.0f) * 2.0f, 5.0f, -2.0f));
-		}*/
-	}
 
 	if (!GetGame()->GetActorManager()->GetEHome() && GetGame()->GetActorManager()->GetEnemies().empty() && !mClearFlag)
 	{

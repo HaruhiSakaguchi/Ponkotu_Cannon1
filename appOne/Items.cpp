@@ -11,7 +11,7 @@ Recovery::Recovery(class Game* game)
 	iData = GetGame()->GetAllData()->recoverData;
 	SetImageColor(iData.mColor);
 	SetUp();
-	
+
 	mBatchName = "RecoverSphere";
 	CreateMesh(mBatchName, "RecoverTranSphere");
 }
@@ -118,7 +118,7 @@ SpeedUpCompo::SpeedUpCompo(class PSideCharacterActor* owner)
 SpeedUpCompo::~SpeedUpCompo()
 {
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
-	if (c->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
+	if (c && c->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetAdvSpeed(GetGame()->GetAllData()->cannonData.mAdvSpeed);
 		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("スピードアップの効果が切れた。");
@@ -143,7 +143,7 @@ PowerUp::PowerUp(class Game* game)
 	iData = GetGame()->GetAllData()->powerData;
 	SetImageColor(iData.mColor);
 	SetUp();
-	
+
 	mBatchName = "PowerSphere";
 	CreateMesh(mBatchName, "PowerTranSphere");
 
@@ -221,7 +221,7 @@ RapidFire::RapidFire(class Game* game)
 	iData = GetGame()->GetAllData()->rapidData;
 	SetImageColor(iData.mColor);
 	SetUp();
-	
+
 	mBatchName = "RapidSphere";
 	CreateMesh(mBatchName, "RapidTranSphere");
 
@@ -308,7 +308,7 @@ Barrier::Barrier(class Game* game)
 	iData = GetGame()->GetAllData()->barrierData;
 	SetImageColor(iData.mColor);
 	SetUp();
-	
+
 	mBatchName = "BarrierSphere";
 	CreateMesh(mBatchName, "BarrierTranSphere");
 

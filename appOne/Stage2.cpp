@@ -31,9 +31,6 @@ int Stage2::SetUp()
 
 	/*GetGame()->SetCamera(new Camera(GetGame()));*/
 
-	SetCaracterCapa(5);
-	SetClearCnt(30);
-
 	mProgress = new UIProgressGauge(this, GetGame());
 
 	while (!GetModelCollisions().empty())

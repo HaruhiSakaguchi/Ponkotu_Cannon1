@@ -25,6 +25,9 @@ public:
 	class CONTAINER* GetContainer() { return mContainer; }
 	void SetView(class MATRIX& view) { mView = view; }
 
+	const MATRIX GetProj() { return mProj; }
+	const MATRIX GetView() { return mView; }
+
 	void SetDisplayColor(const COLOR& color) { mDisplayColor = color; }
 	const COLOR& GetDisplayColor() { return mDisplayColor; }
 

@@ -156,7 +156,6 @@ void Tama::Dead()
 
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);
-	GetGame()->GetActorManager()->GetStage()->SetClearCnt(GetGame()->GetActorManager()->GetStage()->GetClearCnt() - 1);
 	DropItems(GetPosition());
 	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("Tama‚ð“|‚µ‚½II");
 	if (GetGame()->GetActorManager()->GetPHome())

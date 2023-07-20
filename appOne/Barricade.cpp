@@ -8,6 +8,7 @@
 #include "UIPSideCharacterStatusClose.h"
 #include <sstream>
 #include "PlayerHome.h"
+#include "CapsuleComponent.h"
 
 Barricade::Barricade(Game* game)
 	:PSideCharacterActor(game)
@@ -44,6 +45,10 @@ int Barricade::SetUp()
 	SetInitMaxHp(GetMaxHp());
 	SetTag(CharacterActor::Barricade);
 
+	mCapsule = new CapsuleComponent(this);
+	//mCapsule->SetIsCollision(false);
+	mCapsule->AddNotCollisionTags((int)PHome);
+	mCapsule->AddNotCollisionTags((int)Satellite);
 
 	auto tree = new TreeMeshComponent(this);
 	tree->SetTree("Barricade");
@@ -82,7 +87,7 @@ void Barricade::UpdateActor()
 
 	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
-		if (enemy->GetTag() != CharacterActor::CharactersTag::Satellite && enemy->GetHp() > 0)
+		/*if (enemy->GetTag() != CharacterActor::CharactersTag::Satellite && enemy->GetHp() > 0)
 		{
 			if (Intersect(this, enemy))
 			{
@@ -91,28 +96,18 @@ void Barricade::UpdateActor()
 					enemy->SetPosition(enemy->GetPosition().x, 0.0f, enemy->GetPosition().z);
 				}
 			}
-		}
+		}*/
 
-		if (GetPosition().y > GetRadius() && Intersect(this, enemy, false) && enemy->GetHp() > 0)
+		if (GetPosition().y > GetRadius() && mCapsule->OverlapActor(this, enemy) && enemy->GetHp() > 0)
 		{
 			enemy->Damage();
 		}
 	}
 
-	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
+	/*if (GetPosition().y <= 0.0f)
 	{
-		if (pSide != this && pSide != GetGame()->GetActorManager()->GetPHome())
-		{
-			if (pSide->GetTag() != CharacterActor::Cannon)
-			{
-				Intersect(this, pSide);
-			}
-			else if (static_cast<class Cannon*>(pSide)->GetStateCompoState()->GetName() != "Generate")
-			{
-				Intersect(this, pSide);
-			}
-		}
-	}
+		mCapsule->SetIsCollision(true);
+	}*/
 }
 
 void Barricade::Damage(int damage)

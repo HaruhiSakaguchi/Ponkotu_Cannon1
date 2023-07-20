@@ -61,6 +61,9 @@ public:
 	void SetDamageMesh(class MeshComponent* mesh) { mDamageMesh = mesh; }
 	void SetNormalMesh(class MeshComponent* mesh) { mNormalMesh = mesh; }
 
+	MeshComponent* GetNormalMesh() { return mNormalMesh; }
+	MeshComponent* GetDamageMesh() { return mDamageMesh; }
+
 public:
 	enum ActorsCategory
 	{

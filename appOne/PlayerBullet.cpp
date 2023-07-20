@@ -26,13 +26,16 @@ PlayerBullet::PlayerBullet(class Cannon* cannon, const VECTOR& pos, const VECTOR
 	}
 
 	SetDamage(cannon->GetDamage() + (int)(mOwner->GetLevel() / 2.0f));
+
+	mCapsule = new CapsuleComponent(this);
+	mCapsule->SetIsCollision(false);
 }
 
 void PlayerBullet::UpdateActor()
 {
 	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
-		if (Intersect(this, enemy, false) && enemy->GetHp() > 0)
+		if (mCapsule->OverlapActor(this, enemy) && enemy->GetHp() > 0)
 		{
 			this->damage();
 			enemy->Damage(Data.mDamage);
@@ -51,7 +54,7 @@ void PlayerBullet::UpdateActor()
 
 	for (auto item : GetGame()->GetActorManager()->GetItems())
 	{
-		if (Intersect(this, item, false))
+		if (mCapsule->OverlapActor(this, item))
 		{
 			if (mOwner && mOwner->GetState() == CharacterActor::EActive)
 			{
@@ -71,7 +74,7 @@ void PlayerBullet::UpdateActor()
 
 	for (auto weapon : GetGame()->GetActorManager()->GetWeapons())
 	{
-		if (Intersect(this, weapon, false) && this->GetOwner() != weapon->GetOwner() && this != weapon && weapon->GetHp() > 0)
+		if (mCapsule->OverlapActor(this, weapon) && this->GetOwner() != weapon->GetOwner() && this != weapon && weapon->GetHp() > 0)
 		{
 			this->damage();
 			weapon->damage();
@@ -80,7 +83,7 @@ void PlayerBullet::UpdateActor()
 
 	if (GetGame()->GetActorManager()->GetEHome())
 	{
-		if (Intersect(this, GetGame()->GetActorManager()->GetEHome(), false))
+		if (mCapsule->OverlapActor(this, GetGame()->GetActorManager()->GetEHome()))
 		{
 			this->damage();
 			GetGame()->GetActorManager()->GetEHome()->Damage(Data.mDamage);

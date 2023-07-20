@@ -1,3 +1,4 @@
+#pragma once
 #include "Game.h"
 #include "TRIANGLE.h"
 #include "CharacterActor.h"

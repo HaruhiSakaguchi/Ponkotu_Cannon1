@@ -72,6 +72,9 @@ int SatelliteWing::SetUp()
 	setVolume(Data.mGurdSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	setVolume(Data.mClashSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 
+	mCapsule = new CapsuleComponent(this);
+	mCapsule->SetIsCollision(false);
+
 	return 1;
 }
 

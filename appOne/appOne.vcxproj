@@ -164,6 +164,7 @@
     <ClCompile Include="CannonStates.cpp" />
     <ClCompile Include="CannonWheelL.cpp" />
     <ClCompile Include="CannonWheelR.cpp" />
+    <ClCompile Include="CapsuleComponent.cpp" />
     <ClCompile Include="CELL.cpp" />
     <ClCompile Include="CharacterActor.cpp" />
     <ClCompile Include="CollisionMapComponent.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="CannonStates.h" />
     <ClInclude Include="CannonWheelL.h" />
     <ClInclude Include="CannonWheelR.h" />
+    <ClInclude Include="CapsuleComponent.h" />
     <ClInclude Include="CELL.h" />
     <ClInclude Include="CharacterActor.h" />
     <ClInclude Include="CollisionMapComponent.h" />
@@ -306,6 +308,7 @@
     <ClInclude Include="SatelliteBullet.h" />
     <ClInclude Include="SatelliteStates.h" />
     <ClInclude Include="SatelliteWing.h" />
+    <ClInclude Include="SEGMENT.h" />
     <ClInclude Include="SoundVolumeManager.h" />
     <ClInclude Include="SphereWeapon.h" />
     <ClInclude Include="SpriteComponent.h" />

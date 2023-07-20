@@ -15,6 +15,7 @@
 #include "UIPSideCharacterStatusClose.h"
 #include "CameraManager.h"
 #include "input.h"
+#include "CapsuleComponent.h"
 
 Cannon::Cannon(class Game* game)
 	: PSideCharacterActor(game)
@@ -115,6 +116,7 @@ int Cannon::SetUp()
 	bc->SetOffsetPos(Data.mBodyOffsetPos + GetCapsulOffset());
 	SetDamageMesh(bc);
 
+
 	mWheelL = new CannonWheelL(this);
 	mWheelR = new CannonWheelR(this);
 
@@ -132,8 +134,14 @@ int Cannon::SetUp()
 			mCNum++;
 		}
 	}
+
 	std::ostringstream oss;
 	oss << "Cannon" << mCNum;
+	mCapsule = new CapsuleComponent(this);
+	mCapsule->SetIsCollision(false);
+	mCapsule->AddNotCollisionTags((int)CharacterActor::PHome);
+	mCapsule->AddNotCollisionTags((int)CharacterActor::Barricade);
+	mCapsule->AddNotCollisionTags((int)CharacterActor::EHome);
 
 	SetName(oss.str().c_str());
 	return 0;
@@ -169,7 +177,10 @@ void Cannon::UpdateActor()
 	{
 		mScale = Data.mNormalBodyScale;
 	}
-
+	if (mState->GetName() != "Generate")
+	{
+		mCapsule->SetIsCollision(true);
+	}
 
 	////‹ó’†‚É‚¢‚é‚Æ‚«‚Ìˆ—
 	//if (GetJumpFlag() == 1)
@@ -232,7 +243,7 @@ void Cannon::UpdateActor()
 		mState->ChangeState("Wait");
 	}
 
-	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
+	/*for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
 		if (enemy->GetHp() > 0 && mState->GetName() != "Generate")
 		{
@@ -246,7 +257,7 @@ void Cannon::UpdateActor()
 		{
 			Intersect(this, pSide);
 		}
-	}
+	}*/
 
 	if (GetDamageInterval() > 0.0f)
 	{

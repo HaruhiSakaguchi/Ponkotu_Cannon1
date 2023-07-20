@@ -32,6 +32,9 @@ TamaWeapon::TamaWeapon(class Tama* owner, const VECTOR& pos, const VECTOR& dir)
 
 	SetScale(VECTOR(Data.mSize, Data.mSize, Data.mSize));
 
+	mCapsule = new CapsuleComponent(this);
+	mCapsule->SetIsCollision(false);
+
 }
 
 TamaWeapon::~TamaWeapon()
@@ -85,7 +88,7 @@ void TamaWeapon::UpdateActor()
 
 	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
-		if (Intersect(this, pSide, false))
+		if (mCapsule->OverlapActor(this, pSide))
 		{
 			pSide->Damage(1);
 		}

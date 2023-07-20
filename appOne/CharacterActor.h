@@ -3,6 +3,7 @@
 #include "MATRIX.h"
 #include "Particle.h"
 #include <string>
+#include "CapsuleComponent.h"
 
 class CharacterActor :public Actor
 {
@@ -69,6 +70,9 @@ public:
 	//メッシュの名前からパーティクルをスポーン
 	
 	void SpawnParticle(class Game*game,const VECTOR& pos, const char* name,int num = 1, float maxLifeSpan = 1.0f, Particle::MeshType type = Particle::MeshType::EBatch,float spawnRadius = 0.0f);
+	
+	//当たり判定コンポーネント
+	class CapsuleComponent* GetCapsule() { return mCapsule; }
 
 	enum CharactersTag
 	{
@@ -114,47 +118,5 @@ private:
 	CharactersTag mTag;
 protected:
 	int mDeadSound;
-private:
-	//カプセルの形状が球でない場合の当たり判定に使用する線分クラス
-public:
-	class SEGMENT
-	{
-	private:
-		VECTOR sp;
-		VECTOR ep;
-		VECTOR v;
-		class CharacterActor* mOwner;
-	public:
-		SEGMENT(class CharacterActor* owner)
-			: mOwner(owner)
-			, sp(0, 0, 0)
-			, ep(0, 0, 0)
-			, v(0, 0, 0)
-		{
-		}
-		void update()
-		{
-			MATRIX gWorld;
-			gWorld.identity();
-			VECTOR pos = mOwner->GetPosition() + mOwner->GetCapsulOffset();
-
-			gWorld.mulRotateZ(mOwner->GetRotation().z);
-			gWorld.mulRotateX(-mOwner->GetRotation().x);
-
-			gWorld.mulRotateY(mOwner->GetRotation().y + 3.1415926f / 2);
-
-			sp = pos + gWorld * mOwner->GetHeight() / 2;
-			ep = pos + gWorld * -mOwner->GetHeight() / 2;
-
-			v = ep - sp;
-		}
-		const VECTOR& GetSp() const { return sp; }
-		const VECTOR& GetEp() const { return ep; }
-		const VECTOR& GetV() const { return v; }
-	};
-private:
-	class SEGMENT* mSeg;
-public:
-	SEGMENT* GetSeg() { return mSeg; }
-	void SetSeg(SEGMENT* seg) { mSeg = seg; }
+	class CapsuleComponent* mCapsule;
 };

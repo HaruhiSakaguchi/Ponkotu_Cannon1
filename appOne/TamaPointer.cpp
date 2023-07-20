@@ -5,9 +5,9 @@
 #include "PlayerHome.h"
 
 TamaPointer::TamaPointer(class Tama* owner)
-	:CharacterActor(owner->GetGame())
-	,mOwner(owner)
-	,mTarget(0.0f,0.0f,0.0f)
+	: CharacterActor(owner->GetGame())
+	, mOwner(owner)
+	, mTarget(0.0f,0.0f,0.0f)
 {
 	SetUp();
 }
@@ -22,6 +22,8 @@ int TamaPointer::SetUp()
 	SetDamageMesh(db);
 	SetCategory(CharacterActor::Object);
 	SetRadius(0.4f);
+	mCapsule = new CapsuleComponent(this);
+	mCapsule->SetIsCollision(false);
 	return 1;
 }
 
@@ -97,7 +99,7 @@ bool TamaPointer::CheckCollisionPSide()
 	int cnt = 0;
 	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
-		if (Intersect(this, pSide, false))
+		if (mCapsule->OverlapActor(this, pSide))
 		{
 			cnt++;
 		}

@@ -264,15 +264,6 @@ bool Intersect(CharacterActor* a, CharacterActor* b, bool flag)
 		float aHeight = a->GetHeight();
 		float bHeight = b->GetHeight();
 
-		if (a->GetSeg())
-		{
-			aRadius = aHeight;
-		}
-		if (b->GetSeg())
-		{
-			bRadius = bHeight;
-		}
-
 		VECTOR aPos = a->GetPosition() + a->GetCapsulOffset();
 		VECTOR bPos = b->GetPosition() + b->GetCapsulOffset();
 		VECTOR asp = VECTOR(aPos.x, aPos.y - aHeight / 2, aPos.z);
@@ -281,17 +272,6 @@ bool Intersect(CharacterActor* a, CharacterActor* b, bool flag)
 		VECTOR bep = VECTOR(bPos.x, bPos.y + bHeight / 2, bPos.z);
 		VECTOR mp1;
 		VECTOR mp2;
-
-		if (a->GetSeg())
-		{
-			asp = a->GetSeg()->GetSp();
-			aep = a->GetSeg()->GetEp();
-		}
-		if (b->GetSeg())
-		{
-			bsp = b->GetSeg()->GetSp();
-			bep = b->GetSeg()->GetEp();
-		}
 
 		float t1;
 		float t2;

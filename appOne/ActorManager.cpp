@@ -7,6 +7,7 @@
 #include "PlayerHome.h"
 #include "EnemyHome.h"
 #include "Camera.h"
+#include "CapsuleComponent.h"
 
 ActorManager::ActorManager(class Game* game)
 	: Manager(game)
@@ -194,6 +195,23 @@ void ActorManager::RemoveCannon(class Cannon* cannon)
 		//このActorとケツのActorを入れ替える(消去後コピー処理を避けるため)
 		std::iter_swap(iter, mCannons.end() - 1);
 		mCannons.pop_back();
+	}
+}
+
+void ActorManager::AddCapsule(CapsuleComponent* capsule)
+{
+	mCapsules.emplace_back(capsule);
+}
+
+void ActorManager::RemoveCapsule(CapsuleComponent* capsule)
+{
+	//このactorがmActorsにあるか探す
+	auto iter = std::find(mCapsules.begin(), mCapsules.end(), capsule);
+	if (iter != mCapsules.end())
+	{
+		//このActorとケツのActorを入れ替える(消去後コピー処理を避けるため)
+		std::iter_swap(iter, mCapsules.end() - 1);
+		mCapsules.pop_back();
 	}
 }
 

@@ -5,7 +5,7 @@
 
 
 COLLISION_MAP::COLLISION_MAP(float len, const char* filename)
-	:Len(len)//CUBE‚ÈCELL‚Ìˆê•Ó‚Ì’·‚³
+	: Len(len)//CUBE‚ÈCELL‚Ìˆê•Ó‚Ì’·‚³
 	, mGame(nullptr)
 {
 	//Triangle data‚ğƒ[ƒh

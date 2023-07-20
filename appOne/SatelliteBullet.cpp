@@ -21,6 +21,9 @@ SatelliteBullet::SatelliteBullet(class Satellite* satellite, const VECTOR& pos, 
 		setVolume(iData.mLaunchSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(iData.mLaunchSound);
 	}
+
+	mCapsule = new CapsuleComponent(this);
+	mCapsule->SetIsCollision(false);
 }
 
 void SatelliteBullet::UpdateActor()
@@ -77,7 +80,7 @@ void SatelliteBullet::UpdateActor()
 
 	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
-		if (Intersect(this, pSide, false))
+		if (mCapsule->OverlapActor(this, pSide))
 		{
 			SetState(Actor::EDead);
 			if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)

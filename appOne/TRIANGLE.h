@@ -1,3 +1,4 @@
+#pragma once
 #include "VECTOR.h"
 
 class TRIANGLE {

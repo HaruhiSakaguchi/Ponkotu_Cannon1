@@ -21,6 +21,9 @@ Item::Item(Game* game)
 {
 	GetGame()->GetActorManager()->AddItems(this);
 	mStart = std::chrono::system_clock::now();
+
+	mCapsule = new CapsuleComponent(this);
+	mCapsule->SetIsCollision(false);
 }
 
 Item::~Item()
@@ -74,7 +77,7 @@ void Item::UpdateActor()
 
 	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
-		if (pSide->GetState() == Actor::EActive && Intersect(this, pSide, false))
+		if (pSide->GetState() == Actor::EActive && mCapsule->OverlapActor(this, pSide))
 		{
 			mOwner = pSide;
 			if (update() && mOwner)

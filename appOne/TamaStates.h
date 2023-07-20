@@ -40,7 +40,7 @@ public:
 	virtual void OnEnter()override;
 private:
 	int mCnt = 0;
-	int mRotateCnt;
+	int mRotateCnt = 0;
 };
 
 class TamaRockOn :
@@ -75,8 +75,6 @@ private:
 	VECTOR mDir;
 	int mCnt;
 	float mReb;
-	int mNX;
-	int mNZ;
 };
 
 class TamaAttack :
@@ -94,6 +92,7 @@ private:
 	float mMaxTime = 120.0f;
 	VECTOR mTarget;
 	VECTOR mRotation;
+	int mAttackFlame;
 };
 
 class TamaGenerate :

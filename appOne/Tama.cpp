@@ -12,6 +12,9 @@
 #include "PlayerHome.h"
 #include "TamaPointer.h"
 #include "EnemyHome.h"
+#include "CapsuleComponent.h"
+#include "SEGMENT.h"
+//#include "COLLISION_MAP.h"
 
 Tama::Tama(Game* game)
 	: Enemy(game)
@@ -57,6 +60,7 @@ Tama::Tama(Game* game, const VECTOR& pos)
 Tama::~Tama()
 {
 	mEye->SetState(EDead);
+	delete mLine;
 }
 
 int Tama::SetUp()
@@ -76,6 +80,13 @@ int Tama::SetUp()
 	SetCapsulOffset(Data.mCapsulOffset);
 	SetTag(CharacterActor::Tama);
 
+	mCapsule = new CapsuleComponent(this);
+	mCapsule->SetIsCollision(false);
+	mCapsule->AddNotCollisionTags((int)CharactersTag::Barricade);
+	mCapsule->AddNotCollisionTags((int)CharactersTag::PHome);
+	mCapsule->AddNotCollisionTags((int)CharactersTag::EHome);
+
+
 	//new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
 
 
@@ -92,6 +103,8 @@ int Tama::SetUp()
 	new CollisionMapComponent(this);
 
 	mTp = new TamaPointer(this);
+
+	mLine = new SEGMENT(VECTOR(0.0f, 0.0f, 0.0f), VECTOR(0.0f, 0.0f, 7.0f));
 	return 0;
 }
 
@@ -99,16 +112,10 @@ void Tama::UpdateActor()
 {
 	SetScale(VECTOR(mScale, mScale, mScale));
 
-	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
+
+	if (mState->GetName() != "Generate")
 	{
-		if (enemy->GetTag() == CharacterActor::Tama)
-		{
-			auto tama = static_cast<class Tama*>(enemy);
-			if (tama->GetStateCompoState()->GetName() != "Generate" && mState->GetName() != "Generate")
-			{
-				Intersect(this, tama);
-			}
-		}
+		mCapsule->SetIsCollision(true);
 	}
 
 	if (GetDamageInterval() > 0.0f)
@@ -128,6 +135,8 @@ void Tama::UpdateActor()
 			SetState(Actor::EDead);
 		}
 	}
+
+	print("Target(" + (let)mTargetPos.x +"," +  (let)mTargetPos.y +","  + (let)mTargetPos.z + ")");
 }
 
 void Tama::Damage(int damage)
@@ -151,8 +160,8 @@ void Tama::FallOption()
 
 void Tama::Dead()
 {
-	SpawnParticle(GetGame(),GetPosition(), "TamaSphere", 10);
-	SpawnParticle(GetGame(),GetPosition(), "TamaBlackEyeCylinder", 10);
+	SpawnParticle(GetGame(), GetPosition(), "TamaSphere", 10);
+	SpawnParticle(GetGame(), GetPosition(), "TamaBlackEyeCylinder", 10);
 
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);

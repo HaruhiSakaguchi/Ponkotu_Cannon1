@@ -52,6 +52,8 @@ int EnemyHome::SetUp()
 	mProps.emplace_back(mFlag1);
 	mProps.emplace_back(mFlag2);
 
+	mCapsule = new CapsuleComponent(this);
+
 	SetTag(EHome);
 	SetHp(Data.mMaxHp);
 	SetMaxHp(Data.mMaxHp);
@@ -136,20 +138,14 @@ void EnemyHome::UpdateActor()
 				if (PositionOnMap(pos, GetGame()->GetAllData()->satelliteData.mHeight) && InEnemyArea(pos) && mBattlePoints >= (200 + mGenerateSatelliteLevel * 50))
 				{
 					class Satellite* satellite = new class Satellite(GetGame(), pos);
-					CharacterActor::SEGMENT* seg = new CharacterActor::SEGMENT(satellite);
-					satellite->SetSeg(seg);
 					satellite->SetLevel(mGenerateSatelliteLevel);
 					satellite->SetMaxHp((int)(satellite->GetInitMaxHp() * ((satellite->GetLevel() + satellite->GetMaxLevel()) / 10.0f)));
 					satellite->SetHp(satellite->GetMaxHp());
 					VECTOR EPos = GetPosition();
-					if (satellite->GetId() == 0)
-					{
-						EPos.y = 0.5f;
-					}
-					else
-					{
-						EPos.y = 0.5f;
-					}
+
+
+					EPos.y = 0.5f;
+
 
 					satellite->SetPosition(EPos);
 					mBattlePoints -= (200 + mGenerateSatelliteLevel * 50);
@@ -309,20 +305,11 @@ void EnemyHome::Dead()
 			if (PositionOnMap(pos, GetGame()->GetAllData()->satelliteData.mHeight) && InEnemyArea(pos) && mBattlePoints >= (200 + mGenerateSatelliteLevel * 50))
 			{
 				class Satellite* satellite = new class Satellite(GetGame(), pos);
-				CharacterActor::SEGMENT* seg = new CharacterActor::SEGMENT(satellite);
-				satellite->SetSeg(seg);
 				satellite->SetLevel(mGenerateSatelliteLevel);
 				satellite->SetMaxHp((int)(satellite->GetInitMaxHp() * ((satellite->GetLevel() + satellite->GetMaxLevel()) / 10.0f)));
 				satellite->SetHp(satellite->GetMaxHp());
 				VECTOR EPos = GetPosition();
-				if (satellite->GetId() == 0)
-				{
-					EPos.y = 0.5f;
-				}
-				else
-				{
-					EPos.y = 0.5f;
-				}
+				EPos.y = 0.5f;
 
 				satellite->SetPosition(EPos);
 				mBattlePoints -= (200 + mGenerateSatelliteLevel * 50);

@@ -9,6 +9,7 @@
 #include "CharacterActor.h"
 #include "PlayerHome.h"
 #include "EnemyHome.h"
+#include "CapsuleComponent.h"
 
 int Satellite::Num = 0;
 
@@ -106,6 +107,14 @@ int Satellite::SetUp()
 	new SatelliteWing(this);
 
 	SetImageColor(Data.mImageColor);
+	mCapsule = new CapsuleComponent(this);
+	mCapsule->SetIsCollision(false);
+	mCapsule->SetSpandEp(VECTOR(0.0f, 0.0f, GetHeight()), VECTOR(0.0f, 0.0f, -GetHeight()));
+	mCapsule->AddNotCollisionTags(PHome);
+	mCapsule->AddNotCollisionTags(EHome);
+	mCapsule->AddNotCollisionTags(Barricade);
+
+
 	return 0;
 }
 
@@ -114,6 +123,11 @@ void Satellite::UpdateActor()
 	if (GetPosition().y >= 10.0f)
 	{
 		SetHp(0);
+	}
+
+	if (mState->GetName() != "Generate")
+	{
+		mCapsule->SetIsCollision(true);
 	}
 
 	if (GetHp() <= 0 && mDeadFlag == false)
@@ -155,7 +169,7 @@ void Satellite::UpdateActor()
 		}
 	}
 
-	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
+	/*for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
 		if (enemy != this && enemy->GetTag() == CharacterActor::Satellite)
 		{
@@ -173,7 +187,7 @@ void Satellite::UpdateActor()
 				Intersect(this, tama);
 			}
 		}
-	}
+	}*/
 
 }
 
@@ -206,13 +220,13 @@ void Satellite::Dead()
 {
 	if (Data.mId == 0)
 	{
-		SpawnParticle(GetGame(),GetPosition(), "SatelliteBody0Cylinder", 10);
-		SpawnParticle(GetGame(),GetPosition(), "SatelliteWing0Square", 40);
+		SpawnParticle(GetGame(), GetPosition(), "SatelliteBody0Cylinder", 10);
+		SpawnParticle(GetGame(), GetPosition(), "SatelliteWing0Square", 40);
 	}
 	else
 	{
-		SpawnParticle(GetGame(),GetPosition(), "SatelliteBody1Cylinder", 10);
-		SpawnParticle(GetGame(),GetPosition(), "SatelliteWing1Square", 40);
+		SpawnParticle(GetGame(), GetPosition(), "SatelliteBody1Cylinder", 10);
+		SpawnParticle(GetGame(), GetPosition(), "SatelliteWing1Square", 40);
 	}
 
 

@@ -89,13 +89,9 @@ void TamaMove::Update()
 
 	VECTOR angle = t->GetRotation();
 	t->rotate(&angle, vec, 0.05f);
+	angle.x = 0.0f;
+	angle.z = 0.0f;
 	t->SetRotation(angle);
-
-	if (CollisionCircle(3.0f, 1.0f, t->GetPosition(), mTarget))
-	{
-		mOwnerCompo->ChangeState("RockOn");
-		return;
-	}
 
 	pos.x += vec.x * t->GetAdvSpeed() * delta * 60.0f;
 	pos.z += vec.z * t->GetAdvSpeed() * delta * 60.0f;
@@ -128,14 +124,21 @@ void TamaSeache::Update()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
 
-	t->SetRotationY(t->GetRotation().y + 0.17f);
+	t->GetCapsule()->segment(t->GetSight()->GetSP(), t->GetSight()->GetEP(), COLOR(255, 0, 0, 128), 100);
 
 	if (++mRotateCnt < 36)
 	{
-		if (t->GetTp()->CheckCollisionPSide())
+		CharacterActor* c = nullptr;
+		VECTOR p;
+
+		if (t->GetCapsule()->LineTraceHitActor(t->GetSight(), &c, &p))
 		{
-			mOwnerCompo->ChangeState("RockOn");
-			return;
+			if (c->GetTag() == c->Cannon || c->GetTag() == c->Barricade || c->GetTag() == c->PHome)
+			{
+				t->SetTargetPos(c->GetPosition() + c->GetCapsulOffset());
+				mOwnerCompo->ChangeState("RockOn");
+				return;
+			}
 		}
 	}
 	else
@@ -144,42 +147,15 @@ void TamaSeache::Update()
 		return;
 	}
 
+	t->SetRotationY(t->GetRotation().y + 0.17f);
 
 }
 
 void TamaRockOn::OnEnter()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
-	mTarget = VECTOR(1000.0f, 1000.0f, 1000.0f);
 
-	for (auto pSide : t->GetGame()->GetActorManager()->GetPSide())
-	{
-		if (pSide->GetState() == Actor::EActive)
-		{
-			VECTOR target = pSide->GetPosition() + pSide->GetCapsulOffset();
-			float distx = target.x - t->GetPosition().x;
-			float disty = target.y - t->GetPosition().y;
-			float distz = target.z - t->GetPosition().z;
-			float dist = sqrtf(distx * distx + disty * disty + distz * distz);
-
-			float tdistx = mTarget.x - t->GetPosition().x;
-			float tdisty = mTarget.y - t->GetPosition().y;
-			float tdistz = mTarget.z - t->GetPosition().z;
-			float tdist = sqrtf(tdistx * tdistx + tdisty * tdisty + tdistz * tdistz);
-
-			if (mTarget.x == 1000.0f && mTarget.y == 1000.0f && mTarget.z == 1000.0f)
-			{
-				mTarget = target;
-			}
-			else if (dist < tdist)
-			{
-				mTarget = target;
-			}
-		}
-	}
-
-	mCnt = 0;
-	t->SetTargetPos(mTarget);
+	mTarget = t->GetTargetPos();
 	t->SetAttackVector(mTarget - (t->GetPosition() + t->GetCapsulOffset()));
 }
 
@@ -191,6 +167,10 @@ void TamaRockOn::Update()
 	VECTOR vec = t->GetAttackVector();
 	vec.normalize();
 	int EndOfRotate = t->rotate(&angle, vec, 0.05f);
+
+	angle.x = 0.0f;
+	angle.z = 0.0f;
+
 	t->SetRotation(angle);
 
 	if (EndOfRotate == 1)
@@ -212,9 +192,6 @@ void TamaCharge::OnEnter()
 	VECTOR vec = mDir.normalize();
 	mCnt = 0;
 	mReb = 1.0f;
-	mNX = (int)(mDir.x / vec.x);
-	mNZ = (int)(mDir.z / vec.z);
-
 	mDir.normalize();
 }
 
@@ -256,12 +233,10 @@ void TamaAttack::OnEnter()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
 
-
 	for (int i = 0; i < (int)(t->GetLevel() / 5); i++)
 	{
 		new TamaWeapon(t);
 	}
-
 
 	mCnt = 0;
 	if (t->GetGame()->GetState() == Game::EGameplay && t->GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
@@ -269,6 +244,8 @@ void TamaAttack::OnEnter()
 		setVolume(t->GetDushSound(), t->GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(t->GetDushSound());
 	}
+
+	mAttackFlame = (int)t->GetAttackVector().magSq() + 2;
 }
 
 void TamaAttack::Update()
@@ -285,9 +262,11 @@ void TamaAttack::Update()
 
 	t->SetPosition(pos);
 
+	print("Flame" + (let)mAttackFlame);
+
 	for (auto pSide : t->GetGame()->GetActorManager()->GetPSide())
 	{
-		if (Intersect(t, pSide, false))
+		if (t->GetCapsule()->OverlapActor(t, pSide))
 		{
 			pSide->Damage(1 + (int)(t->GetLevel() / 2));
 			mOwnerCompo->ChangeState("Wait");
@@ -295,7 +274,7 @@ void TamaAttack::Update()
 		}
 	}
 
-	if (++mCnt >= 30 || !t->GetGame()->GetActorManager()->GetPHome())
+	if (++mCnt >= mAttackFlame || !t->GetGame()->GetActorManager()->GetPHome())
 	{
 		mOwnerCompo->ChangeState("Search");
 		return;
@@ -307,6 +286,7 @@ void TamaAttack::OnExit()
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
 	t->SetAttackVector(VECTOR(0.0f, 0.0f, 0.0f));
 	t->SetTargetPos(VECTOR(0.0f, 0.0f, 0.0f));
+	mAttackFlame = 0;
 }
 
 void TamaGenerate::OnEnter()
@@ -341,7 +321,7 @@ void TamaGenerate::Update()
 			{
 				t->SetPosition(t->GetPosition() + vec * t->GetAdvSpeed());
 			}
-			else if(!t->GetGame()->GetActorManager()->GetEHome())
+			else if (!t->GetGame()->GetActorManager()->GetEHome())
 			{
 				t->SetPosition(t->GetPosition() + vec * t->GetAdvSpeed());
 			}

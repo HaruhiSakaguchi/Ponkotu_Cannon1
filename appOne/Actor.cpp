@@ -65,7 +65,7 @@ bool Actor::PositionOnMap(const VECTOR& pos, float radius)
 	{
 		for (int i = 0; i < mGame->GetActorManager()->GetStage()->GetAreaNum(); i++)
 		{
-			if ((pos.x - radius <= mGame->GetActorManager()->GetStage()->GetMaxX()[i] && pos.x + radius >= mGame->GetActorManager()->GetStage()->GetMinX()[i] && pos.z - radius <= mGame->GetActorManager()->GetStage()->GetMaxZ()[i] && pos.z + radius >= mGame->GetActorManager()->GetStage()->GetMinZ()[i]) && (pos.y >= 0 && pos.y <= mMaxPosY))
+			if ((pos.x - radius <= mGame->GetActorManager()->GetStage()->GetMaxX()[i] && pos.x + radius >= mGame->GetActorManager()->GetStage()->GetMinX()[i] && pos.z - radius <= mGame->GetActorManager()->GetStage()->GetMaxZ()[i] && pos.z + radius >= mGame->GetActorManager()->GetStage()->GetMinZ()[i]))
 			{
 				cnt++;
 			}

@@ -30,6 +30,7 @@ public:
 	void SetTargetPos(const VECTOR& vec) { mTargetPos = vec; }
 	const VECTOR& GetTargetPos() { return mTargetPos; }
 
+	SEGMENT* GetSight() { return mLine; }
 	class StateComponent* GetStateCompoState() { return mState; }
 
 public:
@@ -75,6 +76,7 @@ private:
 	class TreeMeshComponent* mTc;
 	class TamaBlackEye* mEye;
 	class TamaPointer* mTp;
+	class SEGMENT* mLine;
 };
 
 

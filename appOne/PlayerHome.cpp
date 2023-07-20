@@ -8,7 +8,7 @@
 #include "EnemyHome.h"
 #include "UIPSideCharacterStatusClose.h"
 #include "UIPlayerHome.h"
-
+#include "CapsuleComponent.h"
 
 PlayerHome::PlayerHome(class Game* game, const VECTOR& pos)
 	: PSideCharacterActor(game)
@@ -27,7 +27,7 @@ PlayerHome::PlayerHome(class Game* game, const VECTOR& pos)
 	SetPosition(pos);
 	SetUp();
 	GetGame()->GetActorManager()->SetPHome(this);
-
+	mCapsule = new CapsuleComponent(this);
 }
 
 PlayerHome::~PlayerHome()
@@ -71,6 +71,7 @@ int PlayerHome::SetUp()
 	SetRadius(Data.mRadius);
 	SetHeight(Data.mHeight);
 	SetName("PlayerHome");
+
 	new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
 	mUI = new UIPlayerHome(this);
 	mMaxBattlePoints = 500;
@@ -80,6 +81,8 @@ int PlayerHome::SetUp()
 
 void PlayerHome::UpdateActor()
 {
+
+	GetNormalMesh()->SetDrawFlag(false);
 
 	mHomeTargetPoints[0] = GetPosition() + VECTOR(-7.0f, 0.0f, -7.0f);
 	mHomeTargetPoints[1] = GetPosition() + VECTOR(7.0f, 0.0f, -7.0f);
@@ -109,9 +112,9 @@ void PlayerHome::UpdateActor()
 
 	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
-		if (enemy->GetTag() != CharacterActor::Satellite && enemy->GetHp() > 0)
+		if (enemy->GetHp() > 0)
 		{
-			if (Intersect(this, enemy) && !mMoveCompleteFlag)
+			if (mCapsule->OverlapActor(this, enemy) && !mMoveCompleteFlag)
 			{
 				enemy->Damage(1 + (int)(GetLevel() / 2));
 			}

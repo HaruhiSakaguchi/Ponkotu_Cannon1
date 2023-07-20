@@ -129,7 +129,6 @@ private:
 	//component
 	class InputComponent* mIn;
 	class StateComponent* mState;
-
 	MoveState mMoveState;
 	//Hierarchy Matrix
 	MATRIX Master, Body, Target;

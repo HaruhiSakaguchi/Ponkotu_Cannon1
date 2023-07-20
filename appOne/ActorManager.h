@@ -19,7 +19,7 @@ public:
 	const class std::vector<class Item*>& GetItems() { return mItems; }
 	const class std::vector<class PSideCharacterActor*>& GetPSide() { return mPSideActors; }
 	const class std::vector<class Cannon*>& GetCannons() { return mCannons; }
-
+	const class std::vector<class CapsuleComponent*>& GetCapsules() { return mCapsules; }
 	void AddActor(class Actor* actor);
 	void RemoveActor(class Actor* actor);
 
@@ -35,6 +35,10 @@ public:
 	void RemovePSide(class PSideCharacterActor* actor);
 	void AddCannon(class Cannon* cannon);
 	void RemoveCannon(class Cannon* cannon);
+
+	//当たり判定コンポーネントをここで管理する
+	void AddCapsule(class CapsuleComponent*capsule);
+	void RemoveCapsule(class CapsuleComponent*capsule);
 
 	void ActorClear();
 
@@ -56,6 +60,7 @@ private:
 	bool mUpdatingActors;
 	std::vector<class Actor*> mPendingActors;
 
+	std::vector<class CapsuleComponent*>mCapsules;
 	class Map* mStage;
 	class PlayerHome* mPHome;
 	class EnemyHome* mEHome;

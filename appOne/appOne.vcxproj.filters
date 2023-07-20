@@ -473,6 +473,7 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
+    <ClCompile Include="CapsuleComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -751,5 +752,7 @@
     <ClInclude Include="Particle.h">
       <Filter>Actor</Filter>
     </ClInclude>
+    <ClInclude Include="CapsuleComponent.h" />
+    <ClInclude Include="SEGMENT.h" />
   </ItemGroup>
 </Project>

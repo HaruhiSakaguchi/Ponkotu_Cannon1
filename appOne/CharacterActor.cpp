@@ -13,7 +13,6 @@ CharacterActor::CharacterActor(Game* game)
 	, mJumpVel(0.0f)
 	, mGravity(0.0f)
 	, mAdvSpeed(0.0f)
-	, mSeg(nullptr)
 	, mHp(1)
 	, mMaxHp(1)
 	, mDeadSound(-1)
@@ -30,6 +29,7 @@ CharacterActor::CharacterActor(Game* game)
 	, mInitMaxHp(1)
 	, mDamage(1)
 	, mRDamage(1)
+	, mCapsule(nullptr)
 {
 	SetCategory(Character);
 	GetGame()->GetActorManager()->AddCharacter(this);
@@ -38,12 +38,7 @@ CharacterActor::CharacterActor(Game* game)
 
 CharacterActor::~CharacterActor()
 {
-	if (GetSeg())
-	{
-		delete mSeg;
-	}
 	GetGame()->GetActorManager()->RemoveCharacter(this);
-
 }
 
 void CharacterActor::Update()
@@ -52,11 +47,6 @@ void CharacterActor::Update()
 
 	if (GetState() == EActive)
 	{
-		if (GetSeg())
-		{
-			GetSeg()->update();
-		}
-
 		if (GetPosition().y < mMinPosY)
 		{
 			SetState(EDead);

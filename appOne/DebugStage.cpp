@@ -12,6 +12,7 @@
 #include "Barricade.h"
 #include "CameraManager.h"
 #include "PlayerFlag.h"
+#include "CapsuleComponent.h"
 
 DebugStage::DebugStage(Game* game)
 	: Map(game)
@@ -46,6 +47,8 @@ int DebugStage::SetUp()
 	c->SetInitPosition(VECTOR(0.0f, 0.0f, 0.0f));
 	c->SetPosition(GetGame()->GetActorManager()->GetPHome()->GetPosition());
 	c->SetRotationY(3.1415926f);
+	//new CapsuleComponent(c);
+
 
 	//mModelCollisionsはマップ生成したら必要ないのでプレイするときだけ全消去
 

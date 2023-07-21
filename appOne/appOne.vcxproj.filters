@@ -185,6 +185,15 @@
     <Filter Include="GameManager\All">
       <UniqueIdentifier>{d55a7812-9323-4c70-8037-7c778ffd6e0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\collision">
+      <UniqueIdentifier>{bcb1d14a-3722-464e-b244-f3ec56f09a2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\collision\Capsule">
+      <UniqueIdentifier>{3f55bd4a-58cb-4d76-bdad-cd416d03c81a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\collision\Map">
+      <UniqueIdentifier>{37a4430a-8bd7-46f6-85d7-e0db655ae115}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
@@ -395,9 +404,6 @@
     <ClCompile Include="EnemyFlag.cpp">
       <Filter>Actor\Character\EHome</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionMapComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="Dore.cpp">
       <Filter>Actor\Character\Dore</Filter>
     </ClCompile>
@@ -421,9 +427,6 @@
     </ClCompile>
     <ClCompile Include="UIMainState.cpp">
       <Filter>UI\State</Filter>
-    </ClCompile>
-    <ClCompile Include="TamaPointer.cpp">
-      <Filter>Actor\Character\Weapons\Tama</Filter>
     </ClCompile>
     <ClCompile Include="NormalCamera.cpp">
       <Filter>Actor\Camera</Filter>
@@ -473,7 +476,12 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="CapsuleComponent.cpp" />
+    <ClCompile Include="CapsuleComponent.cpp">
+      <Filter>Component\collision\Capsule</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionMapComponent.cpp">
+      <Filter>Component\collision\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Quit.h">
@@ -680,9 +688,6 @@
     <ClInclude Include="EnemyFlag.h">
       <Filter>Actor\Character\EHome</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionMapComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="Dore.h">
       <Filter>Actor\Character\Dore</Filter>
     </ClInclude>
@@ -706,9 +711,6 @@
     </ClInclude>
     <ClInclude Include="UIMainState.h">
       <Filter>UI\State</Filter>
-    </ClInclude>
-    <ClInclude Include="TamaPointer.h">
-      <Filter>Actor\Character\Weapons\Tama</Filter>
     </ClInclude>
     <ClInclude Include="NormalCamera.h">
       <Filter>Actor\Camera</Filter>
@@ -752,7 +754,14 @@
     <ClInclude Include="Particle.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="CapsuleComponent.h" />
-    <ClInclude Include="SEGMENT.h" />
+    <ClInclude Include="SEGMENT.h">
+      <Filter>Component\collision\Capsule</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleComponent.h">
+      <Filter>Component\collision\Capsule</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionMapComponent.h">
+      <Filter>Component\collision\Map</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

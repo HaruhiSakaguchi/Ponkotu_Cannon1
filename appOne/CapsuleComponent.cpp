@@ -22,18 +22,18 @@ CapsuleComponent::CapsuleComponent(CharacterActor* owner)
 	, mIsCollision(true)
 {
 	SetUp();
-	createSegment();
-	createCapsule();
+	//createSegment();
+	//createCapsule();
 	mOwner->GetGame()->GetActorManager()->AddCapsule(this);
 }
 
 CapsuleComponent::~CapsuleComponent()
 {
-	delete[] mCOp;
+	/*delete[] mCOp;
 	delete[] mBright;
 	delete[] mSOp;
 	delete[] mSegP;
-	delete[] mCapP;
+	delete[] mCapP;*/
 	delete mSeg;
 
 	while (!mNotCollisionTags.empty())
@@ -48,14 +48,14 @@ int CapsuleComponent::SetUp()
 {
 	mNumCVtx = mNumCAng * (mNumCAng / 2) + 2;
 	mNumSVtx = mNumSAng * 2;
-	mCOp = new VECTOR[mNumCVtx];
-	mBright = new float[mNumCVtx];
-	mSegP = new VECTOR[mNumSVtx];
-	mSOp = new VECTOR[mNumSVtx];
-	mCapP = new VECTOR[mNumCVtx];
+	//mCOp = new VECTOR[mNumCVtx];
+	//mBright = new float[mNumCVtx];
+	//mSegP = new VECTOR[mNumSVtx];
+	//mSOp = new VECTOR[mNumSVtx];
+	//mCapP = new VECTOR[mNumCVtx];
 	mSeg = new SEGMENT;
-	mLightPos = mOwner->GetGame()->GetAllData()->rendererData.mLightPos;
-	mAmbient = mOwner->GetGame()->GetAllData()->rendererData.mAmbient;
+	//mLightPos = mOwner->GetGame()->GetAllData()->rendererData.mLightPos;
+	//mAmbient = mOwner->GetGame()->GetAllData()->rendererData.mAmbient;
 	return 1;
 }
 
@@ -119,8 +119,8 @@ void CapsuleComponent::Draw()
 {
 	auto owner = static_cast<CharacterActor*>(mOwner);
 
-	segment(mSeg->GetSP(), mSeg->GetEP(), COLOR(255, 255, 255), 100);
-	capsule(mPos, owner->GetRotation(), mCapsuleColor, mOSp.y, mOEp.y, owner->GetRadius());
+	//segment(mSeg->GetSP(), mSeg->GetEP(), COLOR(255, 255, 255), 100);
+	//capsule(mPos, owner->GetRotation(), mCapsuleColor, mOSp.y, mOEp.y, owner->GetRadius());
 }
 
 bool CapsuleComponent::OverlapSegment(SEGMENT* s1, SEGMENT* s2, float radius1, float radius2)

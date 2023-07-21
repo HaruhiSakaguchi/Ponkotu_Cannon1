@@ -8,7 +8,6 @@ class Satellite :
 	public Enemy
 {
 public:
-	Satellite(class Game* game);
 	Satellite(class Game* game, const VECTOR& pos);
 
 	~Satellite();
@@ -30,7 +29,7 @@ public:
 	float GetAdvSpeed() { return Data.mAdvSpeed; }
 	float GetMoveRange() { return Data.mMoveRange; }
 	float GetAnimSpeed() { return Data.mAnimSpeed; }
-	int GetNum() { return Num; }
+	int GetNum() { return mNum; }
 	StateComponent* GetStateMacine() { return mState; }
 	void SetRange(float range) { mRange = range; }
 	float GetRange() { return mRange; }
@@ -80,7 +79,7 @@ public:
 		COLOR mImageColor;
 	};
 private:
-	static int Num;
+	static int mNum;
 	bool mDeadFlag;
 	//data
 	DATA Data;

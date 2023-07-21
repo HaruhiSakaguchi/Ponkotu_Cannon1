@@ -5,7 +5,6 @@ class Tama :
 	public Enemy
 {
 public:
-	Tama(class Game* game);
 	Tama(class Game* game,const VECTOR&pos);
 
 	~Tama();
@@ -24,7 +23,6 @@ public:
 	void SetAnimAngle(float angle) { Data.mAnimAngle = angle; }
 	float GetAnimSpeed() { return Data.mAnimSpeed; }
 	int GetDushSound() { return Data.mDushSound; }
-	class TamaPointer* GetTp() { return mTp; }
 	void SetAttackVector(const VECTOR& vec) { mAttackVector = vec; }
 	const VECTOR& GetAttackVector() { return mAttackVector; }
 	void SetTargetPos(const VECTOR& vec) { mTargetPos = vec; }
@@ -75,8 +73,8 @@ private:
 	float mScale;
 	class TreeMeshComponent* mTc;
 	class TamaBlackEye* mEye;
-	class TamaPointer* mTp;
 	class SEGMENT* mLine;
+	static int mNum;
 };
 
 

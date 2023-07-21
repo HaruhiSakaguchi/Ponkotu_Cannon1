@@ -15,10 +15,10 @@ int CannonWheelL::SetUp()
 	mTc->SetTree("CannonWheel");
 
 	SetNormalMesh(mTc);
-	mTc = new TreeMeshComponent(this);
+	//mTc = new TreeMeshComponent(this);
 
-	mTc->SetTree("CannonWheelDamage");
-	SetDamageMesh(mTc);
+	//mTc->SetTree("CannonWheelDamage");
+	//SetDamageMesh(mTc);
 
 	SetCategory(Actor::Object);
 	return 0;
@@ -46,6 +46,7 @@ void CannonWheelL::UpdateActor()
 		WheelLModel = Master * WheelLModel;
 		SetPosition(WheelLModel._14, WheelLModel._24, WheelLModel._34);
 		SetRotation(VECTOR(-mOwner->GetWheelRotateX(), mOwner->GetRotation().y - 3.1415926f / 2.0f, -mOwner->GetWheelRotateZ()));
+		SetDamageInterval(mOwner->GetDamageInterval());
 
 	}
 	else

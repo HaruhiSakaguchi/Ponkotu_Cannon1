@@ -21,6 +21,10 @@ SatelliteWing::SatelliteWing(class Satellite* satellite)
 
 SatelliteWing::~SatelliteWing()
 {
+	if (mOwner && mOwner->GetState() == EActive && GetHp() > 0)
+	{
+		static_cast<class Satellite*>(mOwner)->RemoveWings(this);
+	}
 }
 
 int SatelliteWing::SetUp()
@@ -37,9 +41,6 @@ int SatelliteWing::SetUp()
 	SetAdvSpeed(Data.mAdvSpeed);
 	SetPosition(s->GetPosition());
 	SetImageColor(Data.mImageColor);
-
-	//mTc = new TreeMeshComponent(this, false);
-	//auto dTree = new TreeMeshComponent(this, false);
 
 	auto tc = new BatchMeshComponent(this, false);
 	auto dTree = new BatchMeshComponent(this, false);

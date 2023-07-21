@@ -208,7 +208,7 @@ void PlayerHome::Dead()
 {
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);
-	GetGame()->GetActorManager()->GetStage()->AddText("PlayerHome‚ª‰ó‚ê‚½");
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("PlayerHome‚ª‰ó‚ê‚½");
 	SpawnParticle(GetGame(), GetPosition(), "HomeHouse", 20);
 	SpawnParticle(GetGame(), GetPosition(), "DoreDore", 20);
 	SpawnParticle(GetGame(), GetPosition(), "PlayerFlagFlag", 40);

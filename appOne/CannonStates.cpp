@@ -586,7 +586,7 @@ void CannonRotate::Update()
 
 	UpCounter(p);
 	VECTOR angle = p->GetRotation();
-	int endOfRotate = p->rotate(&angle, mAdv.normalize(), 0.05f);
+	int endOfRotate = p->rotate(&angle, mAdv.normalize(), 0.05f,true);
 
 	p->SetRotation(angle);
 

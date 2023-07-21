@@ -123,7 +123,10 @@ void EnemyHome::UpdateActor()
 					tama->SetHp(tama->GetMaxHp());
 					mBattlePoints -= (150 + mGenerateTamaLevel * 50);
 
-					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("tamaが出現。");
+					std::ostringstream oss;
+					oss << tama->GetName().c_str() << "が出現。";
+
+					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 					mElapsedTime = 0.0f;
 					mGenerateFlag = 1;
 					mDore->Open();
@@ -151,14 +154,10 @@ void EnemyHome::UpdateActor()
 					mBattlePoints -= (200 + mGenerateSatelliteLevel * 50);
 					mElapsedTime = 0.0f;
 
-					if (satellite->GetId() == 0)
-					{
-						GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteAが出現。");
-					}
-					else
-					{
-						GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteBが出現。");
-					}
+					std::ostringstream oss;
+					oss << satellite->GetName().c_str() << "が出現。";
+
+					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 					mGenerateFlag = 1;
 					mDore->Open();
 				}
@@ -167,7 +166,6 @@ void EnemyHome::UpdateActor()
 					mElapsedTime = mInterval / 2.0f;
 				}
 			}
-
 		}
 
 	}
@@ -279,6 +277,8 @@ void EnemyHome::Dead()
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);
 
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("敵の基地を破壊した！！");
+
 	while (mBattlePoints > 150 + mGenerateTamaLevel * 50 || mBattlePoints > 200 + mGenerateSatelliteLevel * 50)
 	{
 		VECTOR pos = VECTOR(random(GetGame()->GetActorManager()->GetStage()->GetStageMinX(), GetGame()->GetActorManager()->GetStage()->GetStageMaxX()), random(4.0f, 7.5f), random(GetGame()->GetActorManager()->GetStage()->GetStageMinZ(), GetGame()->GetActorManager()->GetStage()->GetCenterPos().z));
@@ -287,14 +287,17 @@ void EnemyHome::Dead()
 		{
 			if (PositionOnMap(pos, GetGame()->GetAllData()->tamaData.mRadius) && InEnemyArea(pos) && mBattlePoints >= (150 + mGenerateTamaLevel * 50) && pos.z >= GetPosition().z)
 			{
+				std::ostringstream oss;
 				pos.y = 0.0f;
 				class Tama* tama = new class Tama(GetGame(), pos);
 				tama->SetPosition(GetPosition());
 				tama->SetLevel(mGenerateTamaLevel);
 				tama->SetMaxHp((int)(tama->GetInitMaxHp() * ((tama->GetLevel() + tama->GetMaxLevel()) / 10.0f)));
 				tama->SetHp(tama->GetMaxHp());
+				oss << tama->GetName().c_str() << "が出現。";
+
 				mBattlePoints -= (150 + mGenerateTamaLevel * 50);
-				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("が出現。");
+				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 				mElapsedTime = 0.0f;
 				mGenerateFlag = true;
 				mDore->Open();
@@ -304,6 +307,8 @@ void EnemyHome::Dead()
 		{
 			if (PositionOnMap(pos, GetGame()->GetAllData()->satelliteData.mHeight) && InEnemyArea(pos) && mBattlePoints >= (200 + mGenerateSatelliteLevel * 50))
 			{
+				std::ostringstream oss;
+
 				class Satellite* satellite = new class Satellite(GetGame(), pos);
 				satellite->SetLevel(mGenerateSatelliteLevel);
 				satellite->SetMaxHp((int)(satellite->GetInitMaxHp() * ((satellite->GetLevel() + satellite->GetMaxLevel()) / 10.0f)));
@@ -314,18 +319,13 @@ void EnemyHome::Dead()
 				satellite->SetPosition(EPos);
 				mBattlePoints -= (200 + mGenerateSatelliteLevel * 50);
 				mElapsedTime = 0.0f;
-				if (satellite->GetId() == 0)
-				{
-					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteAが出現。");
-				}
-				else
-				{
-					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteBが出現。");
-				}
+				oss << satellite->GetName().c_str() << "が出現。";
+				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+
 			}
 		}
 	}
-	GetGame()->GetActorManager()->GetStage()->AddText("敵の基地を破壊した！！");
+
 	SpawnParticle(GetGame(), GetPosition(), "HomeHouse", 20);
 	SpawnParticle(GetGame(), GetPosition(), "DoreDore", 20);
 	SpawnParticle(GetGame(), GetPosition(), "EnemyFlagFlag", 40);

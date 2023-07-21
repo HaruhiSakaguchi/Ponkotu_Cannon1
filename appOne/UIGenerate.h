@@ -36,7 +36,11 @@ private:
     class Button* mCancellButton;
     class Button* mGenerateActorLvPlusButton;
     class Button* mGenerateActorLvMinusButton;
+    class Button* mLvMaxButton;
+    class Button* mLvResetButton;
+    class MeshComponent* mMesh;
 
+    VECTOR2 mLvTUButtonPosOffset;
     int mItemGeneratePoint;
     static int mGenerateActorLevel;
     const char* mItemNames[5]

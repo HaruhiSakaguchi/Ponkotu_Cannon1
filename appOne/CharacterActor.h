@@ -38,7 +38,8 @@ public:
 	float GetSlant() const { return mSlant; }
 
 	//モデル回転関数
-	int rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed);
+	//xyCompolete 通常、y軸の回転が完了すれば、x軸の回転が終わっていなくても完了させる。それに関して、x軸も条件に含めるかを判別するフラッグ
+	int rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed,bool xyComplete = false);
 
 	float GetDamageInterval() { return mDamageInterval; }
 	void SetDamageInterval(float interval) { mDamageInterval = interval; }

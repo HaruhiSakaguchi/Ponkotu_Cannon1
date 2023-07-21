@@ -16,7 +16,7 @@ public:
 	void UpdateActor()override;
 	void AddCollisions(class MODEL_COLLISION* model);
 	void RemoveCollisions(class MODEL_COLLISION* model);
-	void Draw() { print("â¥ÇÕê∂Ç´ÇƒÇÈ"); };
+	void Draw() {};
 	float* GetMaxX() { return mMaxX; }
 	float* GetMaxZ() { return mMaxZ; }
 	float* GetMinX() { return mMinX; }
@@ -51,10 +51,6 @@ public:
 	int GetMunite() { return mMunite; }
 	std::string& GetTimeText() { return mTimeText; }
 	class UILog* GetLog();
-	std::vector<std::string>& GetTexts() { return mTexts; }
-public:
-	void AddText(std::string text);
-	void RemoveText(int num);
 private:
 	float* mMaxX;
 	float* mMaxZ;
@@ -83,7 +79,6 @@ private:
 	int mMunite;
 	std::chrono::system_clock::time_point mStart;
 	std::string mTimeText;
-	std::vector<std::string>mTexts;
 	bool mClearFlag;
 	VECTOR mCenterPos;
 	class COLLISION_MAP* mMap;

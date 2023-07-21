@@ -10,30 +10,12 @@
 #include "TamaBlackEye.h"
 #include "CollisionMapComponent.h"
 #include "PlayerHome.h"
-#include "TamaPointer.h"
 #include "EnemyHome.h"
 #include "CapsuleComponent.h"
 #include "SEGMENT.h"
 //#include "COLLISION_MAP.h"
 
-Tama::Tama(Game* game)
-	: Enemy(game)
-	, mState(nullptr)
-	, mScale(1.0f)
-	, mTc(nullptr)
-	, mEye(nullptr)
-	, mTp(nullptr)
-{
-	SetUp();
-	mState = new StateComponent(this);
-	mState->RegisterState(new TamaWait(mState));
-	mState->RegisterState(new TamaMove(mState));
-	mState->RegisterState(new TamaRockOn(mState));
-	mState->RegisterState(new TamaSeache(mState));
-	mState->RegisterState(new TamaCharge(mState));
-	mState->RegisterState(new TamaAttack(mState));
-	mState->ChangeState("Wait");
-}
+int Tama::mNum = 0;
 
 Tama::Tama(Game* game, const VECTOR& pos)
 	: Enemy(game)
@@ -41,7 +23,6 @@ Tama::Tama(Game* game, const VECTOR& pos)
 	, mScale(1.0f)
 	, mTc(nullptr)
 	, mEye(nullptr)
-	, mTp(nullptr)
 
 {
 	SetUp();
@@ -59,7 +40,6 @@ Tama::Tama(Game* game, const VECTOR& pos)
 
 Tama::~Tama()
 {
-	mEye->SetState(EDead);
 	delete mLine;
 }
 
@@ -102,8 +82,15 @@ int Tama::SetUp()
 	mEye = new TamaBlackEye(this);
 	new CollisionMapComponent(this);
 
-	mTp = new TamaPointer(this);
 
+	std::ostringstream oss;
+
+
+	oss << "Tama" << mNum;
+
+	SetName(oss.str().c_str());
+
+	mNum++;
 	mLine = new SEGMENT(VECTOR(0.0f, 0.0f, 0.0f), VECTOR(0.0f, 0.0f, 7.0f));
 	return 0;
 }
@@ -135,8 +122,6 @@ void Tama::UpdateActor()
 			SetState(Actor::EDead);
 		}
 	}
-
-	print("Target(" + (let)mTargetPos.x +"," +  (let)mTargetPos.y +","  + (let)mTargetPos.z + ")");
 }
 
 void Tama::Damage(int damage)
@@ -154,7 +139,9 @@ void Tama::Damage(int damage)
 
 void Tama::FallOption()
 {
-	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("Tamaが奈落に落ちた。");
+	std::stringstream oss;
+	oss << GetName().c_str() << "が奈落に落ちた。";
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	SetState(EDead);
 }
 
@@ -166,7 +153,11 @@ void Tama::Dead()
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);
 	DropItems(GetPosition());
-	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("Tamaを倒した！！");
+
+	std::stringstream oss;
+	oss << GetName().c_str() << "を倒した！！";
+
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	if (GetGame()->GetActorManager()->GetPHome())
 	{
 		GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() + 100 + GetLevel() * 50);
@@ -184,5 +175,7 @@ void Tama::Dead()
 			GetGame()->GetActorManager()->GetEHome()->SetTamaGenerateLevel(GetGame()->GetActorManager()->GetEHome()->GetTamaGenerateLevel() + 1);
 		}
 	}
+
+	mEye->SetState(EDead);
 }
 

@@ -103,7 +103,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 					pop->SetTextSize(30);
 					pop->SetTextColor(COLOR(255, 255, 128));
 					pop->NoStrokeRect();
-					mGame->GetActorManager()->GetStage()->AddText("アイテムの追加ができるようになりました。");
+					mGame->GetActorManager()->GetStage()->GetLog()->AddText("アイテムの追加ができるようになりました。");
 				}
 			}
 			else if (mOwner->GetLevel() == mOwner->GetMaxLevel())

@@ -17,11 +17,7 @@
 DebugStage::DebugStage(Game* game)
 	: Map(game)
 {
-	SetUp();
-}
-
-int DebugStage::SetUp()
-{
+	//SetUp();
 	SetCollisionText(Maptext1);
 
 	CreateCollisions(Maptext1);
@@ -42,20 +38,23 @@ int DebugStage::SetUp()
 
 	new CameraManager(GetGame());
 
+	while (!GetModelCollisions().empty())
+	{
+		delete GetModelCollisions().back();
+	}
+}
+
+int DebugStage::SetUp()
+{
+
 	auto c = new Cannon(GetGame());
 	c->SetUp();
 	c->SetInitPosition(VECTOR(0.0f, 0.0f, 0.0f));
 	c->SetPosition(GetGame()->GetActorManager()->GetPHome()->GetPosition());
 	c->SetRotationY(3.1415926f);
-	//new CapsuleComponent(c);
-
 
 	//mModelCollisionsはマップ生成したら必要ないのでプレイするときだけ全消去
 
-	while (!GetModelCollisions().empty())
-	{
-		delete GetModelCollisions().back();
-	}
 
 	return 0;
 }

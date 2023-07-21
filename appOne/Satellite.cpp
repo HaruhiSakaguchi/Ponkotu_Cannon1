@@ -11,24 +11,7 @@
 #include "EnemyHome.h"
 #include "CapsuleComponent.h"
 
-int Satellite::Num = 0;
-
-Satellite::Satellite(class Game* game)
-	: Enemy(game)
-	, mHpGauge(nullptr)
-	, mState(nullptr)
-	, mDeadFlag(false)
-	, mRange(0.0f)
-{
-	SetUp();
-	mState = new StateComponent(this);
-	mState->RegisterState(new SatelliteNormal(mState));
-	mState->RegisterState(new SatelliteGenerate(mState));
-	mState->RegisterState(new SatelliteMove(mState));
-	mState->RegisterState(new SatelliteRockOn(mState));
-	mState->RegisterState(new SatelliteAttack(mState));
-	mState->ChangeState("Generate");
-}
+int Satellite::mNum = 0;
 
 Satellite::Satellite(class Game* game, const VECTOR& pos)
 	: Enemy(game)
@@ -52,10 +35,6 @@ Satellite::Satellite(class Game* game, const VECTOR& pos)
 
 Satellite::~Satellite()
 {
-	/*while (!mWings.empty())
-	{
-		delete mWings.back();
-	}*/
 }
 
 int Satellite::SetUp()
@@ -68,16 +47,14 @@ int Satellite::SetUp()
 	SetRange(Data.mMaxRange);
 	SetTag(CharacterActor::Satellite);
 
-	Data.mId = Num % 2;
+	Data.mId = mNum % 2;
 	int maxHp = 0;
 	auto ntc = new TreeMeshComponent(this, false);
-	//auto dtc = new TreeMeshComponent(this, false);
 
 	if (Data.mId == 0)
 	{
 		maxHp = Data.mMaxHp;
 		ntc->SetTree("SatelliteBody0");
-		//dtc->SetTree("SatelliteBody0Damage");
 	}
 	else
 	{
@@ -85,21 +62,15 @@ int Satellite::SetUp()
 		SetCapsulOffset(Data.mCapsulOffset);
 		ntc->SetOffsetPos(VECTOR(0.0f, 0.75f, 0.0f));
 		ntc->SetTree("SatelliteBody1");
-		//dtc->SetTree("SatelliteBody1Damage");
-		//dtc->SetOffsetPos(VECTOR(0.0f, 0.75f, 0.0f));
-
 	}
 
 	SetNormalMesh(ntc);
-	//SetDamageMesh(dtc);
-
-
+	
 	SetHp(maxHp);
 	SetMaxHp(GetHp());
 	SetInitMaxHp(GetMaxHp());
 
-	Num++;
-	//mHpGauge = new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
+	mNum++;
 
 	new SatelliteWing(this);
 	new SatelliteWing(this);
@@ -113,7 +84,21 @@ int Satellite::SetUp()
 	mCapsule->AddNotCollisionTags(PHome);
 	mCapsule->AddNotCollisionTags(EHome);
 	mCapsule->AddNotCollisionTags(Barricade);
+	std::ostringstream oss;
 
+	const char* type = nullptr;
+	if (Data.mId == 0)
+	{
+		type = "SatelliteA";
+	}
+	else
+	{
+		type = "SatelliteB";
+	}
+
+	oss << type << (int)(mNum / 2);
+
+	SetName(oss.str().c_str());
 
 	return 0;
 }
@@ -168,27 +153,6 @@ void Satellite::UpdateActor()
 			SetState(Actor::EDead);
 		}
 	}
-
-	/*for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
-	{
-		if (enemy != this && enemy->GetTag() == CharacterActor::Satellite)
-		{
-			auto satellite = static_cast<class Satellite*>(enemy);
-			if (satellite->GetStateCompoState()->GetName() != "Generate" && mState->GetName() != "Generate")
-			{
-				Intersect(this, satellite);
-			}
-		}
-		else if (enemy->GetTag() == CharacterActor::Tama)
-		{
-			auto tama = static_cast<class Tama*>(enemy);
-			if (tama->GetStateCompoState()->GetName() != "Generate" && mState->GetName() != "Generate")
-			{
-				Intersect(this, tama);
-			}
-		}
-	}*/
-
 }
 
 const VECTOR& Satellite::GetTargetPosition()
@@ -234,9 +198,12 @@ void Satellite::Dead()
 	playSound(mDeadSound);
 	DropItems(Data.mDeadPoint);
 
+	std::ostringstream oss;
+	oss << GetName().c_str() << "‚ð“|‚µ‚½II";
+
 	if (Data.mId == 0)
 	{
-		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteA‚ð“|‚µ‚½II");
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str().c_str());
 		if (GetGame()->GetActorManager()->GetPHome())
 		{
 			GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() + 150 + GetLevel() * 50);
@@ -248,7 +215,7 @@ void Satellite::Dead()
 	}
 	else
 	{
-		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("SatelliteB‚ð“|‚µ‚½II");
+		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str().c_str());
 		if (GetGame()->GetActorManager()->GetPHome())
 		{
 			GetGame()->GetActorManager()->GetPHome()->SetBattlePoints(GetGame()->GetActorManager()->GetPHome()->GetBattlePoints() + 100 + GetLevel() * 50);
@@ -265,6 +232,11 @@ void Satellite::Dead()
 			GetGame()->GetActorManager()->GetEHome()->SetBattlePoints(GetGame()->GetActorManager()->GetEHome()->GetBattlePoints() - 150);
 			GetGame()->GetActorManager()->GetEHome()->SetSatelliteGenerateLevel(GetGame()->GetActorManager()->GetEHome()->GetSatelliteGenerateLevel() + 1);
 		}
+	}
+
+	for (auto wing : mWings)
+	{
+		wing->SetState(EDead);
 	}
 }
 

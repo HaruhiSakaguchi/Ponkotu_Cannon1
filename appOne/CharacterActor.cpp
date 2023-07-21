@@ -82,19 +82,28 @@ void CharacterActor::Update()
 
 }
 
-int CharacterActor::rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed)
+int CharacterActor::rotate(VECTOR* angle, const VECTOR& dir, float rotSpeed, bool xyComplete)
 {
 	VECTOR b = dir;
 	float angleBetweenX = -(acosf(-b.y) - 1.57f) - angle->x;
 	angle->x += angleBetweenX * rotSpeed;
+
 	//‚x²‰ñ“]‚³‚¹‚éangle‚ğ‹‚ß‚é
 	VECTOR a(sinf(angle->y), 0, cosf(angle->y));
 	float dotProduct = a.x * b.x + a.z * b.z;
 	float crossProduct = a.x * b.z - a.z * b.x;
 	float angleBetweenY = atan2f(-crossProduct, dotProduct);
 	angle->y += angleBetweenY * rotSpeed;
+
+	bool isComplete = true;
+
+	if (xyComplete && (- 0.017f >= angleBetweenX || angleBetweenX >= 0.017f))
+	{
+		isComplete = false;
+	}
+
 	//‰ñ“]I—¹
-	if (-0.017f < angleBetweenY && angleBetweenY < 0.017f)
+	if ((-0.017f < angleBetweenY && angleBetweenY < 0.017f) && isComplete)
 	{
 		return 1;
 	}
@@ -120,11 +129,11 @@ void CharacterActor::SpawnParticle(class Game* game, const VECTOR& pos, const ch
 		Pos.z += offsetZ;
 
 		float advSpeed = random(0.1f, 10.0f);
-		float lifeSpan = random(0.1f,maxLifeSpan);
+		float lifeSpan = random(0.1f, maxLifeSpan);
 		auto particle = new Particle(game, Pos, lifeSpan);
 		particle->SetMeshType(type);
 		particle->SetMesh(name);
 		particle->SetAdvSpeed(advSpeed);
-		particle->SetRotation(VECTOR(0.17f * (int)random(0.0f,20.0f), 0.17f * (int)random(0.0f, 20.0f), 0.17f * (int)random(0.0f, 20.0f)));
+		particle->SetRotation(VECTOR(0.17f * (int)random(0.0f, 20.0f), 0.17f * (int)random(0.0f, 20.0f), 0.17f * (int)random(0.0f, 20.0f)));
 	}
 }

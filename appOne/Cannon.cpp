@@ -144,6 +144,12 @@ int Cannon::SetUp()
 	mCapsule->AddNotCollisionTags((int)CharacterActor::EHome);
 
 	SetName(oss.str().c_str());
+
+	std::ostringstream oss2;
+	oss2 << GetName().c_str() << "が出撃。";
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss2.str());
+	//GetGame()->GetActorManager()->GetStage()->AddText("Ochimpo");
+
 	return 0;
 }
 
@@ -296,7 +302,6 @@ void Cannon::Damage(Actor* actor)
 	{
 		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mDeadSound);
-		GetGame()->GetActorManager()->GetStage()->AddText("Cannonは死んでしまった...。");
 		SetState(Actor::EDead);
 	}
 }
@@ -352,7 +357,7 @@ void Cannon::Dead()
 	SpawnParticle(GetGame(), GetPosition(), "CannonWheelCylinder", 20);
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);
-	GetGame()->GetActorManager()->GetStage()->AddText("Cannonは死んでしまった...。");
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("Cannonは死んでしまった...。");
 }
 
 

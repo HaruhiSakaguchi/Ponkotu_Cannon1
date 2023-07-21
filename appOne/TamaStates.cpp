@@ -8,7 +8,6 @@
 #include "TamaWeapon.h"
 #include "COLLISION_MAP.h"
 #include "PlayerHome.h"
-#include "TamaPointer.h"
 #include "EnemyHome.h"
 
 void TamaWait::OnEnter()
@@ -124,7 +123,7 @@ void TamaSeache::Update()
 {
 	Tama* t = static_cast<Tama*>(mOwnerCompo->GetActor());
 
-	t->GetCapsule()->segment(t->GetSight()->GetSP(), t->GetSight()->GetEP(), COLOR(255, 0, 0, 128), 100);
+	//t->GetCapsule()->segment(t->GetSight()->GetSP(), t->GetSight()->GetEP(), COLOR(255, 0, 0, 128), 100);
 
 	if (++mRotateCnt < 36)
 	{
@@ -261,8 +260,6 @@ void TamaAttack::Update()
 	pos.z += vec.z * t->GetAdvSpeed();
 
 	t->SetPosition(pos);
-
-	print("Flame" + (let)mAttackFlame);
 
 	for (auto pSide : t->GetGame()->GetActorManager()->GetPSide())
 	{

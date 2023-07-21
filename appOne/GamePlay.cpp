@@ -27,6 +27,8 @@ GamePlay::GamePlay(Game* game) :
 
 #ifdef _DEBUG
 	mMap = new DebugStage(mGame);
+	mGame->GetActorManager()->SetStage(mMap);
+	mMap->SetUp();
 #endif
 #ifdef _RELEASE
 
@@ -50,7 +52,6 @@ GamePlay::GamePlay(Game* game) :
 #endif
 
 	mGame->GetRenderer()->GetTransition()->inTrigger();
-	mGame->GetActorManager()->SetStage(mMap);
 
 	setVolume(mBgm, mGame->GetSoundVolumeManager()->GetVolume() + mSoundOffset);
 	playLoopSound(mBgm);

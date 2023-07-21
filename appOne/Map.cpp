@@ -27,6 +27,7 @@ Map::Map(class Game* game)
 	Data = GetGame()->GetAllData()->mapData;
 	mStart = std::chrono::system_clock::now();
 	mLog = new UILog(GetGame());
+	mTimeText = "00:00";
 }
 
 Map::~Map()
@@ -40,11 +41,6 @@ Map::~Map()
 	mLog->CloseMe();
 
 	GetGame()->GetActorManager()->SetStage(nullptr);
-
-	while (!mTexts.empty())
-	{
-		mTexts.pop_back();
-	}
 }
 
 void Map::AddCollisions(MODEL_COLLISION* model)
@@ -167,7 +163,7 @@ void Map::UpdateActor()
 {
 	std::ostringstream oss;
 
-	if (!GetGame()->GetActorManager()->GetEnemies().empty() && GetGame()->GetActorManager()->GetEHome())
+	if (GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
 		auto end = std::chrono::system_clock::now();
 		auto dur = end - mStart;
@@ -202,27 +198,6 @@ void Map::UpdateActor()
 }
 
 class UILog* Map::GetLog() { return mLog; }
-
-void Map::AddText(std::string string)
-{
-	std::ostringstream oss;
-	oss << mTimeText.c_str() << " " << string.c_str();
-	mTexts.emplace_back(oss.str());
-	if (mTexts.size() > (int)(GetGame()->GetAllData()->logData.mHeight / GetGame()->GetAllData()->logData.mTextSize))
-	{
-		RemoveText(0);
-	}
-}
-
-void Map::RemoveText(int num)
-{
-	//num”Ô–Ú‚Ìƒiƒ“ƒo[‚ğæ‚èœ‚­
-	auto iter = std::find(mTexts.begin(), mTexts.end(), mTexts[num]);
-	if (iter != mTexts.end())
-	{
-		mTexts.erase(iter);
-	}
-}
 
 void Map::MapClear()
 {

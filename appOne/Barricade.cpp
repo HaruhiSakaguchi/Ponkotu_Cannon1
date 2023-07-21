@@ -142,6 +142,6 @@ void Barricade::Dead()
 	oss << GetName().c_str() << "‚ª‰ó‚ê‚½";
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 	playSound(mDeadSound);
-	GetGame()->GetActorManager()->GetStage()->AddText(oss.str().c_str());
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str().c_str());
 	SpawnParticle(GetGame(), GetPosition(), "BarricadeBarricade", 10);
 }

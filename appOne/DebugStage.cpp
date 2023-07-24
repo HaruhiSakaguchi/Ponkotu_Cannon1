@@ -36,8 +36,6 @@ DebugStage::DebugStage(Game* game)
 
 	eh->CreateHomeArea();
 
-	new CameraManager(GetGame());
-
 	while (!GetModelCollisions().empty())
 	{
 		delete GetModelCollisions().back();
@@ -49,7 +47,7 @@ int DebugStage::SetUp()
 
 	auto c = new Cannon(GetGame());
 	c->SetUp();
-	c->SetInitPosition(VECTOR(0.0f, 0.0f, 0.0f));
+	c->SetInitPosition(VECTOR(0.0f, 0.0f, -30.0f));
 	c->SetPosition(GetGame()->GetActorManager()->GetPHome()->GetPosition());
 	c->SetRotationY(3.1415926f);
 

@@ -6,6 +6,9 @@ class SoundVolumeManager
 {
 public:
 	SoundVolumeManager(class Game*game);
+	~SoundVolumeManager();
+	void LoadText(const char* fileName);
+	void SaveText(const char* fileName);
 public:
 	int GetEffectVolume() { return mEffectVol; }
 	int GetTmpEffectVolume() { return mTmpEffectVol; }
@@ -26,5 +29,6 @@ private:
 	int mTmpEffectVol;
 	bool mSoundFlag;
 	bool mBgmFlag;
+	const char* mSaveFileName = "Assets\\option\\Sound.txt";
 };
 

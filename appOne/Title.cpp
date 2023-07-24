@@ -13,9 +13,9 @@
 #define D
 
 Title::Title(Game* game)
-	:UIMainState(game)
+	: UIMainState(game)
 	, mChangeStateFlag(false)
-	,mIsChangePlay(false)
+	, mIsChangePlay(false)
 {
 	Data = mGame->GetAllData()->titleData;
 	mTitle = Data.mTitle;
@@ -27,7 +27,7 @@ Title::Title(Game* game)
 	mButtonPos = Data.mButtonPos;
 	mState = State::ETitle;
 	mGame->SetCurState(this);
-
+	mGame->SetState(Game::GameState::EPaused);
 
 	std::ostringstream oss;
 	oss << "ステージ" << ((int)mGame->GetPhase() + 1) << "から始めます";
@@ -84,8 +84,6 @@ Title::Title(Game* game)
 		, 1
 			, "オプションを開きます"
 			);
-
-	option->SetState(Button::ButtonState::EDraw_Enable);
 
 	AddButton("終わる",
 		[this]() {

@@ -125,6 +125,8 @@ void Game::LoadData()
 	mActorManager = new ActorManager(this);
 	mRenderer = new Renderer(this);
 	mSoundVolumeManager = new SoundVolumeManager(this);
+	mCameraManager = new CameraManager(this);
+
 	new Title(this);
 }
 

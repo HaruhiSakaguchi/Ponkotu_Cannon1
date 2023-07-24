@@ -92,6 +92,10 @@ int Tama::SetUp()
 
 	mNum++;
 	mLine = new SEGMENT(VECTOR(0.0f, 0.0f, 0.0f), VECTOR(0.0f, 0.0f, 7.0f));
+
+	oss << "‚ªoŒ»B";
+
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	return 0;
 }
 

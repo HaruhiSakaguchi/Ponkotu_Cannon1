@@ -377,20 +377,6 @@ void UIGenerate::Update()
 							c->SetHp(c->GetMaxHp());
 							mGame->GetActorManager()->GetPHome()->SetBattlePoints(mGame->GetActorManager()->GetPHome()->GetBattlePoints() - mGenerateUsingPoints);
 
-							std::ostringstream oss;
-							const char* text = nullptr;
-							if (mId <= static_cast<GenerateActor_Id>(1))
-							{
-								text = "が出撃。";
-							}
-							else
-							{
-								text = "を設置。";
-							}
-
-							oss << c->GetName().c_str() << text;
-							mGame->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
-
 						}
 
 						for (auto button : mOwner->GetButtons())

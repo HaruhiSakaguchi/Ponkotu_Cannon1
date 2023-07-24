@@ -92,6 +92,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				pop->SetTextSize(30);
 				pop->SetTextColor(COLOR(255, 255, 128));
 				pop->NoStrokeRect();
+				mGame->GetActorManager()->GetStage()->GetLog()->AddText("Home‚ÌLv‚ªã‚ª‚Á‚½II");
 				if (mUnitMaxNum < mOwner->GetMaxLevel())
 				{
 					mUnitMaxNum++;

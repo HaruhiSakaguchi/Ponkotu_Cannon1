@@ -47,6 +47,10 @@ int Item::SetUp()
 	playSound(cData.mDropSound);
 	SetScale(VECTOR(cData.mRadius, cData.mRadius, cData.mRadius) * 4.0f);
 
+	std::ostringstream oss;
+	SetName(GetName());
+	oss << GetName() << "アイテムを設置。";
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	new CollisionMapComponent(this);
 
 	return 0;

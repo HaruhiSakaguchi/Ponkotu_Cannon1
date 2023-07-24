@@ -100,6 +100,10 @@ int Satellite::SetUp()
 
 	SetName(oss.str().c_str());
 
+	oss << "‚ªoŒ»B";
+
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+
 	return 0;
 }
 

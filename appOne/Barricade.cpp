@@ -74,6 +74,10 @@ int Barricade::SetUp()
 	std::ostringstream oss;
 	oss << "Barricade" << mNum;
 	SetName(oss.str().c_str());
+	
+	oss << "‚ðÝ’uB";
+	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
+
 
 	return 1;
 }

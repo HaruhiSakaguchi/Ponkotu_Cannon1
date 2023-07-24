@@ -119,10 +119,6 @@ void EnemyHome::UpdateActor()
 					tama->SetHp(tama->GetMaxHp());
 					mBattlePoints -= (150 + mGenerateTamaLevel * 50);
 
-					std::ostringstream oss;
-					oss << tama->GetName().c_str() << "が出現。";
-
-					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 					mElapsedTime = 0.0f;
 					mGenerateFlag = 1;
 					mDore->Open();
@@ -141,19 +137,10 @@ void EnemyHome::UpdateActor()
 					satellite->SetMaxHp((int)(satellite->GetInitMaxHp() * ((satellite->GetLevel() + satellite->GetMaxLevel()) / 10.0f)));
 					satellite->SetHp(satellite->GetMaxHp());
 					VECTOR EPos = GetPosition();
-
-
 					EPos.y = 0.5f;
-
-
 					satellite->SetPosition(EPos);
 					mBattlePoints -= (200 + mGenerateSatelliteLevel * 50);
 					mElapsedTime = 0.0f;
-
-					std::ostringstream oss;
-					oss << satellite->GetName().c_str() << "が出現。";
-
-					GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 					mGenerateFlag = 1;
 					mDore->Open();
 				}
@@ -283,17 +270,14 @@ void EnemyHome::Dead()
 		{
 			if (PositionOnMap(pos, GetGame()->GetAllData()->tamaData.mRadius) && InEnemyArea(pos) && mBattlePoints >= (150 + mGenerateTamaLevel * 50) && pos.z >= GetPosition().z)
 			{
-				std::ostringstream oss;
 				pos.y = 0.0f;
 				class Tama* tama = new class Tama(GetGame(), pos);
 				tama->SetPosition(GetPosition());
 				tama->SetLevel(mGenerateTamaLevel);
 				tama->SetMaxHp((int)(tama->GetInitMaxHp() * ((tama->GetLevel() + tama->GetMaxLevel()) / 10.0f)));
 				tama->SetHp(tama->GetMaxHp());
-				oss << tama->GetName().c_str() << "が出現。";
 
 				mBattlePoints -= (150 + mGenerateTamaLevel * 50);
-				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 				mElapsedTime = 0.0f;
 				mGenerateFlag = true;
 				mDore->Open();
@@ -303,7 +287,6 @@ void EnemyHome::Dead()
 		{
 			if (PositionOnMap(pos, GetGame()->GetAllData()->satelliteData.mHeight) && InEnemyArea(pos) && mBattlePoints >= (200 + mGenerateSatelliteLevel * 50))
 			{
-				std::ostringstream oss;
 
 				class Satellite* satellite = new class Satellite(GetGame(), pos);
 				satellite->SetLevel(mGenerateSatelliteLevel);
@@ -315,8 +298,6 @@ void EnemyHome::Dead()
 				satellite->SetPosition(EPos);
 				mBattlePoints -= (200 + mGenerateSatelliteLevel * 50);
 				mElapsedTime = 0.0f;
-				oss << satellite->GetName().c_str() << "が出現。";
-				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 
 			}
 		}

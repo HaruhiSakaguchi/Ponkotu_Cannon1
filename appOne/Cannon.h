@@ -113,12 +113,12 @@ public:
 		int mOutOfBullets = 0;
 	};
 
-	enum MoveState
-	{
-		Stay,
-		Return,
-		HomePatroll,
-		FieldPatroll
+	enum class MoveState
+	{   
+		EStay,
+		EReturn,
+		EHomePatroll,
+		EFieldPatroll
 	};
 	void SetMoveState(MoveState state) { mMoveState = state; }
 	MoveState GetMoveState() { return mMoveState; }

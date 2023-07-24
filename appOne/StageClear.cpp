@@ -26,12 +26,12 @@ StageClear::StageClear(Game* game)
 	mState = State::EStageClear;
 
 	mGame->GetRenderer()->GetTransition()->inTrigger();
-	mGame->SetPhase(static_cast<Game::StagePhase>(mGame->GetPhase() + 1));
+	mGame->SetPhase(static_cast<Game::StagePhase>((int)mGame->GetPhase() + 1));
 
 	mClearTimeText = mGame->GetActorManager()->GetStage()->GetTimeText();
 
 	const char* text = 0;
-	if (mGame->GetPhase() != Game::FOURTH && mGame->GetContinueFlag())
+	if (mGame->GetPhase() != Game::StagePhase::EFOURTH && mGame->GetContinueFlag())
 		/*{
 			text = "次のステージに進みます";
 		}
@@ -49,7 +49,7 @@ StageClear::StageClear(Game* game)
 			, text
 			);
 
-	if (mGame->GetPhase() != Game::FOURTH && mGame->GetContinueFlag())
+	if (mGame->GetPhase() != Game::StagePhase::EFOURTH && mGame->GetContinueFlag())
 	{
 		AddButton("タイトルに戻る",
 			[this]() {
@@ -71,7 +71,7 @@ StageClear::StageClear(Game* game)
 
 	if (mGame->GetSoundVolumeManager()->GetBgmFlag())
 	{
-		if (mGame->GetPhase() != Game::FOURTH)
+		if (mGame->GetPhase() != Game::StagePhase::EFOURTH)
 		{
 			playSound(Data.mSound);
 			setVolume(Data.mSound, mGame->GetSoundVolumeManager()->GetVolume());
@@ -89,7 +89,7 @@ StageClear::StageClear(Game* game)
 		{
 			for (auto button : ui->GetButtons())
 			{
-				button->SetState(Button::Disable);
+				button->SetState(Button::ButtonState::EDisable);
 			}
 		}
 	}
@@ -97,7 +97,7 @@ StageClear::StageClear(Game* game)
 
 StageClear::~StageClear()
 {
-	if (mGame->GetPhase() == Game::FOURTH)
+	if (mGame->GetPhase() == Game::StagePhase::EFOURTH)
 	{
 		stopSound(Data.mSound2);
 	}
@@ -110,7 +110,7 @@ StageClear::~StageClear()
 void StageClear::ChangeOption()
 {
 	mGame->GetActorManager()->ActorClear();
-	mGame->SetState(Game::EPaused);
+	mGame->SetState(Game::GameState::EPaused);
 
 	if (mIsChangeTitle)
 	{
@@ -130,7 +130,7 @@ void StageClear::ChangeOption()
 		}
 	}
 
-	mGame->SetState(Game::EGameplay);
+	mGame->SetState(Game::GameState::EGameplay);
 
 }
 

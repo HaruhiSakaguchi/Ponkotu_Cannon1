@@ -118,7 +118,7 @@ SpeedUpCompo::SpeedUpCompo(class PSideCharacterActor* owner)
 SpeedUpCompo::~SpeedUpCompo()
 {
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
-	if (c && c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::EGameplay)
+	if (c && c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
 	{
 		c->SetAdvSpeed(GetGame()->GetAllData()->cannonData.mAdvSpeed);
 		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("スピードアップの効果が切れた。");
@@ -196,7 +196,7 @@ PowerUpCompo::~PowerUpCompo()
 {
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
-	if (c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::EGameplay)
+	if (c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
 	{
 		c->SetDamage(1);
 		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("攻撃力アップの効果が切れた。");
@@ -239,7 +239,7 @@ bool RapidFire::update()
 			c->GetRapid()->SetInterval(GetGame()->GetAllData()->rapidCompoData.mInterval);
 			c->GetRapid()->SetTime(c->GetRapid()->GetInterval());
 			c->GetRapid()->SetColor(iData.mColor);
-			if (GetGame()->GetState() == Game::EGameplay)
+			if (GetGame()->GetState() == Game::GameState::EGameplay)
 			{
 				std::ostringstream oss;
 				oss << GetName() << "アイテムを使用。";
@@ -251,7 +251,7 @@ bool RapidFire::update()
 			if (c->GetRapid()->GetLevel() != c->GetRapid()->GetMaxLevel())
 			{
 				c->GetRapid()->SetLevel(c->GetRapid()->GetLevel() + 1);
-				if (GetGame()->GetState() == Game::EGameplay)
+				if (GetGame()->GetState() == Game::GameState::EGameplay)
 				{
 					std::ostringstream oss;
 					oss << c->GetRapid()->GetName().c_str() << "がレベルアップ。";
@@ -281,7 +281,7 @@ RapidFireCompo::RapidFireCompo(class PSideCharacterActor* owner)
 
 RapidFireCompo::~RapidFireCompo()
 {
-	if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon && mOwner->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::EGameplay)
+	if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon && mOwner->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
 	{
 		auto c = static_cast<Cannon*>(mOwner);
 		c->SetInterval(GetGame()->GetAllData()->cannonData.mInterval);
@@ -365,7 +365,7 @@ BarrierCompo::~BarrierCompo()
 {
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
-	if (c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::EGameplay)
+	if (c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
 	{
 		c->SetRDamage(1);
 		std::ostringstream oss;

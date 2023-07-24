@@ -238,7 +238,7 @@ void TamaAttack::OnEnter()
 	}
 
 	mCnt = 0;
-	if (t->GetGame()->GetState() == Game::EGameplay && t->GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
+	if(t->GetGame()->GetState() == Game::GameState::EGameplay && t->GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
 		setVolume(t->GetDushSound(), t->GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(t->GetDushSound());

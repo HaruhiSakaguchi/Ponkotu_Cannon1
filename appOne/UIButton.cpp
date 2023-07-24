@@ -20,7 +20,7 @@ Button::Button(const char* name, std::function<void()> onClick,
 	, mTextOffset(textOffset)
 	, mHighlighted(false)
 	, mSoundFlag(false)
-	, mState(Button::Enable)
+	, mState(Button::ButtonState::EEnable)
 {
 	Data = mGame->GetAllData()->buttonData;
 }
@@ -84,7 +84,7 @@ bool Button::ContainsPoint(const VECTOR2& pt, bool flag)
 			pt.y >(mPosition.y + mRectButtonDim.y / 2.0f);
 	}
 
-	if (mState != Enable)
+	if (mState != ButtonState::EEnable)
 	{
 		no = true;
 	}
@@ -104,7 +104,7 @@ bool Button::ContainsPoint(const VECTOR2& pt, bool flag)
 void Button::OnClick()
 {
 	// アタッチされた関数ハンドラがあれば呼び出す。
-	if (mOnClick && mState == Button::Enable)
+	if (mOnClick && mState == Button::ButtonState::EEnable)
 	{
 		mOnClick();
 		playSound(Data.mClickSound);
@@ -117,7 +117,7 @@ void Button::Draw()
 	int buttonImg = 0;
 	bool mChangeImageFlag = false;
 
-	if (mState != Button::Disable)
+	if (mState != Button::ButtonState::EDisable)
 	{
 		if (!mChangeImageFlag)
 		{
@@ -181,7 +181,7 @@ void Button::Draw()
 		}
 	}
 
-	if (mState == Button::Draw_Enable)
+	if (mState == Button::ButtonState::EDraw_Enable)
 	{
 		VECTOR2 Dim;
 		if (mImageNum == 1)
@@ -214,7 +214,7 @@ void Button::Update()
 
 void Button::DrawGuide()
 {
-	if (mState == Button::Enable)
+	if (mState == Button::ButtonState::EEnable)
 	{
 		float mOffsetPoM = 1.0f;
 		if (mPosition.x - strlen(mText) / 4.0f * Data.mGuideTextSize + strlen(mText) / 2.0f * Data.mGuideTextSize > width)
@@ -266,7 +266,7 @@ void Button::DrawRectButton()
 
 void Button::ContainsSound()
 {
-	if (mState == Button::Enable)
+	if (mState == Button::ButtonState::EEnable)
 	{
 		playSound(Data.mContainsSound);
 	}

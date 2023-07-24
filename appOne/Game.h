@@ -23,7 +23,7 @@ private:
 public:
 	//ステート系
 
-	enum GameState
+	enum class GameState
 	{
 		EGameplay,
 		EPaused,
@@ -39,13 +39,13 @@ private:
 	GameState mGameState;
 public:
 
-	enum StagePhase
+	enum class StagePhase : int
 	{
-		FIRST = 0,
-		SECOND = 1,
-		THIRD = 2,
-		FOURTH = 3,
-		END
+		EFIRST = 0,
+		ESECOND = 1,
+		ETHIRD = 2,
+		EFOURTH = 3,
+		EEND
 	};
 
 	StagePhase GetPhase() { return mPhase; }

@@ -20,7 +20,7 @@ StageSelect::StageSelect(class Game* game)
 
 	AddButton("ステージ1",
 		[this]() {
-			mGame->SetPhase(Game::FIRST);
+			mGame->SetPhase(Game::StagePhase::EFIRST);
 	        new Reconfirm(this, mGame, "『ステージ１』から始めますか？");
 		}
 		, 1
@@ -31,7 +31,7 @@ StageSelect::StageSelect(class Game* game)
 
 	AddButton("ステージ2",
 		[this]() {
-			mGame->SetPhase(Game::SECOND);
+			mGame->SetPhase(Game::StagePhase::ESECOND);
 			new Reconfirm(this, mGame, "『ステージ２』から始めますか？");
 		}
 		, 1
@@ -42,7 +42,7 @@ StageSelect::StageSelect(class Game* game)
 
 	AddButton("ステージ3",
 		[this]() {
-			mGame->SetPhase(Game::THIRD);
+			mGame->SetPhase(Game::StagePhase::ETHIRD);
 			new Reconfirm(this, mGame, "『ステージ３』から始めますか？");
 		}
 		, 1

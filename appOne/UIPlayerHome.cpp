@@ -98,7 +98,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				}
 				if (mOwner->GetLevel() == 5)
 				{
-					mGenerateItemButton->SetState(Button::Enable);
+					mGenerateItemButton->SetState(Button::ButtonState::EEnable);
 					auto pop = new UIPopUp(mGame, "アイテムが追加できるようになった！！", mGenerateItemButton->GetPosition(), 1, VECTOR2(0.0f, -1.0f));
 					pop->SetTextSize(30);
 					pop->SetTextColor(COLOR(255, 255, 128));
@@ -132,12 +132,12 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				h->SetGenerateFlag(1);
 				if (!mGenerate)
 				{
-					mGenerate = new UIGenerate(this, mGame, UIGenerate::ECannon);
+					mGenerate = new UIGenerate(this, mGame, UIGenerate::GenerateActor_Id::ECannon);
 				}
 				else
 				{
 					mGenerate->CloseMe();
-					mGenerate = new UIGenerate(this, mGame, UIGenerate::ECannon);
+					mGenerate = new UIGenerate(this, mGame, UIGenerate::GenerateActor_Id::ECannon);
 				}
 			}
 			else if (h->GetMoveCompleteFlag() == 0)
@@ -174,12 +174,12 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				h->SetGenerateFlag(1);
 				if (!mGenerate)
 				{
-					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarrier);
+					mGenerate = new UIGenerate(this, mGame, UIGenerate::GenerateActor_Id::EBarrier);
 				}
 				else
 				{
 					mGenerate->CloseMe();
-					mGenerate = new UIGenerate(this, mGame, UIGenerate::EBarrier);
+					mGenerate = new UIGenerate(this, mGame, UIGenerate::GenerateActor_Id::EBarrier);
 				}
 			}
 			else if (h->GetMoveCompleteFlag() == 0)
@@ -199,7 +199,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 		}
 	);
 
-	mGenerateItemButton->SetState(Button::Draw_Enable);
+	mGenerateItemButton->SetState(Button::ButtonState::EDraw_Enable);
 }
 
 void UIPlayerHome::draw()
@@ -262,7 +262,7 @@ void UIPlayerHome::Update()
 {
 	if (mOwner->GetLevel() < 5)
 	{
-		mGenerateItemButton->SetState(Button::Draw_Enable);
+		mGenerateItemButton->SetState(Button::ButtonState::EDraw_Enable);
 	}
 
 	float preWidth = mHpGaugeWidth;

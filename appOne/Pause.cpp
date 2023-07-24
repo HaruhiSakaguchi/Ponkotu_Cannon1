@@ -14,7 +14,7 @@ Pause::Pause(Game* game)
 	, mQuitFlag(false)
 {
 	Data = mGame->GetAllData()->pauseData;
-	mGame->SetState(Game::EPaused);
+	mGame->SetState(Game::GameState::EPaused);
 
 	mTitle = Data.mTitle;
 	mTitlePos = Data.mTitlePos;
@@ -22,7 +22,7 @@ Pause::Pause(Game* game)
 
 	AddButton("再開する",
 		[this]() {
-			mGame->SetState(Game::EGameplay);
+			mGame->SetState(Game::GameState::EGameplay);
 			CloseMe();
 			for (auto ui : mGame->GetUIManager()->GetUIStack())
 			{
@@ -30,7 +30,7 @@ Pause::Pause(Game* game)
 				{
 					for (auto button : ui->GetButtons())
 					{
-						button->SetState(Button::Enable);
+						button->SetState(Button::ButtonState::EEnable);
 					}
 				}
 			}
@@ -47,7 +47,7 @@ Pause::Pause(Game* game)
 			, "オプションを開きます"
 			);
 
-	option->SetState(Button::Draw_Enable);
+	option->SetState(Button::ButtonState::EDraw_Enable);
 
 	AddButton("タイトルに戻る",
 		[this]() {
@@ -75,7 +75,7 @@ Pause::Pause(Game* game)
 			, Data.mHelpButtonPosOffset
 			);
 
-	help->SetState(Button::Draw_Enable);
+	help->SetState(Button::ButtonState::EDraw_Enable);
 
 	setVolume(Data.mSound, mGame->GetSoundVolumeManager()->GetEffectVolume() + Data.mPauseSoundVolumeOffset);
 	playSound(Data.mSound);
@@ -86,7 +86,7 @@ Pause::Pause(Game* game)
 		{
 			for (auto button : ui->GetButtons())
 			{
-				button->SetState(Button::Disable);
+				button->SetState(Button::ButtonState::EDisable);
 			}
 		}
 	}
@@ -109,7 +109,7 @@ void Pause::ProcessInput()
 
 	if (isTrigger(KEY_ENTER))
 	{
-		mGame->SetState(Game::EGameplay);
+		mGame->SetState(Game::GameState::EGameplay);
 		CloseMe();
 		for (auto ui : mGame->GetUIManager()->GetUIStack())
 		{
@@ -117,7 +117,7 @@ void Pause::ProcessInput()
 			{
 				for (auto button : ui->GetButtons())
 				{
-					button->SetState(Button::Enable);
+					button->SetState(Button::ButtonState::EEnable);
 				}
 			}
 		}
@@ -137,7 +137,7 @@ void Pause::ChangeOption()
 	{
 		mGame->GetActorManager()->ActorClear();
 		new Title(mGame);
-		mGame->SetState(Game::EGameplay);
+		mGame->SetState(Game::GameState::EGameplay);
 	}
 
 }

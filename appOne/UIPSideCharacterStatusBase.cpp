@@ -78,7 +78,7 @@ void UIPSideCharacterStatusBase::Update()
 	{
 		for (auto button : GetButtons())
 		{
-			button->SetState(Button::Draw_Enable);
+			button->SetState(Button::ButtonState::EDraw_Enable);
 		}
 	}
 

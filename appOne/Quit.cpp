@@ -30,7 +30,7 @@ Quit::Quit(Game* game)
 
 void Quit::ChangeOption()
 {
-	mGame->SetState(Game::EQuit);
+	mGame->SetState(Game::GameState::EQuit);
 }
 
 

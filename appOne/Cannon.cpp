@@ -30,7 +30,7 @@ Cannon::Cannon(class Game* game)
 	, mWheelL(nullptr)
 	, mWheelR(nullptr)
 	, mRange(0.0f)
-	, mMoveState(Stay)
+	, mMoveState(MoveState::EStay)
 	, mTPIndex(0)
 	, mCNum(0)
 {

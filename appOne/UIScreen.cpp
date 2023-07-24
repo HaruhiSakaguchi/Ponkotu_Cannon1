@@ -8,7 +8,7 @@
 
 UIScreen::UIScreen(Game* game)
 	: mGame(game)
-	, mState(EActive)
+	, mState(UIState::EActive)
 	, mBackImg(-1)
 	, mTextSize(40.0f)
 	, mTitlePos(width / 2.0f, 100.0f)
@@ -105,7 +105,7 @@ void UIScreen::CloseMe()
 {
 	if (this)
 	{
-		mState = EClosing;
+		mState = UIState::EClosing;
 	}
 }
 

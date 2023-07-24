@@ -19,7 +19,7 @@ PlayerBullet::PlayerBullet(class Cannon* cannon, const VECTOR& pos, const VECTOR
 	bc->SetBatch("PlayerBulletSphere");
 
 	//GamePlayState‚Ì’†‚Å‚µ‚©‰¹‚ð–Â‚ç‚³‚È‚¢
-	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
+	if (GetGame()->GetState() == Game::GameState::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
 		setVolume(iData.mLaunchSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + iData.mLaunchSoundVolumeOffset);
 		playSound(iData.mLaunchSound);
@@ -95,7 +95,7 @@ void PlayerBullet::UpdateActor()
 
 void PlayerBullet::damage()
 {
-	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
+	if (GetGame()->GetState() == Game::GameState::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
 		setVolume(iData.mImpactSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + iData.mImpactSoundVolumeOffset);
 		playSound(iData.mImpactSound);

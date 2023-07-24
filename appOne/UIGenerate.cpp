@@ -42,13 +42,13 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 			mOwner->SetGenerate(nullptr);
 			for (auto button : mOwner->GetButtons())
 			{
-				button->SetState(Button::Enable);
+				button->SetState(Button::ButtonState::EEnable);
 			}
 			for (auto uiStatus : mGame->GetUIManager()->GetUIPSideStatus())
 			{
 				for (auto button : uiStatus->GetButtons())
 				{
-					button->SetState(Button::Enable);
+					button->SetState(Button::ButtonState::EEnable);
 				}
 			}
 		}
@@ -92,14 +92,14 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 
 	for (auto button : mOwner->GetButtons())
 	{
-		button->SetState(Button::Disable);
+		button->SetState(Button::ButtonState::EDisable);
 	}
 
 	for (auto uiStatus : mGame->GetUIManager()->GetUIPSideStatus())
 	{
 		for (auto button : uiStatus->GetButtons())
 		{
-			button->SetState(Button::Draw_Enable);
+			button->SetState(Button::ButtonState::EDraw_Enable);
 		}
 	}
 
@@ -379,7 +379,7 @@ void UIGenerate::Update()
 
 							std::ostringstream oss;
 							const char* text = nullptr;
-							if (mId <= 1)
+							if (mId <= static_cast<GenerateActor_Id>(1))
 							{
 								text = "‚ªoŒ‚B";
 							}
@@ -395,14 +395,14 @@ void UIGenerate::Update()
 
 						for (auto button : mOwner->GetButtons())
 						{
-							button->SetState(Button::Enable);
+							button->SetState(Button::ButtonState::EEnable);
 						}
 
 						for (auto uiStatus : mGame->GetUIManager()->GetUIPSideStatus())
 						{
 							for (auto button : uiStatus->GetButtons())
 							{
-								button->SetState(Button::Enable);
+								button->SetState(Button::ButtonState::EEnable);
 							}
 						}
 

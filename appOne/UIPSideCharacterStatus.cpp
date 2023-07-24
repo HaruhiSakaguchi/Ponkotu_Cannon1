@@ -22,7 +22,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 	mStayButton = AddButton("S",
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
-			c->SetMoveState(Cannon::Stay);
+			c->SetMoveState(Cannon::MoveState::EStay);
 			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
@@ -37,7 +37,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 	mReturnButton = AddButton("R",
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
-			c->SetMoveState(Cannon::Return);
+			c->SetMoveState(Cannon::MoveState::EReturn);
 			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
@@ -52,7 +52,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 	mHomePatrollButton = AddButton("H",
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
-			c->SetMoveState(Cannon::HomePatroll);
+			c->SetMoveState(Cannon::MoveState::EHomePatroll);
 			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			auto ui = new UIPSideCharacterStatusClose(mOwner);
@@ -66,7 +66,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 	mFieldPatrollButton = AddButton("F",
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
-			c->SetMoveState(Cannon::FieldPatroll);
+			c->SetMoveState(Cannon::MoveState::EFieldPatroll);
 			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			auto ui = new UIPSideCharacterStatusClose(mOwner);
@@ -148,21 +148,21 @@ void UIPSideCharacterStatus::update()
 	VECTOR2 preCursorPos = mStateCursorPos;
 	VECTOR2 cursorPos;
 
-	if (c->GetMoveState() == Cannon::Stay)
+	if (c->GetMoveState() == Cannon::MoveState::EStay)
 	{
 		cursorPos = mStayButton->GetPosition();
 	}
-	else if (c->GetMoveState() == Cannon::Return)
+	else if (c->GetMoveState() == Cannon::MoveState::EReturn)
 	{
 		cursorPos = mReturnButton->GetPosition();
 
 	}
-	else if (c->GetMoveState() == Cannon::HomePatroll)
+	else if (c->GetMoveState() == Cannon::MoveState::EHomePatroll)
 	{
 		cursorPos = mHomePatrollButton->GetPosition();
 
 	}
-	else if (c->GetMoveState() == Cannon::FieldPatroll)
+	else if (c->GetMoveState() == Cannon::MoveState::EFieldPatroll)
 	{
 		cursorPos = mFieldPatrollButton->GetPosition();
 

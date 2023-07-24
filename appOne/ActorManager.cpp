@@ -25,7 +25,7 @@ ActorManager::~ActorManager()
 
 void ActorManager::Update()
 {
-	if (mGame->GetState() == Game::EGameplay)
+	if (mGame->GetState() == Game::GameState::EGameplay)
 	{
 		// mActors更新(更新中にnewされたActorはmPendingActorsに追加される)
 		mUpdatingActors = true;

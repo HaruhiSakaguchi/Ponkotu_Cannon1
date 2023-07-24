@@ -16,7 +16,7 @@ TamaWeapon::TamaWeapon(class Tama* owner, const VECTOR& pos, const VECTOR& dir)
 	iData = GetGame()->GetAllData()->tWeaponIData;
 	UnMoveComponent();
 	SetUp(Data);
-	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
+	if (GetGame()->GetState() == Game::GameState::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
 		setVolume(iData.mAttackSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(iData.mAttackSound);

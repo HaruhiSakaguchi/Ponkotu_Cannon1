@@ -61,11 +61,11 @@ public:
 		COLOR mGuideTextColor;
 		COLOR mGuideRectColor;
 	};
-	enum ButtonState
+	enum class ButtonState
 	{
-		Enable,
-		Disable,
-		Draw_Enable
+		EEnable,
+		EDisable,
+		EDraw_Enable
 	};
 	void SetState(ButtonState state) { mState = state; }
 

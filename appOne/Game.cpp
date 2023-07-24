@@ -10,8 +10,8 @@
 
 
 Game::Game()
-	: mGameState(EGameplay)
-	, mPhase(FIRST)
+	: mGameState(GameState::EGameplay)
+	, mPhase(StagePhase::EFIRST)
 	, mInitPhase(mPhase)
 	, mContinueFlag(false)
 	, mRenderer(nullptr)
@@ -58,14 +58,14 @@ void Game::Shutdown()
 
 void Game::ProcessInput()
 {
-	if (mGameState == EGameplay)
+	if (mGameState == GameState::EGameplay)
 	{
 		if (isTrigger(KEY_ESCAPE))
 		{
-			mGameState = Game::EQuit;
+			mGameState = Game::GameState::EQuit;
 		}
 
-		if (mGameState == EGameplay)
+		if (mGameState == GameState::EGameplay)
 		{
 			for (auto manager : mManagers)
 			{
@@ -80,7 +80,7 @@ void Game::ProcessInput()
 		}
 
 	}
-	else if (mGameState == EPaused)
+	else if (mGameState == GameState::EPaused)
 	{
 		mUIManager->ProcessInput();
 	}
@@ -108,7 +108,7 @@ void Game::UpdateGame()
 	mPendingManagers.clear();
 
 	//ƒQ[ƒ€I—¹
-	if (mGameState == EQuit)
+	if (mGameState == GameState::EQuit)
 	{
 		closeWindow();
 	}

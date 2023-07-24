@@ -16,7 +16,7 @@ SatelliteBullet::SatelliteBullet(class Satellite* satellite, const VECTOR& pos, 
 	BatchMeshComponent* bc = new BatchMeshComponent(this);
 	bc->SetBatch("SatelliteBulletSphere");
 
-	if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
+	if (GetGame()->GetState() == Game::GameState::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 	{
 		setVolume(iData.mLaunchSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(iData.mLaunchSound);
@@ -83,7 +83,7 @@ void SatelliteBullet::UpdateActor()
 		if (mCapsule->OverlapActor(this, pSide))
 		{
 			SetState(Actor::State::EDead);
-			if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
+			if (GetGame()->GetState() == Game::GameState::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 			{
 				setVolume(iData.mImpactSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 				playSound(iData.mImpactSound);

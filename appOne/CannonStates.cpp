@@ -160,7 +160,7 @@ void UpCounter(Cannon* c)
 
 void Launch(Cannon* p)
 {
-	if (p->GetGame()->GetState() == Game::EGameplay)
+	if (p->GetGame()->GetState() == Game::GameState::EGameplay)
 	{
 		if (p->GetCnt() == 0 && p->GetTimer() >= p->GetInterval())
 		{
@@ -229,22 +229,22 @@ void CannonMove::Update()
 {
 	Cannon* p = static_cast<Cannon*>(mOwnerCompo->GetActor());
 
-	if (p->GetMoveState() == Cannon::Stay)
+	if (p->GetMoveState() == Cannon::MoveState::EStay)
 	{
 		mOwnerCompo->ChangeState("Wait");
 		return;
 	}
-	else if (p->GetMoveState() == Cannon::Return)
+	else if (p->GetMoveState() == Cannon::MoveState::EReturn)
 	{
 		mOwnerCompo->ChangeState("Return");
 		return;
 	}
-	else if (p->GetMoveState() == Cannon::HomePatroll)
+	else if (p->GetMoveState() == Cannon::MoveState::EHomePatroll)
 	{
 		mOwnerCompo->ChangeState("HomePatroll");
 		return;
 	}
-	else if (p->GetMoveState() == Cannon::FieldPatroll)
+	else if (p->GetMoveState() == Cannon::MoveState::EFieldPatroll)
 	{
 		mOwnerCompo->ChangeState("FieldPatroll");
 		return;
@@ -260,7 +260,7 @@ void CannonMoveReturnHome::Update()
 		if (CollisionCircle(10.0f, p->GetRadius(), p->GetGame()->GetActorManager()->GetPHome()->GetPosition(), p->GetPosition()))
 		{
 			mOwnerCompo->ChangeState("Wait");
-			p->SetMoveState(Cannon::Stay);
+			p->SetMoveState(Cannon::MoveState::EStay);
 			return;
 		}
 
@@ -276,7 +276,7 @@ void CannonMoveReturnHome::Update()
 			p->SetPosition(pos + vec * p->GetAdvSpeed());
 		}
 
-		if (p->GetMoveState() != Cannon::Return)
+		if (p->GetMoveState() != Cannon::MoveState::EReturn)
 		{
 			mOwnerCompo->ChangeState("Wait");
 			return;
@@ -285,7 +285,7 @@ void CannonMoveReturnHome::Update()
 	else
 	{
 		mOwnerCompo->ChangeState("Wait");
-		p->SetMoveState(Cannon::Stay);
+		p->SetMoveState(Cannon::MoveState::EStay);
 		return;
 	}
 
@@ -322,7 +322,7 @@ void CannonMoveHomePatroll::Update()
 			p->SetTPIndex(p->GetNextTpIndex());
 		}
 
-		if (p->GetMoveState() != Cannon::HomePatroll)
+		if (p->GetMoveState() != Cannon::MoveState::EHomePatroll)
 		{
 			mOwnerCompo->ChangeState("Wait");
 			return;
@@ -353,7 +353,7 @@ void CannonMoveHomePatroll::Update()
 	else
 	{
 		mOwnerCompo->ChangeState("Wait");
-		p->SetMoveState(Cannon::Stay);
+		p->SetMoveState(Cannon::MoveState::EStay);
 		return;
 	}
 }
@@ -389,7 +389,7 @@ void CannonMoveFieldPatroll::Update()
 			p->SetTPIndex(p->GetNextTpIndex());
 		}
 
-		if (p->GetMoveState() != Cannon::FieldPatroll)
+		if (p->GetMoveState() != Cannon::MoveState::EFieldPatroll)
 		{
 			mOwnerCompo->ChangeState("Wait");
 			return;
@@ -420,7 +420,7 @@ void CannonMoveFieldPatroll::Update()
 	else
 	{
 		mOwnerCompo->ChangeState("Wait");
-		p->SetMoveState(Cannon::Stay);
+		p->SetMoveState(Cannon::MoveState::EStay);
 		return;
 	}
 }

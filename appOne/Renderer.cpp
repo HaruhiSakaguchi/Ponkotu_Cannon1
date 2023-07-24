@@ -81,7 +81,7 @@ void Renderer::Draw()
 
 	for (auto ui : mGame->GetUIManager()->GetUIStack())
 	{
-		if (ui->GetState() == UIScreen::EActive)
+		if (ui->GetState() == UIScreen::UIState::EActive)
 		{
 			ui->Draw();
 		}

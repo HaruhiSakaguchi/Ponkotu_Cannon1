@@ -30,7 +30,7 @@ Title::Title(Game* game)
 
 
 	std::ostringstream oss;
-	oss << "ステージ" << int(mGame->GetPhase() + 1) << "から始めます";
+	oss << "ステージ" << ((int)mGame->GetPhase() + 1) << "から始めます";
 	mText = oss.str();
 
 //#ifdef RELEASE
@@ -59,9 +59,9 @@ Title::Title(Game* game)
 			, "ステージを選んで始めます"
 			);
 
-	select->SetState(Button::Draw_Enable);
+	select->SetState(Button::ButtonState::EDraw_Enable);
 
-	if (mGame->GetPhase() != Game::FIRST)
+	if (mGame->GetPhase() != Game::StagePhase::EFIRST)
 	{
 		auto Continue = AddButton("続きから",
 			[this]() {
@@ -73,7 +73,7 @@ Title::Title(Game* game)
 				, mText.c_str()
 				);
 
-		Continue->SetState(Button::Draw_Enable);
+		Continue->SetState(Button::ButtonState::EDraw_Enable);
 	}
 
 	auto option = AddButton("オプション",
@@ -85,7 +85,7 @@ Title::Title(Game* game)
 			, "オプションを開きます"
 			);
 
-	option->SetState(Button::Draw_Enable);
+	option->SetState(Button::ButtonState::EDraw_Enable);
 
 	AddButton("終わる",
 		[this]() {
@@ -96,7 +96,7 @@ Title::Title(Game* game)
 			);
 
 	VECTOR2 ofst;
-	if (mGame->GetPhase() != Game::FIRST)
+	if (mGame->GetPhase() != Game::StagePhase::EFIRST)
 	{
 		ofst = Data.mPhaseNotFirstButtonOffsetPos;
 	}
@@ -114,7 +114,7 @@ Title::Title(Game* game)
 			, ofst
 			);
 
-	help->SetState(Button::Draw_Enable);
+	help->SetState(Button::ButtonState::EDraw_Enable);
 
 	playLoopSound(Data.mBgm);
 	setVolume(Data.mBgm, mGame->GetSoundVolumeManager()->GetVolume() + Data.mBgmSoundVolumeOffset);

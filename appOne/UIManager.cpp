@@ -22,7 +22,7 @@ void UIManager::Update()
 
 	for (auto ui : mUIStack)
 	{
-		if (ui->GetState() == UIScreen::EActive)
+		if (ui->GetState() == UIScreen::UIState::EActive)
 		{
 			ui->Update();
 		}
@@ -42,7 +42,7 @@ void UIManager::Update()
 	std::vector<UIScreen*> deadUis;
 	for (auto ui : mUIStack)
 	{
-		if (ui->GetState() == UIScreen::EClosing)
+		if (ui->GetState() == UIScreen::UIState::EClosing)
 		{
 			deadUis.emplace_back(ui);
 		}
@@ -56,7 +56,7 @@ void UIManager::Update()
 
 void UIManager::ProcessInput()
 {
-	if (mGame->GetState() == Game::EGameplay)
+	if (mGame->GetState() == Game::GameState::EGameplay)
 	{
 		mUpdatingUIs = true;
 

@@ -11,7 +11,7 @@ public:
     void CreateItemButtons();
     void CreateGenerateActorLvUpandDownButtons();
     void CreateChangeItemGenerateButtons();
-    enum GenerateActor_Id
+    enum class GenerateActor_Id : int
     {
         ECannon,
         EBarricade,
@@ -22,7 +22,7 @@ public:
         ERecover,
         EEmpty
     };
-    UIGenerate(class UIPlayerHome*owner,Game*game, GenerateActor_Id id = EEmpty);
+    UIGenerate(class UIPlayerHome*owner,Game*game, GenerateActor_Id id = GenerateActor_Id::EEmpty);
     ~UIGenerate();
 private:
     GenerateActor_Id mId;

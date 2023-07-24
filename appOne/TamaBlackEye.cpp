@@ -22,7 +22,7 @@ int TamaBlackEye::SetUp()
 	tc = new BatchMeshComponent(this,false);
 	tc->SetBatch("TamaBlackEyeDamageCylinder");
 	SetDamageMesh(tc);
-	SetCategory(Actor::Object);
+	SetCategory(Actor::ActorsCategory::EObject);
 	return 0;
 }
 
@@ -69,6 +69,6 @@ void TamaBlackEye::UpdateActor()
 	}
 	else
 	{
-		SetState(EDead);
+		SetState(State::EDead);
 	}
 }

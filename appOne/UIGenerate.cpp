@@ -199,7 +199,7 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 	}
 	else
 	{
-		mGenerateActor->SetState(CharacterActor::EDead);
+		mGenerateActor->SetState(CharacterActor::State::EDead);
 	}
 
 	mOwner->SetGenerate(this);
@@ -208,7 +208,7 @@ UIGenerate::UIGenerate(class UIPlayerHome* owner, Game* game, GenerateActor_Id i
 
 UIGenerate::~UIGenerate()
 {
-	mGenerateActor->SetState(CharacterActor::EDead);
+	mGenerateActor->SetState(CharacterActor::State::EDead);
 }
 
 void UIGenerate::draw()

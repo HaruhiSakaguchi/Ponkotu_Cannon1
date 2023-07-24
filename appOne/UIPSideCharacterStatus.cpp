@@ -104,7 +104,7 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 void UIPSideCharacterStatus::draw()
 {
 	rectMode(CORNER);
-	if (mOwner->GetState() == Actor::EActive)
+	if (mOwner->GetState() == Actor::State::EActive)
 	{
 
 		class Cannon* c = static_cast<Cannon*>(mOwner);
@@ -137,7 +137,7 @@ void UIPSideCharacterStatus::draw()
 
 void UIPSideCharacterStatus::update()
 {
-	if (mOwner->GetState() == Actor::EActive)
+	if (mOwner->GetState() == Actor::State::EActive)
 	{
 		Cannon* c = static_cast<Cannon*>(mOwner);
 		float preAngle = mCylinderAngle;

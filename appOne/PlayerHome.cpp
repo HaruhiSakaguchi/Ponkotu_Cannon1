@@ -33,11 +33,6 @@ PlayerHome::PlayerHome(class Game* game, const VECTOR& pos)
 PlayerHome::~PlayerHome()
 {
 	GetGame()->GetActorManager()->SetPHome(nullptr);
-	mUI->CloseMe();
-	for (auto prop : mProps)
-	{
-		prop->SetState(EDead);
-	}
 }
 
 int PlayerHome::SetUp()
@@ -48,7 +43,7 @@ int PlayerHome::SetUp()
 	mDore = new Dore(GetGame());
 	mFlag1 = new PlayerFlag(GetGame());
 	mFlag2 = new PlayerFlag(GetGame());
-	SetTag(PHome);
+	SetTag(CharactersTag::EPHome);
 	SetHp(Data.mMaxHp);
 	SetMaxHp(Data.mMaxHp);
 	SetInitMaxHp(Data.mMaxHp);
@@ -133,7 +128,7 @@ void PlayerHome::UpdateActor()
 	{
 		if (Actor != this && CollisionCircle(GetRadius(), Actor->GetRadius(), GetPosition(), Actor->GetPosition()))
 		{
-			if (Actor->GetTag() == CharacterActor::CharactersTag::Cannon)
+			if (Actor->GetTag() == CharacterActor::CharactersTag::ECannon)
 			{
 				if (static_cast<class Cannon*>(Actor)->GetStateCompoState()->GetName() != "Generate")
 				{
@@ -200,7 +195,7 @@ void PlayerHome::Damage(int damage)
 
 	if (GetHp() <= 0)
 	{
-		SetState(EDead);
+		SetState(State::EDead);
 	}
 }
 
@@ -212,6 +207,11 @@ void PlayerHome::Dead()
 	SpawnParticle(GetGame(), GetPosition(), "HomeHouse", 20);
 	SpawnParticle(GetGame(), GetPosition(), "DoreDore", 20);
 	SpawnParticle(GetGame(), GetPosition(), "PlayerFlagFlag", 40);
+	mUI->CloseMe();
+	for (auto prop : mProps)
+	{
+		prop->SetState(State::EDead);
+	}
 }
 
 int PlayerHome::GoToTargetPoint(const VECTOR& pos)
@@ -238,11 +238,11 @@ int PlayerHome::GoToTargetPoint(const VECTOR& pos)
 				if (InPlayerArea(pSide->GetPosition()))
 				{
 					bool moveFlag = false;
-					if (pSide->GetTag() == CharacterActor::CharactersTag::Cannon && static_cast<class Cannon*>(pSide)->GetStateCompoState()->GetName() != "Generate")
+					if (pSide->GetTag() == CharacterActor::CharactersTag::ECannon && static_cast<class Cannon*>(pSide)->GetStateCompoState()->GetName() != "Generate")
 					{
 						moveFlag = true;
 					}
-					else if (pSide->GetTag() == CharacterActor::CharactersTag::Barricade && pSide->GetPosition().y <= 0.0f)
+					else if (pSide->GetTag() == CharacterActor::CharactersTag::EBarricade && pSide->GetPosition().y <= 0.0f)
 					{
 						moveFlag = true;
 					}

@@ -20,13 +20,13 @@ int CannonWheelL::SetUp()
 	//mTc->SetTree("CannonWheelDamage");
 	//SetDamageMesh(mTc);
 
-	SetCategory(Actor::Object);
+	SetCategory(Actor::ActorsCategory::EObject);
 	return 0;
 }
 
 void CannonWheelL::UpdateActor()
 {
-	if (mOwner->GetState() == EActive)
+	if (mOwner->GetState() == State::EActive)
 	{
 		MATRIX Master;
 		Master.identity();
@@ -47,11 +47,10 @@ void CannonWheelL::UpdateActor()
 		SetPosition(WheelLModel._14, WheelLModel._24, WheelLModel._34);
 		SetRotation(VECTOR(-mOwner->GetWheelRotateX(), mOwner->GetRotation().y - 3.1415926f / 2.0f, -mOwner->GetWheelRotateZ()));
 		SetDamageInterval(mOwner->GetDamageInterval());
-
 	}
 	else
 	{
-		SetState(EDead);
+		SetState(State::EDead);
 	}
 
 }

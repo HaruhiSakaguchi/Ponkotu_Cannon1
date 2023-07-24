@@ -19,8 +19,8 @@ public:
 	Game* GetGame() { return mGame; }
 private:
 	enum class STATE {
-		IN_TRIGGER, IN_NOW, IN_END,
-		OUT_TRIGGER, OUT_NOW, OUT_END
+		EIN_TRIGGER, EIN_NOW, EIN_END,
+		EOUT_TRIGGER, EOUT_NOW, EOUT_END
 	};
 	STATE State;
 private:

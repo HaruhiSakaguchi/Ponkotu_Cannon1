@@ -2,56 +2,56 @@
 
 Transition::Transition(class Game* game)
 	: mGame(game)
-	, State(STATE::OUT_END)
+	, State(STATE::EOUT_END)
 {
 }
 
 void Transition::inTrigger()
 {
-	if (State == STATE::OUT_END) 
+	if (State == STATE::EOUT_END) 
 	{
-		State = STATE::IN_TRIGGER;
+		State = STATE::EIN_TRIGGER;
 	}
 }
 
 void Transition::outTrigger()
 {
-	if (State == STATE::IN_END) 
+	if (State == STATE::EIN_END) 
 	{
-		State = STATE::OUT_TRIGGER;
+		State = STATE::EOUT_TRIGGER;
 	}
 }
 
 void Transition::Draw() {
-	if (State == STATE::IN_END ||State == STATE::OUT_END) 
+	if (State == STATE::EIN_END ||State == STATE::EOUT_END) 
 	{
 		return;
 	}
 	switch (State) 
 	{
-	case STATE::IN_TRIGGER:
+	case STATE::EIN_TRIGGER:
 		inTriggerProc();
-		State = STATE::IN_NOW;
+		State = STATE::EIN_NOW;
 		break;
-	case STATE::IN_NOW:
+	case STATE::EIN_NOW:
 		if (inProc())
 		{
-			State = STATE::IN_END;
+			State = STATE::EIN_END;
 		}
 		break;
-	case STATE::OUT_TRIGGER:
+	case STATE::EOUT_TRIGGER:
 		outTriggerProc();
-		State = STATE::OUT_NOW;
+		State = STATE::EOUT_NOW;
 		break;
-	case STATE::OUT_NOW:
+	case STATE::EOUT_NOW:
 		if (outProc())
 		{
-			State = STATE::OUT_END;
+			State = STATE::EOUT_END;
 		}
 		break;
-	case STATE::IN_END:
+	case STATE::EIN_END:
 		break;
-	case STATE::OUT_END:
+	case STATE::EOUT_END:
 		break;
 	}
 }
@@ -59,12 +59,12 @@ void Transition::Draw() {
 //inÇ‹ÇΩÇÕoutÇ™èIóπÇµÇΩÇ©Ç«Ç§Ç©
 bool Transition::inEndFlag()
 {
-	bool flag = State == STATE::IN_END;
+	bool flag = State == STATE::EIN_END;
 	return flag;
 }
 
 bool Transition::outEndFlag()
 {
-	bool flag = State == STATE::OUT_END;
+	bool flag = State == STATE::EOUT_END;
 	return flag;
 }

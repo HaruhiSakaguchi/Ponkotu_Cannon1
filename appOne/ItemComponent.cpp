@@ -29,7 +29,7 @@ void ItemComponent::UpdateActor()
 {
 	if (!mOwner || Data.mTime <= 0.0f || Data.mHp <= 0)
 	{
-		SetState(EDead);
+		SetState(State::EDead);
 	}
 
 	if (mOwner)
@@ -77,18 +77,6 @@ void ItemComponent::Dead()
 		playSound(GetGame()->GetAllData()->mCloseSound);
 	}
 
-	if (p->GetState() == CharacterActor::EActive)
-	{
-		//p->RemoveItemComponent(this);
-
-		/*for (auto item : p->GetItemComponents())
-		{
-			if (cData.mNumber < item->GetNumber())
-			{
-				item->SetNumber(item->GetNumber() - 1);
-			}
-		}*/
-	}
 }
 
 

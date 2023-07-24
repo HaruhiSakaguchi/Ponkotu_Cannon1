@@ -167,7 +167,7 @@ bool CapsuleComponent::LineTraceHitActor(class SEGMENT* seg, CharacterActor** Ac
 
 	for (auto chara : owner->GetGame()->GetActorManager()->GetCharacters())
 	{
-		if (chara == owner || (!chara->GetCapsule() || chara->GetCategory() == CharacterActor::Object))
+		if (chara == owner || (!chara->GetCapsule() || chara->GetCategory() == CharacterActor::ActorsCategory::EObject))
 		{
 			continue;
 		}

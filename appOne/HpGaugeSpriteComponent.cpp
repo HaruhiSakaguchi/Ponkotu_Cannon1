@@ -70,7 +70,7 @@ void HpGaugeSpriteComponent::Update()
 	{
 		mIsDanger = true;
 	}
-	else if (owner->GetHp() < owner->GetMaxHp() * 0.33f && owner->GetState() == CharacterActor::EActive)
+	else if (owner->GetHp() < owner->GetMaxHp() * 0.33f && owner->GetState() == CharacterActor::State::EActive)
 	{
 		mIsDying = true;
 	}

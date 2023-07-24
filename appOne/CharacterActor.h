@@ -75,20 +75,20 @@ public:
 	//当たり判定コンポーネント
 	class CapsuleComponent* GetCapsule() { return mCapsule; }
 
-	enum CharactersTag
+	enum class CharactersTag
 	{
-		Cannon,
-		Satellite,
-		Tama,
-		Barricade,
-		PHome,
-		EHome,
-		Waepon,
-		Others
+		ECannon,
+		ESatellite,
+		ETama,
+		EBarricade,
+		EPHome,
+		EEHome,
+		EWaepon,
+		EOthers
 	};
 
-	CharactersTag GetTag() { return mTag; }
-	void SetTag(CharactersTag tag) { mTag = tag; }
+	enum class CharactersTag GetTag() { return mTag; }
+	void SetTag(enum class CharactersTag tag) { mTag = tag; }
 
 private:
 	VECTOR mCapsulOffset;
@@ -116,7 +116,7 @@ private:
 	int mMaxHp;
 	int mInitMaxHp;
 	std::string mName;
-	CharactersTag mTag;
+	enum class CharactersTag mTag;
 protected:
 	int mDeadSound;
 	class CapsuleComponent* mCapsule;

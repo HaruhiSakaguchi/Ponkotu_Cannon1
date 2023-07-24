@@ -316,11 +316,11 @@ void UIMiniMap::Draw()
 		VECTOR2 Pos = PosConvert2D(actor->GetPosition());
 		if (Pos.y <= Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength && Pos.y >= Data.mMiniMapCornerPos.y && Pos.x <= Data.mMiniMapCornerPos.x + Data.mMiniMapWindowLength && Pos.x >= Data.mMiniMapCornerPos.x)
 		{
-			if (actor->GetCategory() == Actor::Character)
+			if (actor->GetCategory() == Actor::ActorsCategory::ECharacter)
 			{
 				if (Pos.y + Data.mItemSw <= Data.mMiniMapCornerPos.y + Data.mMiniMapWindowLength && Pos.y - Data.mItemSw >= Data.mMiniMapCornerPos.y && Pos.x + Data.mItemSw <= Data.mMiniMapCornerPos.x + Data.mMiniMapWindowLength / 4.0f && Pos.x - Data.mItemSw >= Data.mMiniMapCornerPos.x)
 				{
-					if (actor->GetTag() == CharacterActor::PHome)
+					if (actor->GetTag() == CharacterActor::CharactersTag::EPHome)
 					{
 						stroke(40, 40, 200);
 						fill(40, 40, 200, 128);
@@ -330,7 +330,7 @@ void UIMiniMap::Draw()
 						fill(50, 50, 255);
 						text("P", Pos.x - 12.5f, Pos.y + 25);
 					}
-					else if (actor->GetTag() == CharacterActor::EHome)
+					else if (actor->GetTag() == CharacterActor::CharactersTag::EEHome)
 					{
 						stroke(200, 40, 40);
 						fill(200, 40, 40, 128);
@@ -343,7 +343,7 @@ void UIMiniMap::Draw()
 					else
 					{
 						float angleOffset = 0.0f;
-						if (actor->GetTag() != CharacterActor::Barricade)
+						if (actor->GetTag() != CharacterActor::CharactersTag::EBarricade)
 						{
 							angleOffset = 3.1415926f;
 						}
@@ -378,14 +378,14 @@ void UIMiniMap::Draw()
 					}
 				}
 			}
-			else if (actor->GetCategory() == Actor::Item)
+			else if (actor->GetCategory() == Actor::ActorsCategory::EItem)
 			{
 				stroke(Data.mItemStrokeColor);
 				strokeWeight(Data.mItemSw);
 				fill(actor->GetImageColor());
 				circle(Pos.x, Pos.y, Data.mItemCircleRadius);
 			}
-			else if (actor->GetCategory() == Actor::Weapon)
+			else if (actor->GetCategory() == Actor::ActorsCategory::EWeapon)
 			{
 				strokeWeight(Data.mWeaponSw);
 				stroke(actor->GetImageColor());

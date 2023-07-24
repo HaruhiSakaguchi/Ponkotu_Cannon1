@@ -24,14 +24,14 @@ CharacterActor::CharacterActor(Game* game)
 	, mOffsetY(0.5f)
 	, mLevel(0)
 	, mName("Chara")
-	, mTag(Others)
+	, mTag(CharactersTag::EOthers)
 	, mMaxLevel(10)
 	, mInitMaxHp(1)
 	, mDamage(1)
 	, mRDamage(1)
 	, mCapsule(nullptr)
 {
-	SetCategory(Character);
+	SetCategory(ActorsCategory::ECharacter);
 	GetGame()->GetActorManager()->AddCharacter(this);
 	mDeadSound = GetGame()->GetAllData()->mDeadSound;
 }
@@ -45,11 +45,11 @@ void CharacterActor::Update()
 {
 	Actor::Update();
 
-	if (GetState() == EActive)
+	if (GetState() == State::EActive)
 	{
 		if (GetPosition().y < mMinPosY)
 		{
-			SetState(EDead);
+			SetState(State::EDead);
 			FallOption();
 		}
 

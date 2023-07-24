@@ -31,7 +31,7 @@ bool Recovery::update()
 	}
 	else
 	{
-		if (mOwner->GetTag() == CharacterActor::CharactersTag::Cannon)
+		if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon)
 		{
 			static_cast<class Cannon*>(p)->AddItemNum(iData.mNum);
 			setVolume(iData.mSound2, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
@@ -73,7 +73,7 @@ SpeedUp::SpeedUp(class Game* game)
 bool SpeedUp::update()
 {
 	auto c = static_cast<class PSideCharacterActor*>(mOwner);
-	if (c->GetTag() == CharacterActor::CharactersTag::Cannon)
+	if (c->GetTag() == CharacterActor::CharactersTag::ECannon)
 	{
 		if (!c->GetSpeed())
 		{
@@ -118,7 +118,7 @@ SpeedUpCompo::SpeedUpCompo(class PSideCharacterActor* owner)
 SpeedUpCompo::~SpeedUpCompo()
 {
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
-	if (c && c->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
+	if (c && c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetAdvSpeed(GetGame()->GetAllData()->cannonData.mAdvSpeed);
 		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("スピードアップの効果が切れた。");
@@ -131,7 +131,7 @@ void SpeedUpCompo::UpdateActor()
 {
 	ItemComponent::UpdateActor();
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
-	if (c && c->GetTag() == CharacterActor::Cannon)
+	if (c && c->GetTag() == CharacterActor::CharactersTag::ECannon)
 	{
 		c->SetAdvSpeed(GetGame()->GetAllData()->cannonData.mAdvSpeed + Data.mLevel * GetGame()->GetAllData()->cannonData.mAdvSpeed * mSpeedUpRate);
 	}
@@ -152,7 +152,7 @@ PowerUp::PowerUp(class Game* game)
 bool PowerUp::update()
 {
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
-	if (c->GetTag() == CharacterActor::CharactersTag::Cannon)
+	if (c->GetTag() == CharacterActor::CharactersTag::ECannon)
 	{
 		if (!c->GetPower())
 		{
@@ -196,7 +196,7 @@ PowerUpCompo::~PowerUpCompo()
 {
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
-	if (c->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
+	if (c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetDamage(1);
 		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("攻撃力アップの効果が切れた。");
@@ -231,7 +231,7 @@ bool RapidFire::update()
 {
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
-	if (c->GetTag() == CharacterActor::CharactersTag::Cannon)
+	if (c->GetTag() == CharacterActor::CharactersTag::ECannon)
 	{
 		if (!c->GetRapid())
 		{
@@ -281,7 +281,7 @@ RapidFireCompo::RapidFireCompo(class PSideCharacterActor* owner)
 
 RapidFireCompo::~RapidFireCompo()
 {
-	if (mOwner->GetTag() == CharacterActor::Cannon && mOwner->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
+	if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon && mOwner->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::EGameplay)
 	{
 		auto c = static_cast<Cannon*>(mOwner);
 		c->SetInterval(GetGame()->GetAllData()->cannonData.mInterval);
@@ -295,7 +295,7 @@ void RapidFireCompo::UpdateActor()
 {
 	ItemComponent::UpdateActor();
 
-	if (mOwner->GetTag() == CharacterActor::CharactersTag::Cannon)
+	if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon)
 	{
 		static_cast<Cannon*>(mOwner)->SetInterval(GetGame()->GetAllData()->cannonData.mInterval - Data.mLevel * mLaunchIntervalDecreaseRate);
 	}
@@ -365,7 +365,7 @@ BarrierCompo::~BarrierCompo()
 {
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
-	if (c->GetState() == Actor::EActive && GetGame()->GetState() == Game::EGameplay)
+	if (c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::EGameplay)
 	{
 		c->SetRDamage(1);
 		std::ostringstream oss;

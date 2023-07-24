@@ -46,7 +46,7 @@ void ActorManager::Update()
 		std::vector<Actor*> deadActors;
 		for (auto actor : mActors)
 		{
-			if (actor->GetState() == Actor::EDead)
+			if (actor->GetState() == Actor::State::EDead)
 			{
 				deadActors.emplace_back(actor);
 			}

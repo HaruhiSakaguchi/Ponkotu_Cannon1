@@ -56,19 +56,19 @@ void PlayerBullet::UpdateActor()
 	{
 		if (mCapsule->OverlapActor(this, item))
 		{
-			if (mOwner && mOwner->GetState() == CharacterActor::EActive)
+			if (mOwner && mOwner->GetState() == CharacterActor::State::EActive)
 			{
 				class Cannon* c = static_cast<class Cannon*>(mOwner);
 				setVolume(iData.mItemStockSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + iData.mItemStockSoundVolumeOffset);
 				playSound(iData.mItemStockSound);
 				//アイテムに弾が当たるとアイテムの番号をCannonのアイテムナンバー配列に登録してストックする。
 				c->AddItemNum(static_cast<class Item*>(item)->GetNum());
-				item->SetState(EDead);
+				item->SetState(State::EDead);
 				std::ostringstream oss;
 				oss << item->GetName() << "アイテムをストック。";
 				GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 			}
-			item->SetState(EDead);
+			item->SetState(State::EDead);
 		}
 	}
 

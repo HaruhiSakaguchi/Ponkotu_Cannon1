@@ -15,7 +15,7 @@ public:
         EGameOver,
         EAllClear,
         EQuit,
-        EEmpry
+        EEmpty
     };
 
     State GetState() { return mState; }

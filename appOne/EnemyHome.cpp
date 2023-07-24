@@ -29,10 +29,6 @@ EnemyHome::EnemyHome(class Game* game)
 
 EnemyHome::~EnemyHome()
 {
-	for (auto prop : mProps)
-	{
-		prop->SetState(EDead);
-	}
 	GetGame()->GetActorManager()->SetEHome(nullptr);
 }
 
@@ -54,7 +50,7 @@ int EnemyHome::SetUp()
 
 	mCapsule = new CapsuleComponent(this);
 
-	SetTag(EHome);
+	SetTag(CharactersTag::EEHome);
 	SetHp(Data.mMaxHp);
 	SetMaxHp(Data.mMaxHp);
 	SetInitMaxHp(Data.mMaxHp);
@@ -216,14 +212,14 @@ void EnemyHome::UpdateActor()
 	{
 		if (CollisionCircle(GetRadius(), Actor->GetRadius(), GetPosition(), Actor->GetPosition()))
 		{
-			if (Actor->GetTag() == CharacterActor::CharactersTag::Tama)
+			if (Actor->GetTag() == CharacterActor::CharactersTag::ETama)
 			{
 				if (static_cast<class Tama*>(Actor)->GetStateCompoState()->GetName() != "Generate")
 				{
 					continue;
 				}
 			}
-			else if (Actor->GetTag() == CharacterActor::CharactersTag::Satellite)
+			else if (Actor->GetTag() == CharacterActor::CharactersTag::ESatellite)
 			{
 				if (static_cast<class Satellite*>(Actor)->GetStateCompoState()->GetName() != "Generate")
 				{
@@ -268,7 +264,7 @@ void EnemyHome::Damage(int damage)
 
 	if (GetHp() <= 0)
 	{
-		SetState(EDead);
+		SetState(State::EDead);
 	}
 }
 
@@ -330,6 +326,10 @@ void EnemyHome::Dead()
 	SpawnParticle(GetGame(), GetPosition(), "DoreDore", 20);
 	SpawnParticle(GetGame(), GetPosition(), "EnemyFlagFlag", 40);
 
+	for (auto prop : mProps)
+	{
+		prop->SetState(State::EDead);
+	}
 }
 
 bool EnemyHome::InEnemyArea(const VECTOR& pos)

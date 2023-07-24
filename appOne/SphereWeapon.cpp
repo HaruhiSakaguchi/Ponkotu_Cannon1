@@ -15,7 +15,7 @@ int SphereWeapon::SetUp(const DATA& data)
 	SetAdvSpeed(data.mAdvSpeed);
 	SetPosition(mTmpPos);
 	SetImageColor(data.mImageColor);
-	SetTag(Waepon);
+	SetTag(CharactersTag::EWaepon);
 
 	SetDir(mTmpDir);
 
@@ -38,9 +38,9 @@ void SphereWeapon::UpdateActor()
 	Data.mLifeTime -= Data.mLifeTimeDecreaseSpeed * delta;
 
 	//LifeTime‚ª‚È‚­‚È‚é‚©AOwner‚ª€‚ñ‚¾‚ç€‚Ê
-	if (Data.mLifeTime <= 0.0f || GetOwner()->GetState() != Actor::EActive)
+	if (Data.mLifeTime <= 0.0f || GetOwner()->GetState() != Actor::State::EActive)
 	{
-		SetState(Actor::EDead);
+		SetState(Actor::State::EDead);
 	}
 
 };

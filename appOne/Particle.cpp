@@ -37,7 +37,7 @@ void Particle::UpdateActor()
 	}
 	else
 	{
-		SetState(EDead);
+		SetState(State::EDead);
 	}
 }
 

@@ -21,7 +21,7 @@ Barricade::~Barricade()
 {
 	for (auto chara : GetGame()->GetActorManager()->GetPSide())
 	{
-		if (chara->GetTag() == CharacterActor::Barricade)
+		if (chara->GetTag() == CharacterActor::CharactersTag::EBarricade)
 		{
 			auto barri = static_cast<Barricade*>(chara);
 			if (barri->GetBNum() > this->GetBNum())
@@ -43,12 +43,12 @@ int Barricade::SetUp()
 	SetCapsulOffset(Data.mCapsuleOffset);
 	SetImageColor(Data.mImageColor);
 	SetInitMaxHp(GetMaxHp());
-	SetTag(CharacterActor::Barricade);
+	SetTag(CharacterActor::CharactersTag::EBarricade);
 
 	mCapsule = new CapsuleComponent(this);
 	//mCapsule->SetIsCollision(false);
-	mCapsule->AddNotCollisionTags((int)PHome);
-	mCapsule->AddNotCollisionTags((int)Satellite);
+	mCapsule->AddNotCollisionTags((int)CharactersTag::EPHome);
+	mCapsule->AddNotCollisionTags((int)CharactersTag::ESatellite);
 
 	auto tree = new TreeMeshComponent(this);
 	tree->SetTree("Barricade");
@@ -63,7 +63,7 @@ int Barricade::SetUp()
 	int num = 0;
 	for (auto chara : GetGame()->GetActorManager()->GetPSide())
 	{
-		if (chara->GetTag() == CharacterActor::Barricade)
+		if (chara->GetTag() == CharacterActor::CharactersTag::EBarricade)
 		{
 			num++;
 		}
@@ -87,27 +87,11 @@ void Barricade::UpdateActor()
 
 	for (auto enemy : GetGame()->GetActorManager()->GetEnemies())
 	{
-		/*if (enemy->GetTag() != CharacterActor::CharactersTag::Satellite && enemy->GetHp() > 0)
-		{
-			if (Intersect(this, enemy))
-			{
-				if (enemy->GetPosition().y < 0.0f)
-				{
-					enemy->SetPosition(enemy->GetPosition().x, 0.0f, enemy->GetPosition().z);
-				}
-			}
-		}*/
-
 		if (GetPosition().y > GetRadius() && mCapsule->OverlapActor(this, enemy) && enemy->GetHp() > 0)
 		{
 			enemy->Damage();
 		}
 	}
-
-	/*if (GetPosition().y <= 0.0f)
-	{
-		mCapsule->SetIsCollision(true);
-	}*/
 }
 
 void Barricade::Damage(int damage)
@@ -132,7 +116,7 @@ void Barricade::Damage(int damage)
 
 	if (GetHp() <= 0)
 	{
-		SetState(Actor::EDead);
+		SetState(Actor::State::EDead);
 	}
 }
 

@@ -19,13 +19,13 @@ int CannonWheelR::SetUp()
 
 	//mTc->SetTree("CannonWheelDamage");
 	//SetDamageMesh(mTc);
-	SetCategory(Actor::Object);
+	SetCategory(Actor::ActorsCategory::EObject);
 	return 0;
 }
 
 void CannonWheelR::UpdateActor()
 {
-	if (mOwner->GetState() == EActive)
+	if (mOwner->GetState() == State::EActive)
 	{
 		MATRIX Master;
 		Master.identity();
@@ -49,7 +49,7 @@ void CannonWheelR::UpdateActor()
 	}
 	else
 	{
-		SetState(EDead);
+		SetState(State::EDead);
 	}
 
 }

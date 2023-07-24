@@ -59,7 +59,7 @@ void Renderer::Draw()
 	for (auto mesh : mMeshes)
 	{
 		setTextureSamplerWrap();
-		if (mesh->GetOwner()->GetState() == Actor::EActive)
+		if (mesh->GetOwner()->GetState() == Actor::State::EActive)
 		{
 			mesh->Draw();
 		}
@@ -67,7 +67,7 @@ void Renderer::Draw()
 
 	for (auto sprite : mSprites)
 	{
-		if (sprite->GetOwner()->GetState() == Actor::EActive)
+		if (sprite->GetOwner()->GetState() == Actor::State::EActive)
 		{
 			sprite->Draw();
 		}

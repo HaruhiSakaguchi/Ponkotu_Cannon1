@@ -40,26 +40,15 @@ Cannon::Cannon(class Game* game)
 
 Cannon::~Cannon()
 {
-	stopSound(Data.mJumpSound);
 
-	mWheelL->SetState(EDead);
-	mWheelR->SetState(EDead);
+	GetGame()->GetActorManager()->RemoveCannon(this);
 
 	while (!mItemNums.empty())
 	{
 		mItemNums.pop_back();
 	}
 
-	stopSound(Data.mFallSound);
-	GetGame()->GetActorManager()->RemoveCannon(this);
-
-	for (auto cannon : GetGame()->GetActorManager()->GetCannons())
-	{
-		if (cannon->GetCNum() > GetCNum())
-		{
-			cannon->SetCNum(cannon->GetCNum() - 1);
-		}
-	}
+	
 }
 
 int Cannon::SetUp()
@@ -80,7 +69,7 @@ int Cannon::SetUp()
 	mState->ChangeState("Generate");
 
 	//基底クラスのデータにセット
-	SetTag(CharacterActor::Cannon);
+	SetTag(CharacterActor::CharactersTag::ECannon);
 	SetPosition(Data.mInitPos);
 	SetRadius(Data.mCannonCapsulRadius);
 	SetHeight(Data.mCannonCapsulHeight);
@@ -139,16 +128,15 @@ int Cannon::SetUp()
 	oss << "Cannon" << mCNum;
 	mCapsule = new CapsuleComponent(this);
 	mCapsule->SetIsCollision(false);
-	mCapsule->AddNotCollisionTags((int)CharacterActor::PHome);
-	mCapsule->AddNotCollisionTags((int)CharacterActor::Barricade);
-	mCapsule->AddNotCollisionTags((int)CharacterActor::EHome);
+	mCapsule->AddNotCollisionTags((int)CharacterActor::CharactersTag::EPHome);
+	mCapsule->AddNotCollisionTags((int)CharacterActor::CharactersTag::EBarricade);
+	mCapsule->AddNotCollisionTags((int)CharacterActor::CharactersTag::EEHome);
 
 	SetName(oss.str().c_str());
 
 	std::ostringstream oss2;
 	oss2 << GetName().c_str() << "が出撃。";
 	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss2.str());
-	//GetGame()->GetActorManager()->GetStage()->AddText("Ochimpo");
 
 	return 0;
 }
@@ -302,7 +290,7 @@ void Cannon::Damage(Actor* actor)
 	{
 		setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
 		playSound(mDeadSound);
-		SetState(Actor::EDead);
+		SetState(Actor::State::EDead);
 	}
 }
 
@@ -325,7 +313,7 @@ void Cannon::Damage(int damage)
 
 	if (GetHp() <= 0)
 	{
-		SetState(Actor::EDead);
+		SetState(Actor::State::EDead);
 	}
 }
 
@@ -353,6 +341,17 @@ void Cannon::FallOption()
 
 void Cannon::Dead()
 {
+	stopSound(Data.mJumpSound);
+	stopSound(Data.mFallSound);
+
+	for (auto cannon : GetGame()->GetActorManager()->GetCannons())
+	{
+		if (cannon->GetCNum() > GetCNum())
+		{
+			cannon->SetCNum(cannon->GetCNum() - 1);
+		}
+	}
+
 	SpawnParticle(GetGame(), GetPosition(), "CannonBarrelBarrel", 10);
 	SpawnParticle(GetGame(), GetPosition(), "CannonWheelCylinder", 20);
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());

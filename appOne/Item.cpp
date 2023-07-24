@@ -41,7 +41,7 @@ int Item::SetUp()
 	SetAdvSpeed(cData.mAdvSpeed);
 	SetHp(cData.mHp);
 	SetCapsulOffset(cData.mCapsulOffset);
-	SetCategory(Actor::Item);
+	SetCategory(Actor::ActorsCategory::EItem);
 	cData.mLifeTime = cData.mMaxLifeTime;
 	setVolume(cData.mDropSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + cData.mDropSoundVolumeOffset);
 	playSound(cData.mDropSound);
@@ -77,7 +77,7 @@ void Item::UpdateActor()
 
 	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
-		if (pSide->GetState() == Actor::EActive && mCapsule->OverlapActor(this, pSide))
+		if (pSide->GetState() == Actor::State::EActive && mCapsule->OverlapActor(this, pSide))
 		{
 			mOwner = pSide;
 			if (update() && mOwner)
@@ -86,7 +86,7 @@ void Item::UpdateActor()
 			}
 			if (GetHp() <= 0)
 			{
-				SetState(Actor::EDead);
+				SetState(Actor::State::EDead);
 			}
 		}
 	}
@@ -107,7 +107,7 @@ void Item::UpdateActor()
 
 	if (mTime >= cData.mMaxLifeTime || GetPosition().y < -5.0f)
 	{
-		SetState(Actor::EDead);
+		SetState(Actor::State::EDead);
 		std::ostringstream oss;
 		oss << GetName() << "アイテムが消滅。";
 		GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());

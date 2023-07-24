@@ -7,7 +7,7 @@
 class Actor
 {
 public:
-	enum State
+	enum class State
 	{
 		EActive, EPause, EDead
 	};
@@ -61,20 +61,20 @@ public:
 	void SetDamageMesh(class MeshComponent* mesh) { mDamageMesh = mesh; }
 	void SetNormalMesh(class MeshComponent* mesh) { mNormalMesh = mesh; }
 
-	MeshComponent* GetNormalMesh() { return mNormalMesh; }
-	MeshComponent* GetDamageMesh() { return mDamageMesh; }
+	class MeshComponent* GetNormalMesh() { return mNormalMesh; }
+	class MeshComponent* GetDamageMesh() { return mDamageMesh; }
 
 public:
-	enum ActorsCategory
+	enum class ActorsCategory
 	{
-		Character,
-		Weapon,
-		Item,
-		Object
+		ECharacter,
+		EWeapon,
+		EItem,
+		EObject
 	};
 
 	void SetCategory(ActorsCategory category) { mCategory = category; }
-	ActorsCategory GetCategory() { return mCategory; }
+	enum class ActorsCategory GetCategory() { return mCategory; }
 	class Game* GetGame() { return mGame; }
 private:
 	//ActorÇÃèÛë‘

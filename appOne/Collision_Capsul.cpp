@@ -253,7 +253,7 @@ bool CollisionCircle(float radius1, float radius2, const VECTOR& a, const VECTOR
 
 bool Intersect(CharacterActor* a, CharacterActor* b, bool flag)
 {
-	if (!a->GetState() == Actor::EActive || !b->GetState() == Actor::EActive)
+	if (a->GetState() != Actor::State::EActive || b->GetState() != Actor::State::EActive)
 	{
 		return false;
 	}

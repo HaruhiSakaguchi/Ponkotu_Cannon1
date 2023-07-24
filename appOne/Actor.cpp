@@ -12,8 +12,8 @@ Actor::Actor(Game* game)
 	, mRotation(0.0f, 0.0f, 0.0f)
 	, mInitPosition(0.0f, 0.0f, 0.0f)
 	, mScale(1.0f, 1.0f, 1.0f)
-	, mState(EActive)
-	, mCategory(Object)
+	, mState(State::EActive)
+	, mCategory(Actor::ActorsCategory::EObject)
 	, mMinPosY(-45.0f)
 	, mMaxPosY(15.0f)
 	, mNormalMesh(nullptr)
@@ -34,7 +34,7 @@ Actor::~Actor()
 
 void Actor::ProcessInput()
 {
-	if (mState == EActive)
+	if (mState == State::EActive)
 	{
 		for (auto comp : mComponents)
 		{
@@ -47,7 +47,7 @@ void Actor::ProcessInput()
 
 void Actor::Update()
 {
-	if (mState == EActive)
+	if (mState == State::EActive)
 	{
 		UpdateActor();
 

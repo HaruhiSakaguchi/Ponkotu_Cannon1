@@ -45,7 +45,7 @@ int Satellite::SetUp()
 	SetAdvSpeed(Data.mAdvSpeed);
 	SetJumpFlag(1);
 	SetRange(Data.mMaxRange);
-	SetTag(CharacterActor::Satellite);
+	SetTag(CharacterActor::CharactersTag::ESatellite);
 
 	Data.mId = mNum % 2;
 	int maxHp = 0;
@@ -81,9 +81,9 @@ int Satellite::SetUp()
 	mCapsule = new CapsuleComponent(this);
 	mCapsule->SetIsCollision(false);
 	mCapsule->SetSpandEp(VECTOR(0.0f, 0.0f, GetHeight()), VECTOR(0.0f, 0.0f, -GetHeight()));
-	mCapsule->AddNotCollisionTags(PHome);
-	mCapsule->AddNotCollisionTags(EHome);
-	mCapsule->AddNotCollisionTags(Barricade);
+	mCapsule->AddNotCollisionTags((int)CharactersTag::EPHome);
+	mCapsule->AddNotCollisionTags((int)CharactersTag::EEHome);
+	mCapsule->AddNotCollisionTags((int)CharactersTag::EBarricade);
 	std::ostringstream oss;
 
 	const char* type = nullptr;
@@ -150,7 +150,7 @@ void Satellite::UpdateActor()
 		mState->ChangeState("Normal");
 		if (GetPosition().y <= 0.0f)
 		{
-			SetState(Actor::EDead);
+			SetState(Actor::State::EDead);
 		}
 	}
 }
@@ -236,7 +236,7 @@ void Satellite::Dead()
 
 	for (auto wing : mWings)
 	{
-		wing->SetState(EDead);
+		wing->SetState(State::EDead);
 	}
 }
 

@@ -82,7 +82,7 @@ void SatelliteBullet::UpdateActor()
 	{
 		if (mCapsule->OverlapActor(this, pSide))
 		{
-			SetState(Actor::EDead);
+			SetState(Actor::State::EDead);
 			if (GetGame()->GetState() == Game::EGameplay && GetGame()->GetCurState()->GetState() == UIMainState::State::EGamePlay)
 			{
 				setVolume(iData.mImpactSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());
@@ -94,7 +94,7 @@ void SatelliteBullet::UpdateActor()
 
 	if (!GetOnMapFlag())
 	{
-		SetState(Actor::EDead);
+		SetState(Actor::State::EDead);
 	}
 
 	SphereWeapon::UpdateActor();

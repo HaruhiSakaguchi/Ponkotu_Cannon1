@@ -21,7 +21,7 @@ SatelliteWing::SatelliteWing(class Satellite* satellite)
 
 SatelliteWing::~SatelliteWing()
 {
-	if (mOwner && mOwner->GetState() == EActive && GetHp() > 0)
+	if (mOwner && mOwner->GetState() == State::EActive && GetHp() > 0)
 	{
 		static_cast<class Satellite*>(mOwner)->RemoveWings(this);
 	}
@@ -242,7 +242,7 @@ void SatelliteWing::UpdateActor()
 		SetPosition(prePos + (pos.y - prePos.y) * Data.mChangePosSpeed);
 		if (GetPosition().y <= 0.0f)
 		{
-			SetState(Actor::EDead);
+			SetState(Actor::State::EDead);
 		}
 
 	}

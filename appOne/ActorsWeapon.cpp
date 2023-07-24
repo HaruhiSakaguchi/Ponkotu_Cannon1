@@ -10,7 +10,7 @@ ActorsWeapon::ActorsWeapon(class CharacterActor* owner, const VECTOR& pos, const
 	, mMoveFlag(true)
 {
 	GetGame()->GetActorManager()->AddWeapons(this);
-	SetCategory(Actor::Weapon);
+	SetCategory(Actor::ActorsCategory::EWeapon);
 }
 
 ActorsWeapon::~ActorsWeapon()
@@ -25,5 +25,5 @@ int ActorsWeapon::SetUp(const DATA& data)
 
 void ActorsWeapon::damage()
 {
-	SetState(EDead);
+	SetState(State::EDead);
 }

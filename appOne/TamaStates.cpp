@@ -50,7 +50,7 @@ void TamaMove::OnEnter()
 
 	for (auto pSide : t->GetGame()->GetActorManager()->GetPSide())
 	{
-		if (pSide->GetState() == Actor::EActive)
+		if (pSide->GetState() == Actor::State::EActive)
 		{
 			VECTOR target = pSide->GetPosition() + pSide->GetCapsulOffset();
 			float distx = target.x - t->GetPosition().x;
@@ -132,7 +132,7 @@ void TamaSeache::Update()
 
 		if (t->GetCapsule()->LineTraceHitActor(t->GetSight(), &c, &p))
 		{
-			if (c->GetTag() == c->Cannon || c->GetTag() == c->Barricade || c->GetTag() == c->PHome)
+			if (c->GetTag() == CharacterActor::CharactersTag::ECannon || c->GetTag() == CharacterActor::CharactersTag::EBarricade || c->GetTag() == CharacterActor::CharactersTag::EPHome)
 			{
 				t->SetTargetPos(c->GetPosition() + c->GetCapsulOffset());
 				mOwnerCompo->ChangeState("RockOn");

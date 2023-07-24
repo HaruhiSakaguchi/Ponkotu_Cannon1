@@ -3,7 +3,7 @@
 
 UIMainState::UIMainState(Game* game)
 	: UIState(game)
-	, mState(State::EEmpry)
+	, mState(State::EEmpty)
 {
 	mGame->SetCurState(this);
 }

@@ -11,7 +11,7 @@ UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* o
 	mPosition = VECTOR2(0.0f, (mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f)) +
 		VECTOR2(2600.0f,100.0f);
 
-	if (mOwner->GetTag() == CharacterActor::Cannon)
+	if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon)
 	{
 		mOpenButtun = AddButton("¤",
 			[this]() {
@@ -40,7 +40,7 @@ UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* o
 void UIPSideCharacterStatusClose::draw()
 {
 	rectMode(CORNER);
-	if (mOwner->GetState() == Actor::EActive)
+	if (mOwner->GetState() == Actor::State::EActive)
 	{
 		noStroke();
 		fill(mGame->GetAllData()->itemStatusData.mTriangleColor);
@@ -54,9 +54,9 @@ void UIPSideCharacterStatusClose::draw()
 
 void UIPSideCharacterStatusClose::update()
 {
-	if (mOwner->GetState() == Actor::EActive)
+	if (mOwner->GetState() == Actor::State::EActive)
 	{
-		if (mOwner->GetTag() == CharacterActor::Cannon)
+		if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon)
 		{
 			mOpenButtun->SetPosition(VECTOR2(mPosition.x + 150.0f + 50.0f - 25.0f, mPosition.y + 25.0f) + mOffset);
 		}

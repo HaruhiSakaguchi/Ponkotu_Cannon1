@@ -58,13 +58,13 @@ int Tama::SetUp()
 	SetImageColor(Data.mImageColor);
 	SetGravity(Data.mGravity);
 	SetCapsulOffset(Data.mCapsulOffset);
-	SetTag(CharacterActor::Tama);
+	SetTag(CharacterActor::CharactersTag::ETama);
 
 	mCapsule = new CapsuleComponent(this);
 	mCapsule->SetIsCollision(false);
-	mCapsule->AddNotCollisionTags((int)CharactersTag::Barricade);
-	mCapsule->AddNotCollisionTags((int)CharactersTag::PHome);
-	mCapsule->AddNotCollisionTags((int)CharactersTag::EHome);
+	mCapsule->AddNotCollisionTags((int)CharactersTag::EBarricade);
+	mCapsule->AddNotCollisionTags((int)CharactersTag::EPHome);
+	mCapsule->AddNotCollisionTags((int)CharactersTag::EEHome);
 
 
 	//new HpGaugeSpriteComponent(this, Data.mHpGaugeOffset);
@@ -119,7 +119,7 @@ void Tama::UpdateActor()
 
 		if (mScale <= 0.0f)
 		{
-			SetState(Actor::EDead);
+			SetState(Actor::State::EDead);
 		}
 	}
 }
@@ -142,7 +142,7 @@ void Tama::FallOption()
 	std::stringstream oss;
 	oss << GetName().c_str() << "‚ª“Þ—Ž‚É—Ž‚¿‚½B";
 	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
-	SetState(EDead);
+	SetState(State::EDead);
 }
 
 void Tama::Dead()
@@ -175,7 +175,5 @@ void Tama::Dead()
 			GetGame()->GetActorManager()->GetEHome()->SetTamaGenerateLevel(GetGame()->GetActorManager()->GetEHome()->GetTamaGenerateLevel() + 1);
 		}
 	}
-
-	mEye->SetState(EDead);
 }
 

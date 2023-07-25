@@ -2,11 +2,11 @@
 #include "CharacterActor.h"
 #include <chrono>
 
-class Item : public CharacterActor
+class ItemObject : public CharacterActor
 {
 public:
-	Item(class Game* game);
-	virtual ~Item();
+	ItemObject(class Game* game);
+	virtual ~ItemObject();
 	int SetUp()override;
 	void UpdateActor()override;
 	virtual bool update() { return true; }

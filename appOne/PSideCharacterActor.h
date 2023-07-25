@@ -1,7 +1,6 @@
 #pragma once
 #include "CharacterActor.h"
 #include "UIPSideCharacterStatusBase.h"
-#include "ItemComponent.h"
 #include "Items.h"
 
 class PSideCharacterActor :
@@ -15,20 +14,20 @@ public:
 
 	void SetNum(int num) { mNum = num; }
 	int GetNum() { return mNum; }
-	class PowerUpCompo* GetPower() { return mPower; }
-	class SpeedUpCompo* GetSpeed() { return mSpeed; }
-	class BarrierCompo* GetBarrier() { return mBarrier; }
-	class RapidFireCompo* GetRapid() { return mRapid; }
-	void SetPower(class PowerUpCompo* power) { mPower = power; }
-	void SetSpeed(class SpeedUpCompo* speed) { mSpeed = speed; }
-	void SetBarrier(class BarrierCompo* barrier) { mBarrier = barrier; }
-	void SetRapid(class RapidFireCompo* rapid) { mRapid = rapid; }
+	class PowerUpEffect* GetPower() { return mPower; }
+	class SpeedUpEffect* GetSpeed() { return mSpeed; }
+	class BarrierEffect* GetBarrier() { return mBarrier; }
+	class RapidFireEffect* GetRapid() { return mRapid; }
+	void SetPower(class PowerUpEffect* power) { mPower = power; }
+	void SetSpeed(class SpeedUpEffect* speed) { mSpeed = speed; }
+	void SetBarrier(class BarrierEffect* barrier) { mBarrier = barrier; }
+	void SetRapid(class RapidFireEffect* rapid) { mRapid = rapid; }
 protected:
 	//ƒAƒCƒeƒ€‚Ì•ª—Þ
-	class PowerUpCompo* mPower;
-	class SpeedUpCompo* mSpeed;
-	class BarrierCompo* mBarrier;
-	class RapidFireCompo* mRapid;
+	class PowerUpEffect* mPower;
+	class SpeedUpEffect* mSpeed;
+	class BarrierEffect* mBarrier;
+	class RapidFireEffect* mRapid;
 private:
 	int mNum;
 	class UIPSideCharacterStatusBase* mUI;

@@ -6,7 +6,7 @@
 #include <sstream>
 
 Recovery::Recovery(class Game* game)
-	:Item(game)
+	:ItemObject(game)
 {
 	iData = GetGame()->GetAllData()->recoverData;
 	SetImageColor(iData.mColor);
@@ -22,7 +22,7 @@ bool Recovery::update()
 
 	if (p->GetHp() < p->GetMaxHp())
 	{
-		new RecoveryCompo(p);
+		new RecoveryEffect(p);
 		setVolume(iData.mSound1, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + mRecoverySoundVolumeOffset);
 		playSound(iData.mSound1);
 		std::ostringstream oss;
@@ -45,10 +45,10 @@ bool Recovery::update()
 	return true;
 }
 
-RecoveryCompo::RecoveryCompo(class PSideCharacterActor* owner)
-	: ItemComponent(owner)
+RecoveryEffect::RecoveryEffect(class PSideCharacterActor* owner)
+	: ItemEffect(owner)
 {
-	Data = owner->GetGame()->GetAllData()->recoverCompoData;
+	Data = owner->GetGame()->GetAllData()->recoverEffectData;
 	SetHp(Data.mMaxHp);
 	SetMaxHp(GetHp());
 	SetName(Data.mName.c_str());
@@ -64,7 +64,7 @@ RecoveryCompo::RecoveryCompo(class PSideCharacterActor* owner)
 }
 
 SpeedUp::SpeedUp(class Game* game)
-	: Item(game)
+	: ItemObject(game)
 {
 	iData = GetGame()->GetAllData()->speedData;
 	SetImageColor(iData.mColor);
@@ -81,8 +81,8 @@ bool SpeedUp::update()
 	{
 		if (!c->GetSpeed())
 		{
-			new SpeedUpCompo(c);
-			c->GetSpeed()->SetInterval(GetGame()->GetAllData()->speedCompoData.mInterval);
+			new SpeedUpEffect(c);
+			c->GetSpeed()->SetInterval(GetGame()->GetAllData()->speedEffectData.mInterval);
 			c->GetSpeed()->SetTime(c->GetSpeed()->GetInterval());
 			c->GetSpeed()->SetColor(iData.mColor);
 			std::ostringstream oss;
@@ -109,11 +109,11 @@ bool SpeedUp::update()
 
 }
 
-SpeedUpCompo::SpeedUpCompo(class PSideCharacterActor* owner)
-	: ItemComponent(owner)
+SpeedUpEffect::SpeedUpEffect(class PSideCharacterActor* owner)
+	: ItemEffect(owner)
 {
 	owner->SetSpeed(this);
-	Data = owner->GetGame()->GetAllData()->speedCompoData;
+	Data = owner->GetGame()->GetAllData()->speedEffectData;
 	mMeshName = "SpeedSphere";
 	SetHp(Data.mMaxHp);
 	SetMaxHp(GetHp());
@@ -123,14 +123,14 @@ SpeedUpCompo::SpeedUpCompo(class PSideCharacterActor* owner)
 
 }
 
-SpeedUpCompo::~SpeedUpCompo()
+SpeedUpEffect::~SpeedUpEffect()
 {
 
 }
 
-void SpeedUpCompo::UpdateActor()
+void SpeedUpEffect::UpdateActor()
 {
-	ItemComponent::UpdateActor();
+	ItemEffect::UpdateActor();
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 	if (c && c->GetTag() == CharacterActor::CharactersTag::ECannon)
 	{
@@ -138,9 +138,9 @@ void SpeedUpCompo::UpdateActor()
 	}
 }
 
-void SpeedUpCompo::Dead()
+void SpeedUpEffect::Dead()
 {
-	ItemComponent::Dead();
+	ItemEffect::Dead();
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 	if (c && c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
 	{
@@ -152,7 +152,7 @@ void SpeedUpCompo::Dead()
 }
 
 PowerUp::PowerUp(class Game* game)
-	:Item(game)
+	:ItemObject(game)
 {
 	iData = GetGame()->GetAllData()->powerData;
 	SetImageColor(iData.mColor);
@@ -170,8 +170,8 @@ bool PowerUp::update()
 	{
 		if (!c->GetPower())
 		{
-			new PowerUpCompo(c);
-			c->GetPower()->SetInterval(GetGame()->GetAllData()->powerCompoData.mInterval);
+			new PowerUpEffect(c);
+			c->GetPower()->SetInterval(GetGame()->GetAllData()->powerEffectData.mInterval);
 			c->GetPower()->SetTime(c->GetPower()->GetInterval());
 			c->GetPower()->SetColor(iData.mColor);
 			std::ostringstream oss;
@@ -196,11 +196,11 @@ bool PowerUp::update()
 	return true;
 }
 
-PowerUpCompo::PowerUpCompo(class PSideCharacterActor* owner)
-	:ItemComponent(owner)
+PowerUpEffect::PowerUpEffect(class PSideCharacterActor* owner)
+	:ItemEffect(owner)
 {
 	owner->SetPower(this);
-	Data = owner->GetGame()->GetAllData()->powerCompoData;
+	Data = owner->GetGame()->GetAllData()->powerEffectData;
 	SetHp(Data.mMaxHp);
 	mMeshName = "PowerSphere";
 	SetMaxHp(GetHp());
@@ -210,14 +210,14 @@ PowerUpCompo::PowerUpCompo(class PSideCharacterActor* owner)
 
 }
 
-PowerUpCompo::~PowerUpCompo()
+PowerUpEffect::~PowerUpEffect()
 {
 
 }
 
-void PowerUpCompo::UpdateActor()
+void PowerUpEffect::UpdateActor()
 {
-	ItemComponent::UpdateActor();
+	ItemEffect::UpdateActor();
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 	if (c)
 	{
@@ -226,9 +226,9 @@ void PowerUpCompo::UpdateActor()
 
 }
 
-void PowerUpCompo::Dead()
+void PowerUpEffect::Dead()
 {
-	ItemComponent::Dead();
+	ItemEffect::Dead();
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 	if (c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
 	{
@@ -240,7 +240,7 @@ void PowerUpCompo::Dead()
 }
 
 RapidFire::RapidFire(class Game* game)
-	:Item(game)
+	:ItemObject(game)
 {
 	iData = GetGame()->GetAllData()->rapidData;
 	SetImageColor(iData.mColor);
@@ -260,8 +260,8 @@ bool RapidFire::update()
 	{
 		if (!c->GetRapid())
 		{
-			new RapidFireCompo(c);
-			c->GetRapid()->SetInterval(GetGame()->GetAllData()->rapidCompoData.mInterval);
+			new RapidFireEffect(c);
+			c->GetRapid()->SetInterval(GetGame()->GetAllData()->rapidEffectData.mInterval);
 			c->GetRapid()->SetTime(c->GetRapid()->GetInterval());
 			c->GetRapid()->SetColor(iData.mColor);
 			if (GetGame()->GetState() == Game::GameState::EGameplay)
@@ -294,11 +294,11 @@ bool RapidFire::update()
 
 }
 
-RapidFireCompo::RapidFireCompo(class PSideCharacterActor* owner)
-	: ItemComponent(owner)
+RapidFireEffect::RapidFireEffect(class PSideCharacterActor* owner)
+	: ItemEffect(owner)
 {
 	owner->SetRapid(this);
-	Data = owner->GetGame()->GetAllData()->rapidCompoData;
+	Data = owner->GetGame()->GetAllData()->rapidEffectData;
 	SetHp(Data.mMaxHp);
 	mMeshName = "RapidSphere";
 	SetMaxHp(GetHp());
@@ -308,14 +308,14 @@ RapidFireCompo::RapidFireCompo(class PSideCharacterActor* owner)
 
 }
 
-RapidFireCompo::~RapidFireCompo()
+RapidFireEffect::~RapidFireEffect()
 {
 
 }
 
-void RapidFireCompo::UpdateActor()
+void RapidFireEffect::UpdateActor()
 {
-	ItemComponent::UpdateActor();
+	ItemEffect::UpdateActor();
 
 	if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon)
 	{
@@ -324,9 +324,9 @@ void RapidFireCompo::UpdateActor()
 
 }
 
-void RapidFireCompo::Dead()
+void RapidFireEffect::Dead()
 {
-	ItemComponent::Dead();
+	ItemEffect::Dead();
 	if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon && mOwner->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
 	{
 		auto c = static_cast<Cannon*>(mOwner);
@@ -338,7 +338,7 @@ void RapidFireCompo::Dead()
 }
 
 Barrier::Barrier(class Game* game)
-	:Item(game)
+	:ItemObject(game)
 {
 	iData = GetGame()->GetAllData()->barrierData;
 	SetImageColor(iData.mColor);
@@ -355,11 +355,11 @@ bool Barrier::update()
 
 	if (!c->GetBarrier())
 	{
-		new BarrierCompo(c);
-		c->GetBarrier()->SetInterval(GetGame()->GetAllData()->barrierCompoData.mInterval);
+		new BarrierEffect(c);
+		c->GetBarrier()->SetInterval(GetGame()->GetAllData()->barrierEffectData.mInterval);
 		c->GetBarrier()->SetTime(c->GetBarrier()->GetInterval());
 		c->GetBarrier()->SetColor(iData.mColor);
-		c->GetBarrier()->SetMaxHp(GetGame()->GetAllData()->barrierCompoData.mMaxHp);
+		c->GetBarrier()->SetMaxHp(GetGame()->GetAllData()->barrierEffectData.mMaxHp);
 		c->GetBarrier()->SetHp(c->GetBarrier()->GetMaxHp());
 		std::ostringstream oss;
 		oss << GetName() << "アイテムを使用。";
@@ -385,11 +385,11 @@ bool Barrier::update()
 	return true;
 }
 
-BarrierCompo::BarrierCompo(class PSideCharacterActor* owner)
-	:ItemComponent(owner)
+BarrierEffect::BarrierEffect(class PSideCharacterActor* owner)
+	:ItemEffect(owner)
 {
 	owner->SetBarrier(this);
-	Data = owner->GetGame()->GetAllData()->barrierCompoData;
+	Data = owner->GetGame()->GetAllData()->barrierEffectData;
 	SetHp(Data.mMaxHp);
 	SetMaxHp(GetHp());
 	SetMaxLevel(Data.mMaxLevel);
@@ -398,14 +398,14 @@ BarrierCompo::BarrierCompo(class PSideCharacterActor* owner)
 
 }
 
-BarrierCompo::~BarrierCompo()
+BarrierEffect::~BarrierEffect()
 {
 
 }
 
-void BarrierCompo::Dead()
+void BarrierEffect::Dead()
 {
-	ItemComponent::Dead();
+	ItemEffect::Dead();
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
 	if (c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
@@ -418,9 +418,9 @@ void BarrierCompo::Dead()
 	}
 }
 
-void BarrierCompo::UpdateActor()
+void BarrierEffect::UpdateActor()
 {
-	ItemComponent::UpdateActor();
+	ItemEffect::UpdateActor();
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
 	if (c)

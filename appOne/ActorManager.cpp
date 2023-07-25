@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "Map.h"
 #include "Enemy.h"
-#include "Item.h"
+#include "ItemObject.h"
 #include "ActorsWeapon.h"
 #include "PlayerHome.h"
 #include "EnemyHome.h"
@@ -164,12 +164,12 @@ void ActorManager::RemoveEnemies(class Enemy* enemy)
 	}
 }
 
-void ActorManager::AddItems(class Item* item)
+void ActorManager::AddItems(class ItemObject* item)
 {
 	mItems.emplace_back(item);
 }
 
-void ActorManager::RemoveItems(class Item* item)
+void ActorManager::RemoveItems(class ItemObject* item)
 {
 	//‚±‚Ìactor‚ªmActors‚É‚ ‚é‚©’T‚·
 	auto iter = std::find(mItems.begin(), mItems.end(), item);

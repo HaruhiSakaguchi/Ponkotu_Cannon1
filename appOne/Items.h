@@ -1,9 +1,9 @@
 #pragma once
-#include "Item.h"
-#include "ItemComponent.h"
+#include "ItemObject.h"
+#include "ItemEffect.h"
 #include "sound.h"
 
-class Recovery : public Item
+class Recovery : public ItemObject
 {
 public:
 	Recovery(class Game* game);
@@ -12,15 +12,15 @@ private:
 	int mRecoverySoundVolumeOffset = -450;
 };
 
-class RecoveryCompo : public ItemComponent
+class RecoveryEffect : public ItemEffect
 {
 public:
-	RecoveryCompo(class PSideCharacterActor* owner);
+	RecoveryEffect(class PSideCharacterActor* owner);
 private:
 	int mRecoveryHp = 3;
 };
 
-class SpeedUp : public Item
+class SpeedUp : public ItemObject
 {
 public:
 	SpeedUp(class Game* game);
@@ -29,18 +29,18 @@ private:
 	int mSpeedUpSoundVolumeOffset = -800;
 };
 
-class SpeedUpCompo : public ItemComponent
+class SpeedUpEffect : public ItemEffect
 {
 public:
-	SpeedUpCompo(class PSideCharacterActor* owner);
-	~SpeedUpCompo();
+	SpeedUpEffect(class PSideCharacterActor* owner);
+	~SpeedUpEffect();
 	void UpdateActor()override;
 	void Dead()override;
 private:
 	float mSpeedUpRate = 0.1f;
 };
 
-class PowerUp : public Item
+class PowerUp : public ItemObject
 {
 public:
 	PowerUp(class Game* game);
@@ -49,16 +49,16 @@ private:
 	int mPowerUpSoundVolumeOffset = -450;
 };
 
-class PowerUpCompo : public ItemComponent
+class PowerUpEffect : public ItemEffect
 {
 public:
-	PowerUpCompo(class PSideCharacterActor* owner);
-	~PowerUpCompo();
+	PowerUpEffect(class PSideCharacterActor* owner);
+	~PowerUpEffect();
 	void UpdateActor()override;
 	void Dead()override;
 };
 
-class RapidFire : public Item
+class RapidFire : public ItemObject
 {
 public:
 	RapidFire(class Game* game);
@@ -67,18 +67,18 @@ private:
 	int mRapidFireSoundVolumeOffset = -450;
 };
 
-class RapidFireCompo : public ItemComponent
+class RapidFireEffect : public ItemEffect
 {
 public:
-	RapidFireCompo(class PSideCharacterActor* owner);
-	~RapidFireCompo();
+	RapidFireEffect(class PSideCharacterActor* owner);
+	~RapidFireEffect();
 	void UpdateActor()override;
 	void Dead()override;
 private:
 	float mLaunchIntervalDecreaseRate = 0.1f;
 };
 
-class Barrier : public Item
+class Barrier : public ItemObject
 {
 public:
 	Barrier(class Game* game);
@@ -87,11 +87,11 @@ private:
 	int mBarrierSoundVolumeOffset = -750;
 };
 
-class BarrierCompo : public ItemComponent
+class BarrierEffect : public ItemEffect
 {
 public:
-	BarrierCompo(class PSideCharacterActor* owner);
-	~BarrierCompo();
+	BarrierEffect(class PSideCharacterActor* owner);
+	~BarrierEffect();
 	void UpdateActor()override;
 	void Dead()override;
 };

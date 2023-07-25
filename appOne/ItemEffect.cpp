@@ -1,11 +1,11 @@
-#include "ItemComponent.h"
+#include "ItemEffect.h"
 #include "window.h"
 #include "Game.h"
 #include "TransitionFade.h"
 #include "Container.h"
 #include "rand.h"
 
-ItemComponent::ItemComponent(class CharacterActor* owner)
+ItemEffect::ItemEffect(class CharacterActor* owner)
 	: CharacterActor(owner->GetGame())
 	, mOwner(owner)
 	, mUpTime(0.0f)
@@ -14,16 +14,16 @@ ItemComponent::ItemComponent(class CharacterActor* owner)
 	, mBeforeParticleSpawnTime(0)
 	, mIsSpawnParticle(true)
 {
-	cData = GetGame()->GetAllData()->itemCompoData;
+	cData = GetGame()->GetAllData()->itemEffectData;
 	SetCategory(ActorsCategory::EObject);
 	TimeReset();
 }
 
-ItemComponent::~ItemComponent()
+ItemEffect::~ItemEffect()
 {
 }
 
-void ItemComponent::UpdateActor()
+void ItemEffect::UpdateActor()
 {
 	if (!mOwner || Data.mTime <= 0.0f || GetHp() <= 0)
 	{
@@ -65,7 +65,7 @@ void ItemComponent::UpdateActor()
 
 }
 
-void ItemComponent::Dead()
+void ItemEffect::Dead()
 {
 	if (Data.mMaxHp != 0 && !GetGame()->GetRenderer()->GetTransition()->outEndFlag())
 	{

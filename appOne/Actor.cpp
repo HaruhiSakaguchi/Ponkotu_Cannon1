@@ -164,7 +164,7 @@ void Actor::DropItems()
 void Actor::DropItems(int num)
 {
 	VECTOR pos = GetPosition();
-	class Item* i = nullptr;
+	class ItemObject* i = nullptr;
 	switch (num)
 	{
 	case 1:
@@ -197,7 +197,7 @@ void Actor::DropItems(int num)
 void Actor::DropItems(const VECTOR& pos)
 {
 	int num = rand() % 5;
-	class Item* i = nullptr;
+	class ItemObject* i = nullptr;
 	switch (num)
 	{
 	case 0:

@@ -436,65 +436,65 @@ void SetAllData(Container& ad)
 		ad.barrierData.mColor = COLOR(255, 0, 255);
 		ad.barrierData.mName = "Barrier";
 	}
-	//itemComponentに共通するデータ
+	//itemEffectに共通するデータ
 	{
-		ad.itemCompoData.mUIPosY = 0.0f;
-		ad.itemCompoData.mUIOffsetPosY = 150.0f;
-		ad.itemCompoData.mUIPosAdvSpeed = -100.0f;
-		ad.itemCompoData.mUIMinPosX = 1600.0f;
-		ad.itemCompoData.mUIPosChangeSpeed = 0.5f;
-		ad.itemCompoData.mNumber = 0;
-		ad.itemCompoData.mKeepTime = 0.0f;
+		ad.itemEffectData.mUIPosY = 0.0f;
+		ad.itemEffectData.mUIOffsetPosY = 150.0f;
+		ad.itemEffectData.mUIPosAdvSpeed = -100.0f;
+		ad.itemEffectData.mUIMinPosX = 1600.0f;
+		ad.itemEffectData.mUIPosChangeSpeed = 0.5f;
+		ad.itemEffectData.mNumber = 0;
+		ad.itemEffectData.mKeepTime = 0.0f;
 	}
-	//recoverCompo
+	//recoverEffect
 	{
-		ad.recoverCompoData.mName = "回復";
-		ad.recoverCompoData.mLevel = 1;
-		ad.recoverCompoData.mMaxLevel = 1;
-		ad.recoverCompoData.mTime = 0.0f;
-		ad.recoverCompoData.mInterval = 0.0f;
-		ad.recoverCompoData.mMaxHp = 0;
-		ad.recoverCompoData.mColor = COLOR(0, 255, 0);
+		ad.recoverEffectData.mName = "回復";
+		ad.recoverEffectData.mLevel = 1;
+		ad.recoverEffectData.mMaxLevel = 1;
+		ad.recoverEffectData.mTime = 0.0f;
+		ad.recoverEffectData.mInterval = 0.0f;
+		ad.recoverEffectData.mMaxHp = 0;
+		ad.recoverEffectData.mColor = COLOR(0, 255, 0);
 	}
-	//powerCompo
+	//powerEffect
 	{
-		ad.powerCompoData.mName = "威力増加";
-		ad.powerCompoData.mLevel = 1;
-		ad.powerCompoData.mMaxLevel = 4;
-		ad.powerCompoData.mTime = 0.0f;
-		ad.powerCompoData.mInterval = 100.0f;
-		ad.powerCompoData.mMaxHp = 1;
-		ad.powerCompoData.mColor = COLOR(255, 255, 0);
+		ad.powerEffectData.mName = "威力増加";
+		ad.powerEffectData.mLevel = 1;
+		ad.powerEffectData.mMaxLevel = 4;
+		ad.powerEffectData.mTime = 0.0f;
+		ad.powerEffectData.mInterval = 100.0f;
+		ad.powerEffectData.mMaxHp = 1;
+		ad.powerEffectData.mColor = COLOR(255, 255, 0);
 	}
-	//speedCompo
+	//speedEffect
 	{
-		ad.speedCompoData.mName = "移動速度増加";
-		ad.speedCompoData.mLevel = 1;
-		ad.speedCompoData.mMaxLevel = 5;
-		ad.speedCompoData.mTime = 0.0f;
-		ad.speedCompoData.mInterval = 100.0f;
-		ad.speedCompoData.mMaxHp = 1;
-		ad.speedCompoData.mColor = COLOR(0, 0, 255);
+		ad.speedEffectData.mName = "移動速度増加";
+		ad.speedEffectData.mLevel = 1;
+		ad.speedEffectData.mMaxLevel = 5;
+		ad.speedEffectData.mTime = 0.0f;
+		ad.speedEffectData.mInterval = 100.0f;
+		ad.speedEffectData.mMaxHp = 1;
+		ad.speedEffectData.mColor = COLOR(0, 0, 255);
 	}
-	//rapidCompo
+	//rapidEffect
 	{
-		ad.rapidCompoData.mName = "発射間隔短縮";
-		ad.rapidCompoData.mLevel = 1;
-		ad.rapidCompoData.mMaxLevel = 3;
-		ad.rapidCompoData.mTime = 0.0f;
-		ad.rapidCompoData.mInterval = 100.0f;
-		ad.rapidCompoData.mMaxHp = 1;
-		ad.rapidCompoData.mColor = COLOR(255, 0, 0);
+		ad.rapidEffectData.mName = "発射間隔短縮";
+		ad.rapidEffectData.mLevel = 1;
+		ad.rapidEffectData.mMaxLevel = 3;
+		ad.rapidEffectData.mTime = 0.0f;
+		ad.rapidEffectData.mInterval = 100.0f;
+		ad.rapidEffectData.mMaxHp = 1;
+		ad.rapidEffectData.mColor = COLOR(255, 0, 0);
 	}
-	//barrierCompo
+	//barrierEffect
 	{
-		ad.barrierCompoData.mName = "ダメージ無効";
-		ad.barrierCompoData.mLevel = 1;
-		ad.barrierCompoData.mMaxLevel = 5;
-		ad.barrierCompoData.mTime = 0.0f;
-		ad.barrierCompoData.mInterval = 100.0f;
-		ad.barrierCompoData.mMaxHp = 3;
-		ad.barrierCompoData.mColor = COLOR(255, 0, 255);
+		ad.barrierEffectData.mName = "ダメージ無効";
+		ad.barrierEffectData.mLevel = 1;
+		ad.barrierEffectData.mMaxLevel = 5;
+		ad.barrierEffectData.mTime = 0.0f;
+		ad.barrierEffectData.mInterval = 100.0f;
+		ad.barrierEffectData.mMaxHp = 3;
+		ad.barrierEffectData.mColor = COLOR(255, 0, 255);
 	}
 	//playerBullet
 	{

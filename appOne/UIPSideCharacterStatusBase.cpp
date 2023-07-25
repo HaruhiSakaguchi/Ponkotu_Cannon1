@@ -45,9 +45,9 @@ void UIPSideCharacterStatusBase::Update()
 	}
 	else
 	{
-		if (mPosition.x > mGame->GetAllData()->itemCompoData.mUIMinPosX)
+		if (mPosition.x > mGame->GetAllData()->itemEffectData.mUIMinPosX)
 		{
-			mPosition.x += mGame->GetAllData()->itemCompoData.mUIPosAdvSpeed;
+			mPosition.x += mGame->GetAllData()->itemEffectData.mUIPosAdvSpeed;
 		}
 
 		int num = mOwner->GetNum();
@@ -57,7 +57,7 @@ void UIPSideCharacterStatusBase::Update()
 			num--;
 		}
 
-		mPosition.y = (mGame->GetAllData()->itemCompoData.mUIOffsetPosY / 2.0f) * num + 100.0f;
+		mPosition.y = (mGame->GetAllData()->itemEffectData.mUIOffsetPosY / 2.0f) * num + 100.0f;
 
 		float preWidth = mHpGaugeWidth;
 		float wid = 100.0f * mOwner->GetHp() / mOwner->GetMaxHp();

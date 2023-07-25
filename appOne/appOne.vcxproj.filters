@@ -365,10 +365,10 @@
     <ClCompile Include="CharacterActor.cpp">
       <Filter>Actor\Character\base</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
+    <ClCompile Include="ItemObject.cpp">
       <Filter>Actor\Character\Item\base</Filter>
     </ClCompile>
-    <ClCompile Include="ItemComponent.cpp">
+    <ClCompile Include="ItemEffect.cpp">
       <Filter>Actor\Character\Item\component</Filter>
     </ClCompile>
     <ClCompile Include="StateComponent.cpp">
@@ -643,10 +643,10 @@
     <ClInclude Include="CharacterActor.h">
       <Filter>Actor\Character\base</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
+    <ClInclude Include="ItemObject.h">
       <Filter>Actor\Character\Item\base</Filter>
     </ClInclude>
-    <ClInclude Include="ItemComponent.h">
+    <ClInclude Include="ItemEffect.h">
       <Filter>Actor\Character\Item\component</Filter>
     </ClInclude>
     <ClInclude Include="StateComponent.h">

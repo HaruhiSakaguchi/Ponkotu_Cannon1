@@ -62,7 +62,7 @@ void PlayerBullet::UpdateActor()
 				setVolume(iData.mItemStockSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume() + iData.mItemStockSoundVolumeOffset);
 				playSound(iData.mItemStockSound);
 				//アイテムに弾が当たるとアイテムの番号をCannonのアイテムナンバー配列に登録してストックする。
-				c->AddItemNum(static_cast<class Item*>(item)->GetNum());
+				c->AddItemNum(static_cast<class ItemObject*>(item)->GetNum());
 				item->SetState(State::EDead);
 				std::ostringstream oss;
 				oss << item->GetName() << "アイテムをストック。";

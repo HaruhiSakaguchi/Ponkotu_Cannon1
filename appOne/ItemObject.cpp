@@ -1,4 +1,4 @@
-#include "Item.h"
+#include "ItemObject.h"
 #include "Game.h"
 #include "window.h"
 #include "Cannon.h"
@@ -10,7 +10,7 @@
 #include "CollisionMapComponent.h"
 #include "PlayerHome.h"
 
-Item::Item(Game* game)
+ItemObject::ItemObject(Game* game)
 	: CharacterActor(game)
 	, mTc(nullptr)
 	, mOwner(nullptr)
@@ -26,12 +26,12 @@ Item::Item(Game* game)
 	mCapsule->SetIsCollision(false);
 }
 
-Item::~Item()
+ItemObject::~ItemObject()
 {
 	GetGame()->GetActorManager()->RemoveItems(this);
 }
 
-int Item::SetUp()
+int ItemObject::SetUp()
 {
 	cData = GetGame()->GetAllData()->itemCommonData;
 	SetRadius(cData.mRadius);
@@ -56,7 +56,7 @@ int Item::SetUp()
 	return 0;
 }
 
-void Item::UpdateActor()
+void ItemObject::UpdateActor()
 {
 	if (mTime < cData.mMaxLifeTime)
 	{
@@ -118,7 +118,7 @@ void Item::UpdateActor()
 	}
 }
 
-void Item::CreateMesh(const char* normalMeshName, const char* damageMeshName)
+void ItemObject::CreateMesh(const char* normalMeshName, const char* damageMeshName)
 {
 	if (normalMeshName)
 	{

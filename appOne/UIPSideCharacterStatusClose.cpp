@@ -8,7 +8,7 @@ UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* o
 	: UIPSideCharacterStatusBase(static_cast<PSideCharacterActor*>(owner))
 	, mOpenButtun(nullptr)
 {
-	mPosition = VECTOR2(0.0f, (mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f)) +
+	mPosition = VECTOR2(0.0f, (mGame->GetAllData()->itemEffectData.mUIOffsetPosY + 75.0f)) +
 		VECTOR2(2600.0f,100.0f);
 
 	if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon)
@@ -16,14 +16,14 @@ UIPSideCharacterStatusClose::UIPSideCharacterStatusClose(class CharacterActor* o
 		mOpenButtun = AddButton("¤",
 			[this]() {
 
-				OtherPSideUIsTranslate(VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
+				OtherPSideUIsTranslate(VECTOR2(0.0f, mGame->GetAllData()->itemEffectData.mUIOffsetPosY + 75.0f));
 				CloseMe();
 				auto ui = new UIPSideCharacterStatus(mOwner);
 				ui->SetOffset(this->GetOffset());
 			}
 			, 2
 				, nullptr
-				, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 50.0f, 215.0f)
+				, VECTOR2(mGame->GetAllData()->itemEffectData.mUIMinPosX - width / 2.0f + 50.0f, 215.0f)
 
 				);
 

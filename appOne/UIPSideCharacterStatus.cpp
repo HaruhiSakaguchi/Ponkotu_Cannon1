@@ -16,21 +16,21 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 	, mFieldPatrollButton(nullptr)
 	, mCloseButton(nullptr)
 {
-	mPosition = VECTOR2(0.0f, (mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f)) +
+	mPosition = VECTOR2(0.0f, (mGame->GetAllData()->itemEffectData.mUIOffsetPosY + 75.0f)) +
 		VECTOR2(2600.0f,100.0f);
 
 	mStayButton = AddButton("S",
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::MoveState::EStay);
-			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
+			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemEffectData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
 		}
 		, 2
 			, nullptr
-			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 50.0f, 215.0f)
+			, VECTOR2(mGame->GetAllData()->itemEffectData.mUIMinPosX - width / 2.0f + 50.0f, 215.0f)
 			);
 
 
@@ -38,14 +38,14 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::MoveState::EReturn);
-			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
+			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemEffectData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			UIPSideCharacterStatusClose* ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
 		}
 		, 2
 			, nullptr
-			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 100.0f, 215.0f - 69.0f)
+			, VECTOR2(mGame->GetAllData()->itemEffectData.mUIMinPosX - width / 2.0f + 100.0f, 215.0f - 69.0f)
 			);
 
 
@@ -53,41 +53,41 @@ UIPSideCharacterStatus::UIPSideCharacterStatus(class CharacterActor* owner)
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::MoveState::EHomePatroll);
-			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
+			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemEffectData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			auto ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
 		}
 		, 2
 			, nullptr
-			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 150.0f, 215.0f - 69.0f * 2)
+			, VECTOR2(mGame->GetAllData()->itemEffectData.mUIMinPosX - width / 2.0f + 150.0f, 215.0f - 69.0f * 2)
 			);
 
 	mFieldPatrollButton = AddButton("F",
 		[this]() {
 			class Cannon* c = static_cast<Cannon*>(mOwner);
 			c->SetMoveState(Cannon::MoveState::EFieldPatroll);
-			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
+			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemEffectData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			auto ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
 		}
 		, 2
 			, nullptr
-			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 200.0f, 215.0f - 69.0f * 3)
+			, VECTOR2(mGame->GetAllData()->itemEffectData.mUIMinPosX - width / 2.0f + 200.0f, 215.0f - 69.0f * 3)
 			);
 
 
 	mCloseButton = AddButton("¢",
 		[this]() {
-			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f));
+			OtherPSideUIsTranslate(-VECTOR2(0.0f, mGame->GetAllData()->itemEffectData.mUIOffsetPosY + 75.0f));
 			CloseMe();
 			auto ui = new UIPSideCharacterStatusClose(mOwner);
 			ui->SetOffset(this->GetOffset());
 		}
 		, 2
 			, nullptr
-			, VECTOR2(mGame->GetAllData()->itemCompoData.mUIMinPosX - width / 2.0f + 50.0f, 215.0f)
+			, VECTOR2(mGame->GetAllData()->itemEffectData.mUIMinPosX - width / 2.0f + 50.0f, 215.0f)
 
 			);
 
@@ -121,10 +121,10 @@ void UIPSideCharacterStatus::draw()
 		fill(0, 0, 0);
 
 		text("number :" + (let)mOwner->GetNum(), mPosition.x + 150.0f + mOffset.x, mPosition.y + mOffset.y + 20.0f);
-		DrawItemCompoLifeSpanGauge(c->GetSpeed(), VECTOR2(175.0f, 45.0f) + mOffset);
-		DrawItemCompoLifeSpanGauge(c->GetPower(), VECTOR2(225.0f, 45.0f) + mOffset);
-		DrawItemCompoLifeSpanGauge(c->GetRapid(), VECTOR2(175.0f, 95.0f) + mOffset);
-		DrawItemCompoLifeSpanGauge(c->GetBarrier(), VECTOR2(225.0f, 95.0f) + mOffset);
+		DrawItemEffectLifeSpanGauge(c->GetSpeed(), VECTOR2(175.0f, 45.0f) + mOffset);
+		DrawItemEffectLifeSpanGauge(c->GetPower(), VECTOR2(225.0f, 45.0f) + mOffset);
+		DrawItemEffectLifeSpanGauge(c->GetRapid(), VECTOR2(175.0f, 95.0f) + mOffset);
+		DrawItemEffectLifeSpanGauge(c->GetBarrier(), VECTOR2(225.0f, 95.0f) + mOffset);
 
 		DrawLaunchIntervalGauge();
 
@@ -177,7 +177,7 @@ void UIPSideCharacterStatus::update()
 	mCloseButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f - 50.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
 	mLvUpButton->SetPosition(mPosition + VECTOR2(50.0f + 200.0f - 25.0f, 195.0f + 50.0f - 25.0f / 2) + mOffset);
 
-	mNextPSideStatusOffset = VECTOR2(0.0f, mGame->GetAllData()->itemCompoData.mUIOffsetPosY + 75.0f);
+	mNextPSideStatusOffset = VECTOR2(0.0f, mGame->GetAllData()->itemEffectData.mUIOffsetPosY + 75.0f);
 }
 
 void UIPSideCharacterStatus::DrawRing(const VECTOR2& pos, float radius, float sw, const COLOR& color)
@@ -245,7 +245,7 @@ void UIPSideCharacterStatus::DrawLaunchIntervalGauge()
 
 }
 
-void UIPSideCharacterStatus::DrawItemCompoLifeSpanGauge(class ItemComponent* item, const VECTOR2& pos)
+void UIPSideCharacterStatus::DrawItemEffectLifeSpanGauge(class ItemEffect* item, const VECTOR2& pos)
 {
 	stroke(255, 255, 255);
 	strokeWeight(5);

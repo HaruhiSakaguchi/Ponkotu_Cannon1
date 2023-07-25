@@ -45,7 +45,7 @@ void UILog::AddText(std::string string)
 	}
 	else
 	{
-		int center = oss.str().length() / 2.0f;
+		int center = (int)(oss.str().length() / 2.0f);
 		if (center % 2 == 1)
 		{
 			center++;

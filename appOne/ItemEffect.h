@@ -5,11 +5,11 @@
 #include "sound.h"
 #include <chrono>
 
-class ItemComponent : public CharacterActor
+class ItemEffect : public CharacterActor
 {
 public:
-	ItemComponent(class CharacterActor* owner);
-	virtual ~ItemComponent();
+	ItemEffect(class CharacterActor* owner);
+	virtual ~ItemEffect();
 	void UpdateActor()override;
 	virtual void Dead()override;
 	float GetInterval() { return Data.mInterval; }

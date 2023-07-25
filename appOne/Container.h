@@ -25,7 +25,7 @@
 #include "SatelliteBullet.h"
 #include "Satellite.h"
 #include "SatelliteWing.h"
-#include "ItemComponent.h"
+#include "ItemEffect.h"
 #include "UIHpGauge.h"
 #include "UIProgressGauge.h"
 #include "UIMiniMap.h"
@@ -61,17 +61,17 @@ struct Container {
 	AllClear::DATA allClearData;
 	Camera::DATA cameraData;
 	Cannon::DATA cannonData;
-	Item::commonDATA itemCommonData;
+	ItemObject::commonDATA itemCommonData;
 	Recovery::individualDATA recoverData;
 	PowerUp::individualDATA powerData;
 	SpeedUp::individualDATA speedData;
 	RapidFire::individualDATA rapidData;
 	Barrier::individualDATA barrierData;
-	RecoveryCompo::IDATA recoverCompoData;
-	PowerUpCompo::IDATA powerCompoData;
-	SpeedUpCompo::IDATA speedCompoData;
-	RapidFireCompo::IDATA rapidCompoData;
-	BarrierCompo::IDATA barrierCompoData;
+	RecoveryEffect::IDATA recoverEffectData;
+	PowerUpEffect::IDATA powerEffectData;
+	SpeedUpEffect::IDATA speedEffectData;
+	RapidFireEffect::IDATA rapidEffectData;
+	BarrierEffect::IDATA barrierEffectData;
 	PlayerBullet::DATA pBulletData;
 	PlayerBullet::IDATA pBulletIData;
 	Tama::DATA tamaData;
@@ -81,7 +81,7 @@ struct Container {
 	SatelliteBullet::IDATA sBulletIData;
 	Satellite::DATA satelliteData;
 	SatelliteWing::DATA sWingData;
-	ItemComponent::CDATA itemCompoData;
+	ItemEffect::CDATA itemEffectData;
 	UIHpGauge::DATA hpGaugeUIData;
 	UIProgressGauge::DATA progressData;
 	UIMiniMap::DATA miniMapData;

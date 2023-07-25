@@ -16,7 +16,7 @@ public:
 	const class std::vector<class CharacterActor*>& GetCharacters() { return mCharacters; }
 	const class std::vector<class Enemy*>& GetEnemies() { return mEnemies; }
 	const class std::vector<class ActorsWeapon*>& GetWeapons() { return mWeapons; }
-	const class std::vector<class Item*>& GetItems() { return mItems; }
+	const class std::vector<class ItemObject*>& GetItems() { return mItems; }
 	const class std::vector<class PSideCharacterActor*>& GetPSide() { return mPSideActors; }
 	const class std::vector<class Cannon*>& GetCannons() { return mCannons; }
 	const class std::vector<class CapsuleComponent*>& GetCapsules() { return mCapsules; }
@@ -29,8 +29,8 @@ public:
 	void RemoveWeapons(class ActorsWeapon* weapon);
 	void AddEnemies(class Enemy* enemy);
 	void RemoveEnemies(class Enemy* enemy);
-	void AddItems(class Item* item);
-	void RemoveItems(class Item* item);
+	void AddItems(class ItemObject* item);
+	void RemoveItems(class ItemObject* item);
 	void AddPSide(class PSideCharacterActor* actor);
 	void RemovePSide(class PSideCharacterActor* actor);
 	void AddCannon(class Cannon* cannon);
@@ -52,7 +52,7 @@ private:
 	std::vector<class Actor*>mActors;
 	std::vector<class CharacterActor*>mCharacters;
 	std::vector<class Enemy*>mEnemies;
-	std::vector<class Item*>mItems;
+	std::vector<class ItemObject*>mItems;
 	std::vector<class Cannon*>mCannons;
 	std::vector<class PSideCharacterActor*>mPSideActors;
 	std::vector<class ActorsWeapon*> mWeapons;

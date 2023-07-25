@@ -182,8 +182,8 @@
     <ClCompile Include="gmain.cpp" />
     <ClCompile Include="HpGaugeSpriteComponent.cpp" />
     <ClCompile Include="InputComponent.cpp" />
-    <ClCompile Include="Item.cpp" />
-    <ClCompile Include="ItemComponent.cpp" />
+    <ClCompile Include="ItemObject.cpp" />
+    <ClCompile Include="ItemEffect.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="LookFieldCenterCamera.cpp" />
     <ClCompile Include="LookPHomeCamera.cpp" />
@@ -281,8 +281,8 @@
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="HpGaugeSpriteComponent.h" />
     <ClInclude Include="InputComponent.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="ItemComponent.h" />
+    <ClInclude Include="ItemObject.h" />
+    <ClInclude Include="ItemEffect.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="LookFieldCenterCamera.h" />
     <ClInclude Include="LookPHomeCamera.h" />

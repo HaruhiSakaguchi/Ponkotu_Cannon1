@@ -35,6 +35,7 @@ public:
 	SpeedUpCompo(class PSideCharacterActor* owner);
 	~SpeedUpCompo();
 	void UpdateActor()override;
+	void Dead()override;
 private:
 	float mSpeedUpRate = 0.1f;
 };
@@ -54,6 +55,7 @@ public:
 	PowerUpCompo(class PSideCharacterActor* owner);
 	~PowerUpCompo();
 	void UpdateActor()override;
+	void Dead()override;
 };
 
 class RapidFire : public Item
@@ -71,6 +73,7 @@ public:
 	RapidFireCompo(class PSideCharacterActor* owner);
 	~RapidFireCompo();
 	void UpdateActor()override;
+	void Dead()override;
 private:
 	float mLaunchIntervalDecreaseRate = 0.1f;
 };
@@ -90,4 +93,5 @@ public:
 	BarrierCompo(class PSideCharacterActor* owner);
 	~BarrierCompo();
 	void UpdateActor()override;
+	void Dead()override;
 };

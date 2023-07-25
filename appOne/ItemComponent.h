@@ -1,32 +1,23 @@
 #pragma once
-#include "Actor.h"
+#include "CharacterActor.h"
 #include "COLOR.h"
 #include <string>
 #include "sound.h"
 #include <chrono>
 
-class ItemComponent : public Actor
+class ItemComponent : public CharacterActor
 {
 public:
 	ItemComponent(class CharacterActor* owner);
 	virtual ~ItemComponent();
 	void UpdateActor()override;
-	void Dead()override;
-	int GetLevel() { return Data.mLevel; }
-	void SetLevel(int level) { Data.mLevel = level; }
-	int GetMaxLevel() { return Data.mMaxLevel; }
+	virtual void Dead()override;
 	float GetInterval() { return Data.mInterval; }
 	float GetTime() { return Data.mTime; }
 	void SetInterval(float interval) { Data.mInterval = interval; }
 	void SetTime(float time) { Data.mTime = time; }
 	const COLOR& GetColor() { return Data.mColor; }
 	void SetColor(const COLOR& color) { Data.mColor = color; }
-	std::string GetName() { return Data.mName; }
-	int GetHp() { return Data.mHp; }
-	void SetHp(int hp) { Data.mHp = hp; }
-	void SetMaxHp(int hp) { Data.mMaxHp = hp; }
-	int GetMaxHp() { return Data.mMaxHp; }
-	int GetNumber() { return cData.mNumber; }
 	void SetNumber(int num) { cData.mNumber = num; }
 	float GetKeepTime() { return cData.mKeepTime; }
 	void SetKeepTime(float time) { cData.mKeepTime = time; }
@@ -38,7 +29,6 @@ public:
 		int mMaxLevel;
 		float mTime;
 		float mInterval;
-		int mHp;
 		int mMaxHp;
 		std::string mName;
 		COLOR mColor;

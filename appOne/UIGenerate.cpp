@@ -215,7 +215,10 @@ void UIGenerate::draw()
 {
 	textSize(30);
 	fill(0, 0, 0);
-	text((let)mGame->GetActorManager()->GetPHome()->GetBattlePoints() + " / " + (let)mGame->GetActorManager()->GetPHome()->GetMaxBattlePoints(), width / 2, height / 2 + 150.0f);
+	if (mGame->GetActorManager()->GetPHome())
+	{
+		text((let)mGame->GetActorManager()->GetPHome()->GetBattlePoints() + " / " + (let)mGame->GetActorManager()->GetPHome()->GetMaxBattlePoints(), width / 2, height / 2 + 150.0f);
+	}
 	if (mId == GenerateActor_Id::ECannon)
 	{
 		text("Cannonをどこに出撃させますか？ " + (let)mGenerateUsingPoints + "ポイント消費", width / 2, height / 2 + 200.0f);
@@ -253,34 +256,32 @@ void UIGenerate::draw()
 
 void UIGenerate::Update()
 {
-	mMouseXPerWidth = (width / 2.0f - mouseX) / -340.0f / 2;
-	mMouseYPerHeight = (height / 2.0f - mouseY) / -height / 2;
-
-	mGenePos.x = mMouseXPerWidth * 4.0f * mGame->GetActorManager()->GetStage()->GetStageMaxX();
-	mGenePos.z = mMouseYPerHeight * 4.0f * -((mGame->GetActorManager()->GetStage()->GetStageMinZ() + 3.0f) + -(mGame->GetActorManager()->GetStage()->GetStageMaxZ() - 3.0f)) / 2.0f + mGame->GetActorManager()->GetStage()->GetCenterPos().z;
-
-	VECTOR2 mousePos = VECTOR2(mouseX, mouseY);
-
-	bool inMapArea = true;
-
-	if (width / 2.0f - 170.0f <= mousePos.x && mousePos.x <= width / 2.0f + 170.0f)
+	if (mGame->GetActorManager()->GetPHome())
 	{
-		mMesh->SetDrawFlag(true);
-		mGenerateActor->SetDamageInterval(0.0f);
-	}
-	else
-	{
-		mMesh->SetDrawFlag(false);
-		mGenerateActor->SetDamageInterval(1.0f);
-		inMapArea = false;
-	}
+		mMouseXPerWidth = (width / 2.0f - mouseX) / -340.0f / 2;
+		mMouseYPerHeight = (height / 2.0f - mouseY) / -height / 2;
 
-	if (!mGame->GetActorManager()->GetPHome())
-	{
-		CloseMe();
-	}
-	else
-	{
+		mGenePos.x = mMouseXPerWidth * 4.0f * mGame->GetActorManager()->GetStage()->GetStageMaxX();
+		mGenePos.z = mMouseYPerHeight * 4.0f * -((mGame->GetActorManager()->GetStage()->GetStageMinZ() + 3.0f) + -(mGame->GetActorManager()->GetStage()->GetStageMaxZ() - 3.0f)) / 2.0f + mGame->GetActorManager()->GetStage()->GetCenterPos().z;
+
+		VECTOR2 mousePos = VECTOR2(mouseX, mouseY);
+
+		bool inMapArea = true;
+
+		if (width / 2.0f - 170.0f <= mousePos.x && mousePos.x <= width / 2.0f + 170.0f)
+		{
+			mMesh->SetDrawFlag(true);
+			mGenerateActor->SetDamageInterval(0.0f);
+		}
+		else
+		{
+			mMesh->SetDrawFlag(false);
+			mGenerateActor->SetDamageInterval(1.0f);
+			inMapArea = false;
+		}
+
+
+
 		if (mId != GenerateActor_Id::EEmpty)
 		{
 			if (mId == GenerateActor_Id::ECannon)
@@ -317,7 +318,6 @@ void UIGenerate::Update()
 		{
 			if (inMapArea)
 			{
-
 				if (!mGame->GetActorManager()->GetEHome() || (mGame->GetActorManager()->GetEHome() && !mGame->GetActorManager()->GetEHome()->InEnemyArea(mGenePos)))
 				{
 					if (mGenerateUsingPoints <= mGame->GetActorManager()->GetPHome()->GetBattlePoints())
@@ -423,6 +423,12 @@ void UIGenerate::Update()
 				pop->NoStrokeRect();
 			}
 		}
+
+	}
+	else
+	{
+		CloseMe();
+		mOwner->SetGenerate(nullptr);
 	}
 }
 

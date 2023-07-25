@@ -59,6 +59,7 @@ public:
 	const int GetLevel() { return mLevel; }
 	void SetLevel(int level) { mLevel = level; }
 	int GetMaxLevel() { return mMaxLevel; }
+	void SetMaxLevel(int lv) { mMaxLevel = lv; }
 	bool GetOnMapFlag() { return mOnMapFlag; }
 	int GetInitMaxHp() { return mInitMaxHp; }
 	void SetInitMaxHp(int hp) { mInitMaxHp = hp; }

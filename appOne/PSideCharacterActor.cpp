@@ -16,12 +16,16 @@ PSideCharacterActor::PSideCharacterActor(class Game* game)
 
 PSideCharacterActor::~PSideCharacterActor()
 {
+	GetGame()->GetActorManager()->RemovePSide(this);
+
+}
+
+void PSideCharacterActor::Dead()
+{
 	if (mUI)
 	{
 		mUI->CloseMe();
 	}
-
-	GetGame()->GetActorManager()->RemovePSide(this);
 
 	for (auto pSide : GetGame()->GetActorManager()->GetPSide())
 	{
@@ -30,4 +34,24 @@ PSideCharacterActor::~PSideCharacterActor()
 			pSide->SetNum(pSide->GetNum() - 1);
 		}
 	}
+
+	if (mPower)
+	{
+		delete mPower;
+	}
+	if (mSpeed)
+	{
+		delete mSpeed;
+	}
+	if (mRapid)
+	{
+		delete mRapid;
+	}
+	if (mBarrier)
+	{
+		delete mBarrier;
+	}
+
 }
+
+

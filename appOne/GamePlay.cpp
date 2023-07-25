@@ -56,6 +56,8 @@ GamePlay::GamePlay(Game* game) :
 	setVolume(mBgm, mGame->GetSoundVolumeManager()->GetVolume() + mSoundOffset);
 	playLoopSound(mBgm);
 
+	mGame->SetState(Game::GameState::EGameplay);
+
 }
 
 GamePlay::~GamePlay()

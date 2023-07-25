@@ -453,7 +453,6 @@ void SetAllData(Container& ad)
 		ad.recoverCompoData.mMaxLevel = 1;
 		ad.recoverCompoData.mTime = 0.0f;
 		ad.recoverCompoData.mInterval = 0.0f;
-		ad.recoverCompoData.mHp = 0;
 		ad.recoverCompoData.mMaxHp = 0;
 		ad.recoverCompoData.mColor = COLOR(0, 255, 0);
 	}
@@ -464,7 +463,6 @@ void SetAllData(Container& ad)
 		ad.powerCompoData.mMaxLevel = 4;
 		ad.powerCompoData.mTime = 0.0f;
 		ad.powerCompoData.mInterval = 100.0f;
-		ad.powerCompoData.mHp = 0;
 		ad.powerCompoData.mMaxHp = 1;
 		ad.powerCompoData.mColor = COLOR(255, 255, 0);
 	}
@@ -475,7 +473,6 @@ void SetAllData(Container& ad)
 		ad.speedCompoData.mMaxLevel = 5;
 		ad.speedCompoData.mTime = 0.0f;
 		ad.speedCompoData.mInterval = 100.0f;
-		ad.speedCompoData.mHp = 0;
 		ad.speedCompoData.mMaxHp = 1;
 		ad.speedCompoData.mColor = COLOR(0, 0, 255);
 	}
@@ -486,7 +483,6 @@ void SetAllData(Container& ad)
 		ad.rapidCompoData.mMaxLevel = 3;
 		ad.rapidCompoData.mTime = 0.0f;
 		ad.rapidCompoData.mInterval = 100.0f;
-		ad.rapidCompoData.mHp = 0;
 		ad.rapidCompoData.mMaxHp = 1;
 		ad.rapidCompoData.mColor = COLOR(255, 0, 0);
 	}
@@ -497,7 +493,6 @@ void SetAllData(Container& ad)
 		ad.barrierCompoData.mMaxLevel = 5;
 		ad.barrierCompoData.mTime = 0.0f;
 		ad.barrierCompoData.mInterval = 100.0f;
-		ad.barrierCompoData.mHp = 0;
 		ad.barrierCompoData.mMaxHp = 3;
 		ad.barrierCompoData.mColor = COLOR(255, 0, 255);
 	}

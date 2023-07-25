@@ -49,7 +49,11 @@ RecoveryCompo::RecoveryCompo(class PSideCharacterActor* owner)
 	: ItemComponent(owner)
 {
 	Data = owner->GetGame()->GetAllData()->recoverCompoData;
-	Data.mHp = Data.mMaxHp;
+	SetHp(Data.mMaxHp);
+	SetMaxHp(GetHp());
+	SetName(Data.mName.c_str());
+	SetMaxLevel(Data.mMaxLevel);
+
 	if (owner->GetHp() < owner->GetMaxHp())
 	{
 		owner->SetHp(owner->GetHp() + mRecoveryHp);
@@ -110,20 +114,17 @@ SpeedUpCompo::SpeedUpCompo(class PSideCharacterActor* owner)
 {
 	owner->SetSpeed(this);
 	Data = owner->GetGame()->GetAllData()->speedCompoData;
-	Data.mHp = Data.mMaxHp;
 	mMeshName = "SpeedSphere";
+	SetHp(Data.mMaxHp);
+	SetMaxHp(GetHp());
+	SetName(Data.mName.c_str());
+	SetMaxLevel(Data.mMaxLevel);
+
 
 }
 
 SpeedUpCompo::~SpeedUpCompo()
 {
-	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
-	if (c && c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
-	{
-		c->SetAdvSpeed(GetGame()->GetAllData()->cannonData.mAdvSpeed);
-		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("スピードアップの効果が切れた。");
-		c->SetSpeed(nullptr);
-	}
 
 }
 
@@ -135,6 +136,19 @@ void SpeedUpCompo::UpdateActor()
 	{
 		c->SetAdvSpeed(GetGame()->GetAllData()->cannonData.mAdvSpeed + Data.mLevel * GetGame()->GetAllData()->cannonData.mAdvSpeed * mSpeedUpRate);
 	}
+}
+
+void SpeedUpCompo::Dead()
+{
+	ItemComponent::Dead();
+	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
+	if (c && c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
+	{
+		c->SetAdvSpeed(GetGame()->GetAllData()->cannonData.mAdvSpeed);
+		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("スピードアップの効果が切れた。");
+		c->SetSpeed(nullptr);
+	}
+
 }
 
 PowerUp::PowerUp(class Game* game)
@@ -187,21 +201,18 @@ PowerUpCompo::PowerUpCompo(class PSideCharacterActor* owner)
 {
 	owner->SetPower(this);
 	Data = owner->GetGame()->GetAllData()->powerCompoData;
-	Data.mHp = Data.mMaxHp;
+	SetHp(Data.mMaxHp);
 	mMeshName = "PowerSphere";
+	SetMaxHp(GetHp());
+	SetName(Data.mName.c_str());
+	SetMaxLevel(Data.mMaxLevel);
+
 
 }
 
 PowerUpCompo::~PowerUpCompo()
 {
-	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
-	if (c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
-	{
-		c->SetDamage(1);
-		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("攻撃力アップの効果が切れた。");
-		c->SetPower(nullptr);
-	}
 }
 
 void PowerUpCompo::UpdateActor()
@@ -215,6 +226,19 @@ void PowerUpCompo::UpdateActor()
 
 }
 
+void PowerUpCompo::Dead()
+{
+	ItemComponent::Dead();
+	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
+	if (c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
+	{
+		c->SetDamage(1);
+		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("攻撃力アップの効果が切れた。");
+		c->SetPower(nullptr);
+	}
+
+}
+
 RapidFire::RapidFire(class Game* game)
 	:Item(game)
 {
@@ -224,6 +248,7 @@ RapidFire::RapidFire(class Game* game)
 
 	mBatchName = "RapidSphere";
 	CreateMesh(mBatchName, "RapidTranSphere");
+	SetMaxHp(GetHp());
 
 }
 
@@ -274,20 +299,17 @@ RapidFireCompo::RapidFireCompo(class PSideCharacterActor* owner)
 {
 	owner->SetRapid(this);
 	Data = owner->GetGame()->GetAllData()->rapidCompoData;
-	Data.mHp = Data.mMaxHp;
+	SetHp(Data.mMaxHp);
 	mMeshName = "RapidSphere";
+	SetMaxHp(GetHp());
+	SetName(Data.mName.c_str());
+	SetMaxLevel(Data.mMaxLevel);
+
 
 }
 
 RapidFireCompo::~RapidFireCompo()
 {
-	if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon && mOwner->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
-	{
-		auto c = static_cast<Cannon*>(mOwner);
-		c->SetInterval(GetGame()->GetAllData()->cannonData.mInterval);
-		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("発射間隔短縮の効果が切れた。");
-		c->SetRapid(nullptr);
-	}
 
 }
 
@@ -298,6 +320,19 @@ void RapidFireCompo::UpdateActor()
 	if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon)
 	{
 		static_cast<Cannon*>(mOwner)->SetInterval(GetGame()->GetAllData()->cannonData.mInterval - Data.mLevel * mLaunchIntervalDecreaseRate);
+	}
+
+}
+
+void RapidFireCompo::Dead()
+{
+	ItemComponent::Dead();
+	if (mOwner->GetTag() == CharacterActor::CharactersTag::ECannon && mOwner->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
+	{
+		auto c = static_cast<Cannon*>(mOwner);
+		c->SetInterval(GetGame()->GetAllData()->cannonData.mInterval);
+		c->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText("発射間隔短縮の効果が切れた。");
+		c->SetRapid(nullptr);
 	}
 
 }
@@ -355,7 +390,9 @@ BarrierCompo::BarrierCompo(class PSideCharacterActor* owner)
 {
 	owner->SetBarrier(this);
 	Data = owner->GetGame()->GetAllData()->barrierCompoData;
-	Data.mHp = Data.mMaxHp;
+	SetHp(Data.mMaxHp);
+	SetMaxHp(GetHp());
+	SetMaxLevel(Data.mMaxLevel);
 
 	mMeshName = "BarrierSphere";
 
@@ -363,6 +400,12 @@ BarrierCompo::BarrierCompo(class PSideCharacterActor* owner)
 
 BarrierCompo::~BarrierCompo()
 {
+
+}
+
+void BarrierCompo::Dead()
+{
+	ItemComponent::Dead();
 	class PSideCharacterActor* c = static_cast<class PSideCharacterActor*>(mOwner);
 
 	if (c->GetState() == Actor::State::EActive && GetGame()->GetState() == Game::GameState::EGameplay)
@@ -386,3 +429,4 @@ void BarrierCompo::UpdateActor()
 	}
 
 }
+

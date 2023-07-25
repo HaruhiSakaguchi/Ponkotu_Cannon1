@@ -21,10 +21,6 @@ SatelliteWing::SatelliteWing(class Satellite* satellite)
 
 SatelliteWing::~SatelliteWing()
 {
-	if (mOwner && mOwner->GetState() == State::EActive && GetHp() > 0)
-	{
-		static_cast<class Satellite*>(mOwner)->RemoveWings(this);
-	}
 }
 
 int SatelliteWing::SetUp()
@@ -286,5 +282,9 @@ void SatelliteWing::Dead()
 		}
 	}
 
+	if (mOwner && mOwner->GetState() == State::EActive && GetHp() > 0)
+	{
+		static_cast<class Satellite*>(mOwner)->RemoveWings(this);
+	}
 
 }

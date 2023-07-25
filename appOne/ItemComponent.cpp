@@ -6,7 +6,7 @@
 #include "rand.h"
 
 ItemComponent::ItemComponent(class CharacterActor* owner)
-	: Actor(owner->GetGame())
+	: CharacterActor(owner->GetGame())
 	, mOwner(owner)
 	, mUpTime(0.0f)
 	, mMeshName(nullptr)
@@ -15,9 +15,7 @@ ItemComponent::ItemComponent(class CharacterActor* owner)
 	, mIsSpawnParticle(true)
 {
 	cData = GetGame()->GetAllData()->itemCompoData;
-	//class PSideCharacterActor* p = static_cast<class PSideCharacterActor*>(mOwner);
-	//p->AddItemComponent(this);
-	//cData.mNumber = (int)p->GetItemComponents().size() - 1;
+	SetCategory(ActorsCategory::EObject);
 	TimeReset();
 }
 
@@ -27,7 +25,7 @@ ItemComponent::~ItemComponent()
 
 void ItemComponent::UpdateActor()
 {
-	if (!mOwner || Data.mTime <= 0.0f || Data.mHp <= 0)
+	if (!mOwner || Data.mTime <= 0.0f || GetHp() <= 0)
 	{
 		SetState(State::EDead);
 	}
@@ -69,8 +67,6 @@ void ItemComponent::UpdateActor()
 
 void ItemComponent::Dead()
 {
-	auto p = static_cast<class PSideCharacterActor*>(mOwner);
-
 	if (Data.mMaxHp != 0 && !GetGame()->GetRenderer()->GetTransition()->outEndFlag())
 	{
 		setVolume(GetGame()->GetAllData()->mCloseSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());

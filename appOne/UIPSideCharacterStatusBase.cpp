@@ -131,12 +131,15 @@ void UIPSideCharacterStatusBase::OwnerLvUp()
 		mOwner->SetMaxHp((int)(mOwner->GetInitMaxHp() * ((mOwner->GetLevel() + mOwner->GetMaxLevel()) / 10.0f)));
 		mOwner->SetHp((int)(round(mOwner->GetMaxHp() * (float)mOwner->GetHp() / (float)curMaxHp)));
 		std::ostringstream oss;
-		oss << mOwner->GetName() << "のLvが上がった！！";
+		oss << mOwner->GetName().c_str() << "のLvが上がった！！";
 
 		auto pop = new UIPopUp(mGame, oss.str().c_str(), mPosition, 1, VECTOR2(0.0f, -1.0f));
 		pop->SetTextSize(30);
 		pop->SetTextColor(COLOR(255, 255, 128));
 		pop->NoStrokeRect();
+
+		oss << "[lv." << mOwner->GetLevel() << "]";
+		mOwner->GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 	}
 	else if (mOwner->GetLevel() == mGame->GetActorManager()->GetPHome()->GetMaxLevel())
 	{

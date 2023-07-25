@@ -75,7 +75,7 @@ int Barricade::SetUp()
 	oss << "Barricade" << mNum;
 	SetName(oss.str().c_str());
 	
-	oss << "を設置。";
+	oss << "[Lv." << GetLevel() << "]" << "を設置。";
 	GetGame()->GetActorManager()->GetStage()->GetLog()->AddText(oss.str());
 
 
@@ -126,6 +126,8 @@ void Barricade::Damage(int damage)
 
 void Barricade::Dead()
 {
+	PSideCharacterActor::Dead();
+
 	std::ostringstream oss;
 	oss << GetName().c_str() << "が壊れた";
 	setVolume(mDeadSound, GetGame()->GetSoundVolumeManager()->GetEffectVolume());

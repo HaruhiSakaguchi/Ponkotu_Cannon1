@@ -122,7 +122,7 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 				pop->NoStrokeRect();
 			}
 		}
-			);
+	);
 
 	mGenerateUnitButton = AddRectButton("キャラクターを追加"
 		, [this]()
@@ -206,8 +206,9 @@ UIPlayerHome::UIPlayerHome(PlayerHome* owner)
 void UIPlayerHome::draw()
 {
 	rectMode(CORNER);
-	strokeWeight(mOwner->GetGame()->GetAllData()->hpGaugeUIData.mSw);
-	stroke(mOwner->GetGame()->GetAllData()->hpGaugeUIData.mWhite);
+	strokeWeight(mGame->GetAllData()->hpGaugeUIData.mSw);
+	stroke(mGame->GetAllData()->hpGaugeUIData.mWhite);
+
 
 	COLOR color;
 	if (mOwner->GetHp() >= mOwner->GetMaxHp() * mGame->GetAllData()->hpGaugeUIData.mNormalHpRate)
@@ -222,6 +223,7 @@ void UIPlayerHome::draw()
 	{
 		color = mGame->GetAllData()->hpGaugeUIData.mDyingColor;
 	}
+
 	rectMode(CORNER);
 	fill(mGame->GetAllData()->hpGaugeUIData.mHpWindowColor);
 	strokeWeight(mGame->GetAllData()->hpGaugeUIData.mHpGaugeSw);
@@ -261,20 +263,21 @@ void UIPlayerHome::draw()
 
 void UIPlayerHome::Update()
 {
-	if (mOwner->GetLevel() < 5)
+	if (mOwner)
 	{
-		mGenerateItemButton->SetState(Button::ButtonState::EDraw_Enable);
-	}
-
-	float preWidth = mHpGaugeWidth;
-	float wid = ((float)mOwner->GetHp() / (float)mOwner->GetMaxHp()) * (mOwner->GetInitMaxHp() * mOwner->GetGame()->GetAllData()->hpGaugeUIData.mHeight);
-	mHpGaugeWidth = preWidth + (wid - preWidth) * 0.05f;
-
-	if (mOwner->GetBarrier())
-	{
-		float preBWidth = mBarrierHpGaugeWidth;
-		float Bwid = 500.0f * ((float)mOwner->GetBarrier()->GetHp() / (float)mOwner->GetBarrier()->GetMaxHp());
-		mBarrierHpGaugeWidth = preBWidth + (Bwid - preBWidth) * 0.05f;
+		if (mOwner->GetLevel() < 5)
+		{
+			mGenerateItemButton->SetState(Button::ButtonState::EDraw_Enable);
+		}
+		float preWidth = mHpGaugeWidth;
+		float wid = ((float)mOwner->GetHp() / (float)mOwner->GetMaxHp()) * (mOwner->GetInitMaxHp() * mGame->GetAllData()->hpGaugeUIData.mHeight);
+		mHpGaugeWidth = preWidth + (wid - preWidth) * 0.05f;
+		if (mOwner->GetBarrier())
+		{
+			float preBWidth = mBarrierHpGaugeWidth;
+			float Bwid = 500.0f * ((float)mOwner->GetBarrier()->GetHp() / (float)mOwner->GetBarrier()->GetMaxHp());
+			mBarrierHpGaugeWidth = preBWidth + (Bwid - preBWidth) * 0.05f;
+		}
 	}
 
 	mGoButton->SetPosition(VECTOR2(mPos.x, mPos.y - 100.0f));
